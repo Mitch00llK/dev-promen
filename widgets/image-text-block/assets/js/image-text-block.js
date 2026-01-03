@@ -173,7 +173,19 @@
             // Find the tallest tab content
             var maxHeight = 0;
             $tabContents.each(function () {
-                var $content = $(this);
+                // Determine if this content is active/visible
+                // We check this BEFORE resetting styles because the reset below wipes inline display styles
+                var isVisible = $content.css('display') === 'block';
+                var hasHiddenAttr = $content.is('[hidden]');
+                var hasActiveClass = $content.hasClass('active');
+                var ariaHiddenFalse = $content.attr('aria-hidden') === 'false';
+
+                // It is active if:
+                // 1. It has .active class (Legacy & Sync)
+                // 2. It does NOT have the [hidden] attribute (Core A11y)
+                // 3. It currently has display: block (Core A11y inline style)
+                var isActive = hasActiveClass || !hasHiddenAttr || isVisible || ariaHiddenFalse;
+
                 // Temporarily make it visible to measure
                 $content.css({
                     'position': 'relative',
@@ -196,8 +208,6 @@
                     'height': ''
                 });
 
-                var isActive = $content.hasClass('active') || $content.attr('aria-hidden') === 'false' || $content.css('display') === 'block';
-
                 if (isActive) {
                     $content.css({
                         'display': 'block',
@@ -205,12 +215,16 @@
                         'visibility': 'visible',
                         'position': 'relative'
                     });
+                    // Ensure [hidden] is removed if we are forcing it visible
+                    $content.removeAttr('hidden');
                 } else {
                     $content.css({
                         'display': 'none',
                         'opacity': 0,
                         'visibility': 'hidden'
                     });
+                    // Ensure [hidden] is added if we are forcing it hidden
+                    $content.attr('hidden', '');
                 }
             });
 
