@@ -1,36 +1,37 @@
 /**
  * Hero Slider Accessibility Enhancements
  * WCAG 2.1/2.2 compliant slider functionality
+ * 
+ * Uses global PromenAccessibility core library.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     const HeroSliderAccessibility = {
-        
-        init: function() {
+
+        init: function () {
             this.bindEvents();
-            this.setupReducedMotion();
             this.enhanceExistingSliders();
         },
 
-        bindEvents: function() {
+        bindEvents: function () {
             // Initialize sliders when they become visible
             $(document).on('elementor/popup/show', this.initSliders.bind(this));
             $(window).on('load', this.initSliders.bind(this));
-            
+
             // Handle keyboard navigation
             $(document).on('keydown', '.hero-slider-container', this.handleKeyboard.bind(this));
-            
+
             // Handle play/pause button
             $(document).on('click', '.hero-slider-play-pause', this.togglePlayPause.bind(this));
-            
+
             // Handle focus events
             $(document).on('focus', '.hero-slide', this.handleSlideFocus.bind(this));
         },
 
-        initSliders: function() {
-            $('.hero-slider-container').each(function() {
+        initSliders: function () {
+            $('.hero-slider-container').each(function () {
                 const $container = $(this);
                 if (!$container.data('accessibility-enhanced')) {
                     HeroSliderAccessibility.enhanceSlider($container);
@@ -38,24 +39,20 @@
             });
         },
 
-        enhanceExistingSliders: function() {
+        enhanceExistingSliders: function () {
             // Wait for sliders to be initialized, then enhance them
             setTimeout(this.initSliders.bind(this), 1000);
-            
-            // Also try after a longer delay for dynamic content
             setTimeout(this.initSliders.bind(this), 3000);
         },
 
-        enhanceSlider: function($container) {
+        enhanceSlider: function ($container) {
             const sliderId = $container.attr('id');
             if (!sliderId) return;
 
             $container.data('accessibility-enhanced', true);
 
-            // Get slider instance (try different methods)
+            // Get slider instance
             let swiperInstance = null;
-            
-            // Try to get existing Swiper instance
             const $swiper = $container.find('.swiper')[0];
             if ($swiper && $swiper.swiper) {
                 swiperInstance = $swiper.swiper;
@@ -74,17 +71,11 @@
                 }, 500);
             }
 
-            // Add keyboard navigation regardless
-            this.setupKeyboardNavigation($container);
-            
-            // Setup autoplay controls
+            // Setup autoplay controls (initial state)
             this.setupAutoplayControls($container);
-            
-            // Setup announcements
-            this.setupSlideAnnouncements($container);
         },
 
-        enhanceSwiperAccessibility: function(swiper, $container) {
+        enhanceSwiperAccessibility: function (swiper, $container) {
             // Disable swiper's built-in keyboard control to use our own
             if (swiper.keyboard) {
                 swiper.keyboard.disable();
@@ -95,114 +86,61 @@
                 this.announceSlideChange(swiper, $container);
             });
 
-            // Pause autoplay on focus
+            // Pause autoplay on interaction
             swiper.on('touchStart', () => {
                 if (swiper.autoplay && swiper.autoplay.running) {
                     swiper.autoplay.stop();
                 }
             });
 
-            // Handle reduced motion
-            if (this.prefersReducedMotion()) {
-                if (swiper.autoplay) {
-                    swiper.autoplay.stop();
-                }
-                
-                // Update button state
-                const $playPause = $container.find('.hero-slider-play-pause');
-                this.updatePlayPauseButton($playPause, false);
-            }
-
             // Make pagination bullets keyboard accessible
             this.makePaginationAccessible($container, swiper);
         },
 
-        setupKeyboardNavigation: function($container) {
-            $container.on('keydown', (e) => {
-                const $swiper = $container.find('.swiper')[0];
-                const swiper = $swiper ? $swiper.swiper : null;
-                
-                if (!swiper) return;
-
-                switch (e.key) {
-                    case 'ArrowLeft':
-                    case 'ArrowUp':
-                        e.preventDefault();
-                        swiper.slidePrev();
-                        this.announceSlideChange(swiper, $container, 'navigation');
-                        break;
-                        
-                    case 'ArrowRight':
-                    case 'ArrowDown':
-                        e.preventDefault();
-                        swiper.slideNext();
-                        this.announceSlideChange(swiper, $container, 'navigation');
-                        break;
-                        
-                    case 'Home':
-                        e.preventDefault();
-                        swiper.slideTo(0);
-                        this.announceSlideChange(swiper, $container, 'navigation');
-                        break;
-                        
-                    case 'End':
-                        e.preventDefault();
-                        swiper.slideTo(swiper.slides.length - 1);
-                        this.announceSlideChange(swiper, $container, 'navigation');
-                        break;
-                        
-                    case ' ': // Spacebar
-                    case 'Enter':
-                        if ($(e.target).hasClass('hero-slider-play-pause')) {
-                            break; // Let the button handle this
-                        }
-                        e.preventDefault();
-                        this.togglePlayPause.call($container.find('.hero-slider-play-pause')[0]);
-                        break;
-                }
-            });
-        },
-
-        setupAutoplayControls: function($container) {
+        setupAutoplayControls: function ($container) {
             const $playPause = $container.find('.hero-slider-play-pause');
             if (!$playPause.length) return;
 
-            // Initialize button state
-            const isAutoplay = $container.data('options') && $container.data('options').autoplay;
-            this.updatePlayPauseButton($playPause, isAutoplay && !this.prefersReducedMotion());
-        },
+            // Check global reduced motion via CSS var or media query via generic check
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        setupSlideAnnouncements: function($container) {
-            const $liveRegion = $container.find('[aria-live]');
-            if (!$liveRegion.length) {
-                $container.append('<div class="slider-live-region" aria-live="polite" aria-atomic="true" class="screen-reader-text"></div>');
+            const isAutoplay = $container.data('options') && $container.data('options').autoplay;
+            // Stop autoplay if reduced motion is preferred
+            if (prefersReducedMotion && isAutoplay) {
+                const $swiper = $container.find('.swiper')[0];
+                if ($swiper && $swiper.swiper && $swiper.swiper.autoplay) {
+                    $swiper.swiper.autoplay.stop();
+                }
+                this.updatePlayPauseButton($playPause, false);
+            } else {
+                this.updatePlayPauseButton($playPause, isAutoplay);
             }
         },
 
-        togglePlayPause: function() {
+        togglePlayPause: function () {
             const $button = $(this);
             const $container = $button.closest('.hero-slider-container');
             const $swiper = $container.find('.swiper')[0];
             const swiper = $swiper ? $swiper.swiper : null;
-            
+
             if (!swiper || !swiper.autoplay) return;
 
             if (swiper.autoplay.running) {
                 swiper.autoplay.stop();
                 HeroSliderAccessibility.updatePlayPauseButton($button, false);
-                HeroSliderAccessibility.announceToUser('Slideshow paused');
+                PromenAccessibility.announce('Slideshow paused');
             } else {
                 swiper.autoplay.start();
                 HeroSliderAccessibility.updatePlayPauseButton($button, true);
-                HeroSliderAccessibility.announceToUser('Slideshow playing');
+                PromenAccessibility.announce('Slideshow playing');
             }
         },
 
-        updatePlayPauseButton: function($button, isPlaying) {
+        updatePlayPauseButton: function ($button, isPlaying) {
             const $playIcon = $button.find('.play-icon');
             const $pauseIcon = $button.find('.pause-icon');
             const $controlText = $button.find('.control-text');
-            
+
             if (isPlaying) {
                 $playIcon.show();
                 $pauseIcon.hide();
@@ -218,27 +156,20 @@
             }
         },
 
-        makePaginationAccessible: function($container, swiper) {
+        makePaginationAccessible: function ($container, swiper) {
             const $pagination = $container.find('.swiper-pagination');
             if (!$pagination.length) return;
 
-            // Wait for pagination to be rendered
             setTimeout(() => {
-                $pagination.find('.swiper-pagination-bullet').each(function(index) {
+                $pagination.find('.swiper-pagination-bullet').each(function (index) {
                     const $bullet = $(this);
-                    $bullet.attr('role', 'tab')
-                           .attr('aria-label', `Go to slide ${index + 1}`)
-                           .attr('tabindex', $bullet.hasClass('swiper-pagination-bullet-active') ? '0' : '-1');
-                });
-
-                // Handle pagination clicks
-                $pagination.on('click', '.swiper-pagination-bullet', function() {
-                    const index = $(this).index();
-                    swiper.slideTo(index);
+                    $bullet.attr('role', 'button') // Changed to button for better semantic fit here
+                        .attr('aria-label', `Go to slide ${index + 1}`)
+                        .attr('tabindex', $bullet.hasClass('swiper-pagination-bullet-active') ? '0' : '-1');
                 });
 
                 // Handle keyboard navigation in pagination
-                $pagination.on('keydown', '.swiper-pagination-bullet', function(e) {
+                $pagination.on('keydown', '.swiper-pagination-bullet', function (e) {
                     const $bullets = $pagination.find('.swiper-pagination-bullet');
                     const currentIndex = $bullets.index(this);
                     let targetIndex;
@@ -250,135 +181,132 @@
                             targetIndex = currentIndex > 0 ? currentIndex - 1 : $bullets.length - 1;
                             $bullets.eq(targetIndex).focus().click();
                             break;
-                            
+
                         case 'ArrowRight':
                         case 'ArrowDown':
                             e.preventDefault();
                             targetIndex = currentIndex < $bullets.length - 1 ? currentIndex + 1 : 0;
                             $bullets.eq(targetIndex).focus().click();
                             break;
-                            
+
                         case 'Home':
                             e.preventDefault();
                             $bullets.first().focus().click();
                             break;
-                            
+
                         case 'End':
                             e.preventDefault();
                             $bullets.last().focus().click();
+                            break;
+
+                        case 'Enter':
+                        case ' ':
+                            e.preventDefault();
+                            $(this).click();
                             break;
                     }
                 });
 
                 // Update bullet states on slide change
                 swiper.on('slideChange', () => {
-                    $pagination.find('.swiper-pagination-bullet').each(function(index) {
+                    $pagination.find('.swiper-pagination-bullet').each(function (index) {
                         const $bullet = $(this);
                         const isActive = $bullet.hasClass('swiper-pagination-bullet-active');
                         $bullet.attr('tabindex', isActive ? '0' : '-1')
-                               .attr('aria-selected', isActive ? 'true' : 'false');
+                            .attr('aria-selected', isActive ? 'true' : 'false');
                     });
                 });
             }, 100);
         },
 
-        announceSlideChange: function(swiper, $container, trigger = 'auto') {
+        announceSlideChange: function (swiper, $container, trigger = 'auto') {
             const activeIndex = swiper.activeIndex;
             const totalSlides = swiper.slides.length;
             const $activeSlide = $(swiper.slides[activeIndex]);
-            
+
             let announcement = '';
-            
-            // Get slide content for announcement
             const $title = $activeSlide.find('.hero-slide-title');
             const title = $title.text().trim();
-            
-            if (title) {
-                announcement = `Slide ${activeIndex + 1} of ${totalSlides}: ${title}`;
-            } else {
-                announcement = `Slide ${activeIndex + 1} of ${totalSlides}`;
-            }
 
-            // Add context for keyboard navigation
+            announcement = `Slide ${activeIndex + 1} of ${totalSlides}${title ? ': ' + title : ''}`;
+
             if (trigger === 'navigation') {
                 announcement = `Navigated to ${announcement}`;
             }
 
-            this.announceToUser(announcement, $container);
+            PromenAccessibility.announce(announcement);
         },
 
-        announceToUser: function(message, $container) {
-            // Use container's live region if available
-            let $liveRegion = $container ? $container.find('[aria-live]') : $('#promen-success-live-region');
-            
-            if (!$liveRegion.length) {
-                $liveRegion = $('#promen-success-live-region');
-            }
-
-            if ($liveRegion.length) {
-                $liveRegion.text('');
-                setTimeout(() => {
-                    $liveRegion.text(message);
-                }, 100);
-                
-                setTimeout(() => {
-                    $liveRegion.text('');
-                }, 3000);
-            }
-        },
-
-        handleKeyboard: function(e) {
+        handleKeyboard: function (e) {
             const $container = $(e.currentTarget);
-            
+
             // Only handle if container has focus or is focused within
             if (!$container.is(':focus') && !$container.find(':focus').length) {
                 return;
             }
 
-            this.setupKeyboardNavigation($container);
+            const $swiper = $container.find('.swiper')[0];
+            const swiper = $swiper ? $swiper.swiper : null;
+
+            if (!swiper) return;
+
+            switch (e.key) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    swiper.slidePrev();
+                    this.announceSlideChange(swiper, $container, 'navigation');
+                    break;
+
+                case 'ArrowRight':
+                case 'ArrowDown':
+                    e.preventDefault();
+                    swiper.slideNext();
+                    this.announceSlideChange(swiper, $container, 'navigation');
+                    break;
+
+                case 'Home':
+                    e.preventDefault();
+                    swiper.slideTo(0);
+                    this.announceSlideChange(swiper, $container, 'navigation');
+                    break;
+
+                case 'End':
+                    e.preventDefault();
+                    swiper.slideTo(swiper.slides.length - 1);
+                    this.announceSlideChange(swiper, $container, 'navigation');
+                    break;
+
+                case ' ': // Spacebar
+                case 'Enter':
+                    if ($(e.target).hasClass('hero-slider-play-pause')) {
+                        break;
+                    }
+                    e.preventDefault();
+                    this.togglePlayPause.call($container.find('.hero-slider-play-pause')[0]);
+                    break;
+            }
         },
 
-        handleSlideFocus: function(e) {
+        handleSlideFocus: function (e) {
             const $slide = $(e.currentTarget);
             const $container = $slide.closest('.hero-slider-container');
-            
+
             // Pause autoplay when slide receives focus
             const $swiper = $container.find('.swiper')[0];
             const swiper = $swiper ? $swiper.swiper : null;
-            
+
             if (swiper && swiper.autoplay && swiper.autoplay.running) {
                 swiper.autoplay.stop();
-                
                 const $playPause = $container.find('.hero-slider-play-pause');
                 this.updatePlayPauseButton($playPause, false);
+                PromenAccessibility.announce('Slideshow paused on focus');
             }
-        },
-
-        setupReducedMotion: function() {
-            if (this.prefersReducedMotion()) {
-                // Add reduced motion class to all containers
-                $('.hero-slider-container').addClass('reduced-motion');
-                
-                // Stop all autoplay
-                $('.hero-slider-container').each(function() {
-                    const $container = $(this);
-                    const $swiper = $container.find('.swiper')[0];
-                    const swiper = $swiper ? $swiper.swiper : null;
-                    
-                    if (swiper && swiper.autoplay) {
-                        swiper.autoplay.stop();
-                    }
-                });
-            }
-        },
-
-        prefersReducedMotion: function() {
-            return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         }
     };
 
     // Initialize when document is ready
-    $(document).ready(function() {
+    $(document).ready(function () {
         HeroSliderAccessibility.init();
     });
 

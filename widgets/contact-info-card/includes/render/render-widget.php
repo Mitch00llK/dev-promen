@@ -108,12 +108,14 @@ function render_contact_info_card_widget($widget) {
     
     <!-- Skip Links for Accessibility -->
     <nav class="skip-links" aria-label="<?php echo esc_attr__('Navigatie om direct naar de hoofdinhoud te gaan', 'promen-elementor-widgets'); ?>">
-        <a href="#contact-info-main" class="skip-link"><?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?></a>
+        <?php echo \Promen_Accessibility_Utils::get_skip_link('contact-info-main'); ?>
+        
         <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] !== 'none' && in_array($settings['right_side_content_type'], ['employee_info', 'combined_layout'])) : ?>
-            <a href="#employee-contact-info" class="skip-link"><?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?></a>
+            <?php echo \Promen_Accessibility_Utils::get_skip_link('employee-contact-info'); ?>
         <?php endif; ?>
+        
         <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] !== 'none' && in_array($settings['right_side_content_type'], ['gravity_form', 'custom_form', 'combined_layout'])) : ?>
-            <a href="#contact-form" class="skip-link"><?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?></a>
+            <?php echo \Promen_Accessibility_Utils::get_skip_link('contact-form'); ?>
         <?php endif; ?>
     </nav>
     

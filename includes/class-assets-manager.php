@@ -314,6 +314,16 @@ class Promen_Assets_Manager {
         // Global Libraries
         $this->register_lenis_scripts();
         $this->register_gsap_scripts();
+
+        // Core Accessibility Library
+        wp_register_script(
+            'promen-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/promen-accessibility.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('promen-accessibility');
         
         // --- Widget Scripts (Standardized Paths) ---
 
@@ -337,7 +347,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-services-carousel-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-carousel/assets/js/services-carousel-accessibility.js',
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
@@ -363,7 +373,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-image-text-block-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/js/image-text-block-accessibility.js',
-            ['jquery', 'promen-image-text-block-widget'],
+            ['jquery', 'promen-image-text-block-widget', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
@@ -390,7 +400,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-stats-counter-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/stats-counter/assets/js/stats-counter-accessibility.js',
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
@@ -423,7 +433,15 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
+        wp_register_script(
+            'promen-hero-slider-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hero-slider/assets/js/hero-slider-accessibility.js',
+            ['jquery', 'hero-slider', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
         wp_enqueue_script('hero-slider');
+        wp_enqueue_script('promen-hero-slider-accessibility');
         
         if (wp_script_is('hero-slider', 'registered')) {
              wp_add_inline_script('hero-slider', 'window.heroSliderSwiperAvailable = typeof Swiper !== "undefined";', 'before');
@@ -516,7 +534,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'contact-info-card-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-card/assets/js/contact-info-card-accessibility.js',
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );

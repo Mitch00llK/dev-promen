@@ -1,17 +1,19 @@
 /**
  * Promen Image Text Block Widget Accessibility JavaScript
  * Implements WCAG 2.2 compliant keyboard navigation and ARIA management
+ * 
+ * Uses global PromenAccessibility core library.
  */
-(function($) {
+(function ($) {
     'use strict';
 
     // Initialize on document ready
-    $(document).ready(function() {
+    $(document).ready(function () {
         initImageTextBlockAccessibility();
     });
 
     // Initialize when Elementor frontend is initialized (for editor preview)
-    $(window).on('elementor/frontend/init', function() {
+    $(window).on('elementor/frontend/init', function () {
         if (typeof elementorFrontend !== 'undefined') {
             elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_text_block.default', initImageTextBlockAccessibility);
         }
@@ -21,7 +23,7 @@
      * Initialize accessibility features for all image text blocks
      */
     function initImageTextBlockAccessibility() {
-        $('.promen-image-text-block').each(function() {
+        $('.promen-image-text-block').each(function () {
             initSingleBlockAccessibility($(this));
         });
     }
@@ -54,7 +56,6 @@
      */
     function initTabsAccessibility($block) {
         var $tabs = $block.find('[role="tab"]');
-        var $tabpanels = $block.find('[role="tabpanel"]');
         var $tablist = $block.find('[role="tablist"]');
 
         if ($tabs.length === 0) {
@@ -62,7 +63,7 @@
         }
 
         // Handle keyboard navigation
-        $tabs.on('keydown', function(e) {
+        $tabs.on('keydown', function (e) {
             var $currentTab = $(this);
             var currentIndex = $tabs.index($currentTab);
             var $nextTab, $prevTab;
@@ -101,27 +102,23 @@
                 case 'Escape':
                     // Return focus to the tablist
                     $tablist.focus();
+                    PromenAccessibility.announce('Exited tabs');
                     break;
             }
         });
 
         // Handle click events (for mouse users)
-        $tabs.on('click', function(e) {
+        $tabs.on('click', function (e) {
             e.preventDefault();
             switchToTab($(this), $block);
         });
 
         // Handle focus events
-        $tabs.on('focus', function() {
+        $tabs.on('focus', function () {
             $(this).addClass('focused');
-        }).on('blur', function() {
+        }).on('blur', function () {
             $(this).removeClass('focused');
         });
-
-        // Initialize ARIA live region for announcements
-        if ($block.find('.promen-aria-live').length === 0) {
-            $block.append('<div class="promen-aria-live" aria-live="polite" aria-atomic="true" style="position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden;"></div>');
-        }
     }
 
     /**
@@ -133,7 +130,7 @@
         var tabTitle = $tab.find('.promen-image-text-block__tab-title').text();
 
         // Update tab states
-        $block.find('[role="tab"]').each(function() {
+        $block.find('[role="tab"]').each(function () {
             var $this = $(this);
             var isActive = $this.attr('id') === tabId;
 
@@ -144,7 +141,7 @@
         });
 
         // Update panel states - handle both individual tabpanels and the main tabpanel container
-        $block.find('[role="tabpanel"]').each(function() {
+        $block.find('[role="tabpanel"]').each(function () {
             var $this = $(this);
             var isActive = $this.attr('id') === panelId;
 
@@ -173,7 +170,7 @@
         });
 
         // Update image states
-        $block.find('.promen-tab-image').each(function() {
+        $block.find('.promen-tab-image').each(function () {
             var $this = $(this);
             var isActive = $this.data('tab') === tabId;
 
@@ -199,11 +196,8 @@
         // Focus the tab
         $tab.focus();
 
-        // Announce the change to screen readers
-        var $liveRegion = $block.find('.promen-aria-live');
-        if ($liveRegion.length > 0) {
-            $liveRegion.text('Switched to ' + tabTitle + ' tab');
-        }
+        // Announce the change to screen readers via Core Library
+        PromenAccessibility.announce('Switched to ' + tabTitle + ' tab');
 
         // Trigger custom event for other scripts
         $block.trigger('tabChanged', [tabId, panelId, tabTitle]);
@@ -215,18 +209,18 @@
     function initButtonAccessibility($block) {
         var $buttons = $block.find('.promen-image-text-block__button');
 
-        $buttons.each(function() {
+        $buttons.each(function () {
             var $button = $(this);
 
             // Ensure proper focus indicators
-            $button.on('focus', function() {
+            $button.on('focus', function () {
                 $(this).addClass('focused');
-            }).on('blur', function() {
+            }).on('blur', function () {
                 $(this).removeClass('focused');
             });
 
             // Handle keyboard activation
-            $button.on('keydown', function(e) {
+            $button.on('keydown', function (e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     this.click();
@@ -241,7 +235,7 @@
     function initImageAccessibility($block) {
         var $images = $block.find('img');
 
-        $images.each(function() {
+        $images.each(function () {
             var $img = $(this);
 
             // Ensure all images have alt attributes
@@ -271,7 +265,7 @@
             $skipLink = $block.find('.promen-skip-link');
         }
 
-        $skipLink.on('focus', function() {
+        $skipLink.on('focus', function () {
             $(this).css({
                 'position': 'static',
                 'left': 'auto',
@@ -280,7 +274,7 @@
                 'height': 'auto',
                 'overflow': 'visible'
             });
-        }).on('blur', function() {
+        }).on('blur', function () {
             $(this).css({
                 'position': 'absolute',
                 'left': '-10000px',
@@ -292,50 +286,9 @@
         });
     }
 
-    /**
-     * Handle reduced motion preferences
-     */
-    function handleReducedMotion() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            $('.promen-image-text-block').addClass('reduced-motion');
-        }
-    }
-
-    // Initialize reduced motion handling
-    if (window.matchMedia) {
-        window.matchMedia('(prefers-reduced-motion: reduce)').addListener(handleReducedMotion);
-        handleReducedMotion();
-    }
-
-    /**
-     * Handle high contrast mode
-     */
-    function handleHighContrast() {
-        if (window.matchMedia('(prefers-contrast: high)').matches) {
-            $('.promen-image-text-block').addClass('high-contrast');
-        }
-    }
-
-    // Initialize high contrast handling
-    if (window.matchMedia) {
-        window.matchMedia('(prefers-contrast: high)').addListener(handleHighContrast);
-        handleHighContrast();
-    }
-
-    /**
-     * Announce dynamic content changes
-     */
-    function announceContentChange($block, message) {
-        var $liveRegion = $block.find('.promen-aria-live');
-        if ($liveRegion.length > 0) {
-            $liveRegion.text(message);
-        }
-    }
-
     // Expose functions for external use
     window.PromenImageTextBlockAccessibility = {
         switchToTab: switchToTab,
-        announceContentChange: announceContentChange,
         initSingleBlockAccessibility: initSingleBlockAccessibility
     };
 

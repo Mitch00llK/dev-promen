@@ -100,7 +100,18 @@ function render_services_carousel_widget($widget) {
                     <div class="viewport-edge-gradient <?php echo esc_attr($gradient_class); ?>"></div>
                 <?php endif; ?>
                 
+                <?php 
+                // Generate Accessibility Attributes using Utils
+                $slider_attrs = \Promen_Accessibility_Utils::get_slider_attrs([
+                    'widget_id' => $id_int,
+                    'slides_count' => count($settings['services']),
+                    'autoplay' => $settings['autoplay'] === 'yes',
+                    'loop' => $settings['infinite'] === 'yes'
+                ]);
+                ?>
+
                 <div id="<?php echo esc_attr($carousel_id); ?>" class="promen-services-carousel swiper <?php echo $settings['center_mode'] === 'yes' ? 'swiper-center-mode' : ''; ?>"
+                     <?php echo $slider_attrs['container_attrs']; // ARIA region & label ?> 
                      data-cards-desktop="<?php echo esc_attr($settings['cards_per_view']); ?>"
                      data-cards-tablet="<?php echo esc_attr($settings['cards_per_view_tablet']); ?>"
                      data-cards-mobile="<?php echo esc_attr($settings['cards_per_view_mobile']); ?>"
@@ -114,15 +125,19 @@ function render_services_carousel_widget($widget) {
                      data-center-padding-tablet="<?php echo ($settings['center_mode'] === 'yes' && $settings['center_mode_tablet'] === 'yes') ? $settings['center_padding_tablet']['size'] . $settings['center_padding_tablet']['unit'] : '0'; ?>"
                      data-center-mode-mobile="<?php echo ($settings['center_mode'] === 'yes' && $settings['center_mode_mobile'] === 'yes') ? 'true' : 'false'; ?>"
                      data-center-padding-mobile="<?php echo ($settings['center_mode'] === 'yes' && $settings['center_mode_mobile'] === 'yes') ? $settings['center_padding_mobile']['size'] . $settings['center_padding_mobile']['unit'] : '0'; ?>">
+                    
                     <div class="swiper-wrapper">
                         <?php foreach ($settings['services'] as $index => $service) : 
+                            // Use Utils to generate service attributes
+                            $service_attrs = \Promen_Accessibility_Utils::get_service_attrs($service, $index, $id_int);
+                            
                             $service_key = 'service_' . $id_int . '_' . $index;
                             $widget->add_render_attribute($service_key, [
                                 'class' => [
                                     'service-card',
                                     'elementor-repeater-item-' . $service['_id'],
                                 ],
-                                'aria-label' => $service['service_title'],
+                                // aria-label is handled by Utils now, but we keep the structure
                             ]);
                             
                             $link_key = 'link_' . $index;
@@ -131,14 +146,20 @@ function render_services_carousel_widget($widget) {
                             $nofollow = !empty($service['service_link']['nofollow']) ? ' rel="nofollow"' : '';
                         ?>
                             <div class="swiper-slide" data-slide-index="<?php echo esc_attr($index); ?>">
-                                <a href="<?php echo esc_url($url); ?>"<?php echo $target . $nofollow; ?> <?php echo $widget->get_render_attribute_string($service_key); ?>>
-                                    <div class="service-icon">
+                                <a href="<?php echo esc_url($url); ?>"<?php echo $target . $nofollow; ?> <?php echo $widget->get_render_attribute_string($service_key); ?> <?php echo $service_attrs['service_link_attrs']; // ARIA label from Utils ?>>
+                                    <div class="service-icon" <?php echo $service_attrs['service_icon_attrs']; ?>>
                                         <?php \Elementor\Icons_Manager::render_icon($service['service_icon'], ['aria-hidden' => 'true']); ?>
                                     </div>
                                     <?php
                                     $service_title_tag = isset($service['service_title_html_tag']) && !empty($service['service_title_html_tag']) ? $service['service_title_html_tag'] : 'span';
                                     ?>
-                                    <<?php echo esc_attr($service_title_tag); ?> class="service-title"><?php echo esc_html($service['service_title']); ?></<?php echo esc_attr($service_title_tag); ?>>
+                                    <<?php echo esc_attr($service_title_tag); ?> class="service-title" <?php echo $service_attrs['service_title_attrs']; ?>><?php echo esc_html($service['service_title']); ?></<?php echo esc_attr($service_title_tag); ?>>
+                                    
+                                    <?php if (!empty($service['service_description'])) : ?>
+                                        <div class="service-description screen-reader-text" <?php echo $service_attrs['service_description_attrs']; ?>>
+                                            <?php echo esc_html($service['service_description']); ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </a>
                             </div>
                         <?php endforeach; ?>

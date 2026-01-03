@@ -1,30 +1,22 @@
 /**
  * Contact Info Card Widget - Accessibility Enhancements
  * WCAG 2.2 AA Compliant Keyboard Navigation and Screen Reader Support
+ * 
+ * Uses global PromenAccessibility core library.
  */
 
-(function() {
+(function () {
     'use strict';
 
     // Initialize accessibility features when DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         initContactInfoCardAccessibility();
     });
 
     function initContactInfoCardAccessibility() {
-        // Initialize skip links
         initSkipLinks();
-
-        // Initialize keyboard navigation
         initKeyboardNavigation();
-
-        // Initialize focus management
         initFocusManagement();
-
-        // Initialize ARIA live regions
-        initAriaLiveRegions();
-
-        // Initialize form accessibility
         initFormAccessibility();
     }
 
@@ -34,24 +26,21 @@
     function initSkipLinks() {
         const skipLinks = document.querySelectorAll('.skip-link');
 
-        skipLinks.forEach(function(skipLink) {
-            skipLink.addEventListener('click', function(e) {
+        skipLinks.forEach(function (skipLink) {
+            skipLink.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
 
                 if (targetElement) {
-                    // Focus the target element
                     targetElement.focus();
-
-                    // Scroll to the element if needed
                     targetElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
 
-                    // Announce to screen readers
-                    announceToScreenReader('Navigated to ' + this.textContent);
+                    // Use Global Announce
+                    PromenAccessibility.announce('Navigated to ' + (this.textContent || 'content'));
                 }
             });
         });
@@ -61,21 +50,9 @@
      * Initialize keyboard navigation enhancements
      */
     function initKeyboardNavigation() {
-        // Handle escape key for closing any open modals or dropdowns
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                // Close any open custom elements
-                const openElements = document.querySelectorAll('[aria-expanded="true"]');
-                openElements.forEach(function(element) {
-                    element.setAttribute('aria-expanded', 'false');
-                    element.focus();
-                });
-            }
-        });
-
         // Handle arrow key navigation for custom components
         const contactCards = document.querySelectorAll('.contact-info-card');
-        contactCards.forEach(function(card) {
+        contactCards.forEach(function (card) {
             initCardKeyboardNavigation(card);
         });
     }
@@ -91,7 +68,7 @@
         if (focusableElements.length === 0) return;
 
         // Handle arrow key navigation within the card
-        card.addEventListener('keydown', function(e) {
+        card.addEventListener('keydown', function (e) {
             const currentIndex = Array.from(focusableElements).indexOf(document.activeElement);
 
             if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
@@ -110,78 +87,10 @@
      * Initialize focus management
      */
     function initFocusManagement() {
-        // Trap focus within modals or important sections
+        // Trap focus within custom forms using Core Library
         const importantSections = document.querySelectorAll('.contact-info-card__custom-form');
-
-        importantSections.forEach(function(section) {
-            initFocusTrap(section);
-        });
-
-        // Handle focus indicators for better visibility
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Tab') {
-                document.body.classList.add('keyboard-navigation');
-            }
-        });
-
-        document.addEventListener('mousedown', function() {
-            document.body.classList.remove('keyboard-navigation');
-        });
-    }
-
-    /**
-     * Initialize focus trap for important sections
-     */
-    function initFocusTrap(container) {
-        const focusableElements = container.querySelectorAll(
-            'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
-        );
-
-        if (focusableElements.length === 0) return;
-
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-
-        container.addEventListener('keydown', function(e) {
-            if (e.key === 'Tab') {
-                if (e.shiftKey) {
-                    // Shift + Tab
-                    if (document.activeElement === firstElement) {
-                        e.preventDefault();
-                        lastElement.focus();
-                    }
-                } else {
-                    // Tab
-                    if (document.activeElement === lastElement) {
-                        e.preventDefault();
-                        firstElement.focus();
-                    }
-                }
-            }
-        });
-    }
-
-    /**
-     * Initialize ARIA live regions for dynamic content
-     */
-    function initAriaLiveRegions() {
-        // Create a live region for announcements if it doesn't exist
-        let liveRegion = document.getElementById('contact-info-live-region');
-        if (!liveRegion) {
-            liveRegion = document.createElement('div');
-            liveRegion.id = 'contact-info-live-region';
-            liveRegion.setAttribute('aria-live', 'polite');
-            liveRegion.setAttribute('aria-atomic', 'true');
-            liveRegion.className = 'sr-only';
-            document.body.appendChild(liveRegion);
-        }
-
-        // Monitor form submissions and other dynamic changes
-        const forms = document.querySelectorAll('.contact-info-card__custom-form form');
-        forms.forEach(function(form) {
-            form.addEventListener('submit', function() {
-                announceToScreenReader('Form submitted successfully');
-            });
+        importantSections.forEach(function (section) {
+            PromenAccessibility.initFocusTrap(section);
         });
     }
 
@@ -191,15 +100,15 @@
     function initFormAccessibility() {
         const forms = document.querySelectorAll('.contact-info-card__custom-form form');
 
-        forms.forEach(function(form) {
+        forms.forEach(function (form) {
             // Add real-time validation feedback
             const inputs = form.querySelectorAll('input, textarea, select');
-            inputs.forEach(function(input) {
-                input.addEventListener('blur', function() {
+            inputs.forEach(function (input) {
+                input.addEventListener('blur', function () {
                     validateField(this);
                 });
 
-                input.addEventListener('input', function() {
+                input.addEventListener('input', function () {
                     // Clear error state on input
                     if (this.getAttribute('aria-invalid') === 'true') {
                         clearFieldError(this);
@@ -208,10 +117,12 @@
             });
 
             // Handle form submission with accessibility
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 if (!validateForm(this)) {
                     e.preventDefault();
-                    announceToScreenReader('Please correct the errors in the form');
+                    PromenAccessibility.announce('Please correct the errors in the form', 'assertive');
+                } else {
+                    PromenAccessibility.announce('Form submitted successfully');
                 }
             });
         });
@@ -280,7 +191,7 @@
         const fields = form.querySelectorAll('input[required], textarea[required], select[required]');
         let isFormValid = true;
 
-        fields.forEach(function(field) {
+        fields.forEach(function (field) {
             if (!validateField(field)) {
                 isFormValid = false;
             }
@@ -310,7 +221,7 @@
         errorElement.style.display = 'block';
 
         // Announce error to screen readers
-        announceToScreenReader('Error: ' + message);
+        PromenAccessibility.announce('Error: ' + message);
     }
 
     /**
@@ -326,62 +237,5 @@
             errorElement.textContent = '';
         }
     }
-
-    /**
-     * Announce message to screen readers
-     */
-    function announceToScreenReader(message) {
-        const liveRegion = document.getElementById('contact-info-live-region');
-        if (liveRegion) {
-            liveRegion.textContent = message;
-
-            // Clear the message after a short delay
-            setTimeout(function() {
-                liveRegion.textContent = '';
-            }, 1000);
-        }
-    }
-
-    /**
-     * Handle reduced motion preferences
-     */
-    function handleReducedMotion() {
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-        function updateMotionPreference() {
-            if (prefersReducedMotion.matches) {
-                document.documentElement.style.setProperty('--animation-duration', '0.01ms');
-                document.documentElement.style.setProperty('--animation-iteration-count', '1');
-            } else {
-                document.documentElement.style.removeProperty('--animation-duration');
-                document.documentElement.style.removeProperty('--animation-iteration-count');
-            }
-        }
-
-        updateMotionPreference();
-        prefersReducedMotion.addEventListener('change', updateMotionPreference);
-    }
-
-    // Initialize reduced motion handling
-    handleReducedMotion();
-
-    // Handle high contrast mode
-    function handleHighContrast() {
-        const prefersHighContrast = window.matchMedia('(prefers-contrast: high)');
-
-        function updateContrastPreference() {
-            if (prefersHighContrast.matches) {
-                document.documentElement.classList.add('high-contrast');
-            } else {
-                document.documentElement.classList.remove('high-contrast');
-            }
-        }
-
-        updateContrastPreference();
-        prefersHighContrast.addEventListener('change', updateContrastPreference);
-    }
-
-    // Initialize high contrast handling
-    handleHighContrast();
 
 })();
