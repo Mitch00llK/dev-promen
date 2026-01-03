@@ -10,113 +10,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (class_exists('Promen_Assets_Manager')) {
+    return;
+}
+
 class Promen_Assets_Manager {
     
-    /**
-     * Widget Configuration
-     * 
-     * Handles standard assets (styles/scripts) located in standardized paths:
-     * widgets/{key}/assets/css/{key}.css
-     * widgets/{key}/assets/js/{key}.js
-     */
-    private $widget_config = [
-        'feature-blocks' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'has_script' => false // Has accessibility script handled separately
-        ],
-        'services-carousel' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'script_deps' => ['jquery', 'swiper-bundle', 'gsap']
-        ],
-        'services-grid' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'script_deps' => ['jquery', 'swiper-bundle']
-        ],
-        'image-text-block' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'script_deps' => ['jquery']
-        ],
-        'news-posts' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'script_deps' => ['jquery', 'swiper-bundle'],
-            'script_handle_key' => 'news-posts-slider', // Only if file name differs from key
-            'style_handle_key' => 'news-posts' // File is news-posts.css
-        ],
-        'team-members-carousel' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'script_deps' => ['jquery', 'swiper-bundle']
-        ],
-        'stats-counter' => [
-            'style_deps' => [], // stats-counter.css
-            'script_deps' => ['jquery'],
-            'style_path_override' => 'widgets/stats-counter/assets/css/stats-counter/stats-counter.css',
-            'script_path_override' => 'widgets/stats-counter/assets/js/stats-counter/stats-counter.js'
-        ],
-        'contact-info-card' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'has_script' => false
-        ],
-        'certification-logos' => [
-            'style_deps' => [],
-            'has_script' => false,
-            'enqueue_style' => true
-        ],
-        'worker-testimonial' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'has_script' => false, // Handled separately due to versioning/meta
-            'enqueue_style' => true
-        ],
-        'benefits-widget' => [
-            'style_deps' => [],
-            'has_script' => false,
-            'enqueue_style' => true
-        ],
-        'hero-slider' => [
-            'style_deps' => ['swiper-bundle-css'],
-            'script_deps' => ['jquery', 'swiper-bundle'],
-            'enqueue_style' => true,
-            'enqueue_script' => true
-        ],
-        'text-content-block' => [
-            'style_deps' => [],
-            'script_deps' => ['jquery']
-        ],
-        'text-column-repeater' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'has_script' => false
-        ],
-        'solicitation-timeline' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'script_deps' => ['jquery', 'gsap', 'gsap-scrolltrigger']
-        ],
-        'related-services' => [
-            'style_deps' => [],
-            'has_script' => false
-        ],
-        'image-text-slider' => [
-            'style_deps' => ['swiper-bundle-css'], // style.css
-            'script_deps' => ['jquery', 'swiper-bundle', 'gsap'], // script.js
-            'style_path_override' => 'widgets/image-text-slider/assets/css/style.css',
-            'script_path_override' => 'widgets/image-text-slider/assets/js/script.js'
-        ],
-        'hamburger-menu' => [
-            'style_deps' => [],
-            'script_deps' => ['jquery', 'gsap'],
-            'enqueue_style' => true,
-            'enqueue_script' => true
-        ],
-        'checklist-comparison' => [
-            'style_deps' => ['promen-elementor-widgets'],
-            'script_deps' => ['jquery']
-        ],
-        'image-slider' => [
-            'style_deps' => ['swiper-bundle-css'],
-            'script_deps' => ['jquery', 'swiper-bundle'],
-            'enqueue_style' => true,
-            'enqueue_script' => true
-        ]
-    ];
-
     /**
      * Constructor
      */
@@ -144,20 +43,38 @@ class Promen_Assets_Manager {
         );
         wp_enqueue_style('promen-elementor-widgets');
         
-        // Standard Widget Styles
-        $this->register_configured_widgets('style');
+        // --- Widget Styles (Standardized Paths) ---
 
-        // --- Special Case Style Registrations ---
+        // Feature Blocks
+        wp_register_style(
+            'promen-feature-blocks-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/feature-blocks/assets/css/feature-blocks.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
 
-        // Services Grid Accessibility
+        // Services Carousel
+        wp_register_style(
+            'promen-services-carousel-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-carousel/assets/css/services-carousel.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Services Grid
+        wp_register_style(
+            'promen-services-grid-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/css/services-grid.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        // Services Grid Extras
         wp_register_style(
             'promen-services-grid-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/css/services-grid-accessibility.css',
             ['promen-services-grid-widget'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
-
-        // Services Grid Slider Style
         wp_register_style(
             'services-grid-slider-style',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/css/services-grid-slider.css',
@@ -165,15 +82,14 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
 
-        // News Posts Slider Style
+        // Image Text Block
         wp_register_style(
-            'promen-news-slider-style',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/css/news-posts-slider.css',
-            ['promen-content-posts-style'],
+            'promen-image-text-block-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/css/image-text-block.css',
+            ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
-
-        // Image Text Block Accessibility
+        // Image Text Block Extras
         wp_register_style(
             'promen-image-text-block-accessibility', 
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/css/image-text-block-accessibility.css',
@@ -181,28 +97,214 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
 
-        // Stats Counter Accessibility
+        // News Posts
+        // Note: Using 'promen-content-posts-style' handle for backward compatibility
+        wp_register_style(
+            'promen-content-posts-style',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/css/news-posts.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        // News Posts Extras
+        wp_register_style(
+            'promen-news-slider-style',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/css/news-posts-slider.css',
+            ['promen-content-posts-style'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Stats Counter
+        wp_register_style(
+            'promen-stats-counter-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/stats-counter/assets/css/stats-counter.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        // Stats Counter Extras
         wp_register_style(
             'promen-stats-counter-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/stats-counter/assets/css/stats-counter/accessibility.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/stats-counter/assets/css/stats-counter-accessibility.css',
             [],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
         wp_enqueue_style('promen-stats-counter-accessibility');
 
-        // Image Text Slider Extras (WCAG & Mobile)
+        // Contact Info Card
+        wp_register_style(
+            'contact-info-card',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-card/assets/css/contact-info-card.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        ); // Enqueue handled in widget if needed, or by dependency
+        wp_register_style(
+            'contact-info-card-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-card/assets/css/contact-info-card-accessibility.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Team Members Carousel
+        wp_register_style(
+            'promen-team-members-carousel-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/team-members-carousel/assets/css/team-members-carousel.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Certification Logos
+        wp_register_style(
+            'promen-certification-logos',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/certification-logos/assets/css/certification-logos.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        wp_enqueue_style('promen-certification-logos');
+
+        // Worker Testimonial
+        wp_register_style(
+            'promen-worker-testimonial-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/worker-testimonial/assets/css/worker-testimonial.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        wp_enqueue_style('promen-worker-testimonial-widget');
+
+        // Benefits Widget
+        wp_register_style(
+            'promen-benefits-widget-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/benefits-widget/assets/css/benefits-widget.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        wp_enqueue_style('promen-benefits-widget-widget');
+
+        // Hero Slider
+        wp_register_style(
+            'hero-slider',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hero-slider/assets/css/hero-slider.css',
+            ['swiper-bundle-css'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        wp_enqueue_style('hero-slider');
+
+        // Text Content Block
+        wp_register_style(
+            'promen-text-content-block',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/text-content-block/assets/css/text-content-block.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Image Slider
+        wp_register_style(
+            'promen-image-slider-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-slider/assets/css/image-slider.css',
+            ['swiper-bundle-css'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        wp_enqueue_style('promen-image-slider-widget');
+
+        // Related Services
+        wp_register_style(
+            'promen-related-services-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/related-services/assets/css/related-services.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Text Column Repeater
+        wp_register_style(
+            'promen-text-column-repeater-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/text-column-repeater/assets/css/text-column-repeater.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Solicitation Timeline
+        wp_register_style(
+            'promen-solicitation-timeline-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/solicitation-timeline/assets/css/solicitation-timeline.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Business Catering
+        wp_register_style(
+            'promen-business-catering-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/business-catering/assets/css/business-catering.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Testimonial Card
+        wp_register_style(
+            'promen-testimonial-card-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/testimonial-card/assets/css/testimonial-card.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Image Text Slider
+        wp_register_style(
+            'image-text-slider',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-slider/assets/css/style.css',
+            ['swiper-bundle-css'],
+            '1.0.1' // Version from original file
+        );
+        // Image Text Slider Extras
         wp_register_style(
             'image-text-slider-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-slider/assets/css/modules/accessibility-minimal.css',
-            ['promen-image-text-slider-widget'], // Alias generated by loop
+            ['image-text-slider'],
             '1.0.0-wcag-2.2-minimal'
         );
         wp_register_style(
             'image-text-slider-mobile',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-slider/assets/css/modules/mobile-optimizations.css',
-            ['promen-image-text-slider-widget'],
+            ['image-text-slider'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
+
+        // Checklist Comparison
+        wp_register_style(
+            'promen-checklist-comparison-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/checklist-comparison/assets/css/checklist-comparison.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Contact Info Blocks
+        wp_register_style(
+            'promen-contact-info-blocks-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-blocks/assets/css/contact-info-blocks.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Locations Display
+        wp_register_style(
+            'promen-locations-display-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/locations-display/assets/css/locations-display.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Document Info List
+        wp_register_style(
+            'promen-document-info-list-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/document-info-list/assets/css/document-info-list.css',
+            ['promen-elementor-widgets'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // Hamburger Menu
+        wp_register_style(
+            'promen-hamburger-menu-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hamburger-menu/assets/css/hamburger-menu.css',
+            [],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+        wp_enqueue_style('promen-hamburger-menu-widget');
     }
     
     /**
@@ -213,32 +315,25 @@ class Promen_Assets_Manager {
         $this->register_lenis_scripts();
         $this->register_gsap_scripts();
         
-        // Standard Widget Scripts
-        $this->register_configured_widgets('script');
+        // --- Widget Scripts (Standardized Paths) ---
 
-        // --- Special Case Script Registrations ---
-
-        // Image Text Block Accessibility
+        // Feature Blocks (No main script, only accessibility)
         wp_register_script(
-            'promen-image-text-block-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/js/image-text-block-accessibility.js',
-            ['jquery', 'promen-image-text-block-widget'],
-            PROMEN_ELEMENTOR_WIDGETS_VERSION,
-            true
-        );
-        wp_enqueue_script('promen-image-text-block-accessibility');
-
-        // Stats Counter Accessibility
-        wp_register_script(
-            'promen-stats-counter-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/stats-counter/assets/js/stats-counter/accessibility.js',
+            'feature-blocks-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/feature-blocks/assets/js/feature-blocks-accessibility.js',
             ['jquery'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-stats-counter-accessibility');
 
-        // Services Carousel Accessibility
+        // Services Carousel
+        wp_register_script(
+            'promen-services-carousel-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-carousel/assets/js/services-carousel.js',
+            ['jquery', 'swiper-bundle', 'gsap'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
         wp_register_script(
             'promen-services-carousel-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-carousel/assets/js/services-carousel-accessibility.js',
@@ -248,7 +343,69 @@ class Promen_Assets_Manager {
         );
         wp_enqueue_script('promen-services-carousel-accessibility');
 
-        // Worker Testimonial Accessibility (Explicit Versioning in original)
+        // Services Grid
+        wp_register_script(
+            'services-grid-slider-script', // Legacy handle
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/js/services-grid.js',
+            ['jquery', 'swiper-bundle'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Image Text Block
+        wp_register_script(
+            'promen-image-text-block-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/js/image-text-block.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_register_script(
+            'promen-image-text-block-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/js/image-text-block-accessibility.js',
+            ['jquery', 'promen-image-text-block-widget'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('promen-image-text-block-accessibility');
+
+        // News Posts
+        // Note: Using 'promen-news-slider-script' handle for backward compatibility
+        wp_register_script(
+            'promen-news-slider-script',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/js/news-posts-slider.js',
+            ['jquery', 'swiper-bundle'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Stats Counter
+        wp_register_script(
+            'promen-stats-counter-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/stats-counter/assets/js/stats-counter.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_register_script(
+            'promen-stats-counter-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/stats-counter/assets/js/stats-counter-accessibility.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('promen-stats-counter-accessibility');
+
+        // Team Members Carousel
+        wp_register_script(
+            'promen-team-members-carousel-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/team-members-carousel/assets/js/team-members-carousel.js',
+            ['jquery', 'swiper-bundle'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Worker Testimonial (Accessibility only)
         wp_register_script(
             'promen-worker-testimonial-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/worker-testimonial/assets/js/worker-testimonial-accessibility.js',
@@ -258,28 +415,121 @@ class Promen_Assets_Manager {
         );
         wp_enqueue_script('promen-worker-testimonial-accessibility');
 
-        // Feature Blocks Accessibility
+        // Hero Slider
         wp_register_script(
-            'feature-blocks-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/feature-blocks/assets/js/feature-blocks-accessibility.js',
+            'hero-slider',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hero-slider/assets/js/hero-slider.js',
+            ['jquery', 'swiper-bundle'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('hero-slider');
+        
+        if (wp_script_is('hero-slider', 'registered')) {
+             wp_add_inline_script('hero-slider', 'window.heroSliderSwiperAvailable = typeof Swiper !== "undefined";', 'before');
+        }
+
+        // Text Content Block
+        wp_register_script(
+            'promen-text-content-block-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/text-content-block/assets/js/text-content-block.js',
             ['jquery'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
 
-        // Image Text Slider Init (Required for widget initialization)
+        // Image Slider
         wp_register_script(
-            'promen-image-text-slider-init',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-slider/assets/js/modules/init-slider.js',
-            ['jquery', 'swiper-bundle', 'gsap', 'image-text-slider'], // Depends on the main script
+            'promen-image-slider-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-slider/assets/js/image-slider.js',
+            ['jquery', 'swiper-bundle'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('promen-image-slider-widget');
+
+        // Solicitation Timeline
+        wp_register_script(
+            'promen-solicitation-timeline-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/solicitation-timeline/assets/js/solicitation-timeline.js',
+            ['jquery', 'gsap', 'gsap-scrolltrigger'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
 
-        // Hero Slider Inline Script
-        if (wp_script_is('promen-hero-slider-widget', 'registered')) {
-             wp_add_inline_script('promen-hero-slider-widget', 'window.heroSliderSwiperAvailable = typeof Swiper !== "undefined";', 'before');
-        }
+        // Image Text Slider
+        // Promen Image Text Slider Init (MUST be loaded before script.js due to function definition)
+        wp_register_script(
+            'promen-image-text-slider-init',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-slider/assets/js/modules/init-slider.js',
+            ['jquery', 'swiper-bundle', 'gsap'], 
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        wp_register_script(
+            'image-text-slider',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-slider/assets/js/script.js',
+            ['jquery', 'swiper-bundle', 'gsap', 'promen-image-text-slider-init'],
+            '1.0.2-mobile-optimized',
+            true
+        );
+
+        // Checklist Comparison
+        wp_register_script(
+            'promen-checklist-comparison-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/checklist-comparison/assets/js/checklist-comparison.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Hamburger Menu
+        wp_register_script(
+            'promen-hamburger-menu-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hamburger-menu/assets/js/hamburger-menu.js',
+            ['jquery', 'gsap'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('promen-hamburger-menu-widget');
+        
+        // Locations Display (Accessibility only)
+        wp_register_script(
+            'promen-locations-display-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/locations-display/assets/js/locations-display-accessibility.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        
+        // Contact Info Blocks (Accessibility only)
+        wp_register_script(
+            'promen-contact-info-blocks-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-blocks/assets/js/contact-info-blocks-accessibility.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Contact Info Card (Accessibility only)
+        wp_register_script(
+            'contact-info-card-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-card/assets/js/contact-info-card-accessibility.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Document Info List
+        wp_register_script(
+            'promen-document-info-list-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/document-info-list/assets/js/document-info-list.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
 
         // Editor Fix
         if (is_admin() && isset($_GET['action']) && $_GET['action'] === 'elementor') {
@@ -293,82 +543,6 @@ class Promen_Assets_Manager {
     public function enqueue_global_assets() {
         $this->enqueue_google_fonts();
         $this->enqueue_swiper();
-    }
-
-    /**
-     * Core Logic: Register Styles/Scripts from Config
-     * 
-     * @param string $type 'style' or 'script'
-     */
-    private function register_configured_widgets($type) {
-        foreach ($this->widget_config as $key => $config) {
-            
-            // Generate Handle
-            // Default: promen-{key}-widget
-            // Override: script_handle_key / style_handle_key
-            $handle_key = $config[$type . '_handle_key'] ?? $key;
-            // Exceptions for legacy handle compatibility can be added here
-            // Mapping known legacy handles to maintain compatibility:
-            $handle = 'promen-' . $handle_key . '-widget';
-            
-            // Special legacy overrides (if needed based on original file analysis):
-            if ($key === 'news-posts' && $type === 'style') $handle = 'promen-content-posts-style';
-            if ($key === 'news-posts' && $type === 'script') $handle = 'promen-news-slider-script';
-            if ($key === 'news-posts' && $type === 'style' && isset($config['style_handle_key'])) $handle = 'promen-' . $config['style_handle_key'] . '-style'; // Fix logic
-            
-            // Clean logic:
-            if ($key === 'news-posts') {
-                $handle = ($type === 'style') ? 'promen-content-posts-style' : 'promen-news-slider-script';
-            } elseif ($key === 'services-grid' && $type === 'script') {
-                $handle = 'services-grid-slider-script'; // Legacy
-            } elseif ($key === 'services-grid' && $type === 'style') {
-                $handle = 'promen-services-grid-widget';
-            } elseif ($key === 'contact-info-card' && $type === 'style') {
-                $handle = 'contact-info-card';
-            } elseif ($key === 'certification-logos') {
-                $handle = 'promen-certification-logos';
-            } elseif ($key === 'hero-slider') {
-                $handle = 'hero-slider'; // Legacy handle used in dependencies? Note: Original used 'hero-slider'.
-            } elseif ($key === 'text-content-block' && $type === 'style') {
-                $handle = 'promen-text-content-block';
-            } elseif ($key === 'image-text-slider') {
-                $handle = 'image-text-slider';
-            }
-            
-            // Check if asset should be registered
-            if ($type === 'script' && isset($config['has_script']) && $config['has_script'] === false) {
-                continue;
-            }
-
-            // Generate Path
-            if (isset($config[$type . '_path_override'])) {
-                $path = PROMEN_ELEMENTOR_WIDGETS_URL . $config[$type . '_path_override'];
-            } else {
-                // Standard: widgets/{key}/assets/{ext}/{key}.{ext}
-                // Handle special filename cases (e.g. news-posts vs news-posts-slider)
-                $filename = ($type === 'script' && isset($config['script_handle_key'])) ? $config['script_handle_key'] : $key;
-                $ext = ($type === 'style') ? 'css' : 'js';
-                // Note: Original code mostly used explicit names.
-                // We will assume standard structure: widgets/{key}/assets/{ext}/{filename}.{ext}
-                $path = PROMEN_ELEMENTOR_WIDGETS_URL . "widgets/{$key}/assets/{$ext}/{$filename}.{$ext}";
-            }
-
-            // Deps
-            $deps = $config[$type . '_deps'] ?? [];
-
-            // Register
-            if ($type === 'style') {
-                wp_register_style($handle, $path, $deps, PROMEN_ELEMENTOR_WIDGETS_VERSION);
-                if (!empty($config['enqueue_style'])) {
-                    wp_enqueue_style($handle);
-                }
-            } else {
-                wp_register_script($handle, $path, $deps, PROMEN_ELEMENTOR_WIDGETS_VERSION, true);
-                if (!empty($config['enqueue_script'])) {
-                    wp_enqueue_script($handle);
-                }
-            }
-        }
     }
 
     /**

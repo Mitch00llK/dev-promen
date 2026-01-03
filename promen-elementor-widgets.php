@@ -22,7 +22,7 @@ require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-error-handling.php'
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-promen-elementor-widgets.php');
 
 // Include required files
-require_once PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-assets-manager.php';
+
 require_once PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/settings/class-lenis-settings.php';
 
 // Initialize the plugin
