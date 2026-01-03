@@ -1,199 +1,154 @@
 /**
  * Promen Image Text Block Widget Accessibility JavaScript
- * Implements WCAG 2.2 compliant keyboard navigation and ARIA management
- * 
- * Uses global PromenAccessibility core library.
+ * Handles WCAG 2.2 compliant tab switching, keyboard navigation, and ARIA management.
  */
 (function ($) {
     'use strict';
 
     // Initialize on document ready
     $(document).ready(function () {
-        initImageTextBlockAccessibility();
+        $('.promen-image-text-block').each(function () {
+            initAccessibility($(this));
+        });
     });
 
-    // Initialize when Elementor frontend is initialized (for editor preview)
+    // Initialize when Elementor frontend is initialized
     $(window).on('elementor/frontend/init', function () {
         if (typeof elementorFrontend !== 'undefined') {
-            elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_text_block.default', initImageTextBlockAccessibility);
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_text_block.default', function ($scope) {
+                initAccessibility($scope.find('.promen-image-text-block'));
+            });
         }
     });
 
     /**
-     * Initialize accessibility features for all image text blocks
+     * Initialize accessibility features for a block
      */
-    function initImageTextBlockAccessibility() {
-        $('.promen-image-text-block').each(function () {
-            initSingleBlockAccessibility($(this));
-        });
-    }
+    function initAccessibility($block) {
+        if ($block.length === 0) return;
 
-    /**
-     * Initialize accessibility features for a single image text block
-     */
-    function initSingleBlockAccessibility($block) {
-        if ($block.length === 0) {
-            return;
-        }
-
-        // Initialize tabs accessibility if in tabs mode
+        // Only init tabs if in tabs mode
         if ($block.hasClass('promen-image-text-block--tabs') || $block.hasClass('promen-tabs-mode')) {
-            initTabsAccessibility($block);
+            initTabs($block);
         }
 
-        // Initialize button accessibility
-        initButtonAccessibility($block);
-
-        // Initialize image accessibility
-        initImageAccessibility($block);
-
-        // Initialize skip links
-        initSkipLinks($block);
-
-        // Initialize reduced motion
-        PromenAccessibility.setupReducedMotion($block[0]);
+        // Setup reduced motion
+        if (typeof PromenAccessibility !== 'undefined') {
+            PromenAccessibility.setupReducedMotion($block[0]);
+            PromenAccessibility.setupSkipLink($block[0], 'Skip to Image Text Block content');
+        }
     }
 
     /**
-     * Initialize tabs accessibility with keyboard navigation
+     * Initialize tabs with proper accessibility and visual switching
      */
-    /**
-     * Initialize tabs accessibility with Core Library
-     */
-    function initTabsAccessibility($block) {
-        PromenAccessibility.setupTabs($block[0]);
+    function initTabs($block) {
+        var $tabs = $block.find('[role="tab"]');
+        var $panels = $block.find('[role="tabpanel"]');
+        var $images = $block.find('.promen-tab-image');
 
-        // Add event listener to sync images and content when tabs change
-        const tabs = $block.find('[role="tab"]');
-        tabs.on('click keydown', function (e) {
-            // Wait for core to update attributes
-            setTimeout(() => {
-                const activeTab = $block.find('[role="tab"][aria-selected="true"]');
-                const activeTabId = activeTab.attr('id') || activeTab.data('tab');
-                if (activeTabId) {
-                    syncTabState($block, activeTabId);
-                }
-            }, 10);
-        });
-    }
+        if ($tabs.length === 0) return;
 
-    function syncTabState($block, tabId) {
-        // Sync Images
-        $block.find('.promen-tab-image').each(function () {
-            var $this = $(this);
-            var isActive = $this.data('tab') === tabId;
-
-            $this.toggleClass('active', isActive);
-            $this.toggleClass('promen-tab-hidden', !isActive);
-            $this.attr('aria-hidden', !isActive);
-
-            if (isActive) {
-                $this.css({ 'display': 'block', 'opacity': '1', 'visibility': 'visible' });
-            } else {
-                $this.css({ 'display': 'none', 'opacity': '0', 'visibility': 'hidden' });
-            }
+        // Click handler for tabs
+        $tabs.on('click', function (e) {
+            e.preventDefault();
+            activateTab($(this), $block, $tabs, $panels, $images);
         });
 
-        // Sync Content Panels (Fix for !important CSS overriding inline styles)
-        $block.find('.promen-tab-content').each(function () {
-            var $this = $(this);
-            // Match by data-tab (legacy) or ID (accessibility)
-            var isActive = $this.data('tab') === tabId || $this.attr('id') === tabId;
+        // Keyboard navigation
+        $tabs.on('keydown', function (e) {
+            var $currentTab = $(this);
+            var currentIndex = $tabs.index($currentTab);
+            var targetIndex = currentIndex;
 
-            // If the tab button has aria-controls pointing to this ID, it's a match
-            var activeTabControl = $block.find('[role="tab"][aria-selected="true"]').attr('aria-controls');
-            if (activeTabControl && activeTabControl === $this.attr('id')) {
-                isActive = true;
+            switch (e.key) {
+                case 'ArrowRight':
+                    targetIndex = (currentIndex + 1) % $tabs.length;
+                    break;
+                case 'ArrowLeft':
+                    targetIndex = (currentIndex - 1 + $tabs.length) % $tabs.length;
+                    break;
+                case 'Home':
+                    targetIndex = 0;
+                    break;
+                case 'End':
+                    targetIndex = $tabs.length - 1;
+                    break;
+                default:
+                    return; // Don't prevent default for other keys
             }
 
-            $this.toggleClass('active', isActive);
-            $this.toggleClass('promen-tab-hidden', !isActive);
-
-            if (isActive) {
-                // Ensure legacy CSS doesn't hide it
-                $this.css({ 'display': 'block', 'opacity': '1', 'visibility': 'visible' });
-            } else {
-                $this.css({ 'display': 'none', 'opacity': '0', 'visibility': 'hidden' });
+            if (targetIndex !== currentIndex) {
+                e.preventDefault();
+                activateTab($tabs.eq(targetIndex), $block, $tabs, $panels, $images);
             }
         });
     }
 
     /**
-     * Initialize button accessibility
+     * Activate a specific tab and show its content
      */
-    function initButtonAccessibility($block) {
-        var $buttons = $block.find('.promen-image-text-block__button');
+    function activateTab($tab, $block, $tabs, $panels, $images) {
+        var panelId = $tab.attr('aria-controls');
+        var tabId = $tab.attr('id');
 
-        $buttons.each(function () {
-            var $button = $(this);
+        // Deactivate all tabs
+        $tabs.attr('aria-selected', 'false').attr('tabindex', '-1').removeClass('active');
 
-            // Ensure proper focus indicators
-            $button.on('focus', function () {
-                $(this).addClass('focused');
-            }).on('blur', function () {
-                $(this).removeClass('focused');
-            });
-
-            // Handle keyboard activation
-            $button.on('keydown', function (e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.click();
-                }
-            });
+        // Hide all panels
+        $panels.each(function () {
+            $(this)
+                .attr('hidden', '')
+                .attr('aria-hidden', 'true')
+                .attr('tabindex', '-1')
+                .removeClass('active')
+                .addClass('promen-tab-hidden');
         });
-    }
 
-    /**
-     * Initialize image accessibility
-     */
-    function initImageAccessibility($block) {
-        var $images = $block.find('img');
-
+        // Hide all images
         $images.each(function () {
-            var $img = $(this);
+            $(this)
+                .attr('aria-hidden', 'true')
+                .removeClass('active')
+                .addClass('promen-tab-hidden');
+        });
 
-            // Ensure all images have alt attributes
-            if (!$img.attr('alt')) {
-                $img.attr('alt', 'Content image');
-            }
+        // Activate clicked tab
+        $tab.attr('aria-selected', 'true').attr('tabindex', '0').addClass('active');
+        $tab.focus();
 
-            // Add loading and decoding attributes for performance
-            if (!$img.attr('loading')) {
-                $img.attr('loading', 'lazy');
-            }
-            if (!$img.attr('decoding')) {
-                $img.attr('decoding', 'async');
+        // Show corresponding panel
+        var $panel = $block.find('#' + panelId);
+        if ($panel.length) {
+            $panel
+                .removeAttr('hidden')
+                .attr('aria-hidden', 'false')
+                .attr('tabindex', '0')
+                .addClass('active')
+                .removeClass('promen-tab-hidden');
+        }
+
+        // Show corresponding image (match by data-tab attribute)
+        $images.each(function () {
+            var $image = $(this);
+            if ($image.data('tab') === tabId) {
+                $image
+                    .attr('aria-hidden', 'false')
+                    .addClass('active')
+                    .removeClass('promen-tab-hidden');
             }
         });
-    }
 
-    /**
-     * Initialize skip links for keyboard navigation
-     */
-    /**
-     * Initialize skip links for keyboard navigation
-     */
-    function initSkipLinks($block) {
-        PromenAccessibility.setupSkipLink($block[0], 'Skip to Image Text Block content');
-    }
-
-    /**
-     * Programmatically switch to a specific tab
-     * @param {jQuery} $block The widget block element
-     * @param {string} tabId The ID of the tab to switch to
-     */
-    function switchToTab($block, tabId) {
-        const tab = $block.find(`[role="tab"][id="${tabId}"]`);
-        if (tab.length > 0) {
-            tab.click();
+        // Announce to screen readers
+        if (typeof PromenAccessibility !== 'undefined') {
+            var label = $tab.text() || $tab.attr('aria-label');
+            PromenAccessibility.announce('Tab ' + label + ' selected');
         }
     }
 
-    // Expose functions for external use
+    // Expose for external use if needed
     window.PromenImageTextBlockAccessibility = {
-        switchToTab: switchToTab,
-        initSingleBlockAccessibility: initSingleBlockAccessibility
+        initAccessibility: initAccessibility
     };
 
 })(jQuery);
