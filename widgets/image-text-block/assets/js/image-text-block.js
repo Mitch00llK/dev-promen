@@ -196,7 +196,9 @@
                     'height': ''
                 });
 
-                if ($content.hasClass('active')) {
+                var isActive = $content.hasClass('active') || $content.attr('aria-hidden') === 'false' || $content.css('display') === 'block';
+
+                if (isActive) {
                     $content.css({
                         'display': 'block',
                         'opacity': 1,
