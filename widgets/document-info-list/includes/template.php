@@ -14,7 +14,7 @@ $widget_id = $this->get_id();
 $container_id = Promen_Accessibility_Utils::generate_id('document-info-list', $widget_id);
 
 // Safe access for column_layout
-$column_layout = $this->get_safe_setting($settings, 'column_layout', 'one-column');
+$column_layout = $this->get_safe_setting('column_layout', 'one-column');
 $column_class = 'two-columns' === $column_layout ? 'document-info-list two-columns' : 'document-info-list one-column';
 
 // Container attributes
@@ -22,13 +22,13 @@ $container_class = "document-info-list-container promen-widget";
 $container_attributes = '';
 
 // GSAP animation preparation
-$enable_animation = $this->get_safe_setting($settings, 'enable_animation', 'no');
+$enable_animation = $this->get_safe_setting('enable_animation', 'no');
 if ('yes' === $enable_animation) {
     $container_class .= ' document-info-list--animated';
-    $animation_type = $this->get_safe_setting($settings, 'animation_type', 'fade-in');
+    $animation_type = $this->get_safe_setting('animation_type', 'fade-in');
     
     // Handle complex delay setting
-    $animation_delay_setting = $this->get_safe_setting($settings, 'animation_delay', []);
+    $animation_delay_setting = $this->get_safe_setting('animation_delay', []);
     $animation_delay = isset($animation_delay_setting['size']) ? $animation_delay_setting['size'] : 0;
     
     $container_attributes .= ' data-animation="' . esc_attr($animation_type) . '"';
@@ -37,7 +37,7 @@ if ('yes' === $enable_animation) {
 }
 
 // Year title border class
-$year_title_border = $this->get_safe_setting($settings, 'year_title_border_bottom', 'no');
+$year_title_border = $this->get_safe_setting('year_title_border_bottom', 'no');
 $year_title_border_class = 'yes' === $year_title_border ? ' has-border' : '';
 ?>
 
@@ -48,7 +48,7 @@ $year_title_border_class = 'yes' === $year_title_border ? ' has-border' : '';
          <?php echo $container_attributes; ?>>
     <?php 
     // Loop through each year section
-    $year_sections = $this->get_safe_setting($settings, 'year_sections', []);
+    $year_sections = $this->get_safe_setting('year_sections', []);
     if (!empty($year_sections)) : 
         foreach ($year_sections as $section_index => $year_section) : 
     ?>
@@ -57,7 +57,7 @@ $year_title_border_class = 'yes' === $year_title_border ? ' has-border' : '';
              role="group"
              aria-label="<?php echo esc_attr(sprintf(__('Documenten uit het jaar %s die u kunt downloaden', 'promen-elementor-widgets'), isset($year_section['year']) ? $year_section['year'] : '')); ?>">
             <?php if (!empty($year_section['year'])) :
-                $year_tag = $this->get_safe_setting($settings, 'year_tag', 'h3');
+                $year_tag = $this->get_safe_setting('year_tag', 'h3');
                 $year_id = Promen_Accessibility_Utils::generate_id('year-title', $widget_id . '-' . $section_index);
             ?>
                 <<?php echo esc_html($year_tag); ?> class="document-info-year-title<?php echo esc_attr($year_title_border_class); ?>"
@@ -90,7 +90,7 @@ $year_title_border_class = 'yes' === $year_title_border ? ' has-border' : '';
                                 <?php if (!empty($document['document_file']['url'])) : 
                                     $file_url = $document['document_file']['url'];
                                     $file_title = !empty($document['document_title']) ? $document['document_title'] : esc_html__('Download Document', 'promen-elementor-widgets');
-                                    $tooltip_text = $this->get_safe_setting($settings, 'tooltip_text', esc_html__('Download bestand', 'promen-elementor-widgets'));
+                                    $tooltip_text = $this->get_safe_setting('tooltip_text', esc_html__('Download bestand', 'promen-elementor-widgets'));
                                     
                                     // Get filename and file info for download
                                     $file_name = basename($file_url);
@@ -116,7 +116,7 @@ $year_title_border_class = 'yes' === $year_title_border ? ' has-border' : '';
                                         aria-label="<?php echo esc_attr(sprintf(__('Klik om %s te downloaden', 'promen-elementor-widgets'), $file_title)); ?>"
                                         aria-describedby="<?php echo esc_attr($icon_id); ?>">
                                     <?php if (!empty($document['document_icon']['value'])) : ?>
-                                        <div class="document-info-icon<?php echo 'yes' === $this->get_safe_setting($settings, 'icon_background_show', 'no') ? ' with-bg' : ''; ?>"
+                                        <div class="document-info-icon<?php echo 'yes' === $this->get_safe_setting('icon_background_show', 'no') ? ' with-bg' : ''; ?>"
                                              id="<?php echo esc_attr($icon_id); ?>"
                                              role="img"
                                              aria-label="<?php echo esc_attr__('Icoon dat een document of bestand representeert', 'promen-elementor-widgets'); ?>">
@@ -133,7 +133,7 @@ $year_title_border_class = 'yes' === $year_title_border ? ' has-border' : '';
                                 <?php else : ?>
                                 <div class="document-info-header">
                                     <?php if (!empty($document['document_icon']['value'])) : ?>
-                                        <div class="document-info-icon<?php echo 'yes' === $this->get_safe_setting($settings, 'icon_background_show', 'no') ? ' with-bg' : ''; ?>"
+                                        <div class="document-info-icon<?php echo 'yes' === $this->get_safe_setting('icon_background_show', 'no') ? ' with-bg' : ''; ?>"
                                              id="<?php echo esc_attr($icon_id); ?>"
                                              role="img"
                                              aria-label="<?php echo esc_attr__('Icoon dat een document of bestand representeert', 'promen-elementor-widgets'); ?>">
