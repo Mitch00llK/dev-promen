@@ -104,8 +104,10 @@
                 });
                 panels.forEach(p => {
                     p.hidden = true;
-                    // Support removing custom hidden classes if needed, but standard prop is best
                     p.style.display = 'none';
+                    // Also manage legacy class to override !important CSS rules
+                    p.classList.add('promen-tab-hidden');
+                    p.classList.remove('active');
                 });
 
                 // Activate target
@@ -116,6 +118,9 @@
                 if (targetPanel) {
                     targetPanel.hidden = false;
                     targetPanel.style.display = 'block';
+                    // Remove legacy hidden class and add active
+                    targetPanel.classList.remove('promen-tab-hidden');
+                    targetPanel.classList.add('active');
                 }
                 tab.focus();
 
