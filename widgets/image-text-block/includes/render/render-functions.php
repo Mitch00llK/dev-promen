@@ -263,7 +263,6 @@ class Promen_Image_Text_Block_Render {
                     <!-- Tab Content -->
                     <div class="promen-image-text-block__tabs-content promen-tabs-content-wrapper" 
                          id="<?php echo esc_attr($tabpanel_id); ?>"
-                         role="tabpanel"
                          aria-live="polite"
                          aria-label="<?php echo esc_attr__('Inhoud van de geselecteerde tab die u kunt bekijken', 'promen-elementor-widgets'); ?>">
                         <?php foreach ($tabs as $index => $item) : 
