@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-class Promen_Business_Catering_Widget extends \Elementor\Widget_Base {
+class Promen_Business_Catering_Widget extends \Promen_Widget_Base {
 
     /**
      * Register widget scripts and styles.

@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 /**
  * Business Catering Benefits Widget Class
  */
-class Business_Catering_Benefits_Widget extends \Elementor\Widget_Base {
+class Business_Catering_Benefits_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 require_once(__DIR__ . '/includes/controls/services-grid-controls.php');
 require_once(__DIR__ . '/includes/render/services-grid-render.php');
 
-class Promen_Services_Grid extends \Elementor\Widget_Base {
+class Promen_Services_Grid extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

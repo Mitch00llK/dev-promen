@@ -19,7 +19,7 @@ require_once(__DIR__ . '/includes/render/hamburger-menu-render.php');
  * 
  * Main widget class for the hamburger menu implementation
  */
-class Promen_Hamburger_Menu_Widget extends \Elementor\Widget_Base {
+class Promen_Hamburger_Menu_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

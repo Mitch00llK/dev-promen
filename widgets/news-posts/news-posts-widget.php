@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-class Promen_News_Posts_Widget extends \Elementor\Widget_Base {
+class Promen_News_Posts_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
  *
  * Elementor widget that displays a two-column info list with icons and document attachments.
  */
-class Promen_Document_Info_List_Widget extends \Elementor\Widget_Base {
+class Promen_Document_Info_List_Widget extends \Promen_Widget_Base {
 
     /**
      * Register widget scripts and styles.

@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 require_once(__DIR__ . '/includes/controls/feature-blocks-controls.php');
 require_once(__DIR__ . '/includes/render/feature-blocks-render.php');
 
-class Promen_Feature_Blocks_Widget extends \Elementor\Widget_Base {
+class Promen_Feature_Blocks_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

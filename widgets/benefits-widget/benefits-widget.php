@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 /**
  * Benefits Widget Class
  */
-class Promen_Benefits_Widget extends \Elementor\Widget_Base {
+class Promen_Benefits_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

@@ -14,7 +14,7 @@ require_once(__DIR__ . '/includes/controls/content-controls.php');
 require_once(__DIR__ . '/includes/controls/style-controls.php');
 require_once(__DIR__ . '/includes/render/render-functions.php');
 
-class Promen_Text_Content_Block_Widget extends \Elementor\Widget_Base {
+class Promen_Text_Content_Block_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

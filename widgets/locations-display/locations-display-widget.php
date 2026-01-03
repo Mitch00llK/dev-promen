@@ -20,7 +20,7 @@ require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/controls/split-title-cont
  *
  * Elementor widget that displays location information with images and addresses.
  */
-class Promen_Locations_Display_Widget extends \Elementor\Widget_Base {
+class Promen_Locations_Display_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

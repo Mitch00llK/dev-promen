@@ -61,7 +61,25 @@ function render_combined_layout($settings) {
  * @param Contact_Info_Card_Widget $widget The widget instance
  */
 function render_contact_info_card_widget($widget) {
+    // Use get_safe_setting for safer access, though $widget->get_settings_for_display() is standard Elementor
+    // But since we want to prevent warnings for missing keys, get_safe_setting is better if keys are accessed individually later.
+    // However, the current code renders based on $settings array access.
+    // We should probably rely on $widget->get_safe_setting for specific keys if we were rewriting the whole logic.
+    // But here, $settings is used throughout. 
+    // To make it truly safe, we'd need to replace $settings['key'] w/ $widget->get_safe_setting('key').
+    
     $settings = $widget->get_settings_for_display();
+    
+    // We can also backfill defaults here using safe access if we want to keep using $settings array locally
+    // Or we replace usages. Let's do a few key replacements as per the plan.
+    $right_side_content_type = $widget->get_safe_setting('right_side_content_type', 'none');
+    
+    // Update $settings array with safe value to avoid rewriting all downstream logic
+    $settings['right_side_content_type'] = $right_side_content_type;
+    $settings['employee_info_position'] = $widget->get_safe_setting('employee_info_position', 'right');
+    $settings['form_position'] = $widget->get_safe_setting('form_position', 'right');
+    $settings['custom_form_position'] = $widget->get_safe_setting('custom_form_position', 'right');
+    $settings['combined_layout_ratio'] = $widget->get_safe_setting('combined_layout_ratio', '');
     
     // Container classes
     $container_classes = ['contact-info-card'];

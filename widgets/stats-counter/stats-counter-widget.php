@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 require_once(__DIR__ . '/includes/controls/counter-controls.php');
 require_once(__DIR__ . '/includes/render/counter-render.php');
 
-class Promen_Stats_Counter_Widget extends \Elementor\Widget_Base {
+class Promen_Stats_Counter_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

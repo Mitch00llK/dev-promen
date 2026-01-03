@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 require_once(__DIR__ . '/includes/controls/carousel-controls.php');
 require_once(__DIR__ . '/includes/render/carousel-render.php');
 
-class Promen_Services_Carousel_Widget extends \Elementor\Widget_Base {
+class Promen_Services_Carousel_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

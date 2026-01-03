@@ -17,7 +17,7 @@ require_once(__DIR__ . '/contact-info-blocks-register.php');
  *
  * Elementor widget that displays contact information blocks with icons.
  */
-class Promen_Contact_Info_Blocks_Widget extends \Elementor\Widget_Base {
+class Promen_Contact_Info_Blocks_Widget extends \Promen_Widget_Base {
 
     /**
      * Register widget scripts and styles.

@@ -23,7 +23,7 @@ require_once(__DIR__ . '/controls/typography-section.php');
  * 
  * A modern slider with image backgrounds and text overlay containers
  */
-class Promen_Image_Text_Slider_Widget extends \Elementor\Widget_Base {
+class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
     use Image_Text_Slider_Content_Controls;
     use Image_Text_Slider_Slider_Controls;
     use Image_Text_Slider_Style_Controls;

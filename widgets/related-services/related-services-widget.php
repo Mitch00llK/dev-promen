@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 require_once(__DIR__ . '/includes/controls/related-services-controls.php');
 require_once(__DIR__ . '/includes/render/related-services-render.php');
 
-class Promen_Related_Services extends \Elementor\Widget_Base {
+class Promen_Related_Services extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

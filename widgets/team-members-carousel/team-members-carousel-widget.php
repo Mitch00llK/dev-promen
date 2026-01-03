@@ -18,7 +18,7 @@ require_once(__DIR__ . '/controls/navigation-section.php');
 require_once(__DIR__ . '/controls/style-section.php');
 require_once(__DIR__ . '/controls/typography-section.php');
 
-class Promen_Team_Members_Carousel_Widget extends \Elementor\Widget_Base {
+class Promen_Team_Members_Carousel_Widget extends \Promen_Widget_Base {
     use Team_Members_Carousel_Content_Controls;
     use Team_Members_Carousel_Layout_Controls;
     use Team_Members_Carousel_Carousel_Controls;

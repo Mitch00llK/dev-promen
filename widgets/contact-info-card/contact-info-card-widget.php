@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-class Contact_Info_Card_Widget extends \Elementor\Widget_Base {
+class Contact_Info_Card_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.

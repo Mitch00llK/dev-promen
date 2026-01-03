@@ -26,7 +26,7 @@ require_once(__DIR__ . '/controls/typography-section.php');
  * A modern, optimized slider widget for Elementor with clean architecture
  * and performance optimizations.
  */
-class Hero_Slider_Widget extends \Elementor\Widget_Base {
+class Hero_Slider_Widget extends \Promen_Widget_Base {
     use Hero_Slider_Content_Controls;
     use Hero_Slider_Layout_Controls;
     use Hero_Slider_Slider_Controls;

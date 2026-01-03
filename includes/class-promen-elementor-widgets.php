@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-assets-manager.php');
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-widget-manager.php');
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-accessibility-utils.php');
+require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-promen-widget-base.php');
 
 /**
  * Main Promen Elementor Widgets Class
