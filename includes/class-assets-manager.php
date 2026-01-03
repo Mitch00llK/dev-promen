@@ -157,6 +157,22 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
 
+        // Services Grid Slider Style
+        wp_register_style(
+            'services-grid-slider-style',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/css/services-grid-slider.css',
+            ['promen-services-grid-widget'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
+        // News Posts Slider Style
+        wp_register_style(
+            'promen-news-slider-style',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/css/news-posts-slider.css',
+            ['promen-content-posts-style'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION
+        );
+
         // Image Text Block Accessibility
         wp_register_style(
             'promen-image-text-block-accessibility', 
@@ -247,6 +263,15 @@ class Promen_Assets_Manager {
             'feature-blocks-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/feature-blocks/assets/js/feature-blocks-accessibility.js',
             ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Image Text Slider Init (Required for widget initialization)
+        wp_register_script(
+            'promen-image-text-slider-init',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-slider/assets/js/modules/init-slider.js',
+            ['jquery', 'swiper-bundle', 'gsap', 'image-text-slider'], // Depends on the main script
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );

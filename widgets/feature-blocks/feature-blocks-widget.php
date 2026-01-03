@@ -50,6 +50,13 @@ class Promen_Feature_Blocks_Widget extends \Elementor\Widget_Base {
     }
 
     /**
+     * Get widget style dependencies.
+     */
+    public function get_style_depends() {
+        return ['promen-feature-blocks-widget'];
+    }
+
+    /**
      * Register widget controls.
      */
     protected function register_controls() {

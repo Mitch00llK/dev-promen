@@ -80,18 +80,9 @@ class Promen_Image_Text_Slider_Widget extends \Elementor\Widget_Base {
      * @return array Widget script dependencies.
      */
     public function get_script_depends() {
-        $dependencies = ['swiper-bundle', 'image-text-slider'];
-        
-        // Check if we're in Elementor editor mode
-        $is_editor_mode = \Elementor\Plugin::$instance->editor->is_edit_mode() || 
-                         \Elementor\Plugin::$instance->preview->is_preview_mode();
-        
-        // In editor mode or desktop, always include all dependencies
-        if ($is_editor_mode || !wp_is_mobile()) {
-            $dependencies = array_merge(['jquery', 'gsap', 'image-text-slider-init'], $dependencies);
-        }
-        
-        return $dependencies;
+        // 'image-text-slider' is the main script (script.js) registered by Assets Manager
+        // 'promen-image-text-slider-init' is the initialization script (init-slider.js)
+        return ['image-text-slider', 'promen-image-text-slider-init'];
     }
 
     /**
@@ -100,81 +91,10 @@ class Promen_Image_Text_Slider_Widget extends \Elementor\Widget_Base {
      * @return array Widget style dependencies.
      */
     public function get_style_depends() {
-        $dependencies = ['swiper-bundle-css', 'image-text-slider'];
-        
-        // Add accessibility styles for WCAG 2.2 compliance
-        $dependencies[] = 'image-text-slider-accessibility';
-        
-        // Add mobile optimizations
-        if (wp_is_mobile()) {
-            $dependencies[] = 'image-text-slider-mobile';
-        }
-        
-        return $dependencies;
+        return ['image-text-slider', 'image-text-slider-accessibility', 'image-text-slider-mobile'];
     }
 
-    /**
-     * Register and enqueue necessary scripts and styles.
-     */
-    public function register_widget_scripts() {
-        // Detect mobile for performance optimization
-        $is_mobile = wp_is_mobile();
-        $is_editor_mode = \Elementor\Plugin::$instance->editor->is_edit_mode() || 
-                         \Elementor\Plugin::$instance->preview->is_preview_mode();
-        $script_version = '1.0.2-mobile-optimized';
-        
-        // Register main slider script (now handles both mobile and desktop optimizations)
-        wp_register_script(
-            'image-text-slider-init',
-            plugins_url('assets/js/modules/init-slider.js', __FILE__),
-            ['jquery', 'swiper-bundle', 'gsap'],
-            '1.0.1',
-            true
-        );
-        
-        // For editor mode, always use full dependencies; for frontend, optimize for mobile
-        $script_dependencies = ($is_editor_mode || !$is_mobile) ? 
-            ['jquery', 'swiper-bundle', 'gsap', 'image-text-slider-init'] : 
-            ['swiper-bundle'];
-        
-        wp_register_script(
-            'image-text-slider',
-            plugins_url('assets/js/script.js', __FILE__),
-            $script_dependencies,
-            $script_version,
-            true
-        );
-        
-        // Register main slider styles
-        wp_register_style(
-            'image-text-slider',
-            plugins_url('assets/css/style.css', __FILE__),
-            ['swiper-bundle-css'],
-            '1.0.1'
-        );
-        
-        // Note: Accessibility and mobile styles are now registered in the main assets manager
-        
-        // Add defer attribute to scripts for better performance (but not in editor mode)
-        if (!$is_editor_mode) {
-            add_filter('script_loader_tag', function($tag, $handle) {
-                if ($handle === 'image-text-slider-init' || $handle === 'image-text-slider') {
-                    return str_replace(' src', ' defer src', $tag);
-                }
-                return $tag;
-            }, 10, 2);
-        }
-        
-        // Add preload for CSS (but not in editor mode for better debugging)
-        if (!$is_editor_mode) {
-            add_filter('style_loader_tag', function($tag, $handle) {
-                if ($handle === 'image-text-slider') {
-                    return str_replace('rel=\'stylesheet\'', 'rel=\'preload\' as=\'style\' onload="this.onload=null;this.rel=\'stylesheet\'"', $tag);
-                }
-                return $tag;
-            }, 10, 2);
-        }
-    }
+
 
     /**
      * Constructor method.
@@ -184,12 +104,6 @@ class Promen_Image_Text_Slider_Widget extends \Elementor\Widget_Base {
      */
     public function __construct($data = [], $args = null) {
         parent::__construct($data, $args);
-        
-        // Register scripts - use init hook instead of wp_enqueue_scripts for archive pages
-        add_action('init', [$this, 'register_widget_scripts']);
-        
-        // Also keep the Elementor hook for better compatibility
-        add_action('elementor/frontend/after_register_scripts', [$this, 'register_widget_scripts']);
     }
 
     /**

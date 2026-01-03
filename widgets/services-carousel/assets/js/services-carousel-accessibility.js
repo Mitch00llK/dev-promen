@@ -251,12 +251,13 @@ class ServicesCarouselAccessibility {
     }
 
     updateSlideAnnouncements() {
-            if (!this.announcementsElement || !this.swiper) return;
+        if (!this.announcementsElement || !this.swiper) return;
 
-            const currentSlide = this.swiper.slides[this.currentSlideIndex];
-            const slideTitle = currentSlide ? currentSlide.querySelector('.service-title') ? .textContent : '';
+        const currentSlide = this.swiper.slides[this.currentSlideIndex];
+        const titleEl = currentSlide ? currentSlide.querySelector('.service-title') : null;
+        const slideTitle = titleEl ? titleEl.textContent : '';
 
-            const announcement = `Slide ${this.currentSlideIndex + 1} of ${this.totalSlides}${slideTitle ? `: ${slideTitle}` : ''}`;
+        const announcement = `Slide ${this.currentSlideIndex + 1} of ${this.totalSlides}${slideTitle ? `: ${slideTitle}` : ''}`;
         this.announce(announcement);
     }
 
@@ -282,10 +283,10 @@ class ServicesCarouselAccessibility {
 
     announce(message) {
         if (!this.announcementsElement) return;
-        
+
         // Clear previous announcement
         this.announcementsElement.textContent = '';
-        
+
         // Add new announcement
         setTimeout(() => {
             this.announcementsElement.textContent = message;
@@ -300,7 +301,7 @@ class ServicesCarouselAccessibility {
             this.swiper.off('autoplayStop');
             this.swiper.off('slideChangeTransitionEnd');
         }
-        
+
         this.isInitialized = false;
     }
 

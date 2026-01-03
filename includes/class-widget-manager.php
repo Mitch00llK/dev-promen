@@ -35,7 +35,7 @@ class Promen_Widget_Manager {
         'solicitation-timeline/solicitation-timeline-widget.php',
         'business-catering/business-catering-widget.php',
         'testimonial-card/testimonial-card-widget.php',
-        'image-text-slider/image-text-slider-wrapper.php',
+        'image-text-slider/image-text-slider-widget.php',
         'checklist-comparison/checklist-comparison-widget.php',
         'contact-info-blocks/contact-info-blocks-widget.php',
         'locations-display/locations-display-widget.php',

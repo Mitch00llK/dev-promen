@@ -80,6 +80,17 @@ class Worker_Testimonial extends Widget_Base {
     }
 
     /**
+     * Get widget style dependencies.
+     *
+     * @since 1.0.0
+     * @access public
+     * @return array Widget styles.
+     */
+    public function get_style_depends() {
+        return ['promen-worker-testimonial-widget'];
+    }
+
+    /**
      * Register widget controls.
      *
      * @since 1.0.0

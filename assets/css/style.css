@@ -9,18 +9,7 @@
 @import url('common.css');
 
 /* Widget Styles */
-
-@import url('widgets/feature-blocks.css');
-@import url('widgets/services-carousel.css');
-@import url('widgets/services-grid.css');
-@import url('widgets/services-grid-slider.css');
-@import url('widgets/image-text-block.css');
-@import url('widgets/news-posts.css');
-@import url('widgets/news-posts-slider.css');
-@import url('widgets/team-members-carousel.css');
-@import url('widgets/contact-info-card.css');
-@import url('widgets/stats-counter.css');
-@import url('widgets/worker-testimonial.css');
+/* Individual widget styles are now loaded by the widgets themselves */
 
 /* Global styles that should apply to all pages */
 
