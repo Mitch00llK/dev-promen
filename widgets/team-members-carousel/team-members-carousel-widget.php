@@ -65,7 +65,7 @@ class Promen_Team_Members_Carousel_Widget extends \Promen_Widget_Base {
      * Get widget script dependencies.
      */
     public function get_script_depends() {
-        return ['promen-team-members-carousel-widget', 'promen-team-members-carousel-accessibility'];
+        return ['promen-team-members-carousel-widget'];
     }
 
     /**

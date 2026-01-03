@@ -150,6 +150,18 @@
         PromenAccessibility.setupSkipLink($block[0], 'Skip to Image Text Block content');
     }
 
+    /**
+     * Programmatically switch to a specific tab
+     * @param {jQuery} $block The widget block element
+     * @param {string} tabId The ID of the tab to switch to
+     */
+    function switchToTab($block, tabId) {
+        const tab = $block.find(`[role="tab"][id="${tabId}"]`);
+        if (tab.length > 0) {
+            tab.click();
+        }
+    }
+
     // Expose functions for external use
     window.PromenImageTextBlockAccessibility = {
         switchToTab: switchToTab,

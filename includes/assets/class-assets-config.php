@@ -205,10 +205,6 @@ class Promen_Assets_Config {
                 'path' => 'widgets/team-members-carousel/assets/js/team-members-carousel.js',
                 'deps' => ['jquery', 'swiper-bundle', 'promen-accessibility'],
             ],
-            'promen-team-members-carousel-accessibility' => [
-                'path' => 'widgets/team-members-carousel/assets/js/team-members-carousel-accessibility.js',
-                'deps' => ['jquery', 'promen-accessibility'],
-            ],
             'promen-worker-testimonial-accessibility' => [
                 'path' => 'widgets/worker-testimonial/assets/js/worker-testimonial-accessibility.js',
                 'deps' => ['jquery', 'promen-accessibility'],
@@ -294,10 +290,6 @@ class Promen_Assets_Config {
             'promen-testimonial-card-accessibility' => [
                 'path' => 'widgets/testimonial-card/assets/js/testimonial-card-accessibility.js',
                 'deps' => ['jquery', 'promen-accessibility'],
-            ],
-            'promen-text-column-repeater-widget' => [
-                'path' => 'widgets/text-column-repeater/assets/js/text-column-repeater.js',
-                'deps' => ['jquery'],
             ],
             'promen-text-column-repeater-accessibility' => [
                 'path' => 'widgets/text-column-repeater/assets/js/text-column-repeater-accessibility.js',

@@ -62,7 +62,7 @@ class Promen_Text_Column_Repeater_Widget extends \Promen_Widget_Base {
      * Register widget scripts.
      */
     public function get_script_depends() {
-        return ['promen-text-column-repeater-widget', 'promen-text-column-repeater-accessibility'];
+        return ['promen-text-column-repeater-accessibility'];
     }
 
     /**
