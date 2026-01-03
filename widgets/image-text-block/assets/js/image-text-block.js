@@ -241,8 +241,6 @@
             setTimeout(function () {
                 setTabContentHeight();
             }, 50);
-
-            return false;
         });
 
         // Initialize the first tab
