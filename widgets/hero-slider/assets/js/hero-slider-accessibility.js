@@ -101,8 +101,8 @@
             const $playPause = $container.find('.hero-slider-play-pause');
             if (!$playPause.length) return;
 
-            // Check global reduced motion via CSS var or media query via generic check
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            // Check global reduced motion via Core Library
+            const prefersReducedMotion = PromenAccessibility.isReducedMotion();
 
             const isAutoplay = $container.data('options') && $container.data('options').autoplay;
             // Stop autoplay if reduced motion is preferred

@@ -62,7 +62,7 @@ class Promen_Checklist_Comparison_Widget extends \Promen_Widget_Base {
      * Register widget scripts.
      */
     public function get_script_depends() {
-        return ['promen-checklist-comparison-widget', 'promen-checklist-comparison-accessibility'];
+        return ['promen-checklist-comparison-widget'];
     }
 
     /**
@@ -70,14 +70,6 @@ class Promen_Checklist_Comparison_Widget extends \Promen_Widget_Base {
      */
     public function __construct($data = [], $args = null) {
         parent::__construct($data, $args);
-
-        wp_register_script(
-            'promen-checklist-comparison-accessibility',
-            plugins_url('assets/js/checklist-comparison-accessibility.js', __FILE__),
-            ['jquery'],
-            '1.0.0',
-            true
-        );
     }
 
     /**

@@ -123,26 +123,7 @@ class TextColumnRepeaterAccessibility {
      * Setup screen reader support
      */
     setupScreenReaderSupport() {
-        // Create live region for announcements
-        if (!document.getElementById('text-column-repeater-live-region')) {
-            const liveRegion = document.createElement('div');
-            liveRegion.id = 'text-column-repeater-live-region';
-            liveRegion.setAttribute('aria-live', 'polite');
-            liveRegion.setAttribute('aria-atomic', 'true');
-            liveRegion.className = 'screen-reader-text';
-            document.body.appendChild(liveRegion);
-        }
-
-        // Announce when text columns are loaded
-        const textColumnContainer = document.querySelector('.text-column-repeater');
-        if (textColumnContainer) {
-            const columnItems = textColumnContainer.querySelectorAll('.text-column-repeater__item');
-            if (columnItems.length > 0) {
-                this.announceToScreenReader(
-                    `Text columns loaded. ${columnItems.length} column${columnItems.length > 1 ? 's' : ''} available. Use arrow keys to navigate.`
-                );
-            }
-        }
+        // Live region handled by PromenAccessibility
     }
 
     /**
@@ -177,14 +158,8 @@ class TextColumnRepeaterAccessibility {
      * Announce message to screen readers
      */
     announceToScreenReader(message) {
-        const liveRegion = document.getElementById('text-column-repeater-live-region');
-        if (liveRegion) {
-            liveRegion.textContent = message;
-
-            // Clear after announcement
-            setTimeout(() => {
-                liveRegion.textContent = '';
-            }, 1000);
+        if (typeof PromenAccessibility !== 'undefined') {
+            PromenAccessibility.announce(message);
         }
     }
 

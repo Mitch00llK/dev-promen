@@ -126,15 +126,7 @@ class RelatedServicesAccessibility {
      * Setup screen reader support
      */
     setupScreenReaderSupport() {
-        // Create live region for announcements
-        if (!document.getElementById('related-services-live-region')) {
-            const liveRegion = document.createElement('div');
-            liveRegion.id = 'related-services-live-region';
-            liveRegion.setAttribute('aria-live', 'polite');
-            liveRegion.setAttribute('aria-atomic', 'true');
-            liveRegion.className = 'screen-reader-text';
-            document.body.appendChild(liveRegion);
-        }
+        // Live region handled by PromenAccessibility
 
         // Announce when services are loaded
         const servicesContainer = document.querySelector('.related-services-container');
@@ -196,14 +188,8 @@ class RelatedServicesAccessibility {
      * Announce message to screen readers
      */
     announceToScreenReader(message) {
-        const liveRegion = document.getElementById('related-services-live-region');
-        if (liveRegion) {
-            liveRegion.textContent = message;
-
-            // Clear after announcement
-            setTimeout(() => {
-                liveRegion.textContent = '';
-            }, 1000);
+        if (typeof PromenAccessibility !== 'undefined') {
+            PromenAccessibility.announce(message);
         }
     }
 

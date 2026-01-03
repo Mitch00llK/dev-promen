@@ -3,9 +3,11 @@
  * 
  * @package Promen\Widgets
  * @since 1.0.0
+ * 
+ * Uses global PromenAccessibility core library.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     /**
@@ -21,9 +23,10 @@
          */
         init() {
             this.setupKeyboardNavigation();
-            this.setupScreenReaderSupport();
             this.setupFocusManagement();
-            this.setupReducedMotion();
+            // Reduced motion is handled globally by PromenAccessibility
+            // Screen reader support (live region) is handled globally by PromenAccessibility
+            this.validateColorContrast();
         }
 
         /**
@@ -42,32 +45,18 @@
                 // Handle Escape key to reset focus
                 if (e.key === 'Escape') {
                     $widget.blur();
+                    PromenAccessibility.announce('Exited testimonial');
                 }
             });
 
             // Make testimonial focusable
-            $(document).on('focus', '.worker-testimonial', function() {
+            $(document).on('focus', '.worker-testimonial', function () {
                 $(this).attr('tabindex', '0');
+                // Optional: Announce focus via global announcer if needed, or rely on native reading behavior.
             });
 
-            $(document).on('blur', '.worker-testimonial', function() {
+            $(document).on('blur', '.worker-testimonial', function () {
                 $(this).removeAttr('tabindex');
-            });
-        }
-
-        /**
-         * Setup screen reader support
-         */
-        setupScreenReaderSupport() {
-            // Add live region for dynamic announcements
-            if (!$('#worker-testimonial-live-region').length) {
-                $('body').append('<div id="worker-testimonial-live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>');
-            }
-
-            // Announce testimonial content on focus
-            $(document).on('focus', '.worker-testimonial', (e) => {
-                const $widget = $(e.currentTarget);
-                this.announceTestimonial($widget);
             });
         }
 
@@ -76,43 +65,31 @@
          */
         setupFocusManagement() {
             // Ensure proper focus indicators
-            $(document).on('focusin', '.worker-testimonial', function() {
+            $(document).on('focusin', '.worker-testimonial', function () {
                 $(this).addClass('worker-testimonial--focused');
             });
 
-            $(document).on('focusout', '.worker-testimonial', function() {
+            $(document).on('focusout', '.worker-testimonial', function () {
                 $(this).removeClass('worker-testimonial--focused');
             });
 
-            // Handle focus trap for better navigation
-            $(document).on('keydown', '.worker-testimonial', (e) => {
-                if (e.key === 'Tab') {
-                    this.handleTabNavigation(e);
+            // Use Core Focus Trap if navigating inside
+            // Note: The original code had a custom tab handler. 
+            // If the testimonial has internal interactive elements, we might want a trap, 
+            // but usually for a card, we just want flow through. 
+            // The original handler was: if no focusable elements, make widget focusable.
+            // That logic is covered by setupKeyboardNavigation's focus/blur handlers mostly, 
+            // but let's check for focusable elements to ensure keyboard accessibility.
+
+            $(document).on('mouseenter', '.worker-testimonial', function () {
+                if ($(this).find('a, button, input').length === 0) {
+                    $(this).attr('tabindex', '0');
                 }
             });
         }
 
         /**
-         * Setup reduced motion support
-         */
-        setupReducedMotion() {
-            // Check for reduced motion preference
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                $('.worker-testimonial').addClass('worker-testimonial--reduced-motion');
-            }
-
-            // Listen for changes in motion preference
-            window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
-                if (e.matches) {
-                    $('.worker-testimonial').addClass('worker-testimonial--reduced-motion');
-                } else {
-                    $('.worker-testimonial').removeClass('worker-testimonial--reduced-motion');
-                }
-            });
-        }
-
-        /**
-         * Announce testimonial content to screen readers
+         * Announce testimonial content to screen readers via Core
          * @param {jQuery} $widget - The testimonial widget element
          */
         announceTestimonial($widget) {
@@ -128,21 +105,7 @@
             }
 
             if (announcement) {
-                $('#worker-testimonial-live-region').text(announcement);
-            }
-        }
-
-        /**
-         * Handle tab navigation within testimonial
-         * @param {Event} e - The keyboard event
-         */
-        handleTabNavigation(e) {
-            const $widget = $(e.currentTarget);
-            const $focusableElements = $widget.find('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
-
-            if ($focusableElements.length === 0) {
-                // If no focusable elements, make the widget itself focusable
-                $widget.attr('tabindex', '0');
+                PromenAccessibility.announce(announcement);
             }
         }
 
@@ -150,7 +113,7 @@
          * Validate color contrast
          */
         validateColorContrast() {
-            $('.worker-testimonial').each(function() {
+            $('.worker-testimonial').each(function () {
                 const $widget = $(this);
                 const $quote = $widget.find('.worker-testimonial__quote');
                 const $name = $widget.find('.worker-testimonial__name');
@@ -175,8 +138,6 @@
 
             // Basic contrast check (simplified)
             if (color && backgroundColor) {
-                // Add warning class if contrast might be insufficient
-                // This is a simplified check - in production, use a proper contrast calculation library
                 if (color === backgroundColor) {
                     $element.addClass('contrast-warning');
                 }
@@ -187,14 +148,14 @@
     /**
      * Initialize when DOM is ready
      */
-    $(document).ready(function() {
+    $(document).ready(function () {
         new WorkerTestimonialAccessibility();
     });
 
     /**
      * Re-initialize for dynamically loaded content
      */
-    $(document).on('elementor/popup/show', function() {
+    $(document).on('elementor/popup/show', function () {
         setTimeout(() => {
             new WorkerTestimonialAccessibility();
         }, 100);

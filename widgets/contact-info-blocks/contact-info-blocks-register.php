@@ -77,7 +77,7 @@ function register_contact_info_blocks_scripts() {
     wp_register_script(
         'promen-contact-info-blocks-accessibility',
         PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-blocks/assets/js/contact-info-blocks-accessibility.js',
-        [],
+        ['promen-accessibility'],
         $js_mod_time,
         true
     );

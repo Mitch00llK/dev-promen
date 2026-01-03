@@ -12,7 +12,7 @@ if (typeof gsap !== 'undefined') {
 }
 
 // Initialize all hamburger menus on page
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Find all hamburger menu instances
     const hamburgerMenus = document.querySelectorAll('.hamburger-menu');
 
@@ -87,18 +87,18 @@ function initHamburgerMenu(menuId) {
     if (menuPanel.classList.contains('panel-animation-slide-down')) {
         // For slide down animation, animate the panel from top
         masterTimeline.fromTo(menuPanel, {
-                height: 0,
-                opacity: 0,
-                y: -50,
-                visibility: 'hidden'
-            }, {
-                height: '100vh',
-                opacity: 1,
-                y: 0,
-                visibility: 'visible',
-                duration: animationDuration,
-                ease: easeInOut
-            },
+            height: 0,
+            opacity: 0,
+            y: -50,
+            visibility: 'hidden'
+        }, {
+            height: '100vh',
+            opacity: 1,
+            y: 0,
+            visibility: 'visible',
+            duration: animationDuration,
+            ease: easeInOut
+        },
             0
         );
 
@@ -113,16 +113,16 @@ function initHamburgerMenu(menuId) {
     } else if (menuPanel.classList.contains('panel-animation-slide-left')) {
         // Slide from left animation
         masterTimeline.fromTo(menuPanel, {
-                x: '-100%',
-                opacity: 0,
-                visibility: 'hidden'
-            }, {
-                x: '0%',
-                opacity: 1,
-                visibility: 'visible',
-                duration: animationDuration,
-                ease: easeInOut
-            },
+            x: '-100%',
+            opacity: 0,
+            visibility: 'hidden'
+        }, {
+            x: '0%',
+            opacity: 1,
+            visibility: 'visible',
+            duration: animationDuration,
+            ease: easeInOut
+        },
             0
         );
 
@@ -137,16 +137,16 @@ function initHamburgerMenu(menuId) {
     } else if (menuPanel.classList.contains('panel-animation-slide-right')) {
         // Slide from right animation
         masterTimeline.fromTo(menuPanel, {
-                x: '100%',
-                opacity: 0,
-                visibility: 'hidden'
-            }, {
-                x: '0%',
-                opacity: 1,
-                visibility: 'visible',
-                duration: animationDuration,
-                ease: easeInOut
-            },
+            x: '100%',
+            opacity: 0,
+            visibility: 'hidden'
+        }, {
+            x: '0%',
+            opacity: 1,
+            visibility: 'visible',
+            duration: animationDuration,
+            ease: easeInOut
+        },
             0
         );
 
@@ -161,14 +161,14 @@ function initHamburgerMenu(menuId) {
     } else {
         // Fade animation
         masterTimeline.fromTo(menuPanel, {
-                opacity: 0,
-                visibility: 'hidden'
-            }, {
-                opacity: 1,
-                visibility: 'visible',
-                duration: animationDuration,
-                ease: easeInOut
-            },
+            opacity: 0,
+            visibility: 'hidden'
+        }, {
+            opacity: 1,
+            visibility: 'visible',
+            duration: animationDuration,
+            ease: easeInOut
+        },
             0
         );
     }
@@ -249,6 +249,13 @@ function initHamburgerMenu(menuId) {
                 onComplete: () => {
                     menuPanel.setAttribute('aria-hidden', 'true');
                     document.body.classList.remove('menu-is-active');
+
+                    // Return focus to toggle button
+                    toggleButton.focus();
+
+                    if (typeof PromenAccessibility !== 'undefined') {
+                        PromenAccessibility.announce('Menu closed');
+                    }
                 }
             });
 
@@ -355,6 +362,19 @@ function initHamburgerMenu(menuId) {
             masterTimeline.play();
 
             isMenuOpen = true;
+
+            // Announce menu state
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.announce('Menu opened');
+            }
+
+            // Move focus to first item after a short delay to allow visibility change
+            setTimeout(() => {
+                const firstItem = menuPanel.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+                if (firstItem) {
+                    firstItem.focus();
+                }
+            }, 100);
         }
     }
 
@@ -369,14 +389,14 @@ function initHamburgerMenu(menuId) {
     newToggleWrapper.addEventListener('click', toggleMenu);
 
     // Close menu on ESC key
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape' && isMenuOpen) {
             toggleMenu();
         }
     });
 
     // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         const isClickInside = menuElement.contains(event.target);
 
         if (!isClickInside && isMenuOpen) {
@@ -471,7 +491,7 @@ function initHamburgerMenu(menuId) {
     });
 
     // Handle window resize to adjust push animation values
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         if (enablePush && pageContent && isMenuOpen) {
             if (menuPanel.classList.contains('panel-animation-slide-down')) {
                 // No need to adjust vertical push on resize
@@ -482,6 +502,11 @@ function initHamburgerMenu(menuId) {
             }
         }
     });
+
+    // Initialize Focus Trap
+    if (typeof PromenAccessibility !== 'undefined') {
+        PromenAccessibility.initFocusTrap(menuPanel);
+    }
 
 }
 

@@ -3,7 +3,7 @@
  * WCAG 2.2 compliant keyboard navigation and screen reader support
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     /**
@@ -221,7 +221,7 @@
          */
         enhanceKeyboardNavigation() {
             // Enhance grid logos
-            $('.promen-certification-logos .certification-logo').each(function() {
+            $('.promen-certification-logos .certification-logo').each(function () {
                 const $logo = $(this);
 
                 // Ensure proper tabindex
@@ -244,7 +244,7 @@
             });
 
             // Enhance slider slides
-            $('.promen-certification-logos .swiper-slide').each(function() {
+            $('.promen-certification-logos .swiper-slide').each(function () {
                 const $slide = $(this);
 
                 // Ensure proper tabindex
@@ -271,16 +271,7 @@
          * Add screen reader support
          */
         addScreenReaderSupport() {
-            // Add live region for announcements
-            if (!$('#certification-logos-live-region').length) {
-                $('body').append(`
-                    <div id="certification-logos-live-region" 
-                         class="screen-reader-text" 
-                         aria-live="polite" 
-                         aria-atomic="true">
-                    </div>
-                `);
-            }
+            // Live region handled by PromenAccessibility
 
             // Add skip links if not exist
             if (!$('.promen-certification-logos .skip-link').length) {
@@ -296,7 +287,7 @@
          * Setup slider accessibility
          */
         setupSliderAccessibility() {
-            $('.promen-certification-logos .swiper').each(function() {
+            $('.promen-certification-logos .swiper').each(function () {
                 const $slider = $(this);
                 const $slides = $slider.find('.swiper-slide');
 
@@ -310,7 +301,7 @@
                 }
 
                 // Enhance navigation buttons
-                $slider.find('.swiper-button-prev, .swiper-button-next').each(function() {
+                $slider.find('.swiper-button-prev, .swiper-button-next').each(function () {
                     const $button = $(this);
                     if (!$button.attr('type')) {
                         $button.attr('type', 'button');
@@ -318,7 +309,7 @@
                 });
 
                 // Enhance pagination
-                $slider.find('.swiper-pagination').each(function() {
+                $slider.find('.swiper-pagination').each(function () {
                     const $pagination = $(this);
                     if (!$pagination.attr('role')) {
                         $pagination.attr('role', 'tablist');
@@ -334,13 +325,8 @@
          * Announce text to screen readers
          */
         announceToScreenReader(text) {
-            const $liveRegion = $('#certification-logos-live-region');
-            if ($liveRegion.length) {
-                $liveRegion.text(text);
-                // Clear after announcement
-                setTimeout(() => {
-                    $liveRegion.text('');
-                }, 1000);
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.announce(text);
             }
         }
 
@@ -376,7 +362,7 @@
     /**
      * Initialize when document is ready
      */
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ($('.promen-certification-logos').length) {
             new CertificationLogosAccessibility();
         }
@@ -386,7 +372,7 @@
      * Re-initialize on Elementor frontend updates
      */
     if (typeof elementorFrontend !== 'undefined') {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_certification_logos.default', function($scope) {
+        elementorFrontend.hooks.addAction('frontend/element_ready/promen_certification_logos.default', function ($scope) {
             new CertificationLogosAccessibility();
         });
     }

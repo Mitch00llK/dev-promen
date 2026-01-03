@@ -20,7 +20,7 @@ class Promen_Certification_Logos_Widget extends \Elementor\Widget_Base {
         wp_register_script(
             'promen-certification-logos-accessibility',
             plugins_url('assets/js/certification-logos-accessibility.js', __FILE__),
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             '1.0.0',
             true
         );

@@ -60,10 +60,10 @@
         }
 
         /**
-         * Initialize a focus trap within a container
-         * @param {HTMLElement} containerElement The element to trap focus within
-         * @param {boolean} active Whether the trap is currently active
-         */
+             * Initialize a focus trap within a container
+             * @param {HTMLElement} containerElement The element to trap focus within
+             * @param {boolean} active Whether the trap is currently active
+             */
         initFocusTrap(containerElement) {
             if (!containerElement) return;
 
@@ -151,6 +151,52 @@
             };
             updateContrast();
             mediaQuery.addEventListener('change', updateContrast);
+        }
+
+        /**
+         * Check if reduced motion is preferred
+         * @returns {boolean}
+         */
+        isReducedMotion() {
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        /**
+         * Create or reuse a skip link
+         * @param {HTMLElement} contextElement The element to skip to
+         * @param {string} label Label for the link
+         */
+        setupSkipLink(contextElement, label = 'Skip to content') {
+            if (!contextElement) return;
+
+            const existingLink = contextElement.querySelector('.promen-skip-link');
+            if (existingLink) return;
+
+            const targetId = contextElement.id || `skip-target-${Math.random().toString(36).substr(2, 9)}`;
+            if (!contextElement.id) contextElement.id = targetId;
+
+            const link = document.createElement('a');
+            link.href = `#${targetId}`;
+            link.className = 'promen-skip-link sr-only focus:not-sr-only'; // Tailored classes or custom
+            link.style.cssText = 'position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;';
+            link.textContent = label;
+
+            link.addEventListener('focus', () => {
+                link.style.cssText = 'position: absolute; z-index: 9999; background: white; color: black; padding: 10px; top: 10px; left: 10px; width: auto; height: auto; overflow: visible;';
+            });
+
+            link.addEventListener('blur', () => {
+                link.style.cssText = 'position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;';
+            });
+
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                contextElement.focus();
+                contextElement.scrollIntoView({ behavior: 'smooth' });
+                this.announce(`Navigated to ${label}`);
+            });
+
+            contextElement.prepend(link);
         }
     }
 

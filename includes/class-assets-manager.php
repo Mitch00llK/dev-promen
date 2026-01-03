@@ -331,7 +331,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'feature-blocks-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/feature-blocks/assets/js/feature-blocks-accessibility.js',
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
@@ -361,6 +361,14 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
+        wp_register_script(
+            'promen-services-grid-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/js/services-grid-accessibility.js',
+            ['jquery', 'services-grid-slider-script', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('promen-services-grid-accessibility');
 
         // Image Text Block
         wp_register_script(
@@ -410,7 +418,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-team-members-carousel-widget',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/team-members-carousel/assets/js/team-members-carousel.js',
-            ['jquery', 'swiper-bundle'],
+            ['jquery', 'swiper-bundle', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
@@ -419,7 +427,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-worker-testimonial-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/worker-testimonial/assets/js/worker-testimonial-accessibility.js',
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION . '.' . time(),
             true
         );
@@ -460,7 +468,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-image-slider-widget',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-slider/assets/js/image-slider.js',
-            ['jquery', 'swiper-bundle'],
+            ['jquery', 'swiper-bundle', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
@@ -470,10 +478,20 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-solicitation-timeline-widget',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/solicitation-timeline/assets/js/solicitation-timeline.js',
-            ['jquery', 'gsap', 'gsap-scrolltrigger'],
+            ['jquery', 'gsap', 'gsap-scrolltrigger', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
+
+        // News Posts
+        wp_register_script(
+            'promen-news-posts-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/js/news-posts-accessibility.js',
+            ['jquery', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('promen-news-posts-accessibility');
 
         // Image Text Slider
         // Promen Image Text Slider Init (MUST be loaded before script.js due to function definition)
@@ -488,7 +506,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'image-text-slider',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-slider/assets/js/script.js',
-            ['jquery', 'swiper-bundle', 'gsap', 'promen-image-text-slider-init'],
+            ['jquery', 'swiper-bundle', 'gsap', 'promen-image-text-slider-init', 'promen-accessibility'],
             '1.0.2-mobile-optimized',
             true
         );
@@ -506,17 +524,34 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-hamburger-menu-widget',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hamburger-menu/assets/js/hamburger-menu.js',
-            ['jquery', 'gsap'],
+            ['jquery', 'gsap', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
         wp_enqueue_script('promen-hamburger-menu-widget');
+
+        // Business Catering
+        wp_register_script(
+            'promen-business-catering-slider',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/business-catering/assets/js/business-catering-slider.js',
+            ['jquery', 'swiper-bundle'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_register_script(
+            'promen-business-catering-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/business-catering/assets/js/business-catering-accessibility.js',
+            ['jquery', 'promen-business-catering-slider', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_enqueue_script('promen-business-catering-accessibility');
         
         // Locations Display (Accessibility only)
         wp_register_script(
             'promen-locations-display-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/locations-display/assets/js/locations-display-accessibility.js',
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );

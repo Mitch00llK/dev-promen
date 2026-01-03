@@ -5,7 +5,7 @@
  * when more than 3 images are added.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     // Store all initialized sliders
@@ -114,13 +114,13 @@
             config.virtualTranslate = true;
             config.grabCursor = true;
             config.on = {
-                setTransition: function(swiper, duration) {
+                setTransition: function (swiper, duration) {
                     for (let i = 0; i < swiper.slides.length; i++) {
                         swiper.slides[i].style.transition = duration + 'ms';
                         swiper.slides[i].querySelector('.promen-slider-image').style.transition = duration + 'ms';
                     }
                 },
-                setTranslate: function(swiper, translate) {
+                setTranslate: function (swiper, translate) {
                     for (let i = 0; i < swiper.slides.length; i++) {
                         const slideProgress = swiper.slides[i].progress;
                         const springEffect = Math.min(Math.abs(slideProgress), 1);
@@ -143,8 +143,13 @@
             var swiper = new Swiper(sliderElement, config);
             initializedSliders[sliderId] = swiper;
 
+            // Initialize accessibility features
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.setupSwiperAccessibility(swiper, sliderElement);
+            }
+
             // Add resize handler to update slider on window resize
-            $(window).on('resize', function() {
+            $(window).on('resize', function () {
                 if (swiper) {
                     swiper.update();
                 }
@@ -152,7 +157,7 @@
 
             // Pause autoplay when slider is not in viewport to improve performance
             if (autoplay) {
-                $(window).on('scroll', function() {
+                $(window).on('scroll', function () {
                     if (isElementInViewport(sliderElement)) {
                         if (swiper.autoplay && swiper.autoplay.paused) {
                             swiper.autoplay.start();
@@ -172,20 +177,20 @@
     }
 
     // Initialize all sliders on page load
-    $(document).ready(function() {
-        $('.promen-image-slider').each(function() {
+    $(document).ready(function () {
+        $('.promen-image-slider').each(function () {
             initializeSlider(this);
         });
     });
 
     // Initialize sliders when they are created by Elementor frontend
-    $(window).on('elementor/frontend/init', function() {
+    $(window).on('elementor/frontend/init', function () {
         if (typeof elementorFrontend !== 'undefined') {
-            elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_slider.default', function($scope) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_slider.default', function ($scope) {
                 var slider = $scope.find('.promen-image-slider');
                 if (slider.length) {
                     initializeSlider(slider[0]);
-                } else {}
+                } else { }
             });
         }
     });

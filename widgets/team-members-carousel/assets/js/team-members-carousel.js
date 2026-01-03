@@ -5,7 +5,7 @@
  * Uses SwiperJS with proper initialization according to Swiper documentation.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     /**
@@ -15,12 +15,12 @@
         /**
          * Initialize the carousel
          */
-        init: function() {
+        init: function () {
             if (typeof window.Swiper === 'undefined') {
                 return;
             }
 
-            $('.team-members-carousel').each(function() {
+            $('.team-members-carousel').each(function () {
                 var $carousel = $(this);
                 TeamMembersCarousel.initSwiper($carousel);
             });
@@ -31,7 +31,7 @@
          * 
          * @param {jQuery} $carousel - The carousel element
          */
-        initSwiper: function($carousel) {
+        initSwiper: function ($carousel) {
             // Prevent multiple initializations
             if ($carousel.data('swiper-initialized')) {
                 return;
@@ -72,7 +72,7 @@
 
             try {
                 // Calculate appropriate slides per view to ensure all slides are accessible
-                var calculateSlidesPerView = function(requestedSlides, totalSlides, centered) {
+                var calculateSlidesPerView = function (requestedSlides, totalSlides, centered) {
                     if (centered) return 'auto';
                     if (totalSlides <= 1) return 1;
 
@@ -176,6 +176,11 @@
                 // Add initialized class
                 $carousel.addClass('swiper-initialized');
 
+                // Initialize accessibility features
+                if (typeof PromenAccessibility !== 'undefined') {
+                    PromenAccessibility.setupSwiperAccessibility(swiper, $carousel[0]);
+                }
+
                 // Handle special styling for centered mode
                 if (isCentered) {
                     $carousel.find('.swiper-slide').css('width', 'auto');
@@ -187,12 +192,12 @@
 
                 // Add event listeners for centered mode
                 if (isCentered) {
-                    swiper.on('slideChange', function() {
+                    swiper.on('slideChange', function () {
                         // Reset all slides to inactive opacity
                         $carousel.find('.swiper-slide').css('opacity', '0.6');
 
                         // Set active slide to full opacity
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $carousel.find('.swiper-slide-active').css('opacity', '1');
                         }, 10);
                     });
@@ -200,8 +205,8 @@
 
                 // Handle click events when slideToClickedSlide is enabled
                 if (slideToClicked && isCentered) {
-                    swiper.on('click', function() {
-                        setTimeout(function() {
+                    swiper.on('click', function () {
+                        setTimeout(function () {
                             $carousel.find('.swiper-slide').css('opacity', '0.6');
                             $carousel.find('.swiper-slide-active').css('opacity', '1');
                         }, 50);
@@ -210,8 +215,8 @@
 
                 // Handle navigation button states when loop is disabled
                 if (!shouldEnableLoop && totalSlides > 1) {
-                    var updateNavigationStates = function() {
-                        setTimeout(function() {
+                    var updateNavigationStates = function () {
+                        setTimeout(function () {
                             if (swiper.isBeginning) {
                                 $prevButton.addClass('swiper-button-disabled');
                             } else {
@@ -236,7 +241,7 @@
 
                 // Force update for edge cases
                 if (needsSpecialHandling) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         swiper.update();
                         swiper.updateSlides();
                         swiper.updateProgress();
@@ -253,7 +258,7 @@
                 // Add a custom method to ensure we can navigate to the last slide
                 if (!shouldEnableLoop && totalSlides > 1) {
                     var originalSlideTo = swiper.slideTo;
-                    swiper.slideTo = function(index, speed, runCallbacks) {
+                    swiper.slideTo = function (index, speed, runCallbacks) {
                         // Ensure we can navigate to any slide, including the last one
                         var maxIndex = totalSlides - 1;
                         var targetIndex = Math.min(index, maxIndex);
@@ -263,19 +268,19 @@
 
                 // Log success
 
-            } catch (error) {}
+            } catch (error) { }
         }
     };
 
     // Initialize on document ready
-    $(document).ready(function() {
+    $(document).ready(function () {
         TeamMembersCarousel.init();
     });
 
     // Re-initialize on Elementor frontend init (for editor preview)
-    $(window).on('elementor/frontend/init', function() {
+    $(window).on('elementor/frontend/init', function () {
         if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
-            elementorFrontend.hooks.addAction('frontend/element_ready/promen_team_members_carousel.default', function() {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_team_members_carousel.default', function () {
                 TeamMembersCarousel.init();
             });
         }

@@ -195,11 +195,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const animationType = '<?php echo esc_js($animation_type); ?>';
         const staggerDelay = <?php echo esc_js($animation_delay); ?> / 1000;
         
-        // Performance optimization - only apply will-change when needed
-        let isIntersecting = false;
-        
-        // Check for reduced motion preference
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // Use PromenAccessibility for reduced motion check
+        const prefersReducedMotion = typeof PromenAccessibility !== 'undefined' 
+            ? PromenAccessibility.systemPreferences.reducedMotion 
+            : window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         
         if (prefersReducedMotion) {
             // Ensure all blocks are visible immediately
@@ -211,9 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const observer = new IntersectionObserver((entries) => {
             const [entry] = entries;
             
-            if (entry.isIntersecting && !isIntersecting) {
-                isIntersecting = true;
-                
+            if (entry.isIntersecting) {
                 // Add will-change property just before animation
                 gsap.set(animationBlocks, {
                     willChange: "transform, opacity",
@@ -236,11 +233,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     onComplete: function() {
                         // Clean up will-change after animation completes
                         gsap.set(animationBlocks, { willChange: "" });
-                        // Announce completion to screen readers
-                        const liveRegion = document.getElementById('contact-info-blocks-live-region');
-                        if (liveRegion) {
-                            liveRegion.textContent = '<?php echo esc_js(__('Contactinformatie geladen', 'promen-elementor-widgets')); ?>';
-                            setTimeout(() => { liveRegion.textContent = ''; }, 2000);
+                        // Announce completion using PromenAccessibility if available
+                        if (typeof PromenAccessibility !== 'undefined') {
+                            PromenAccessibility.announce('<?php echo esc_js(__('Contactinformatie geladen', 'promen-elementor-widgets')); ?>');
                         }
                     }
                 });

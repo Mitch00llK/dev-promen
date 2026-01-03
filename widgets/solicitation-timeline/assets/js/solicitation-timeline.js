@@ -5,14 +5,14 @@
  * Disables animations in the Elementor editor but enables them on the frontend.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     // Check if we're in the Elementor editor
     const isElementorEditor = typeof window.elementorFrontend !== 'undefined' && window.elementorFrontend.isEditMode();
 
     // Initialize the timeline marker animations when the DOM is ready
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Only run animation if not in Elementor editor
         if (!isElementorEditor) {
             initTimelineMarkerAnimations();
@@ -22,9 +22,17 @@
     });
 
     // Initialize on Elementor frontend init to support Elementor Pro features
-    $(window).on('elementor/frontend/init', function() {
+    $(window).on('elementor/frontend/init', function () {
         if (typeof elementorFrontend !== 'undefined') {
-            elementorFrontend.hooks.addAction('frontend/element_ready/promen_solicitation_timeline.default', function($scope) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_solicitation_timeline.default', function ($scope) {
+                // Initialize keyboard navigation
+                if (typeof PromenAccessibility !== 'undefined') {
+                    const steps = $scope.find('.solicitation-timeline__step');
+                    steps.attr('tabindex', '0');
+                    steps.attr('role', 'listitem');
+                    $scope.find('.solicitation-timeline').attr('role', 'list');
+                }
+
                 // Only run animation if not in Elementor editor
                 if (!elementorFrontend.isEditMode()) {
                     // Clear any existing ScrollTrigger instances to prevent duplicates
@@ -33,7 +41,7 @@
                     }
 
                     // Initialize the animations with a slight delay to ensure DOM is ready
-                    setTimeout(function() {
+                    setTimeout(function () {
                         initTimelineMarkerAnimations();
                     }, 100);
                 } else {
@@ -46,14 +54,14 @@
 
     // Re-initialize on window resize (debounced)
     let resizeTimer;
-    $(window).on('resize', function() {
+    $(window).on('resize', function () {
         // Only handle resize events for animations if not in editor
         if (typeof elementorFrontend !== 'undefined' && elementorFrontend.isEditMode()) {
             return;
         }
 
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
+        resizeTimer = setTimeout(function () {
             // Kill all existing ScrollTrigger instances
             if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());

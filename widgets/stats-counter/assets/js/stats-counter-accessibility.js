@@ -228,7 +228,7 @@ class StatsCounterAccessibility {
     }
 
     prefersReducedMotion() {
-        return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        return PromenAccessibility.isReducedMotion();
     }
 }
 

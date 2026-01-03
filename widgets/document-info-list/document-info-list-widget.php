@@ -25,7 +25,7 @@ class Promen_Document_Info_List_Widget extends \Promen_Widget_Base {
         wp_register_script(
             'promen-document-info-list-accessibility',
             plugins_url('assets/js/document-info-list-accessibility.js', __FILE__),
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             '1.0.0',
             true
         );

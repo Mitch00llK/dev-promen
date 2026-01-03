@@ -7,7 +7,7 @@
  * @version 2.0.0
  */
 
-(function() {
+(function () {
     'use strict';
 
     /**
@@ -24,12 +24,12 @@
             this.blocks = Array.from(container.querySelectorAll('.contact-info-block'));
             this.liveRegion = null;
             this.focusedIndex = -1;
-            
+
             // Bind methods to maintain context
             this.handleKeydown = this.handleKeydown.bind(this);
             this.handleFocus = this.handleFocus.bind(this);
             this.handleLinkClick = this.handleLinkClick.bind(this);
-            
+
             this.init();
         }
 
@@ -38,7 +38,7 @@
          */
         init() {
             if (this.blocks.length === 0) return;
-            
+
             this.createLiveRegion();
             this.enhanceLinks();
             this.bindEvents();
@@ -50,7 +50,7 @@
          */
         createLiveRegion() {
             const existingRegion = document.getElementById('contact-info-blocks-live-region');
-            
+
             if (!existingRegion) {
                 this.liveRegion = document.createElement('div');
                 this.liveRegion.id = 'contact-info-blocks-live-region';
@@ -70,32 +70,32 @@
         enhanceLinks() {
             this.blocks.forEach((block, index) => {
                 const links = block.querySelectorAll('a.contact-info-link');
-                
+
                 links.forEach((link) => {
                     // Add focus visible indicator
                     link.classList.add('focus-visible-enhanced');
-                    
+
                     // Ensure links have proper role
                     if (!link.getAttribute('role')) {
                         link.setAttribute('role', 'link');
                     }
-                    
+
                     // Add tabindex for proper tab order
                     if (!link.getAttribute('tabindex')) {
                         link.setAttribute('tabindex', '0');
                     }
-                    
+
                     // Enhance ARIA for better context
                     const blockType = block.dataset.blockType || 'contact';
                     const existingLabel = link.getAttribute('aria-label');
-                    
+
                     if (existingLabel) {
                         // Add position information for screen readers
                         const enhancedLabel = `${existingLabel} (${index + 1} van ${this.blocks.length})`;
                         link.setAttribute('data-original-label', existingLabel);
                         link.setAttribute('aria-label', enhancedLabel);
                     }
-                    
+
                     // Add ARIA describedby for additional context
                     const blockArticle = block.querySelector('.contact-info-block__inner');
                     if (blockArticle) {
@@ -115,12 +115,12 @@
             // Keyboard navigation on list items
             this.blocks.forEach((block) => {
                 const links = block.querySelectorAll('a.contact-info-link');
-                
+
                 // Add keyboard navigation to links
                 links.forEach((link) => {
                     link.addEventListener('click', this.handleLinkClick, { passive: true });
                     link.addEventListener('focus', this.handleFocus, { passive: true });
-                    
+
                     // Handle Enter and Space key activation
                     link.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -130,7 +130,7 @@
                             link.click();
                         }
                     });
-                    
+
                     // Add blur handler to remove focus indicator
                     link.addEventListener('blur', () => {
                         const block = link.closest('.contact-info-block');
@@ -143,7 +143,7 @@
 
             // Add container-level keyboard shortcuts
             this.container.addEventListener('keydown', this.handleKeydown);
-            
+
             // Add escape key handler for accessibility
             this.container.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
@@ -160,7 +160,7 @@
          */
         handleKeydown(event) {
             const target = event.target;
-            
+
             // Only handle if we're on a link within a block
             if (!target.classList.contains('contact-info-link')) {
                 return;
@@ -175,18 +175,18 @@
                     event.preventDefault();
                     this.focusNextBlock(currentIndex);
                     break;
-                
+
                 case 'ArrowUp':
                 case 'ArrowLeft':
                     event.preventDefault();
                     this.focusPreviousBlock(currentIndex);
                     break;
-                
+
                 case 'Home':
                     event.preventDefault();
                     this.focusBlock(0);
                     break;
-                
+
                 case 'End':
                     event.preventDefault();
                     this.focusBlock(this.blocks.length - 1);
@@ -208,8 +208,8 @@
          * @param {number} currentIndex 
          */
         focusPreviousBlock(currentIndex) {
-            const prevIndex = currentIndex - 1 < 0 
-                ? this.blocks.length - 1 
+            const prevIndex = currentIndex - 1 < 0
+                ? this.blocks.length - 1
                 : currentIndex - 1;
             this.focusBlock(prevIndex);
         }
@@ -220,14 +220,14 @@
          */
         focusBlock(index) {
             if (index < 0 || index >= this.blocks.length) return;
-            
+
             const block = this.blocks[index];
             const link = block.querySelector('a.contact-info-link');
-            
+
             if (link) {
                 link.focus();
                 this.focusedIndex = index;
-                
+
                 // Announce navigation to screen readers
                 const blockType = block.dataset.blockType || 'contact';
                 const title = block.querySelector('.contact-info-title')?.textContent.trim() || '';
@@ -244,9 +244,9 @@
         handleFocus(event) {
             const link = event.target;
             const block = link.closest('.contact-info-block');
-            
+
             if (!block) return;
-            
+
             // Add visual focus indicator to block
             this.blocks.forEach(b => b.classList.remove('is-focused'));
             block.classList.add('is-focused');
@@ -259,26 +259,26 @@
         handleLinkClick(event) {
             const link = event.currentTarget;
             const href = link.getAttribute('href');
-            
+
             // Check if it was activated via keyboard (for better feedback)
             const isKeyboardActivation = event instanceof KeyboardEvent;
-            
+
             if (href) {
                 if (href.startsWith('tel:')) {
-                    const phoneNumber = link.querySelector('[aria-hidden="true"]')?.textContent.trim() 
-                                     || link.textContent.trim();
+                    const phoneNumber = link.querySelector('[aria-hidden="true"]')?.textContent.trim()
+                        || link.textContent.trim();
                     this.announce(`Bellen naar ${phoneNumber}`);
-                    
+
                     // Additional feedback for keyboard users
                     if (isKeyboardActivation) {
                         link.classList.add('activated');
                         setTimeout(() => link.classList.remove('activated'), 200);
                     }
                 } else if (href.startsWith('mailto:')) {
-                    const email = link.querySelector('[aria-hidden="true"]')?.textContent.trim() 
-                               || link.textContent.trim();
+                    const email = link.querySelector('[aria-hidden="true"]')?.textContent.trim()
+                        || link.textContent.trim();
                     this.announce(`E-mail opstellen naar ${email}`);
-                    
+
                     // Additional feedback for keyboard users
                     if (isKeyboardActivation) {
                         link.classList.add('activated');
@@ -307,20 +307,9 @@
          * @param {string} message 
          */
         announce(message) {
-            if (!this.liveRegion) return;
-            
-            // Clear previous announcement
-            this.liveRegion.textContent = '';
-            
-            // Small delay ensures screen readers catch the change
-            requestAnimationFrame(() => {
-                this.liveRegion.textContent = message;
-                
-                // Clear after announcement is likely read
-                setTimeout(() => {
-                    this.liveRegion.textContent = '';
-                }, 3000);
-            });
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.announce(message);
+            }
         }
 
         /**
@@ -328,11 +317,11 @@
          */
         setupReducedMotion() {
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-            
+
             const applyReducedMotion = (matches) => {
                 if (matches) {
                     this.container.classList.add('reduce-motion');
-                    
+
                     // Disable GSAP animations if they exist
                     const animatedBlocks = this.container.querySelectorAll('[data-animation]');
                     animatedBlocks.forEach(block => {
@@ -340,22 +329,22 @@
                         block.style.transform = 'none';
                         block.style.transition = 'none';
                     });
-                    
+
                     // Remove any animation classes
                     this.blocks.forEach(block => {
                         block.style.animation = 'none';
                     });
-                    
+
                     // Announce to screen readers
                     this.announce('Animaties uitgeschakeld op basis van systeemvoorkeuren');
                 } else {
                     this.container.classList.remove('reduce-motion');
                 }
             };
-            
+
             // Apply initial state
             applyReducedMotion(prefersReducedMotion.matches);
-            
+
             // Listen for changes
             prefersReducedMotion.addEventListener('change', (e) => {
                 applyReducedMotion(e.matches);
@@ -367,7 +356,7 @@
          */
         destroy() {
             this.container.removeEventListener('keydown', this.handleKeydown);
-            
+
             this.blocks.forEach((block) => {
                 const links = block.querySelectorAll('a.contact-info-link');
                 links.forEach((link) => {
@@ -375,7 +364,7 @@
                     link.removeEventListener('focus', this.handleFocus);
                 });
             });
-            
+
             this.blocks = [];
             this.liveRegion = null;
         }
@@ -386,17 +375,17 @@
      */
     function initContactInfoBlocks() {
         const containers = document.querySelectorAll('.contact-info-blocks');
-        
+
         containers.forEach((container) => {
             // Check if already initialized
             if (container.dataset.accessibilityInit === 'true') return;
-            
+
             // Mark as initialized
             container.dataset.accessibilityInit = 'true';
-            
+
             // Create instance
             const instance = new ContactInfoBlocksAccessibility(container);
-            
+
             // Store instance on element for later access
             container._accessibilityInstance = instance;
         });
@@ -416,15 +405,15 @@
      */
     if (typeof elementorFrontend !== 'undefined') {
         elementorFrontend.hooks.addAction(
-            'frontend/element_ready/contact_info_blocks.default', 
-            function($scope) {
+            'frontend/element_ready/contact_info_blocks.default',
+            function ($scope) {
                 const container = $scope[0].querySelector('.contact-info-blocks');
                 if (container) {
                     // Clean up old instance
                     if (container._accessibilityInstance) {
                         container._accessibilityInstance.destroy();
                     }
-                    
+
                     // Reinitialize
                     container.dataset.accessibilityInit = 'false';
                     initContactInfoBlocks();

@@ -66,7 +66,7 @@ class Promen_Text_Column_Repeater_Widget extends \Promen_Widget_Base {
         wp_register_script(
             'promen-text-column-repeater-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/text-column-repeater/assets/js/text-column-repeater-accessibility.js',
-            [],
+            ['jquery', 'promen-accessibility'],
             filemtime(__DIR__ . '/assets/js/text-column-repeater-accessibility.js'),
             true
         );

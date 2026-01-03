@@ -127,15 +127,7 @@ class TestimonialCardAccessibility {
      * Setup screen reader support
      */
     setupScreenReaderSupport() {
-        // Create live region for announcements
-        if (!document.getElementById('testimonial-card-live-region')) {
-            const liveRegion = document.createElement('div');
-            liveRegion.id = 'testimonial-card-live-region';
-            liveRegion.setAttribute('aria-live', 'polite');
-            liveRegion.setAttribute('aria-atomic', 'true');
-            liveRegion.className = 'screen-reader-text';
-            document.body.appendChild(liveRegion);
-        }
+        // Live region handled by PromenAccessibility
 
         // Announce when testimonials are loaded
         const testimonialCards = document.querySelectorAll('.testimonial-card');
@@ -178,14 +170,8 @@ class TestimonialCardAccessibility {
      * Announce message to screen readers
      */
     announceToScreenReader(message) {
-        const liveRegion = document.getElementById('testimonial-card-live-region');
-        if (liveRegion) {
-            liveRegion.textContent = message;
-
-            // Clear after announcement
-            setTimeout(() => {
-                liveRegion.textContent = '';
-            }, 1000);
+        if (typeof PromenAccessibility !== 'undefined') {
+            PromenAccessibility.announce(message);
         }
     }
 

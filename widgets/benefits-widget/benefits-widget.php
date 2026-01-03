@@ -64,7 +64,7 @@ class Promen_Benefits_Widget extends \Promen_Widget_Base {
         wp_register_script(
             'promen-benefits-accessibility',
             plugins_url('assets/js/benefits-accessibility.js', __FILE__),
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             '1.0.0',
             true
         );

@@ -64,7 +64,7 @@ class Promen_Related_Services extends \Promen_Widget_Base {
         wp_register_script(
             'promen-related-services-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/related-services/assets/js/related-services-accessibility.js',
-            [],
+            ['jquery', 'promen-accessibility'],
             filemtime(__DIR__ . '/assets/js/related-services-accessibility.js'),
             true
         );

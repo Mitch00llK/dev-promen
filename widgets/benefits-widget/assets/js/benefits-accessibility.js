@@ -3,7 +3,7 @@
  * WCAG 2.2 compliant keyboard navigation and screen reader support
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     /**
@@ -135,7 +135,7 @@
          * Enhance keyboard navigation
          */
         enhanceKeyboardNavigation() {
-            $('.benefits-widget .benefit-item').each(function() {
+            $('.benefits-widget .benefit-item').each(function () {
                 const $item = $(this);
 
                 // Ensure proper tabindex
@@ -162,16 +162,7 @@
          * Add screen reader support
          */
         addScreenReaderSupport() {
-            // Add live region for announcements
-            if (!$('#benefits-live-region').length) {
-                $('body').append(`
-                    <div id="benefits-live-region" 
-                         class="screen-reader-text" 
-                         aria-live="polite" 
-                         aria-atomic="true">
-                    </div>
-                `);
-            }
+            // Live region handled by PromenAccessibility
 
             // Add skip link if not exists
             if (!$('.benefits-widget .skip-link').length) {
@@ -187,13 +178,8 @@
          * Announce text to screen readers
          */
         announceToScreenReader(text) {
-            const $liveRegion = $('#benefits-live-region');
-            if ($liveRegion.length) {
-                $liveRegion.text(text);
-                // Clear after announcement
-                setTimeout(() => {
-                    $liveRegion.text('');
-                }, 1000);
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.announce(text);
             }
         }
 
@@ -215,7 +201,7 @@
     /**
      * Initialize when document is ready
      */
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ($('.benefits-widget').length) {
             new BenefitsAccessibility();
         }
@@ -225,7 +211,7 @@
      * Re-initialize on Elementor frontend updates
      */
     if (typeof elementorFrontend !== 'undefined') {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_benefits.default', function($scope) {
+        elementorFrontend.hooks.addAction('frontend/element_ready/promen_benefits.default', function ($scope) {
             new BenefitsAccessibility();
         });
     }

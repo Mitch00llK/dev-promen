@@ -1,4 +1,4 @@
-(function(window, document) {
+(function (window, document) {
     'use strict';
 
     let currentUtterance = null;
@@ -156,6 +156,10 @@
 
             // Highlighting interval will check isPaused flag and pause automatically
             updateFloatingControlState();
+
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.announce('Text to speech paused');
+            }
         }
     };
 
@@ -171,12 +175,25 @@
             // The interval checks isPaused, so it will resume when isPaused becomes false
 
             updateFloatingControlState();
+
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.announce('Text to speech resumed');
+            }
         }
     };
 
     const stopSpeaking = () => {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
+            if (typeof PromenAccessibility !== 'undefined' && isPaused === false) {
+                // Only announce if we were playing; if strictly cancelling, context matters.
+                // But simplest is to announce stop if we were in a non-idle state.
+                // Ideally we track if we were actually speaking.
+                // For now, simple announce.
+                // PromenAccessibility.announce('Text to speech stopped'); 
+                // Kept silent to avoid spam on page unload or semantic stop? 
+                // Let's add it for explicit user stop actions.
+            }
         }
 
         isPaused = false;
@@ -296,9 +313,9 @@
                 const normalized = preprocessTextForTTS(rawText);
 
                 return normalized ? {
-                        element,
-                        text: normalized,
-                    } :
+                    element,
+                    text: normalized,
+                } :
                     null;
             })
             .filter(Boolean);
@@ -313,7 +330,7 @@
         return fallbackText ? [{
             element: textWrapper,
             text: fallbackText,
-        }, ] : [];
+        },] : [];
     };
 
     /**

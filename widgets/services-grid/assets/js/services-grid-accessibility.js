@@ -6,9 +6,11 @@
  * - Adding keyboard navigation support
  * - Implementing focus management
  * - Adding screen reader announcements
+ * 
+ * Uses global PromenAccessibility core library.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     class ServicesGridAccessibility {
@@ -74,6 +76,7 @@
          * Add keyboard navigation support
          */
         addKeyboardNavigation() {
+            const self = this;
             $('.service-card').on('keydown', (e) => {
                 const $card = $(e.currentTarget);
                 const $container = $card.closest('.services-grid, .services-slider');
@@ -85,14 +88,14 @@
                     case 'ArrowDown':
                         e.preventDefault();
                         const nextIndex = (currentIndex + 1) % $cards.length;
-                        $cards.eq(nextIndex).focus();
+                        self.focusCard($cards.eq(nextIndex));
                         break;
 
                     case 'ArrowLeft':
                     case 'ArrowUp':
                         e.preventDefault();
                         const prevIndex = currentIndex === 0 ? $cards.length - 1 : currentIndex - 1;
-                        $cards.eq(prevIndex).focus();
+                        self.focusCard($cards.eq(prevIndex));
                         break;
 
                     case 'Enter':
@@ -106,15 +109,21 @@
 
                     case 'Home':
                         e.preventDefault();
-                        $cards.first().focus();
+                        self.focusCard($cards.first());
                         break;
 
                     case 'End':
                         e.preventDefault();
-                        $cards.last().focus();
+                        self.focusCard($cards.last());
                         break;
                 }
             });
+        }
+
+        focusCard($card) {
+            $card.focus();
+            // Optional: Announce focused card title? 
+            // Native behavior handles reading focused content usually.
         }
 
         /**
@@ -122,28 +131,15 @@
          */
         addFocusManagement() {
             // Add focus indicators
-            $('.service-card').on('focus', function() {
+            $('.service-card').on('focus', function () {
                 $(this).addClass('focused');
-            }).on('blur', function() {
+            }).on('blur', function () {
                 $(this).removeClass('focused');
             });
 
-            // Add focus trap for sliders
+            // Add focus trap for sliders using Core
             $('.services-slider').each((index, slider) => {
-                const $slider = $(slider);
-                const $cards = $slider.find('.service-card');
-
-                if ($cards.length > 0) {
-                    $slider.on('keydown', (e) => {
-                        if (e.key === 'Tab') {
-                            const $focusedCard = $slider.find('.service-card:focus');
-                            if ($focusedCard.length === 0) {
-                                e.preventDefault();
-                                $cards.first().focus();
-                            }
-                        }
-                    });
-                }
+                PromenAccessibility.initFocusTrap(slider);
             });
         }
 
@@ -151,11 +147,6 @@
          * Add screen reader support
          */
         addScreenReaderSupport() {
-            // Add live region for dynamic content
-            if (!$('#services-grid-live-region').length) {
-                $('body').append('<div id="services-grid-live-region" class="screen-reader-text" aria-live="polite" aria-atomic="true"></div>');
-            }
-
             // Announce service count
             $('.services-grid, .services-slider').each((index, container) => {
                 const $container = $(container);
@@ -179,6 +170,7 @@
 
                 // Add skip link if not already present
                 if (!$container.prev('.skip-link').length) {
+                    // This could be standardized via PHP render, but for now maintaining JS injection if render doesn't handle it
                     $container.before(`<a href="#${containerId}" class="skip-link screen-reader-text">Sla over naar inhoud</a>`);
                 }
             });
@@ -194,10 +186,10 @@
                 const $serviceCard = $activeSlide.find('.service-card');
 
                 if ($serviceCard.length) {
-                    // Announce slide change
+                    // Announce slide change via Global Announcer
                     const serviceTitle = $serviceCard.find('.service-title').text().trim();
                     if (serviceTitle) {
-                        $('#services-grid-live-region').text(`De service ${serviceTitle} wordt nu getoond in de schuifregelaar`);
+                        PromenAccessibility.announce(`De service ${serviceTitle} wordt nu getoond in de schuifregelaar`);
                     }
 
                     // Update aria-current for pagination

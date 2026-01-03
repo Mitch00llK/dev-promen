@@ -256,34 +256,11 @@
     /**
      * Initialize skip links for keyboard navigation
      */
+    /**
+     * Initialize skip links for keyboard navigation
+     */
     function initSkipLinks($block) {
-        var $skipLink = $block.find('.promen-skip-link');
-
-        if ($skipLink.length === 0) {
-            // Add skip link if it doesn't exist
-            $block.prepend('<a href="#' + $block.attr('id') + '" class="promen-skip-link" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;">Sla over naar inhoud</a>');
-            $skipLink = $block.find('.promen-skip-link');
-        }
-
-        $skipLink.on('focus', function () {
-            $(this).css({
-                'position': 'static',
-                'left': 'auto',
-                'top': 'auto',
-                'width': 'auto',
-                'height': 'auto',
-                'overflow': 'visible'
-            });
-        }).on('blur', function () {
-            $(this).css({
-                'position': 'absolute',
-                'left': '-10000px',
-                'top': 'auto',
-                'width': '1px',
-                'height': '1px',
-                'overflow': 'hidden'
-            });
-        });
+        PromenAccessibility.setupSkipLink($block[0], 'Skip to Image Text Block content');
     }
 
     // Expose functions for external use

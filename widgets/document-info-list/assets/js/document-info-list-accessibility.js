@@ -3,7 +3,7 @@
  * WCAG 2.2 compliant keyboard navigation and screen reader support
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     /**
@@ -204,7 +204,7 @@
          * Enhance keyboard navigation
          */
         enhanceKeyboardNavigation() {
-            $('.document-info-list-container .document-info-item').each(function() {
+            $('.document-info-list-container .document-info-item').each(function () {
                 const $item = $(this);
 
                 // Ensure proper tabindex
@@ -227,7 +227,7 @@
             });
 
             // Enhance download buttons
-            $('.document-info-list-container .document-info-download-link').each(function() {
+            $('.document-info-list-container .document-info-download-link').each(function () {
                 const $button = $(this);
 
                 // Ensure proper button attributes
@@ -279,7 +279,7 @@
             }
 
             // Add section navigation
-            $('.document-info-year-section').each(function() {
+            $('.document-info-year-section').each(function () {
                 const $section = $(this);
                 const $yearTitle = $section.find('.document-info-year-title');
                 const year = $yearTitle.text().trim();
@@ -294,13 +294,8 @@
          * Announce text to screen readers
          */
         announceToScreenReader(text) {
-            const $liveRegion = $('#document-info-list-live-region');
-            if ($liveRegion.length) {
-                $liveRegion.text(text);
-                // Clear after announcement
-                setTimeout(() => {
-                    $liveRegion.text('');
-                }, 1000);
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.announce(text);
             }
         }
 
@@ -329,7 +324,7 @@
     /**
      * Initialize when document is ready
      */
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ($('.document-info-list-container').length) {
             new DocumentInfoListAccessibility();
         }
@@ -339,7 +334,7 @@
      * Re-initialize on Elementor frontend updates
      */
     if (typeof elementorFrontend !== 'undefined') {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_document_info_list.default', function($scope) {
+        elementorFrontend.hooks.addAction('frontend/element_ready/promen_document_info_list.default', function ($scope) {
             new DocumentInfoListAccessibility();
         });
     }

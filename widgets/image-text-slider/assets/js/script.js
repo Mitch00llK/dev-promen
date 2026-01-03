@@ -3,7 +3,7 @@
  * Initializes Swiper with the appropriate settings and ensures proper synchronization
  * Now with mobile performance optimizations
  */
-(function() {
+(function () {
     "use strict";
 
     // Performance optimizations
@@ -37,7 +37,7 @@
 
     const throttle = (func, limit) => {
         let inThrottle;
-        return function() {
+        return function () {
             const args = arguments;
             const context = this;
             if (!inThrottle) {
@@ -53,31 +53,16 @@
         /**
          * Announce content to screen readers
          */
-        announceToScreenReader: function(message, priority = 'polite') {
-            if (!message || accessibilityState.currentAnnouncement === message) return;
-
-            accessibilityState.currentAnnouncement = message;
-
-            const announcement = document.createElement('div');
-            announcement.setAttribute('aria-live', priority);
-            announcement.setAttribute('aria-atomic', 'true');
-            announcement.className = 'sr-only';
-            announcement.textContent = message;
-
-            document.body.appendChild(announcement);
-
-            setTimeout(() => {
-                document.body.removeChild(announcement);
-                if (accessibilityState.currentAnnouncement === message) {
-                    accessibilityState.currentAnnouncement = null;
-                }
-            }, 1000);
+        announceToScreenReader: function (message, priority = 'polite') {
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.announce(message, priority);
+            }
         },
 
         /**
          * Set up keyboard navigation for slider
          */
-        setupKeyboardNavigation: function(sliderEl, swiper) {
+        setupKeyboardNavigation: function (sliderEl, swiper) {
             if (!sliderEl || !swiper) return;
 
             // Make slider container focusable
@@ -85,7 +70,7 @@
             sliderEl.setAttribute('role', 'region');
 
             // Add keyboard event listener
-            sliderEl.addEventListener('keydown', function(e) {
+            sliderEl.addEventListener('keydown', function (e) {
                 if (!e.target.closest('.image-text-slider-container')) return;
 
                 switch (e.key) {
@@ -126,11 +111,11 @@
             });
 
             // Add focus indicators
-            sliderEl.addEventListener('focus', function() {
+            sliderEl.addEventListener('focus', function () {
                 this.classList.add('keyboard-focused');
             });
 
-            sliderEl.addEventListener('blur', function() {
+            sliderEl.addEventListener('blur', function () {
                 this.classList.remove('keyboard-focused');
             });
         },
@@ -138,7 +123,7 @@
         /**
          * Toggle autoplay with accessibility support
          */
-        toggleAutoplay: function(sliderEl) {
+        toggleAutoplay: function (sliderEl) {
             // Check for both possible swiper instance properties
             const swiper = sliderEl.swiper || sliderEl.imageSwiper;
             if (!swiper || !swiper.autoplay) {
@@ -244,7 +229,7 @@
         /**
          * Stop slideshow completely with accessibility support
          */
-        stopSlideshow: function(sliderEl) {
+        stopSlideshow: function (sliderEl) {
             // Check for both possible swiper instance properties
             const swiper = sliderEl.swiper || sliderEl.imageSwiper;
             if (!swiper || !swiper.autoplay) return;
@@ -345,7 +330,7 @@
         /**
          * Update slide announcements for screen readers
          */
-        updateSlideAnnouncement: function(sliderEl, swiper) {
+        updateSlideAnnouncement: function (sliderEl, swiper) {
             if (!swiper || !swiper.slides) {
                 return;
             }
@@ -379,10 +364,10 @@
         /**
          * Update fraction indicator with current slide info
          */
-        updateFractionIndicator: function(sliderEl, currentSlide, totalSlides) {
+        updateFractionIndicator: function (sliderEl, currentSlide, totalSlides) {
             const fractionIndicators = sliderEl.querySelectorAll('.slider-fraction-indicator, .slider-fraction-indicator-persistent');
 
-            fractionIndicators.forEach(function(indicator) {
+            fractionIndicators.forEach(function (indicator) {
                 const currentSlideSpan = indicator.querySelector('.current-slide');
                 const totalSlidesSpan = indicator.querySelector('.total-slides');
 
@@ -399,7 +384,7 @@
         /**
          * Manage focus during slide transitions
          */
-        manageFocusDuringTransition: function(sliderEl) {
+        manageFocusDuringTransition: function (sliderEl) {
             const focusableElements = sliderEl.querySelectorAll(
                 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
             );
@@ -426,7 +411,7 @@
         /**
          * Setup accessible button controls
          */
-        setupAccessibleControls: function(sliderEl, swiper) {
+        setupAccessibleControls: function (sliderEl, swiper) {
             // Use the passed swiper or find it from the element
             const swiperInstance = swiper || sliderEl.swiper || sliderEl.imageSwiper;
             // Play/pause button
@@ -438,14 +423,14 @@
                 }
 
                 // Set up event listeners without cloning to preserve state
-                playButton.addEventListener('click', function(e) {
+                playButton.addEventListener('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     AccessibilityUtils.toggleAutoplay(sliderEl);
                 });
 
                 // Keyboard support for play/pause
-                playButton.addEventListener('keydown', function(e) {
+                playButton.addEventListener('keydown', function (e) {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         e.stopPropagation();
@@ -459,7 +444,7 @@
 
                 // Mark as set up to prevent future resets
                 playButton.setAttribute('data-accessibility-setup', 'true');
-            } else {}
+            } else { }
 
             // Stop button
             const stopButton = sliderEl.querySelector('.slider-stop');
@@ -469,13 +454,13 @@
                     return; // Already set up, don't reset the button state
                 }
 
-                stopButton.addEventListener('click', function(e) {
+                stopButton.addEventListener('click', function (e) {
                     e.preventDefault();
                     AccessibilityUtils.stopSlideshow(sliderEl);
                 });
 
                 // Keyboard support for stop
-                stopButton.addEventListener('keydown', function(e) {
+                stopButton.addEventListener('keydown', function (e) {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         AccessibilityUtils.stopSlideshow(sliderEl);
@@ -487,14 +472,14 @@
             }
 
             // Pause on hover/focus for better accessibility
-            sliderEl.addEventListener('mouseenter', function() {
+            sliderEl.addEventListener('mouseenter', function () {
                 if (swiperInstance && swiperInstance.autoplay && swiperInstance.autoplay.running) {
                     swiperInstance.autoplay.pause();
                     sliderEl.classList.add('hover-paused');
                 }
             });
 
-            sliderEl.addEventListener('mouseleave', function() {
+            sliderEl.addEventListener('mouseleave', function () {
                 if (swiperInstance && swiperInstance.autoplay && sliderEl.classList.contains('hover-paused')) {
                     swiperInstance.autoplay.start();
                     sliderEl.classList.remove('hover-paused');
@@ -502,14 +487,14 @@
             });
 
             // Pause on focus for keyboard users
-            sliderEl.addEventListener('focusin', function() {
+            sliderEl.addEventListener('focusin', function () {
                 if (swiperInstance && swiperInstance.autoplay && swiperInstance.autoplay.running) {
                     swiperInstance.autoplay.pause();
                     sliderEl.classList.add('focus-paused');
                 }
             });
 
-            sliderEl.addEventListener('focusout', function() {
+            sliderEl.addEventListener('focusout', function () {
                 // Delay to check if focus moved to another element within slider
                 setTimeout(() => {
                     if (!sliderEl.contains(document.activeElement)) {
@@ -526,14 +511,14 @@
             const nextButton = sliderEl.querySelector('.slider-arrow-next, .swiper-button-next');
 
             if (prevButton) {
-                prevButton.addEventListener('click', function(e) {
+                prevButton.addEventListener('click', function (e) {
                     e.preventDefault();
                     swiper.slidePrev();
                     sliderEl.focus(); // Return focus to slider
                 });
 
                 // Add keyboard support
-                prevButton.addEventListener('keydown', function(e) {
+                prevButton.addEventListener('keydown', function (e) {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         swiper.slidePrev();
@@ -543,14 +528,14 @@
             }
 
             if (nextButton) {
-                nextButton.addEventListener('click', function(e) {
+                nextButton.addEventListener('click', function (e) {
                     e.preventDefault();
                     swiper.slideNext();
                     sliderEl.focus(); // Return focus to slider
                 });
 
                 // Add keyboard support
-                nextButton.addEventListener('keydown', function(e) {
+                nextButton.addEventListener('keydown', function (e) {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         swiper.slideNext();
@@ -563,9 +548,9 @@
             const pagination = sliderEl.querySelector('.swiper-pagination');
             if (pagination) {
                 // Use MutationObserver to handle dynamically created bullets
-                const observer = new MutationObserver(function(mutations) {
-                    mutations.forEach(function(mutation) {
-                        mutation.addedNodes.forEach(function(node) {
+                const observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        mutation.addedNodes.forEach(function (node) {
                             if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('swiper-pagination-bullet')) {
                                 AccessibilityUtils.setupPaginationBullet(node, swiper);
                             }
@@ -585,20 +570,20 @@
         /**
          * Setup individual pagination bullet accessibility
          */
-        setupPaginationBullet: function(bullet, swiper) {
+        setupPaginationBullet: function (bullet, swiper) {
             const index = Array.from(bullet.parentNode.children).indexOf(bullet);
             bullet.setAttribute('role', 'tab');
             bullet.setAttribute('aria-label', `Go to slide ${index + 1}`);
             bullet.setAttribute('tabindex', index === 0 ? '0' : '-1');
 
-            bullet.addEventListener('click', function() {
+            bullet.addEventListener('click', function () {
                 // Update tabindex for all bullets
                 bullet.parentNode.querySelectorAll('.swiper-pagination-bullet').forEach((b, i) => {
                     b.setAttribute('tabindex', i === index ? '0' : '-1');
                 });
             });
 
-            bullet.addEventListener('keydown', function(e) {
+            bullet.addEventListener('keydown', function (e) {
                 const bullets = Array.from(bullet.parentNode.children);
                 const currentIndex = bullets.indexOf(bullet);
 
@@ -637,7 +622,7 @@
         /**
          * Handle reduced motion preferences
          */
-        handleReducedMotionPreference: function(options) {
+        handleReducedMotionPreference: function (options) {
             if (accessibilityState.reducedMotion) {
                 // Disable autoplay for reduced motion
                 options.autoplay = false;
@@ -652,7 +637,7 @@
         /**
          * Check slide count and conditionally show/hide controls
          */
-        checkSlideCountAndToggleControls: function(sliderEl, swiper) {
+        checkSlideCountAndToggleControls: function (sliderEl, swiper) {
             if (!sliderEl || !swiper) return;
 
             const slideCount = swiper.slides ? swiper.slides.length : 0;
@@ -685,7 +670,7 @@
         /**
          * Initialize accessibility features for a slider
          */
-        initSliderAccessibility: function(sliderEl, swiper, options) {
+        initSliderAccessibility: function (sliderEl, swiper, options) {
             if (!sliderEl || !swiper) return;
 
             // Check slide count and toggle controls visibility
@@ -698,7 +683,7 @@
             AccessibilityUtils.setupAccessibleControls(sliderEl, swiper);
 
             // Add slide change announcements
-            swiper.on('slideChange', function() {
+            swiper.on('slideChange', function () {
                 AccessibilityUtils.updateSlideAnnouncement(sliderEl, this);
                 AccessibilityUtils.manageFocusDuringTransition(sliderEl);
             });
@@ -713,7 +698,7 @@
 
             // Monitor accessibility preference changes
             const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-            reducedMotionQuery.addEventListener('change', function(e) {
+            reducedMotionQuery.addEventListener('change', function (e) {
                 accessibilityState.reducedMotion = e.matches;
                 if (e.matches && swiper.autoplay) {
                     swiper.autoplay.pause();
@@ -728,7 +713,7 @@
         /**
          * Detect browser and version
          */
-        detectBrowser: function() {
+        detectBrowser: function () {
             const ua = navigator.userAgent;
             let browser = {
                 name: 'unknown',
@@ -769,7 +754,7 @@
         /**
          * Apply browser-specific fixes
          */
-        applyBrowserFixes: function(sliderEl, options) {
+        applyBrowserFixes: function (sliderEl, options) {
             const browser = this.detectBrowser();
             document.body.classList.add(`browser-${browser.name}`);
 
@@ -799,7 +784,7 @@
         /**
          * IE/Edge compatibility fixes
          */
-        applyIEEdgeFixes: function(sliderEl, options) {
+        applyIEEdgeFixes: function (sliderEl, options) {
             // Disable CSS Grid fallback
             sliderEl.classList.add('ie-edge-mode');
 
@@ -809,7 +794,7 @@
 
             // Add polyfills for missing methods
             if (!Element.prototype.closest) {
-                Element.prototype.closest = function(selector) {
+                Element.prototype.closest = function (selector) {
                     let el = this;
                     while (el && el.nodeType === 1) {
                         if (el.matches(selector)) return el;
@@ -840,7 +825,7 @@
         /**
          * Safari specific fixes
          */
-        applySafariFixes: function(sliderEl, options) {
+        applySafariFixes: function (sliderEl, options) {
             sliderEl.classList.add('safari-mode');
 
             // Safari has issues with transforms during transitions
@@ -876,7 +861,7 @@
         /**
          * Firefox specific fixes
          */
-        applyFirefoxFixes: function(sliderEl, options) {
+        applyFirefoxFixes: function (sliderEl, options) {
             sliderEl.classList.add('firefox-mode');
 
             // Firefox has better support for CSS transforms
@@ -907,7 +892,7 @@
         /**
          * Mobile browser fixes
          */
-        applyMobileFixes: function(sliderEl, options) {
+        applyMobileFixes: function (sliderEl, options) {
             sliderEl.classList.add('mobile-browser');
 
             // Optimize touch handling
@@ -947,7 +932,7 @@
         /**
          * Add ARIA polyfills for older browsers
          */
-        addAriaPolyfills: function() {
+        addAriaPolyfills: function () {
             // Check if ARIA is supported
             if (!('ariaLabel' in document.createElement('div'))) {
                 // Add basic ARIA support for older browsers
@@ -976,14 +961,14 @@
         /**
          * Feature detection and progressive enhancement
          */
-        detectFeatures: function() {
+        detectFeatures: function () {
             const features = {
                 intersectionObserver: 'IntersectionObserver' in window,
                 resizeObserver: 'ResizeObserver' in window,
                 customProperties: CSS.supports('color', 'var(--test)'),
                 grid: CSS.supports('display', 'grid'),
                 flexbox: CSS.supports('display', 'flex'),
-                transform3d: (function() {
+                transform3d: (function () {
                     const el = document.createElement('div');
                     el.style.transform = 'translate3d(1px,1px,1px)';
                     return el.style.transform !== '';
@@ -1005,7 +990,7 @@
         /**
          * Initialize browser compatibility
          */
-        init: function() {
+        init: function () {
             const browser = this.detectBrowser();
             const features = this.detectFeatures();
 
@@ -1024,7 +1009,7 @@
     };
 
     // Global event listener for play/pause buttons as a fallback
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (e.target.closest('.slider-play-pause')) {
             const button = e.target.closest('.slider-play-pause');
             const sliderEl = button.closest('.image-text-slider-container');
@@ -1047,7 +1032,7 @@
         }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Initialize browser compatibility
         const { browser, features } = BrowserCompatibility.init();
 
@@ -1071,7 +1056,7 @@
         if (isMobile) {
             const throttle = (func, limit) => {
                 let inThrottle;
-                return function() {
+                return function () {
                     if (!inThrottle) {
                         func.apply(this, arguments);
                         inThrottle = true;
@@ -1096,7 +1081,7 @@
         // Check if elementorFrontend and hooks are available
         if (window.elementorFrontend && window.elementorFrontend.hooks) {
             // Reinitialize sliders when Elementor frontend is initialized
-            elementorFrontend.hooks.addAction('frontend/element_ready/image_text_slider.default', function($scope) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/image_text_slider.default', function ($scope) {
                 if (!isElementorEditor) {
                     initImageTextSlider($scope.find('.image-text-slider-container')[0]);
                 } else {
@@ -1109,7 +1094,7 @@
 
                     if (widget) {
                         // Listen for changes to the breadcrumb settings
-                        elementor.channels.editor.on('change', function(view) {
+                        elementor.channels.editor.on('change', function (view) {
                             const changedWidget = view.model.cid;
 
                             // Only proceed if this is our widget
@@ -1133,42 +1118,42 @@
             // Additional handling for editor mode
             if (window.elementorFrontend.isEditMode()) {
                 // Initialize on section/column changes in Elementor editor
-                elementorFrontend.hooks.addAction('frontend/element_ready/section', function() {
-                    setTimeout(function() {
+                elementorFrontend.hooks.addAction('frontend/element_ready/section', function () {
+                    setTimeout(function () {
                         initEditorSliders();
                     }, 100);
                 });
 
-                elementorFrontend.hooks.addAction('frontend/element_ready/column', function() {
-                    setTimeout(function() {
+                elementorFrontend.hooks.addAction('frontend/element_ready/column', function () {
+                    setTimeout(function () {
                         initEditorSliders();
                     }, 100);
                 });
 
                 // Initialize when panel is opened
                 if (window.elementor && window.elementor.hooks) {
-                    window.elementor.hooks.addAction('panel/open_editor/widget', function() {
-                        setTimeout(function() {
+                    window.elementor.hooks.addAction('panel/open_editor/widget', function () {
+                        setTimeout(function () {
                             initEditorSliders();
                         }, 100);
                     });
                 }
 
                 // Initialize on any preview reload
-                document.addEventListener('elementor/popup/show', function() {
-                    setTimeout(function() {
+                document.addEventListener('elementor/popup/show', function () {
+                    setTimeout(function () {
                         initEditorSliders();
                     }, 50);
                 });
 
                 // Handle spacing control changes
                 if (window.elementor && window.elementor.channels) {
-                    elementor.channels.editor.on('change', function(view) {
+                    elementor.channels.editor.on('change', function (view) {
                         const changedControlName = view.model.get('name');
 
                         // Update visual spacing indicator when margin control changes
                         if (changedControlName === 'slider_container_margin_bottom') {
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 updateEditorSpacingIndicators();
                             }, 100);
                         }
@@ -1177,13 +1162,13 @@
             }
 
             // Add resize handler when elements are ready
-            elementorFrontend.hooks.addAction('frontend/element_ready/global', function() {
+            elementorFrontend.hooks.addAction('frontend/element_ready/global', function () {
                 setTimeout(positionSliderSpacers, 100);
             });
         } else {
             // If elementorFrontend hooks are not available, initialize sliders directly
             // This ensures that sliders will work even if Elementor hooks are not loaded
-            setTimeout(function() {
+            setTimeout(function () {
                 initImageTextSliders();
                 positionSliderSpacers();
             }, 300);
@@ -1322,7 +1307,7 @@
      */
     function positionSliderSpacers() {
         const sliders = document.querySelectorAll('.image-text-slider-container');
-        sliders.forEach(function(slider) {
+        sliders.forEach(function (slider) {
             const spacer = slider.nextElementSibling;
 
             // Create spacer if it doesn't exist
@@ -1426,7 +1411,7 @@
      */
     function initEditorSliders() {
         const sliders = document.querySelectorAll('.image-text-slider-container');
-        sliders.forEach(function(slider) {
+        sliders.forEach(function (slider) {
             initImageTextSliderForEditor(slider);
         });
 
@@ -1434,7 +1419,7 @@
         positionSliderSpacers();
 
         // Update spacing indicators
-        setTimeout(function() {
+        setTimeout(function () {
             updateEditorSpacingIndicators();
         }, 200);
     }
@@ -1513,8 +1498,8 @@
                 allowTouchMove: true,
                 grabCursor: true,
                 on: {
-                    init: function() {},
-                    slideChange: function() {
+                    init: function () { },
+                    slideChange: function () {
                         // Sync content slider if available - use proper index handling
                         if (contentSwiper && typeof contentSwiper.slideTo === 'function') {
                             const targetIndex = useLoop ? this.realIndex : this.activeIndex;
@@ -1543,7 +1528,7 @@
                 loopedSlides: useLoop ? slideCount : null, // Match main swiper settings
                 preventInteractionOnTransition: true,
                 on: {
-                    init: function() {
+                    init: function () {
 
                         // Set initial slide to match main swiper
                         const initialIndex = useLoop ? swiper.realIndex : swiper.activeIndex;
@@ -1564,7 +1549,7 @@
             AccessibilityUtils.checkSlideCountAndToggleControls(sliderEl, swiper);
 
             // Ensure initial synchronization after both sliders are ready
-            setTimeout(function() {
+            setTimeout(function () {
                 if (swiper && contentSwiper) {
                     const initialIndex = useLoop ? swiper.realIndex : swiper.activeIndex;
 
@@ -1580,8 +1565,8 @@
             const prevBtns = sliderEl.querySelectorAll('.swiper-button-prev');
             const nextBtns = sliderEl.querySelectorAll('.swiper-button-next');
 
-            prevBtns.forEach(function(btn) {
-                btn.addEventListener('click', function(e) {
+            prevBtns.forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     if (swiper && typeof swiper.slidePrev === 'function') {
@@ -1590,8 +1575,8 @@
                 });
             });
 
-            nextBtns.forEach(function(btn) {
-                btn.addEventListener('click', function(e) {
+            nextBtns.forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     if (swiper && typeof swiper.slideNext === 'function') {
@@ -1628,7 +1613,7 @@
 
         const sliderWidgets = document.querySelectorAll('.elementor-widget-image_text_slider');
 
-        sliderWidgets.forEach(function(widget) {
+        sliderWidgets.forEach(function (widget) {
             const spacingIndicator = widget.querySelector('.editor-spacing-indicator');
             if (!spacingIndicator) return;
 
@@ -1671,7 +1656,7 @@
         }
 
         // Re-initialize
-        setTimeout(function() {
+        setTimeout(function () {
             initImageTextSliderForEditor(sliderEl);
         }, 100);
     }
@@ -1681,7 +1666,7 @@
      */
     function setupEditorView() {
         const sliders = document.querySelectorAll('.image-text-slider-container');
-        sliders.forEach(function(slider) {
+        sliders.forEach(function (slider) {
             setupEditorSlider(slider);
         });
 
@@ -1752,7 +1737,7 @@
      */
     function initImageTextSliders() {
         const sliders = document.querySelectorAll('.image-text-slider-container');
-        sliders.forEach(function(slider) {
+        sliders.forEach(function (slider) {
             initImageTextSlider(slider);
         });
     }
@@ -1856,7 +1841,7 @@
 
             // Events for managing visibility and transitions
             on: {
-                init: function() {
+                init: function () {
                     // Add a short delay before showing content for initial load
                     setTimeout(() => {
                         sliderEl.classList.remove('initializing');
@@ -1866,7 +1851,7 @@
                     // Store initial slide order for debugging
                     logSlideOrder(this, 'Main Swiper Init');
                 },
-                beforeTransitionStart: function() {
+                beforeTransitionStart: function () {
                     // Add transitioning class to handle content visibility during transitions
                     sliderEl.classList.add('transitioning');
 
@@ -1882,7 +1867,7 @@
                         }
                     });
                 },
-                slideChange: function() {
+                slideChange: function () {
                     updateSlideVisibility(this);
                     logSlideOrder(this, 'Main Swiper Change');
 
@@ -1907,14 +1892,14 @@
                         }
                     }
                 },
-                transitionStart: function() {
+                transitionStart: function () {
                     // If using GSAP, prepare content slides
                     if (options.enableGsapAnimations && window.gsap) {
                         const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide:not(.swiper-slide-active)');
                         contentSlides.forEach(slide => resetSlideContent(slide));
                     }
                 },
-                transitionEnd: function() {
+                transitionEnd: function () {
                     // Remove transitioning class when finished
                     setTimeout(() => {
                         sliderEl.classList.remove('transitioning');
@@ -1970,7 +1955,7 @@
                 loopedSlides: useLoop ? slideCount : null, // Match loopedSlides with main swiper
                 preventInteractionOnTransition: true,
                 on: {
-                    init: function() {
+                    init: function () {
                         updateContentSlideVisibility(this);
 
                         // Set initial slide based on main swiper
@@ -2012,7 +1997,7 @@
                             });
                         }
                     },
-                    slideChange: function() {
+                    slideChange: function () {
                         updateContentSlideVisibility(this);
                         logSlideOrder(this, 'Content Swiper Change');
 
@@ -2030,7 +2015,7 @@
                             });
                         }
                     },
-                    transitionStart: function() {
+                    transitionStart: function () {
                         // Hide all non-active slides immediately
                         const slides = this.slides;
                         if (slides && slides.length > 0) {
@@ -2042,7 +2027,7 @@
                             });
                         }
                     },
-                    transitionEnd: function() {
+                    transitionEnd: function () {
                         // Ensure only active slide is visible after transition
                         setTimeout(ensureStaticContentAlignment, 50);
                     }
@@ -2069,8 +2054,8 @@
             }
 
             // Add event listener for navigation clicks to ensure sync
-            sliderEl.querySelectorAll('.swiper-button-next, .swiper-button-prev').forEach(function(btn) {
-                btn.addEventListener('click', function(e) {
+            sliderEl.querySelectorAll('.swiper-button-next, .swiper-button-prev').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
                     e.preventDefault();
                     const isNext = btn.classList.contains('swiper-button-next');
 
@@ -2088,7 +2073,7 @@
 
             // Listen for autoplay
             if (options.autoplay) {
-                swiper.on('autoplay', function() {
+                swiper.on('autoplay', function () {
                     // Add transitioning class
                     sliderEl.classList.add('transitioning');
 
@@ -2125,7 +2110,7 @@
             }
 
             // Add event listener to handle slide changes and update spacer if needed
-            swiper.on('slideChange', function() {
+            swiper.on('slideChange', function () {
                 const spacer = sliderEl.nextElementSibling;
                 if (spacer && spacer.classList.contains('slider-bottom-spacer')) {
                     setTimeout(() => updateSpacerPosition(sliderEl, spacer), 300);
@@ -2136,7 +2121,7 @@
             setTimeout(ensureStaticContentAlignment, 500);
 
             // Add event listener to ensure alignment on slide changes
-            swiper.on('slideChangeTransitionEnd', function() {
+            swiper.on('slideChangeTransitionEnd', function () {
                 setTimeout(ensureStaticContentAlignment, 50);
             });
 
@@ -2191,7 +2176,7 @@
             });
 
             // Only log if debugging is enabled
-            if (window.debugImageTextSlider) {}
+            if (window.debugImageTextSlider) { }
         }
     }
 
@@ -2202,7 +2187,7 @@
     function updateSlideVisibility(swiper) {
         if (!swiper || !swiper.slides) return;
 
-        swiper.slides.forEach(function(slide, index) {
+        swiper.slides.forEach(function (slide, index) {
             // Set all slides to hidden first
             slide.style.opacity = "0";
             slide.style.visibility = "hidden";
@@ -2235,7 +2220,7 @@
     function updateContentSlideVisibility(contentSwiper) {
         if (!contentSwiper || !contentSwiper.slides) return;
 
-        contentSwiper.slides.forEach(function(slide, index) {
+        contentSwiper.slides.forEach(function (slide, index) {
             // Set all slides to hidden first - use direct style application for stronger effect
             slide.style.opacity = "0";
             slide.style.visibility = "hidden";
@@ -2290,7 +2275,7 @@
         }
 
         // Add event listeners for slide changes
-        swiper.on('slideChangeTransitionStart', function() {
+        swiper.on('slideChangeTransitionStart', function () {
             // Get the target slide index depending on loop mode
             const targetIndex = useLoop ? this.realIndex : this.activeIndex;
 
@@ -2316,7 +2301,7 @@
             }
         });
 
-        swiper.on('slideChangeTransitionEnd', function() {
+        swiper.on('slideChangeTransitionEnd', function () {
             // Get active content slide
             const activeSlide = sliderEl.querySelector('.swiper-content-slider .swiper-slide-active');
             if (!activeSlide) return;
@@ -2336,7 +2321,7 @@
 
         // Handle sync between content slider and animations
         if (sliderEl.contentSwiper) {
-            sliderEl.contentSwiper.on('slideChangeTransitionEnd', function() {
+            sliderEl.contentSwiper.on('slideChangeTransitionEnd', function () {
                 // Get active slide from content swiper
                 const activeSlide = this.slides[this.activeIndex];
                 if (!activeSlide) return;

@@ -23,26 +23,14 @@
     /**
      * Initialize skip links functionality
      */
+    /**
+     * Initialize skip links functionality
+     */
     function initSkipLinks() {
-        const skipLinks = document.querySelectorAll('.skip-link');
-
-        skipLinks.forEach(function (skipLink) {
-            skipLink.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-
-                if (targetElement) {
-                    targetElement.focus();
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-
-                    // Use Global Announce
-                    PromenAccessibility.announce('Navigated to ' + (this.textContent || 'content'));
-                }
-            });
+        const contactCards = document.querySelectorAll('.contact-info-card');
+        contactCards.forEach(function (card) {
+            const title = card.querySelector('.contact-info-card__title')?.textContent || 'Contact Card';
+            PromenAccessibility.setupSkipLink(card, `Skip to ${title}`);
         });
     }
 

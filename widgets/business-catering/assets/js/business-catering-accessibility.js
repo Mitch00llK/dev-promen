@@ -1,9 +1,11 @@
 /**
  * Business Catering Widget Accessibility Enhancements
  * WCAG 2.2 compliant keyboard navigation and screen reader support
+ * 
+ * Uses global PromenAccessibility core library.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     /**
@@ -171,7 +173,17 @@
             const altText = $img.attr('alt') || 'Catering image';
 
             const announcement = `${altText}, slide ${currentIndex} of ${totalSlides}`;
-            this.announceToScreenReader(announcement);
+            // Use global announcer
+            // Only announce if significantly different or if user navigated explicitly?
+            // Usually focus announcement is handled by screen reader natively reading element content.
+            // But if we want to add context like "slide X of Y", we can use aria-label update OR live region.
+            // Updating aria-describedby is better than live region spam for focus.
+            // However, previous implementation used live region. We will replace with simple console log or better yet, rely on ARIA.
+            // Actually, let's usage the global announcer if it was deemed necessary before.
+            // PromenAccessibility.announce(announcement); 
+            // Better: update aria-label for the focused item dynamically or assume static aria-label is enough.
+            // The previous code used explicit live region announcement.
+            PromenAccessibility.announce(announcement);
         }
 
         /**
@@ -187,7 +199,7 @@
             const altText = $img.attr('alt') || 'Catering image';
 
             const announcement = `${altText}, image ${currentIndex} of ${totalImages}`;
-            this.announceToScreenReader(announcement);
+            PromenAccessibility.announce(announcement);
         }
 
         /**
@@ -206,7 +218,7 @@
                 announcement += ', ' + $description.text().trim();
             }
             if (announcement) {
-                this.announceToScreenReader(`Selected: ${announcement}`);
+                PromenAccessibility.announce(`Selected: ${announcement}`);
             }
         }
 
@@ -226,7 +238,7 @@
                 announcement += ', ' + $description.text().trim();
             }
             if (announcement) {
-                this.announceToScreenReader(`Selected: ${announcement}`);
+                PromenAccessibility.announce(`Selected: ${announcement}`);
             }
         }
 
@@ -235,7 +247,7 @@
          */
         enhanceKeyboardNavigation() {
             // Enhance slider slides
-            $('.promen-business-catering-widget .swiper-slide').each(function() {
+            $('.promen-business-catering-widget .swiper-slide').each(function () {
                 const $slide = $(this);
 
                 // Ensure proper tabindex
@@ -258,7 +270,7 @@
             });
 
             // Enhance grid images
-            $('.promen-business-catering-widget .promen-catering-image-wrapper').each(function() {
+            $('.promen-business-catering-widget .promen-catering-image-wrapper').each(function () {
                 const $image = $(this);
 
                 // Ensure proper tabindex
@@ -285,32 +297,23 @@
          * Add screen reader support
          */
         addScreenReaderSupport() {
-            // Add live region for announcements
-            if (!$('#business-catering-live-region').length) {
-                $('body').append(`
-                    <div id="business-catering-live-region" 
-                         class="screen-reader-text" 
-                         aria-live="polite" 
-                         aria-atomic="true">
-                    </div>
-                `);
-            }
-
             // Add skip links if not exist
-            if (!$('.promen-business-catering-widget .skip-link').length) {
-                $('.promen-business-catering-widget').prepend(`
-                    <a href="#business-catering-content" class="skip-link">
-                        ${BusinessCateringAccessibility.getSkipLinkText()}
-                    </a>
-                `);
-            }
+            $('.promen-business-catering-widget').each(function () {
+                if (!$(this).find('.skip-link').length) {
+                    $(this).prepend(`
+                        <a href="#business-catering-content" class="skip-link">
+                            ${BusinessCateringAccessibility.getSkipLinkText()}
+                        </a>
+                    `);
+                }
+            });
         }
 
         /**
          * Setup slider accessibility
          */
         setupSliderAccessibility() {
-            $('.promen-business-catering-widget .swiper').each(function() {
+            $('.promen-business-catering-widget .swiper').each(function () {
                 const $slider = $(this);
                 const $slides = $slider.find('.swiper-slide');
 
@@ -323,16 +326,17 @@
                     `);
                 }
 
-                // Enhance navigation buttons
-                $slider.find('.swiper-button-prev, .swiper-button-next').each(function() {
+                // Enhance navigation buttons (Make them keyboard accessible)
+                $slider.find('.swiper-button-prev, .swiper-button-next').each(function () {
                     const $button = $(this);
                     if (!$button.attr('type')) {
                         $button.attr('type', 'button');
                     }
+                    PromenAccessibility.addKeyboardClick(this);
                 });
 
                 // Enhance pagination
-                $slider.find('.swiper-pagination').each(function() {
+                $slider.find('.swiper-pagination').each(function () {
                     const $pagination = $(this);
                     if (!$pagination.attr('role')) {
                         $pagination.attr('role', 'tablist');
@@ -340,22 +344,13 @@
                     if (!$pagination.attr('aria-label')) {
                         $pagination.attr('aria-label', 'Paginering om door verschillende catering afbeeldingen te navigeren');
                     }
+                    // Enhance bullets
+                    $pagination.find('.swiper-pagination-bullet').each(function () {
+                        PromenAccessibility.addKeyboardClick(this);
+                        $(this).attr('role', 'tab');
+                    });
                 });
             });
-        }
-
-        /**
-         * Announce text to screen readers
-         */
-        announceToScreenReader(text) {
-            const $liveRegion = $('#business-catering-live-region');
-            if ($liveRegion.length) {
-                $liveRegion.text(text);
-                // Clear after announcement
-                setTimeout(() => {
-                    $liveRegion.text('');
-                }, 1000);
-            }
         }
 
         /**
@@ -390,7 +385,7 @@
     /**
      * Initialize when document is ready
      */
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ($('.promen-business-catering-widget').length) {
             new BusinessCateringAccessibility();
         }
@@ -400,7 +395,7 @@
      * Re-initialize on Elementor frontend updates
      */
     if (typeof elementorFrontend !== 'undefined') {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_business_catering.default', function($scope) {
+        elementorFrontend.hooks.addAction('frontend/element_ready/promen_business_catering.default', function ($scope) {
             new BusinessCateringAccessibility();
         });
     }
