@@ -227,7 +227,7 @@ class Promen_Assets_Manager {
         // Related Services Widget
         wp_register_style(
             'promen-related-services-widget',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/related-services/includes/css/related-services.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/related-services/assets/css/related-services.css',
             [],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -591,7 +591,7 @@ class Promen_Assets_Manager {
         // Register News Posts Slider script
         wp_register_script(
             'promen-news-slider-script',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/includes/js/news-posts-slider.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/js/news-posts-slider.js',
             ['jquery', 'swiper-bundle'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -617,7 +617,7 @@ class Promen_Assets_Manager {
         // Register Services Grid Slider script
         wp_register_script(
             'services-grid-slider-script',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/includes/js/services-grid-slider.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/js/services-grid-slider.js',
             ['jquery', 'swiper-bundle'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -643,7 +643,7 @@ class Promen_Assets_Manager {
         // Register Image Slider script
         wp_register_script(
             'promen-image-slider-script',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-slider/includes/js/image-slider.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-slider/assets/js/image-slider.js',
             ['jquery', 'swiper-bundle'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true

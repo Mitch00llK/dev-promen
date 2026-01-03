@@ -20,12 +20,12 @@ function register_locations_display_styles() {
         return;
     }
     
-    $css_file = __DIR__ . '/assets/locations-display.css';
+    $css_file = __DIR__ . '/assets/css/locations-display.css';
     $css_mod_time = file_exists($css_file) ? filemtime($css_file) : time();
     
     wp_register_style(
         'locations-display',
-        PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/locations-display/assets/locations-display.css',
+        PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/locations-display/assets/css/locations-display.css',
         [],
         $css_mod_time
     );

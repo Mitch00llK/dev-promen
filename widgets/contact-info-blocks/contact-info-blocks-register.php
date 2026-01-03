@@ -20,12 +20,12 @@ function register_contact_info_blocks_styles() {
         return;
     }
     
-    $css_file = __DIR__ . '/assets/contact-info-blocks.css';
+    $css_file = __DIR__ . '/assets/css/contact-info-blocks.css';
     $css_mod_time = file_exists($css_file) ? filemtime($css_file) : time();
     
     wp_register_style(
         'contact-info-blocks',
-        PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-blocks/assets/contact-info-blocks.css',
+        PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-blocks/assets/css/contact-info-blocks.css',
         [],
         $css_mod_time
     );

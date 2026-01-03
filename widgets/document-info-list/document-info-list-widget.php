@@ -81,13 +81,13 @@ class Promen_Document_Info_List_Widget extends \Elementor\Widget_Base {
      */
     public function get_style_depends() {
         // Get the file modification time for cache busting
-        $css_file = __DIR__ . '/assets/document-info-list.css';
+        $css_file = __DIR__ . '/assets/css/document-info-list.css';
         $css_mod_time = file_exists($css_file) ? filemtime($css_file) : time();
         
         // Enqueue the CSS file
         wp_register_style(
             'document-info-list',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/document-info-list/assets/document-info-list.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/document-info-list/assets/css/document-info-list.css',
             [],
             $css_mod_time
         );
@@ -100,12 +100,12 @@ class Promen_Document_Info_List_Widget extends \Elementor\Widget_Base {
      */
     public function get_script_depends() {
         // Register widget-specific script
-        $js_file = __DIR__ . '/assets/document-info-list.js';
+        $js_file = __DIR__ . '/assets/js/document-info-list.js';
         $js_mod_time = file_exists($js_file) ? filemtime($js_file) : time();
         
         wp_register_script(
             'document-info-list-script',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/document-info-list/assets/document-info-list.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/document-info-list/assets/js/document-info-list.js',
             ['gsap'],
             $js_mod_time,
             true
