@@ -157,7 +157,7 @@ $widget_id = $this->get_id();
             </h2>
         </div>
         
-        <?php if ($settings['show_header_button'] === 'yes' && !empty($header_button_text) && !empty($settings['header_button_url']['url'])) : ?>
+        <?php if (isset($settings['show_header_button']) && $settings['show_header_button'] === 'yes' && !empty($header_button_text) && !empty($settings['header_button_url']['url'])) : ?>
             <a href="<?php echo esc_url($settings['header_button_url']['url']); ?>" class="promen-content-header-button" 
                <?php if ($settings['header_button_url']['is_external']) : ?>target="_blank" aria-label="<?php echo esc_attr($header_button_text . ' ' . esc_html__('(opent in een nieuw tabblad)', 'promen-elementor-widgets')); ?>"<?php else: ?>aria-label="<?php echo esc_attr($header_button_text); ?>"<?php endif; ?>
                <?php if ($settings['header_button_url']['nofollow']) : ?>rel="nofollow"<?php endif; ?>>
@@ -226,7 +226,7 @@ $widget_id = $this->get_id();
             <?php while ($posts_query->have_posts()) : $posts_query->the_post(); 
                 // Get post categories for filtering
                 $post_categories = '';
-                if ($settings['show_vacature_filter'] === 'yes' && isset($filter_taxonomy) && $filter_taxonomy) {
+                if (isset($settings['show_vacature_filter']) && $settings['show_vacature_filter'] === 'yes' && isset($filter_taxonomy) && $filter_taxonomy) {
                     $terms = get_the_terms(get_the_ID(), $filter_taxonomy);
                     if (!empty($terms) && !is_wp_error($terms)) {
                         $category_slugs = [];
@@ -252,7 +252,7 @@ $widget_id = $this->get_id();
             <?php wp_reset_postdata(); ?>
         </div>
         
-        <?php if ($settings['show_footer_button'] === 'yes' && !empty($footer_button_text) && !empty($settings['footer_button_url']['url'])) : ?>
+        <?php if (isset($settings['show_footer_button']) && $settings['show_footer_button'] === 'yes' && !empty($footer_button_text) && !empty($settings['footer_button_url']['url'])) : ?>
             <footer class="promen-content-footer-wrapper">
                 <a href="<?php echo esc_url($settings['footer_button_url']['url']); ?>" class="promen-content-footer-button" 
                    <?php if ($settings['footer_button_url']['is_external']) : ?>target="_blank" aria-label="<?php echo esc_attr($footer_button_text . ' ' . esc_html__('(opens in new tab)', 'promen-elementor-widgets')); ?>"<?php else: ?>aria-label="<?php echo esc_attr($footer_button_text); ?>"<?php endif; ?>
