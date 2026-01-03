@@ -251,10 +251,6 @@
                 switchTabLegacy($clickedTab, $block, tabId);
             }
 
-            // Recalculate heights after tab switch
-            setTimeout(function () {
-                setTabContentHeight();
-            }, 50);
         });
 
         // Initialize the first tab
@@ -297,17 +293,7 @@
                 }
             }
 
-            // Set initial heights
-            setTimeout(function () {
-                setTabContentHeight();
-            }, 100);
 
-            // Recalculate on window resize
-            $(window).on('resize', function () {
-                setTimeout(function () {
-                    setTabContentHeight();
-                }, 100);
-            });
         }
     }
 
