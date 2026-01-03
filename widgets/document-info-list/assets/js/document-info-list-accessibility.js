@@ -275,14 +275,10 @@
                 `);
             }
 
-            // Add skip links if not exist
-            if (!$('.document-info-list-container .skip-link').length) {
-                $('.document-info-list-container').prepend(`
-                    <a href="#document-info-content" class="skip-link">
-                        ${DocumentInfoListAccessibility.getSkipLinkText()}
-                    </a>
-                `);
-            }
+            // Add skip links
+            $('.document-info-list-container').each(function () {
+                PromenAccessibility.setupSkipLink(this, DocumentInfoListAccessibility.getSkipLinkText());
+            });
 
             // Add section navigation
             $('.document-info-year-section').each(function () {

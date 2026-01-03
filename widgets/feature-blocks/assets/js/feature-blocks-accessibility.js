@@ -232,35 +232,10 @@
             // Keep existing logic or rely on PHP utils if implemented there.
             // Keeping JS implementation for now as it's dynamic.
             const containers = document.querySelectorAll('.promen-feature-blocks-container');
-
-            containers.forEach((container, index) => {
-                // Create skip link if it doesn't exist
-                let skipLink = container.querySelector('.feature-blocks-skip-link');
-                if (!skipLink) {
-                    skipLink = document.createElement('a');
-                    skipLink.className = 'feature-blocks-skip-link';
-                    skipLink.href = '#feature-blocks-content-' + index;
-                    skipLink.textContent = 'Sla over naar inhoud';
-                    skipLink.setAttribute('aria-label', 'Sla over naar inhoud');
-                    container.insertBefore(skipLink, container.firstChild);
+            containers.forEach(container => {
+                if (typeof PromenAccessibility !== 'undefined') {
+                    PromenAccessibility.setupSkipLink(container, 'Sla over naar inhoud');
                 }
-
-                // Add target element
-                const content = container.querySelector('.promen-feature-blocks-wrapper');
-                if (content && !content.id) {
-                    content.id = 'feature-blocks-content-' + index;
-                    content.setAttribute('tabindex', '-1');
-                }
-
-                // Add skip link event listener
-                skipLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const target = document.getElementById('feature-blocks-content-' + index);
-                    if (target) {
-                        target.focus();
-                        this.announceStatusUpdate('Overgeslagen naar inhoud', container);
-                    }
-                });
             });
         }
 

@@ -169,14 +169,8 @@
         addScreenReaderSupport() {
             // Live region handled by PromenAccessibility
 
-            // Add skip link if not exists
-            if (!$('.benefits-widget .skip-link').length) {
-                $('.benefits-widget').prepend(`
-                    <a href="#benefits-content" class="skip-link">
-                        ${BenefitsAccessibility.getSkipLinkText()}
-                    </a>
-                `);
-            }
+            // Add skip link
+            PromenAccessibility.setupSkipLink($('.benefits-widget')[0], BenefitsAccessibility.getSkipLinkText());
         }
 
         /**
