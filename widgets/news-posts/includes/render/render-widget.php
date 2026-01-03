@@ -11,7 +11,7 @@ $settings = $this->get_settings_for_display();
 
 // Build query arguments based on content selection method
 $args = [
-    'post_type' => $settings['post_type'] ? $settings['post_type'] : 'post',
+    'post_type' => isset($settings['post_type']) ? $settings['post_type'] : 'post',
     'post_status' => 'publish',
 ];
 
@@ -63,14 +63,14 @@ switch ($content_selection) {
     case 'automatic':
     default:
         // Automatic selection (latest posts)
-        $args['posts_per_page'] = $settings['posts_per_page'];
+        $args['posts_per_page'] = isset($settings['posts_per_page']) ? $settings['posts_per_page'] : 6;
         $args['orderby'] = isset($settings['orderby']) ? $settings['orderby'] : 'date';
         $args['order'] = isset($settings['order']) ? $settings['order'] : 'DESC';
         break;
 }
 
 // Set default section title based on post type if not provided
-$section_title = $settings['section_title'];
+$section_title = isset($settings['section_title']) ? $settings['section_title'] : '';
 if (empty($section_title)) {
     if ($settings['post_type'] === 'succesvolle-verhalen') {
         $section_title = esc_html__('Onze Succesvolle Verhalen', 'promen-elementor-widgets');
@@ -82,8 +82,8 @@ if (empty($section_title)) {
 }
 
 // Set default button text based on post type if not provided
-$header_button_text = $settings['header_button_text'];
-$footer_button_text = $settings['footer_button_text'];
+$header_button_text = isset($settings['header_button_text']) ? $settings['header_button_text'] : '';
+$footer_button_text = isset($settings['footer_button_text']) ? $settings['footer_button_text'] : '';
 
 if (empty($header_button_text)) {
     if ($settings['post_type'] === 'succesvolle-verhalen') {
@@ -106,7 +106,7 @@ if (empty($footer_button_text)) {
 }
 
 // Set default read more text based on post type if not provided
-$read_more_text = $settings['read_more_text'];
+$read_more_text = isset($settings['read_more_text']) ? $settings['read_more_text'] : '';
 if (empty($read_more_text)) {
     if ($settings['post_type'] === 'succesvolle-verhalen') {
         $read_more_text = esc_html__('Lees verhaal', 'promen-elementor-widgets');
@@ -120,9 +120,9 @@ if (empty($read_more_text)) {
 $posts_query = new \WP_Query($args);
 
 // Responsive classes
-$columns_desktop = $settings['columns_desktop'];
-$columns_tablet = $settings['columns_tablet'];
-$columns_mobile = $settings['columns_mobile'];
+$columns_desktop = isset($settings['columns_desktop']) ? $settings['columns_desktop'] : '3';
+$columns_tablet = isset($settings['columns_tablet']) ? $settings['columns_tablet'] : '2';
+$columns_mobile = isset($settings['columns_mobile']) ? $settings['columns_mobile'] : '1';
 
 $grid_classes = "promen-content-grid desktop-columns-{$columns_desktop} tablet-columns-{$columns_tablet} mobile-columns-{$columns_mobile}";
 
@@ -149,7 +149,7 @@ $widget_id = $this->get_id();
 ?>
 
 <section class="promen-content-posts-widget promen-widget-loading" role="region" aria-labelledby="section-title-<?php echo esc_attr($widget_id); ?>">
-    <?php if ($settings['show_section_title'] === 'yes') : ?>
+    <?php if (isset($settings['show_section_title']) && $settings['show_section_title'] === 'yes') : ?>
     <header class="promen-content-header">
         <div class="promen-content-section-title-wrapper">
             <h2 id="section-title-<?php echo esc_attr($widget_id); ?>" class="promen-content-title">
@@ -180,7 +180,7 @@ $widget_id = $this->get_id();
     <?php if ($posts_query->have_posts()) : ?>
         <?php 
         // Display filter buttons for vacatures if enabled (only for non-manual selection)
-        if ($settings['post_type'] === 'vacatures' && $settings['show_vacature_filter'] === 'yes' && $content_selection !== 'manual') : 
+        if (isset($settings['post_type']) && $settings['post_type'] === 'vacatures' && isset($settings['show_vacature_filter']) && $settings['show_vacature_filter'] === 'yes' && $content_selection !== 'manual') : 
             // Get the primary taxonomy for this post type
             $filter_taxonomy = $this->get_primary_taxonomy_for_post_type($settings['post_type']);
             
@@ -272,7 +272,7 @@ $widget_id = $this->get_id();
             </footer>
         <?php endif; ?>
         
-        <?php if ($settings['post_type'] === 'vacatures' && $settings['show_vacature_filter'] === 'yes' && $content_selection !== 'manual') : ?>
+        <?php if (isset($settings['post_type']) && $settings['post_type'] === 'vacatures' && isset($settings['show_vacature_filter']) && $settings['show_vacature_filter'] === 'yes' && $content_selection !== 'manual') : ?>
         <script>
         (function() {
             function initFiltering() {
