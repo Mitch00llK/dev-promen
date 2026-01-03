@@ -421,9 +421,9 @@ class Promen_Assets_Manager {
 
         wp_register_script(
             'promen-team-members-carousel-accessibility',
-            PROMEN_ELEMENTOR_WIDGET_URL . 'widgets/team-members-carousel/assets/js/team-members-carousel-accessibility.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/team-members-carousel/assets/js/team-members-carousel-accessibility.js',
             ['jquery', 'promen-accessibility'],
-            PROMEN_ELEMENTOR_WIDGET_VERSION,
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
 
