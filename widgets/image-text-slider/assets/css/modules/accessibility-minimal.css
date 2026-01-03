@@ -1,0 +1,183 @@
+/**
+ * Image Text Slider - WCAG 2.2 AA Accessibility Styles (Minimal)
+ * Essential accessibility enhancements without conflicts
+ * Version: 1.0.0-wcag-2.2-minimal
+ */
+
+
+/* ==========================================================================
+   Screen Reader Only Content
+   ========================================================================== */
+
+.image-text-slider-container .sr-only,
+.image-text-slider-container .screen-reader-text {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.image-text-slider-container .sr-only.focusable:active,
+.image-text-slider-container .sr-only.focusable:focus,
+.image-text-slider-container .screen-reader-text:focus {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 8px 16px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    background: #000 !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    z-index: 99999 !important;
+    border-radius: 4px !important;
+}
+
+
+/* ==========================================================================
+   Focus Management and WCAG 2.2 Compliance
+   ========================================================================== */
+
+
+/* Enhanced focus indicators for all interactive elements */
+
+.image-text-slider-container button:focus,
+.image-text-slider-container .swiper-pagination-bullet:focus {
+    outline: 3px solid #005fcc !important;
+    outline-offset: 2px !important;
+}
+
+
+/* Touch target compliance - 44px minimum */
+
+.image-text-slider-container button,
+.image-text-slider-container .swiper-pagination-bullet {
+    padding: 12px 24px;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+    background-color: var(--e-global-color-text);
+    border: 1px solid var(--e-global-color-text);
+    color: var(--e-global-color-primary);
+}
+
+
+/* Progress indicator essential styles */
+
+.image-text-slider-container .slider-fraction-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--e-global-color-text);
+    text-align: center;
+    line-height: 1;
+}
+
+.image-text-slider-container .slider-fraction-indicator .current-slide {
+    color: var(--e-global-color-text);
+    font-weight: 600;
+}
+
+.image-text-slider-container .slider-fraction-indicator .progress-separator {
+    margin: 0 4px;
+    opacity: 0.7;
+}
+
+.image-text-slider-container .slider-fraction-indicator .total-slides {
+    opacity: 0.8;
+}
+
+
+/* Slider status for screen readers - hidden but accessible */
+
+.image-text-slider-container .slider-status {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    left: -9999px !important;
+    top: -9999px !important;
+}
+
+
+/* Essential positioning for controls within content */
+
+.image-text-slider-container .slide-content-wrapper {
+    /* position: relative; */
+}
+
+.image-text-slider-container .image-text-slider-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 20;
+    flex-wrap: wrap;
+}
+
+
+/* ==========================================================================
+   Reduced Motion Support
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .image-text-slider-container *,
+    .image-text-slider-container *::before,
+    .image-text-slider-container *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    .image-text-slider-container .slider-progress-fill {
+        transition: none !important;
+    }
+}
+
+
+/* ==========================================================================
+   Mobile Touch Target Compliance
+   ========================================================================== */
+
+@media (hover: none) and (pointer: coarse) {
+    .image-text-slider-container button {
+        min-height: 48px !important;
+        min-width: 48px !important;
+    }
+    .image-text-slider-container .swiper-pagination-bullet {
+        width: 48px !important;
+        height: 48px !important;
+        margin: 0 12px !important;
+    }
+}
+
+
+/* ==========================================================================
+   High Contrast Mode Support
+   ========================================================================== */
+
+@media (prefers-contrast: high) {
+    .image-text-slider-container button:focus {
+        outline: 3px solid ButtonText !important;
+        background: Highlight !important;
+        color: HighlightText !important;
+    }
+    .image-text-slider-container .slider-progress-fill {
+        background: Highlight !important;
+    }
+}

@@ -1,0 +1,317 @@
+/**
+ * Solicitation Timeline Widget Styles
+ */
+
+
+/* Main Container */
+
+.solicitation-timeline {
+    position: relative;
+    padding: 2rem 0;
+    width: 100%;
+    min-height: 500px;
+    /* Increased minimum height for better pinning */
+    z-index: 1;
+    /* Ensure proper stacking during pinning */
+    background-color: inherit;
+    /* Ensure background matches the page */
+}
+
+
+/* Pin-Spacer Styles */
+
+.solicitation-timeline.pin-spacer {
+    padding: 0 !important;
+    /* Override inline styles added by GSAP */
+}
+
+
+/* GSAP Pin Wrapper */
+
+.pin-spacer {
+    position: relative;
+    z-index: 10;
+    /* Higher z-index to ensure it stays above other content */
+}
+
+
+/* Animation State Styles */
+
+.solicitation-timeline__step {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    will-change: opacity, transform;
+    /* Optimize for animation */
+    position: relative;
+}
+
+.solicitation-timeline__step.active .solicitation-timeline__step-title {
+    color: #F5A623;
+    transition: color 0.3s ease;
+    font-weight: 600;
+    /* Make active title slightly bolder */
+}
+
+.solicitation-timeline__step.active .solicitation-timeline__marker {
+    box-shadow: 0 0 15px rgba(245, 166, 35, 0.7);
+    transition: box-shadow 0.3s ease;
+    transform: scale(1.05);
+    /* Slightly enlarge active marker */
+}
+
+
+/* Ensure smooth transitions */
+
+.solicitation-timeline__marker {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.solicitation-timeline__step-title {
+    transition: color 0.3s ease;
+}
+
+.solicitation-timeline__line {
+    transition: transform 0.5s ease, background-color 0.5s ease;
+}
+
+
+/* Two-column layout */
+
+.solicitation-timeline__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+}
+
+.solicitation-timeline__text-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.solicitation-timeline__timeline-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+
+/* Heading Styles */
+
+.solicitation-timeline__intro-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.solicitation-timeline__heading {
+    margin-bottom: 2rem;
+}
+
+.solicitation-timeline__heading .light {
+    font-weight: 400;
+}
+
+.solicitation-timeline__heading .bold {
+    font-weight: 700;
+}
+
+
+/* Timeline Steps Container */
+
+.solicitation-timeline__steps {
+    position: relative;
+    padding-left: 1rem;
+}
+
+
+/* Step Container */
+
+.solicitation-timeline__step {
+    position: relative;
+    display: flex;
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.solicitation-timeline__step:hover {
+    transform: translateX(5px);
+}
+
+.solicitation-timeline__step:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Step Marker and Line */
+
+.solicitation-timeline__step-marker-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 1.5rem;
+}
+
+.solicitation-timeline__marker {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #F5A623;
+    border: 2px solid #FFFFFF;
+    z-index: 2;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* Added to contain the fill element */
+}
+
+
+/* Marker Fill Element - Added for GSAP animation */
+
+.solicitation-timeline__marker-fill {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0%;
+    height: 0%;
+    border-radius: 50%;
+    background-color: inherit;
+    opacity: 0.8;
+    z-index: 1;
+    transition: width 0.1s ease, height 0.1s ease;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.5);
+    /* Add glow effect */
+}
+
+.solicitation-timeline__line {
+    position: absolute;
+    top: 48px;
+    /* 40px marker height + 8px gap from top marker */
+    width: 2px;
+    height: calc(100% + 2rem - 16px);
+    /* Original height minus 16px (8px gap at top + 8px gap at bottom) */
+    background-color: #e6e6e6;
+    z-index: 1;
+    transform-origin: top center;
+    /* Added for GSAP animation */
+    transition: background-color 0.3s ease;
+    /* Smooth color transition */
+}
+
+
+/* Active line style - will be applied via JavaScript */
+
+.solicitation-timeline__line.active {
+    background-color: #F5A623;
+    /* Match the marker color */
+}
+
+
+/* Step Content */
+
+.solicitation-timeline__step-content {
+    flex: 1;
+    padding-top: 0.5rem;
+}
+
+.solicitation-timeline__step-number {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.solicitation-timeline__step-title {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: #002855;
+}
+
+.solicitation-timeline__step-description {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #333;
+}
+
+
+/* Responsive Styles */
+
+@media (max-width: 1024px) {
+    /* Disable pinning and animations on mobile/tablet */
+    .solicitation-timeline {
+        min-height: auto !important;
+    }
+    /* Ensure all steps are visible on mobile/tablet */
+    .solicitation-timeline__step {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+    /* Show all markers as filled on mobile/tablet */
+    .solicitation-timeline__marker-fill {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    /* Show all lines as active on mobile/tablet */
+    .solicitation-timeline__line {
+        background-color: #F5A623 !important;
+        transform: scaleY(1) !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .solicitation-timeline__container {
+        flex-direction: column;
+    }
+    .solicitation-timeline__text-column,
+    .solicitation-timeline__timeline-column {
+        width: 100%;
+        max-width: 100%;
+    }
+    .solicitation-timeline__steps {
+        padding-left: 0;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .solicitation-timeline__marker {
+        width: 30px;
+        height: 30px;
+    }
+    .solicitation-timeline__line {
+        top: 30px;
+    }
+    .solicitation-timeline__step-marker-container {
+        margin-right: 1rem;
+    }
+    .solicitation-timeline__step-content {
+        padding-top: 0.25rem;
+    }
+}
+
+
+/* Special styling for the last step */
+
+.solicitation-timeline__step:last-child.active {
+    transform: translateX(0);
+    /* Override the hover transform */
+}
+
+.solicitation-timeline__step:last-child.active .solicitation-timeline__step-title {
+    color: #F5A623;
+    font-weight: 700;
+    transition: all 0.5s ease;
+}
+
+.solicitation-timeline__step:last-child.active .solicitation-timeline__marker {
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.9);
+    transform: scale(1.1);
+    /* Make the last marker larger when active */
+    transition: all 0.5s ease;
+}
+
+.solicitation-timeline__step:last-child.active .solicitation-timeline__step-description {
+    font-weight: 500;
+    /* Slightly bolder description for emphasis */
+}

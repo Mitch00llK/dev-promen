@@ -1,0 +1,52 @@
+/**
+ * Promen Elementor Widgets - Main Stylesheet
+ * This file imports all individual widget stylesheets
+ */
+
+
+/* Import Common Styles */
+
+@import url('common.css');
+
+/* Widget Styles */
+
+@import url('widgets/feature-blocks.css');
+@import url('widgets/services-carousel.css');
+@import url('widgets/services-grid.css');
+@import url('widgets/services-grid-slider.css');
+@import url('widgets/image-text-block.css');
+@import url('widgets/news-posts.css');
+@import url('widgets/news-posts-slider.css');
+@import url('widgets/team-members-carousel.css');
+@import url('widgets/contact-info-card.css');
+@import url('widgets/stats-counter.css');
+@import url('widgets/worker-testimonial.css');
+
+/* Global styles that should apply to all pages */
+
+body {
+    overflow-x: hidden !important;
+}
+
+
+/* Lenis smooth scroll styles */
+
+html.lenis {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}

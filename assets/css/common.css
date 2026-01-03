@@ -1,0 +1,102 @@
+/**
+ * Promen Elementor Widgets - Common Styles
+ *
+ * This file contains shared styles used across multiple widgets.
+ * Use this file for common utility classes, variables, and shared components.
+ */
+
+
+/* Common utility classes */
+
+.promen-hidden {
+    display: none !important;
+}
+
+.promen-text-center {
+    text-align: center;
+}
+
+.promen-text-left {
+    text-align: left;
+}
+
+.promen-text-right {
+    text-align: right;
+}
+
+
+/* Global link styles */
+
+:where(body) a:not([class*="button"])
+            :not([class*="btn"])
+            :not([class*="cta"])
+            :not([role="button"])
+            :not(.slide-button)
+            :not(.feature-button)
+            :not(.hero-slider-button)
+            :not(.wp-block-button__link)
+            :not(.promen-link--unstyled) {
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+}
+
+:where(body) a[class*="button"],
+:where(body) a[class*="btn"],
+:where(body) a[class*="cta"],
+:where(body) a[role="button"],
+:where(body) a.slide-button,
+:where(body) a.feature-button,
+:where(body) a.hero-slider-button,
+:where(body) a.wp-block-button__link {
+    text-decoration: none;
+}
+
+/* Common spacing utilities */
+
+.promen-mb-1 {
+    margin-bottom: 1rem;
+}
+
+.promen-mb-2 {
+    margin-bottom: 2rem;
+}
+
+.promen-mt-1 {
+    margin-top: 1rem;
+}
+
+.promen-mt-2 {
+    margin-top: 2rem;
+}
+
+
+/* Common animations */
+
+@keyframes promen-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.promen-fade-in {
+    animation: promen-fade-in 0.5s ease-in-out;
+}
+
+
+/* Accessibility helpers */
+
+.promen-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

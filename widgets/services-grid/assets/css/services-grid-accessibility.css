@@ -1,0 +1,310 @@
+/**
+ * Services Grid Accessibility Styles
+ * 
+ * This file contains accessibility-specific styles for the services grid widget
+ * including focus indicators, screen reader support, and high contrast mode.
+ */
+
+
+/* Focus Indicators */
+
+.service-card:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 115, 170, 0.2);
+}
+
+.service-card.focused {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 115, 170, 0.2);
+}
+
+
+/* High Contrast Mode Support */
+
+@media (prefers-contrast: high) {
+    .service-card {
+        border: 2px solid currentColor;
+    }
+    .service-card:focus {
+        outline: 3px solid currentColor;
+        outline-offset: 2px;
+    }
+    .service-title {
+        font-weight: bold;
+    }
+}
+
+
+/* Reduced Motion Support */
+
+@media (prefers-reduced-motion: reduce) {
+    .service-card {
+        transition: none;
+    }
+    .service-card:hover {
+        transform: none;
+    }
+    .service-card.hover-translateY:hover {
+        transform: none;
+    }
+    .service-card.hover-scale:hover {
+        transform: none;
+    }
+    .service-card.hover-translateY.hover-scale:hover {
+        transform: none;
+    }
+}
+
+
+/* Screen Reader Text */
+
+.screen-reader-text {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden;
+    word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+    clip: auto !important;
+    width: auto !important;
+    height: auto !important;
+    background: #000;
+    color: #fff;
+    padding: 0.5em;
+    z-index: 100000;
+    text-decoration: none;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, .6);
+}
+
+
+/* Skip Links */
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    z-index: 100000;
+    color: #fff;
+    background: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 0 0 4px 4px;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+
+/* Service Card Accessibility Enhancements */
+
+.service-card {
+    position: relative;
+}
+
+.service-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.service-card a:focus {
+    outline: none;
+}
+
+
+/* Icon Accessibility */
+
+.service-icon {
+    position: relative;
+}
+
+.service-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Title Accessibility */
+
+.service-title {
+    margin: 0;
+    line-height: 1.2;
+}
+
+
+/* Description Accessibility */
+
+.service-description {
+    margin: 0.5em 0 0 0;
+    line-height: 1.4;
+}
+
+
+/* Slider Accessibility */
+
+.services-slider-container {
+    position: relative;
+}
+
+.swiper-pagination {
+    position: relative;
+    margin-top: 1em;
+}
+
+.swiper-pagination-bullet {
+    background: #ccc;
+    opacity: 1;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    margin: 0 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+    background: #0073aa;
+}
+
+.swiper-pagination-bullet:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+
+/* Navigation Buttons */
+
+.swiper-button-prev,
+.swiper-button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    border: 2px solid #0073aa;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.swiper-button-prev {
+    left: 10px;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-button-prev:focus,
+.swiper-button-next:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 115, 170, 0.2);
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    background: #0073aa;
+    color: #fff;
+}
+
+
+/* Live Region */
+
+#services-grid-live-region {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+
+/* Grid Layout Accessibility */
+
+.services-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.services-grid .service-card {
+    min-height: 120px;
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .service-card {
+        min-height: 100px;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 36px;
+        height: 36px;
+    }
+    .swiper-button-prev {
+        left: 5px;
+    }
+    .swiper-button-next {
+        right: 5px;
+    }
+}
+
+
+/* Print Styles */
+
+@media print {
+    .service-card {
+        break-inside: avoid;
+        border: 1px solid #000;
+        padding: 1em;
+        margin-bottom: 1em;
+    }
+    .service-card a {
+        color: #000;
+        text-decoration: underline;
+    }
+    .swiper-button-prev,
+    .swiper-button-next,
+    .swiper-pagination {
+        display: none;
+    }
+}
+
+
+/* Dark Mode Support */
+
+@media (prefers-color-scheme: dark) {
+    .service-card:focus {
+        outline-color: #4a9eff;
+        box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.2);
+    }
+    .swiper-pagination-bullet-active {
+        background: #4a9eff;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+        background: #333;
+        border-color: #4a9eff;
+        color: #fff;
+    }
+    .swiper-button-prev:focus,
+    .swiper-button-next:focus {
+        outline-color: #4a9eff;
+        box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.2);
+    }
+}

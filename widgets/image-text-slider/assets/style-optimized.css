@@ -1,0 +1,327 @@
+/* Optimized Image Text Slider Styles for Mobile Performance */
+
+.image-text-slider-container {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    margin-bottom: 4rem;
+    isolation: isolate;
+    /* Use transform3d to enable hardware acceleration */
+    transform: translate3d(0, 0, 0);
+    /* Optimize for mobile performance */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Reduce layout calculations */
+    contain: layout;
+    min-height: 40rem;
+    z-index: 1;
+}
+
+
+/* Optimize hardware acceleration for all key elements */
+
+.image-text-slider-container .swiper,
+.image-text-slider-container .swiper-slide,
+.image-text-slider-container .swiper-content-slider {
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Use will-change sparingly and only when needed */
+    will-change: auto;
+}
+
+
+/* Main swiper optimizations */
+
+.image-text-slider-container .swiper {
+    width: 100%;
+    overflow: visible;
+    height: 45rem;
+    min-height: 40rem;
+    position: relative;
+    /* Remove will-change when not transitioning */
+}
+
+
+/* Optimize slide transitions */
+
+.image-text-slider-container .swiper-slide {
+    width: 100%;
+    height: 100%;
+    /* Use opacity instead of visibility for better performance */
+    opacity: 1;
+    /* Optimize transitions - use transform and opacity only */
+    transition: opacity 0.3s ease;
+    overflow: visible;
+}
+
+
+/* Hide inactive slides efficiently */
+
+.image-text-slider-container .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-next):not(.swiper-slide-prev) {
+    opacity: 0;
+    /* Use pointer-events to prevent interaction without layout recalc */
+    pointer-events: none;
+}
+
+
+/* Content slider optimizations */
+
+.image-text-slider-container .swiper-content-slider {
+    width: 100%;
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    overflow: visible;
+}
+
+.image-text-slider-container .swiper-content-slider .swiper-slide {
+    opacity: 1;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: visible;
+    /* Optimize transitions */
+    transition: opacity 0.3s ease;
+    /* Use absolute positioning to reduce layout calculations */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+/* Hide inactive content slides efficiently */
+
+.image-text-slider-container .swiper-content-slider .swiper-slide:not(.swiper-slide-active) {
+    opacity: 0;
+    pointer-events: none;
+    /* Keep in document flow but invisible */
+    visibility: hidden;
+}
+
+
+/* Content container optimizations */
+
+.image-text-slider-container .slide-content-container {
+    position: relative;
+    width: 40%;
+    /* Enable hardware acceleration */
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+}
+
+
+/* Image optimizations */
+
+.image-text-slider-container .slide-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.image-text-slider-container .slide-image picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* Optimize image rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+}
+
+
+/* Overlay image optimizations */
+
+.image-text-slider-container .slide-image .absolute-overlay-image {
+    position: absolute;
+    z-index: 15;
+    width: 30%;
+    height: auto;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    overflow: visible;
+    pointer-events: none;
+    /* Optimize transform performance */
+    transform: translate3d(0, 0, 0);
+}
+
+
+/* Navigation optimizations */
+
+.image-text-slider-container .swiper-button-prev,
+.image-text-slider-container .swiper-button-next {
+    position: static;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Optimize hover transitions */
+    transition: background-color 0.2s ease;
+    pointer-events: auto;
+    cursor: pointer;
+    /* Hardware acceleration */
+    transform: translate3d(0, 0, 0);
+}
+
+
+/* Pagination optimizations */
+
+.image-text-slider-container .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    /* Optimize transitions */
+    transition: background-color 0.2s ease;
+    transform: translate3d(0, 0, 0);
+}
+
+
+/* Mobile-specific optimizations */
+
+@media (max-width: 768px) {
+    .image-text-slider-container {
+        margin-bottom: 3rem;
+        /* Reduce minimum height on mobile */
+        min-height: 30rem;
+    }
+    .image-text-slider-container .swiper {
+        height: 30rem;
+        min-height: 30rem;
+    }
+    .image-text-slider-container .slide-content-container {
+        width: 70%;
+        margin-top: 40%;
+    }
+    /* Simplify positioning on mobile */
+    .content-position-left .slide-content-container,
+    .content-position-right .slide-content-container {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    /* Optimize overlay images for mobile */
+    .image-text-slider-container .slide-image .absolute-overlay-image {
+        width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-text-slider-container {
+        margin-bottom: 2rem;
+        min-height: 25rem;
+    }
+    .image-text-slider-container .swiper {
+        height: 25rem;
+        min-height: 25rem;
+    }
+    .image-text-slider-container .slide-content-container {
+        width: 90%;
+        padding: 0 10px;
+        margin-top: 35%;
+    }
+    .image-text-slider-container .slide-image .absolute-overlay-image {
+        width: 60%;
+    }
+}
+
+
+/* Performance optimizations for transitions */
+
+.image-text-slider-container.transitioning {
+    /* Temporarily enable will-change during transitions only */
+}
+
+.image-text-slider-container.transitioning .swiper,
+.image-text-slider-container.transitioning .swiper-content-slider,
+.image-text-slider-container.transitioning .swiper-slide {
+    will-change: transform, opacity;
+}
+
+
+/* Remove will-change after transitions complete */
+
+.image-text-slider-container:not(.transitioning) .swiper,
+.image-text-slider-container:not(.transitioning) .swiper-content-slider,
+.image-text-slider-container:not(.transitioning) .swiper-slide {
+    will-change: auto;
+}
+
+
+/* Optimized GSAP animation targets */
+
+.slide-title,
+.slide-description,
+.slide-buttons {
+    /* Prepare elements for GSAP animations */
+    transform: translate3d(0, 0, 0);
+}
+
+
+/* Reduce paint complexity */
+
+.image-text-slider-container .slide-content {
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    /* Optimize shadow rendering */
+    will-change: auto;
+}
+
+
+/* Tilted divider optimizations */
+
+.has-tilted-divider-yes .swiper::after {
+    content: "";
+    position: absolute;
+    z-index: 5;
+    background-color: #ffffff;
+    width: 100%;
+    height: 20rem;
+    transform: skewY(-12deg);
+    transform-origin: bottom center;
+    bottom: 0;
+    left: 0;
+    opacity: 0.8;
+    pointer-events: none;
+    /* Optimize transform performance */
+    will-change: auto;
+    /* Use 3D transforms for hardware acceleration */
+    transform: skewY(-12deg) translate3d(0, 0, 0);
+}
+
+
+/* Editor-specific optimizations */
+
+.elementor-editor-active .image-text-slider-container .swiper-slide,
+.elementor-editor-active .image-text-slider-container .swiper-content-slider .swiper-slide {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+/* Reduce layout thrashing */
+
+.image-text-slider-container .slider-bottom-spacer {
+    width: 100%;
+    clear: both;
+    display: block;
+    position: relative;
+    height: 1px;
+    margin-top: -1px;
+    z-index: 1;
+    /* Optimize for layout calculations */
+    contain: layout;
+}

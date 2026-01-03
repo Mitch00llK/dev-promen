@@ -1,0 +1,49 @@
+/**
+ * Promen Elementor Widgets - Admin Styles
+ *
+ * This file contains styles for the WordPress admin area
+ * related to Promen Elementor Widgets.
+ */
+
+
+/* Admin panel widget styles */
+
+.promen-admin-widget-preview {
+    padding: 15px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+
+/* Admin settings page */
+
+.promen-admin-settings-page {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.promen-admin-settings-page h1 {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.promen-admin-settings-page .form-table th {
+    width: 250px;
+}
+
+
+/* Admin notices */
+
+.promen-admin-notice {
+    position: relative;
+    padding: 10px 15px;
+}
+
+
+/* Admin widget icons */
+
+.elementor-element .icon .promen-widget-icon {
+    color: #d30c5c;
+}

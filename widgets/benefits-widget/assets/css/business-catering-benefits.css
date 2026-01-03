@@ -1,0 +1,94 @@
+.business-catering-benefits-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.business-catering-benefits-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.business-catering-benefits-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.business-catering-benefits-title .title-part-1 {
+    font-weight: 300;
+}
+
+.business-catering-benefits-title .title-part-2 {
+    font-weight: 700;
+}
+
+.business-catering-benefits-description {
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.business-catering-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.benefit-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+}
+
+.benefit-icon {
+    color: var(--e-global-color-primary);
+}
+
+.benefit-icon i,
+.benefit-icon svg {
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+}
+
+.benefit-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.benefit-description {
+    margin: 0;
+    color: var(--e-global-color-text);
+}
+
+
+/* Responsive Styles */
+
+@media screen and (min-width: 64rem) {
+    .business-catering-benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+    }
+    .business-catering-benefits-grid>* {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 48rem) {
+    .business-catering-benefits-grid {
+        grid-template-columns: 1fr;
+        /* Single column on mobile */
+    }
+    .business-catering-benefits-header {
+        margin-bottom: 2rem;
+    }
+    .benefit-card {
+        gap: 0.75rem;
+    }
+}

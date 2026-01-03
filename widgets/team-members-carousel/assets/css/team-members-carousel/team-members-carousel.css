@@ -1,0 +1,415 @@
+/* Promen Team Members Carousel Widget Styles */
+
+
+/* Main container */
+
+.team-members-carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+/* Enable right overflow */
+
+.team-members-carousel-overflow {
+    overflow: visible;
+}
+
+
+/* Ensure carousel wrapper can always scroll properly */
+
+.team-members-carousel-container .team-members-carousel-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.team-members-carousel-container .team-members-carousel-wrapper::-webkit-scrollbar {
+    display: none;
+    /* WebKit */
+}
+
+
+/* Override for overflow enabled containers */
+
+.team-members-carousel-overflow .team-members-carousel-wrapper {
+    overflow: visible;
+}
+
+
+/* Header with title and navigation */
+
+.team-members-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.875rem;
+}
+
+
+/* Title styling */
+
+.team-members-title {
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 767px) {
+    .team-members-title {
+        margin-bottom: unset;
+    }
+}
+
+.team-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.team-title-prefix,
+.team-title-suffix {
+    display: inline-block;
+}
+
+
+/* Navigation arrows container */
+
+.team-members-navigation {
+    display: flex;
+    gap: 0.625rem;
+}
+
+
+/* Carousel wrapper */
+
+.team-members-carousel-wrapper {
+    position: relative;
+    overflow: visible;
+}
+
+
+/* Carousel */
+
+.team-members-carousel {
+    position: relative;
+    width: 100%;
+}
+
+.team-members-carousel .swiper {
+    width: 100%;
+    overflow: visible;
+}
+
+.team-members-carousel .swiper-wrapper {
+    display: flex;
+    width: 100%;
+    height: auto;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    /* Ensure all slides can be reached */
+    transform-style: preserve-3d;
+}
+
+.team-members-carousel .swiper-slide {
+    flex-shrink: 0;
+    height: auto;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    will-change: transform;
+    opacity: 0.8;
+    /* Default opacity that can be overridden by JS */
+    /* Ensure slides are properly contained */
+    min-width: 0;
+    overflow: visible;
+}
+
+
+/* Override any unwanted Swiper default styles */
+
+.team-members-carousel.swiper-no-initial-translate .swiper-wrapper {
+    transform: translate3d(0, 0, 0) !important;
+}
+
+
+/* Ensure proper slide sizing */
+
+.team-members-carousel .member-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Swiper specific styles */
+
+.team-members-carousel .swiper-slide {
+    height: auto;
+    /* Allow slides to size based on content */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    /* Default opacity is now handled by JavaScript for better control */
+}
+
+
+/* Swiper specific styles for centered auto setup */
+
+.team-members-carousel[data-centered="true"] .swiper-slide {
+    /* Opacity is now handled by JavaScript */
+    transform: scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.team-members-carousel[data-centered="true"] .swiper-slide-active {
+    /* Opacity is now handled by JavaScript */
+    transform: scale(1);
+    z-index: 2;
+}
+
+
+/* Add active slide opacity for non-centered layouts too - this is now handled by JS */
+
+.team-members-carousel .swiper-slide-active {
+    /* Opacity is now managed by JavaScript */
+}
+
+
+/* Ensure proper slide accessibility in all modes */
+
+.team-members-carousel:not([data-centered="true"]) .swiper-slide {
+    /* Ensure all slides are accessible in non-centered mode */
+    opacity: 1;
+}
+
+
+/* Improved navigation button accessibility */
+
+.team-members-carousel .carousel-arrow {
+    position: relative;
+    z-index: 20;
+    /* Ensure arrows are always clickable */
+    pointer-events: auto;
+}
+
+
+/* Member card */
+
+.member-card {
+    position: relative;
+    background-color: #F5F5F5;
+    /* Default, can be overridden via Elementor */
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    width: 100%;
+}
+
+.member-card:hover {
+    transform: translateY(-0.3125rem);
+    box-shadow: 0 0.3125rem 0.9375rem rgba(0, 0, 0, 0.1);
+}
+
+
+/* Member image */
+
+.member-image {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.member-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+
+/* Member content */
+
+.member-content {
+    padding: 0.9375rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-name {
+    margin: 0 0 0.3125rem;
+    line-height: 1.3;
+    font-size: 1.25rem !important;
+}
+
+.member-title {
+    margin: 0 0 0.625rem;
+    line-height: 1.4;
+}
+
+
+/* LinkedIn icon */
+
+.member-linkedin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    background-color: #F5F5F5;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: auto;
+    /* Color is set via Elementor controls */
+}
+
+.member-linkedin:hover {
+    /* Background and color are set via Elementor controls */
+}
+
+
+/* Navigation arrows */
+
+.carousel-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+    z-index: 10;
+    /* Background and color are set via Elementor controls */
+}
+
+.carousel-arrow:hover {
+    transform: scale(1.05);
+    /* Background color is set via Elementor controls */
+}
+
+.carousel-arrow.swiper-button-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.carousel-arrow.swiper-button-disabled:hover {
+    transform: none;
+}
+
+.carousel-arrow i,
+.carousel-arrow svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+
+/* Swiper pagination */
+
+.team-members-carousel .swiper-pagination {
+    position: relative;
+    margin-top: 1.25rem;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.team-members-carousel .swiper-pagination-bullet {
+    width: 0.625rem;
+    height: 0.625rem;
+    background-color: #ccc;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.team-members-carousel .swiper-pagination-bullet-active {
+    opacity: 1;
+    background-color: #333;
+    /* Color can be set via Elementor controls */
+}
+
+
+/* Right side gradient overlay */
+
+.carousel-gradient-overlay {
+    position: absolute;
+    top: 0;
+    right: -100vw;
+    bottom: 0;
+    width: 100vw;
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+/* Gradient variations */
+
+.light-gradient.carousel-gradient-overlay {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 100%);
+}
+
+.medium-gradient.carousel-gradient-overlay {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.92) 100%);
+}
+
+.strong-gradient.carousel-gradient-overlay {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.98) 100%);
+}
+
+
+/* Responsive styles */
+
+@media (max-width: 1024px) {
+    .team-members-carousel[data-centered="true"] .swiper-slide {
+        /* Opacity is now handled by JavaScript */
+    }
+    .team-members-carousel[data-centered="true"] .swiper-slide-active {
+        /* Opacity is now handled by JavaScript */
+    }
+    .carousel-gradient-overlay {
+        right: -50vw;
+        width: 50vw;
+    }
+}
+
+@media (max-width: 767px) {
+    .team-members-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .team-members-navigation {
+        align-self: flex-start;
+    }
+    .team-members-carousel[data-centered="true"] .swiper-slide {
+        /* Opacity is now handled by JavaScript */
+    }
+    .team-members-carousel[data-centered="true"] .swiper-slide-active {
+        /* Opacity is now handled by JavaScript */
+    }
+    .carousel-gradient-overlay {
+        right: -30vw;
+        width: 30vw;
+    }
+    .member-content {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-gradient-overlay {
+        right: -20vw;
+        width: 20vw;
+    }
+    .member-content {
+        padding: 0.625rem;
+    }
+}

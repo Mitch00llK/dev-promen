@@ -1,0 +1,731 @@
+/**
+ * Promen Image Text Block Widget Styles
+ * 
+ * This widget supports rem units for better accessibility and responsive design.
+ * 1rem = 16px (browser default) unless changed at the root level.
+ */
+
+:root {
+    /* Base font size reference - this helps ensure rem calculations are consistent */
+    font-size: 16px;
+}
+
+
+/* Import Manrope font for the split title */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;800&display=swap');
+.promen-image-text-block {
+    padding: 3.75rem 0;
+    /* 60px / 16px = 3.75rem */
+    overflow: hidden;
+}
+
+.promen-image-text-container,
+.promen-image-text-block__container {
+    display: flex;
+    /* max-width: 75rem; */
+    margin: 0 auto;
+    align-items: stretch;
+    /* Changed from center to stretch to make full height */
+    gap: 3.75rem;
+}
+
+
+/* Image Left Layout (default) */
+
+.promen-image-text-block.image-left .promen-image-text-container,
+.promen-image-text-block--left .promen-image-text-block__container,
+.promen-image-text-block.promen-image-text-block--left .promen-image-text-block__container {
+    flex-direction: row;
+}
+
+
+/* Image Right Layout */
+
+.promen-image-text-block.image-right .promen-image-text-container,
+.promen-image-text-block--right .promen-image-text-block__container,
+.promen-image-text-block.promen-image-text-block--right .promen-image-text-block__container {
+    flex-direction: row-reverse;
+}
+
+.promen-image-text-image-wrapper,
+.promen-image-text-block__image-wrapper {
+    flex: 1;
+    max-width: 50%;
+    overflow: hidden;
+    /* Added for hover animations */
+    position: relative;
+    /* Added for hover animations */
+    display: flex;
+    /* Added to allow image height to stretch */
+    flex-direction: column;
+    /* Added for proper flex alignment */
+}
+
+.promen-image-text-image,
+.promen-image-text-block__image {
+    width: 100%;
+    height: 100%;
+    /* Changed from auto to 100% to fill the container height */
+    border-radius: 0.5rem;
+    /* 8px / 16px = 0.5rem */
+    display: flex;
+    /* Changed from block to flex */
+    flex-direction: column;
+    /* Added for proper flex alignment */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    /* Base transition for all animations */
+}
+
+.promen-image-text-image img,
+.promen-image-text-block__image img {
+    width: 100%;
+    height: 100%;
+    /* Make image fill the container */
+    object-fit: cover;
+    /* Ensure image covers the area without distortion */
+    object-position: center;
+    /* Center the image within the container */
+}
+
+.promen-image-text-content-wrapper,
+.promen-image-text-block__content-wrapper {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    /* gap: 1.25rem; */
+    /* 20px / 16px = 1.25rem */
+}
+
+.promen-image-text-title,
+.promen-image-text-block__title {
+    font-size: 2.25rem;
+    /* 36px / 16px = 2.25rem */
+    line-height: 1.2;
+    margin: 0 0 0.625rem;
+    /* 10px / 16px = 0.625rem */
+    font-weight: 700;
+}
+
+
+/* Split title styles */
+
+.promen-image-text-title-split,
+.promen-image-text-block__title-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    /* Space between the two parts */
+}
+
+.promen-image-text-title-part1,
+.promen-image-text-block__title-part1 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    display: inline-block;
+}
+
+.promen-image-text-title-part2,
+.promen-image-text-block__title-part2,
+.promen-image-text-block__title-highlight {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    display: inline-block;
+}
+
+.promen-image-text-button,
+.promen-image-text-block__button {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    max-width: fit-content;
+}
+
+.promen-image-text-block__button-icon {
+    display: inline-flex;
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.promen-image-text-button:hover .promen-image-text-block__button-icon,
+.promen-image-text-block__button:hover .promen-image-text-block__button-icon {
+    transform: translateX(0.25rem);
+}
+
+.promen-image-text-button:hover,
+.promen-image-text-block__button:hover {
+    opacity: 0.9;
+    transform: translateY(-0.125rem);
+    /* 2px / 16px = 0.125rem */
+}
+
+
+/* Image Hover Animations */
+
+.promen-image-hover-zoom-in .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-zoom-in .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: scale(1.1);
+}
+
+.promen-image-hover-zoom-out .promen-image-text-image,
+.promen-image-hover-zoom-out .promen-image-text-block__image {
+    transform: scale(1.1);
+}
+
+.promen-image-hover-zoom-out .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-zoom-out .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: scale(1);
+}
+
+.promen-image-hover-slide-up .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-slide-up .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: translateY(-0.625rem);
+    /* 10px / 16px = 0.625rem */
+}
+
+.promen-image-hover-slide-down .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-slide-down .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: translateY(0.625rem);
+    /* 10px / 16px = 0.625rem */
+}
+
+.promen-image-hover-rotate .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-rotate .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: rotate(5deg);
+}
+
+
+/* Responsive Styles */
+
+@media (max-width: 1024px) {
+    .promen-image-text-block.stack-on-tablet .promen-image-text-container,
+    .promen-image-text-block.stack-on-tablet .promen-image-text-block__container {
+        flex-direction: column;
+    }
+    .promen-image-text-block.stack-on-tablet .promen-image-text-image-wrapper,
+    .promen-image-text-block.stack-on-tablet .promen-image-text-content-wrapper,
+    .promen-image-text-block.stack-on-tablet .promen-image-text-block__image-wrapper,
+    .promen-image-text-block.stack-on-tablet .promen-image-text-block__content-wrapper {
+        max-width: 100%;
+        width: 100%;
+    }
+    /* Ensure proper spacing in stacked mode */
+    .promen-image-text-block.stack-on-tablet .promen-image-text-image-wrapper,
+    .promen-image-text-block.stack-on-tablet .promen-image-text-block__image-wrapper {
+        margin-bottom: 2rem;
+        min-height: 300px;
+        /* Add minimum height for better appearance */
+    }
+    /* Set image heights for responsive views */
+    .promen-image-text-block.stack-on-tablet .promen-image-text-image-wrapper img,
+    .promen-image-text-block.stack-on-tablet .promen-image-text-block__image-wrapper img {
+        height: 100%;
+        object-fit: cover;
+    }
+    /* Image ordering for tablet - Normal Mode */
+    .promen-image-text-block.tablet-image-first .promen-image-text-container,
+    .promen-image-text-block.tablet-image-first .promen-image-text-block__container {
+        display: flex;
+        flex-direction: column;
+    }
+    .promen-image-text-block.tablet-image-first .promen-image-text-image-wrapper,
+    .promen-image-text-block.tablet-image-first .promen-image-text-block__image-wrapper {
+        order: 1;
+    }
+    .promen-image-text-block.tablet-image-first .promen-image-text-content-wrapper,
+    .promen-image-text-block.tablet-image-first .promen-image-text-block__content-wrapper {
+        order: 2;
+    }
+    .promen-image-text-block.tablet-image-last .promen-image-text-container,
+    .promen-image-text-block.tablet-image-last .promen-image-text-block__container {
+        display: flex;
+        flex-direction: column;
+    }
+    .promen-image-text-block.tablet-image-last .promen-image-text-image-wrapper,
+    .promen-image-text-block.tablet-image-last .promen-image-text-block__image-wrapper {
+        order: 2;
+        margin-bottom: 0;
+        margin-top: 2rem;
+    }
+    .promen-image-text-block.tablet-image-last .promen-image-text-content-wrapper,
+    .promen-image-text-block.tablet-image-last .promen-image-text-block__content-wrapper {
+        order: 1;
+    }
+    /* Tabs specific stacking for tablet */
+    .promen-image-text-block--tabs.stack-on-tablet .promen-image-text-block__container {
+        flex-direction: column;
+    }
+    .promen-image-text-block--tabs.stack-on-tablet .promen-image-text-block__image-wrapper,
+    .promen-image-text-block--tabs.stack-on-tablet .promen-image-text-block__content-wrapper {
+        max-width: 100%;
+        width: 100%;
+    }
+    .promen-image-text-block--tabs.stack-on-tablet .promen-image-text-block__image-wrapper {
+        min-height: 300px;
+        /* Add minimum height for better appearance */
+    }
+    /* Image ordering for tablet - Tabs Mode */
+    .promen-image-text-block--tabs.tablet-image-first .promen-image-text-block__container {
+        display: flex;
+        flex-direction: column;
+    }
+    .promen-image-text-block--tabs.tablet-image-first .promen-image-text-block__image-wrapper {
+        order: 1;
+        margin-bottom: 2rem;
+    }
+    .promen-image-text-block--tabs.tablet-image-first .promen-image-text-block__content-wrapper {
+        order: 2;
+    }
+}
+
+@media (max-width: 767px) {
+    .promen-image-text-block {
+        padding: 2.5rem 0;
+        /* 40px / 16px = 2.5rem */
+    }
+    .promen-image-text-container,
+    .promen-image-text-block__container {
+        gap: 2rem;
+    }
+    .promen-image-text-block.stack-on-mobile .promen-image-text-container,
+    .promen-image-text-block.stack-on-mobile .promen-image-text-block__container {
+        flex-direction: column;
+    }
+    .promen-image-text-block.stack-on-mobile .promen-image-text-image-wrapper,
+    .promen-image-text-block.stack-on-mobile .promen-image-text-content-wrapper,
+    .promen-image-text-block.stack-on-mobile .promen-image-text-block__image-wrapper,
+    .promen-image-text-block.stack-on-mobile .promen-image-text-block__content-wrapper {
+        max-width: 100%;
+        width: 100%;
+    }
+    /* Ensure proper spacing in stacked mode */
+    .promen-image-text-block.stack-on-mobile .promen-image-text-image-wrapper,
+    .promen-image-text-block.stack-on-mobile .promen-image-text-block__image-wrapper {
+        margin-bottom: 1.5rem;
+        min-height: 250px;
+        /* Add minimum height for better appearance on mobile */
+    }
+    /* Image ordering for mobile - Normal Mode */
+    .promen-image-text-block.mobile-image-first .promen-image-text-container,
+    .promen-image-text-block.mobile-image-first .promen-image-text-block__container {
+        display: flex;
+        flex-direction: column;
+    }
+    .promen-image-text-block.mobile-image-first .promen-image-text-image-wrapper,
+    .promen-image-text-block.mobile-image-first .promen-image-text-block__image-wrapper {
+        order: 1;
+    }
+    .promen-image-text-block.mobile-image-first .promen-image-text-content-wrapper,
+    .promen-image-text-block.mobile-image-first .promen-image-text-block__content-wrapper {
+        order: 2;
+    }
+    .promen-image-text-block.mobile-image-last .promen-image-text-container,
+    .promen-image-text-block.mobile-image-last .promen-image-text-block__container {
+        display: flex;
+        flex-direction: column;
+    }
+    .promen-image-text-block.mobile-image-last .promen-image-text-image-wrapper,
+    .promen-image-text-block.mobile-image-last .promen-image-text-block__image-wrapper {
+        order: 2;
+        margin-bottom: 0;
+        margin-top: 1.5rem;
+    }
+    .promen-image-text-block.mobile-image-last .promen-image-text-content-wrapper,
+    .promen-image-text-block.mobile-image-last .promen-image-text-block__content-wrapper {
+        order: 1;
+    }
+    /* Tabs specific stacking for mobile */
+    .promen-image-text-block--tabs.stack-on-mobile .promen-image-text-block__container {
+        flex-direction: column;
+    }
+    .promen-image-text-block--tabs.stack-on-mobile .promen-image-text-block__image-wrapper,
+    .promen-image-text-block--tabs.stack-on-mobile .promen-image-text-block__content-wrapper {
+        max-width: 100%;
+        width: 100%;
+    }
+    .promen-image-text-block--tabs.stack-on-mobile .promen-image-text-block__image-wrapper {
+        min-height: 250px;
+        /* Add minimum height for better appearance on mobile */
+    }
+    /* Image ordering for mobile - Tabs Mode */
+    .promen-image-text-block--tabs.mobile-image-first .promen-image-text-block__container {
+        display: flex;
+        flex-direction: column;
+    }
+    .promen-image-text-block--tabs.mobile-image-first .promen-image-text-block__image-wrapper {
+        order: 1;
+        margin-bottom: 1.5rem;
+    }
+    .promen-image-text-block--tabs.mobile-image-first .promen-image-text-block__content-wrapper {
+        order: 2;
+    }
+    .promen-image-text-block--tabs.mobile-image-last .promen-image-text-block__container {
+        display: flex;
+        flex-direction: column;
+    }
+    .promen-image-text-block--tabs.mobile-image-last .promen-image-text-block__image-wrapper {
+        order: 2;
+        margin-bottom: 0;
+        margin-top: 1.5rem;
+    }
+    .promen-image-text-block--tabs.mobile-image-last .promen-image-text-block__content-wrapper {
+        order: 1;
+    }
+    /* Mobile typography */
+    .promen-image-text-title,
+    .promen-image-text-block__title {
+        font-size: 1.75rem;
+        /* 28px / 16px = 1.75rem */
+    }
+    .promen-image-text-title-part1,
+    .promen-image-text-title-part2,
+    .promen-image-text-block__title-part1,
+    .promen-image-text-block__title-part2,
+    .promen-image-text-block__title-highlight {
+        font-size: 1.75rem;
+        /* 28px / 16px = 1.75rem */
+        line-height: 1.2;
+    }
+}
+
+
+/* Tabs Mode Styles */
+
+.promen-tabs-mode,
+.promen-image-text-block--tabs {
+    position: relative;
+    /* width: 75rem; */
+    max-width: 75rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.promen-tabs-wrapper,
+.promen-image-text-block__tabs {
+    width: 100%;
+    padding: 0;
+}
+
+
+/* Adjust the image-text container for tabs mode */
+
+.promen-tabs-mode .promen-image-text-container,
+.promen-image-text-block--tabs .promen-image-text-block__container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    /* Changed from center to stretch to make full height */
+    gap: 2rem;
+}
+
+.promen-tabs-mode .promen-image-text-image-wrapper,
+.promen-image-text-block--tabs .promen-image-text-block__image-wrapper {
+    flex: 1;
+    max-width: 50%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    /* Added to allow image height to stretch */
+    flex-direction: column;
+    /* Added for proper flex alignment */
+}
+
+.promen-tabs-mode .promen-image-text-image,
+.promen-image-text-block--tabs .promen-image-text-block__image {
+    width: 100%;
+    height: 100%;
+    /* Changed from auto to 100% to fill the container height */
+    border-radius: 0.5rem;
+    /* 8px / 16px = 0.5rem */
+    display: flex;
+    /* Changed from block to flex */
+    flex-direction: column;
+    /* Added for proper alignment */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.promen-tabs-mode .promen-image-text-image img,
+.promen-tabs-mode .promen-image-text-block__image img,
+.promen-image-text-block--tabs .promen-image-text-block__image img {
+    width: 100%;
+    height: 100%;
+    /* Make image fill the container */
+    object-fit: cover;
+    /* Ensure image covers the area without distortion */
+    object-position: center;
+    /* Center the image within the container */
+}
+
+.promen-image-text-block__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    /* 20px / 16px = 1.25rem */
+}
+
+.promen-image-text-block__content-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Tab Navigation Styles - Updated to match screenshot and new position */
+
+.promen-tabs-nav,
+.promen-image-text-block__tabs-nav {
+    display: flex;
+    flex-direction: column;
+    /* margin-bottom: 1.5rem; */
+    width: 100%;
+    background-color: transparent;
+    order: -1;
+    position: relative;
+    z-index: 10;
+    min-height: 3rem;
+    height: 3rem;
+}
+
+.promen-image-text-block__tabs-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    /* 12px / 16px = 0.75rem */
+    justify-content: flex-start;
+    position: relative;
+    /* Add position relative for stability */
+}
+
+.promen-tab-title,
+.promen-image-text-block__tab {
+    cursor: pointer;
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px / 16px = 0.625rem 1.25rem */
+    border-radius: 2rem;
+    /* 32px / 16px = 2rem */
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: none;
+    text-align: center;
+    min-width: 6rem;
+    /* 96px / 16px = 6rem */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+    /* 2px 4px / 16px = 0.125rem 0.25rem */
+    /* Default styles that will be overridden by Elementor controls */
+    color: #002F5F;
+}
+
+.promen-tab-title.active,
+.promen-image-text-block__tab.active {
+    /* Default styles that will be overridden by Elementor controls */
+    background-color: #002F5F;
+    color: white;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    /* 4px 8px / 16px = 0.25rem 0.5rem */
+}
+
+.promen-tab-title:hover:not(.active),
+.promen-image-text-block__tab:hover:not(.active) {
+    /* Default styles that will be overridden by Elementor controls */
+    transform: translateY(-0.125rem);
+    /* 2px / 16px = 0.125rem */
+}
+
+.promen-tab-title .promen-image-text-block__tab-title,
+.promen-image-text-block__tab .promen-image-text-block__tab-title {
+    /* 14px / 16px = 0.875rem */
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.promen-tab-content,
+.promen-image-text-block__tab-content {
+    display: none;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+}
+
+.promen-tab-content.active,
+.promen-image-text-block__tab-content.active {
+    display: block;
+    opacity: 1;
+    position: relative;
+    /* Reset position for active tab */
+    visibility: visible;
+}
+
+.promen-tab-image {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.promen-tab-image.active {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.promen-tab-hidden {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+
+/* Tab Image Animation */
+
+.tab-image-animate {
+    animation: fadeInScale 0.5s ease forwards;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* Ensure proper spacing between tabs and title */
+
+.promen-image-text-block__title-wrapper {
+    margin-top: 0.5rem;
+}
+
+
+/* Ensure tabs are properly aligned */
+
+.promen-image-text-block--tabs .promen-image-text-block__tabs-nav {
+    /* margin-bottom: 1rem; */
+    padding: 0;
+    height: 3rem;
+    /* Fixed height to prevent movement */
+}
+
+
+/* Ensure proper spacing in the content area */
+
+.promen-image-text-block--tabs .promen-image-text-block__content {
+    padding-top: 0.5rem;
+    position: relative;
+    /* Add position relative for stability */
+}
+
+
+/* Accessibility improvements */
+
+.promen-image-text-block__button:focus {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+}
+
+.promen-image-text-block__button:focus-visible {
+    outline: 3px solid #005fcc !important;
+    outline-offset: 2px !important;
+}
+
+
+/* Ensure minimum touch target size */
+
+.promen-image-text-block__button,
+.promen-image-text-block__tab {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+
+/* Improve semantic structure */
+
+.promen-image-text-block section,
+.promen-image-text-block article,
+.promen-image-text-block header,
+.promen-image-text-block footer,
+.promen-image-text-block nav,
+.promen-image-text-block figure {
+    display: block;
+}
+
+.promen-image-text-block figure {
+    margin: 0;
+}
+
+
+/* Fix for tab content container to maintain height */
+
+.promen-tabs-content-wrapper,
+.promen-image-text-block__tabs-content {
+    position: relative;
+    transition: height 0.3s ease;
+    /* Smooth height transition */
+}
+
+
+/* Fix for tab content container to maintain consistent layout */
+
+.promen-image-text-block__container {
+    position: relative;
+}
+
+
+/* Ensure image wrapper maintains consistent height */
+
+.promen-image-text-block__image-wrapper {
+    position: relative;
+}
+
+
+/* Responsive Styles for Tabs */
+
+@media (max-width: 767px) {
+    .promen-tabs-nav,
+    .promen-image-text-block__tabs-nav {
+        /* margin-bottom: 1rem; */
+        min-height: 2.5rem;
+        height: auto;
+        max-height: 6rem;
+    }
+    .promen-image-text-block__tabs-buttons {
+        justify-content: flex-start;
+        gap: 0.5rem;
+        /* 8px / 16px = 0.5rem */
+    }
+    .promen-tab-title,
+    .promen-image-text-block__tab {
+        padding: 0.5rem 1rem;
+        /* 8px 16px / 16px = 0.5rem 1rem */
+        min-width: auto;
+        font-size: 0.875rem;
+        /* 14px / 16px = 0.875rem */
+    }
+    .promen-tabs-mode .promen-image-text-container,
+    .promen-image-text-block--tabs .promen-image-text-block__container {
+        flex-direction: column;
+    }
+    .promen-tabs-mode .promen-image-text-image-wrapper,
+    .promen-tabs-mode .promen-image-text-content-wrapper,
+    .promen-image-text-block--tabs .promen-image-text-block__image-wrapper,
+    .promen-image-text-block--tabs .promen-image-text-block__content-wrapper {
+        max-width: 100%;
+    }
+}

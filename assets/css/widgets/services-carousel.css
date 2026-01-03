@@ -1,0 +1,643 @@
+/* Promen Services Carousel Widget Styles */
+
+.promen-services-carousel-container {
+    padding: 1rem 0;
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+    /* Prevent horizontal overflow */
+}
+
+
+/* Header section with title and navigation */
+
+.promen-services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.promen-services-title-wrapper {
+    flex: 1;
+}
+
+.promen-services-navigation {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+
+/* Right side gradient overlay - confined to carousel */
+
+.promen-services-carousel-wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    /* padding: 0 15px; */
+    box-sizing: border-box;
+}
+
+
+/* When in center mode, adjust wrapper padding */
+
+.promen-services-carousel-wrapper.has-center-mode {
+    padding: 0;
+    overflow: hidden;
+}
+
+
+/* Adjust the carousel container in center mode */
+
+.promen-services-carousel-wrapper.has-center-mode .promen-services-carousel {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+
+/* Standard gradient for regular carousels */
+
+.promen-services-carousel-wrapper .viewport-edge-gradient {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateX(25vw);
+    width: 35vw;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 50%, #ffffff 100%);
+    -webkit-transform: translateX(25vw);
+    -moz-transform: translateX(25vw);
+    -ms-transform: translateX(25vw);
+    -o-transform: translateX(25vw);
+    z-index: 999;
+}
+
+
+/* Gradient for full-width carousels */
+
+.promen-services-carousel-fullwidth {
+    position: relative;
+}
+
+.promen-services-carousel-fullwidth.has-gradient:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 35vw;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 50%, #ffffff 100%);
+}
+
+
+/* Gradient variations */
+
+.viewport-edge-gradient.light-gradient {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 70%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+.viewport-edge-gradient.medium-gradient {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.viewport-edge-gradient.strong-gradient {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 80%, #ffffff 100%);
+}
+
+.promen-services-carousel-fullwidth.has-gradient.light-gradient:after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 70%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+.promen-services-carousel-fullwidth.has-gradient.medium-gradient:after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.promen-services-carousel-fullwidth.has-gradient.strong-gradient:after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 80%, #ffffff 100%);
+}
+
+
+/* Full-width container with left alignment to 1200px container */
+
+.promen-services-carousel-fullwidth {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* Container for title and content that stays within 1200px */
+
+.promen-services-content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* padding: 0 15px; */
+    box-sizing: border-box;
+}
+
+
+/* This is the container that allows right overflow */
+
+.promen-services-carousel-fullwidth-inner {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0;
+    padding-left: 0;
+    overflow: visible;
+}
+
+.promen-services-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #002266;
+    margin: 0;
+}
+
+.promen-services-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.promen-services-carousel {
+    width: 100%;
+    overflow: visible;
+    /* Changed from hidden to allow right overflow */
+    margin: 0;
+    padding: 0;
+}
+
+
+/* When gradient is active, adjust arrows to be higher z-index */
+
+.promen-services-carousel-wrapper.has-gradient .carousel-arrow,
+.promen-services-carousel-fullwidth.has-gradient .carousel-arrow {
+    z-index: 6;
+}
+
+
+/* For full-width carousel */
+
+.promen-services-carousel-fullwidth .promen-services-carousel {
+    width: 100%;
+    overflow: visible;
+}
+
+.service-card {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    background-color: #DFEBD1;
+    border-radius: 12px;
+    padding: 30px 15px;
+    min-height: 190px;
+    text-decoration: none;
+    text-align: left;
+    margin-right: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    outline: none;
+    font-size: 1.25rem;
+    /* Remove outline for better appearance */
+}
+
+
+/* Ensure proper specificity for background colors */
+
+.elementor .service-card {
+    /* This will be overridden by the global style from Elementor */
+    background-color: #DFEBD1;
+}
+
+
+/* Individual card styles from repeater will have higher specificity */
+
+.elementor-element .elementor-repeater-item.service-card {
+    /* This ensures individual card colors take precedence */
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon {
+    margin-bottom: 20px;
+    font-size: 36px;
+    color: #002266;
+}
+
+.service-title {
+    /* font-size: 18px; */
+    font-weight: 600;
+    color: #002266;
+    margin: 0 0 15px;
+    line-height: 1.3;
+}
+
+.service-arrow {
+    margin-top: auto;
+    font-size: 12px;
+    color: #002266;
+}
+
+
+/* Swiper Styles */
+
+.promen-services-carousel.swiper {
+    padding: 0;
+}
+
+.promen-services-carousel .swiper-wrapper {
+    padding: 20px 0 !important;
+    /* Adds space for shadows and transforms */
+    overflow: visible;
+}
+
+.promen-services-carousel .swiper-slide {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    height: auto;
+    /* Ensure slides take natural height */
+}
+
+
+/* Center Mode Active Slide */
+
+.promen-services-carousel.swiper.swiper-center-mode .swiper-slide-active .service-card {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+
+
+/* Non-active slides in center mode */
+
+.promen-services-carousel.swiper.swiper-center-mode .swiper-slide:not(.swiper-slide-active) .service-card {
+    opacity: 0.7;
+    transform: scale(0.95);
+}
+
+
+/* Navigation arrows */
+
+.carousel-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #002266;
+    font-size: 16px;
+    z-index: 2;
+}
+
+.promen-services-navigation .carousel-arrow {
+    position: relative;
+    top: auto;
+    transform: none;
+}
+
+.carousel-arrow:hover {
+    background-color: #002266;
+    color: #ffffff;
+    border-color: #002266;
+}
+
+
+/* Arrow positioning for regular carousel */
+
+.promen-services-carousel-wrapper .carousel-arrow-prev {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.promen-services-carousel-wrapper .carousel-arrow-next {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* Arrow positioning for full-width carousel */
+
+.promen-services-carousel-fullwidth .carousel-arrow-prev {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.promen-services-carousel-fullwidth .carousel-arrow-next {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* Arrow positioning for center mode */
+
+.promen-services-carousel-wrapper.has-center-mode .carousel-arrow-prev {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.promen-services-carousel-wrapper.has-center-mode .carousel-arrow-next {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* Arrow positioning for full-width center mode */
+
+.promen-services-carousel-fullwidth.has-center-mode .carousel-arrow-prev {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.promen-services-carousel-fullwidth.has-center-mode .carousel-arrow-next {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* Custom arrow positioning */
+
+.elementor-element[data-arrows-position-type="custom"] .carousel-arrow {
+    position: absolute;
+    top: var(--arrows-v-position, 50%);
+    transform: translateY(-50%);
+}
+
+
+/* Editor styles */
+
+.elementor-editor-active .promen-services-carousel-container {
+    overflow: hidden;
+}
+
+.elementor-editor-active .promen-services-carousel:not(.swiper-initialized) {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 0;
+    margin: 0 -10px;
+}
+
+.elementor-editor-active .promen-services-carousel:not(.swiper-initialized)::-webkit-scrollbar {
+    height: 8px;
+    background-color: #f5f5f5;
+}
+
+.elementor-editor-active .promen-services-carousel:not(.swiper-initialized) .service-card {
+    flex: 0 0 auto;
+    margin: 0 10px;
+}
+
+.elementor-editor-active .promen-services-carousel-fullwidth-inner {
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.elementor-editor-active .promen-services-carousel-wrapper.has-gradient::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 150px;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 70%, #ffffff 100%);
+}
+
+.elementor-editor-active .promen-services-carousel-wrapper.has-gradient.light-gradient::after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 70%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+.elementor-editor-active .promen-services-carousel-wrapper.has-gradient.medium-gradient::after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.elementor-editor-active .promen-services-carousel-wrapper.has-gradient.strong-gradient::after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 80%, #ffffff 100%);
+}
+
+
+/* Editor styles for full-width */
+
+.elementor-editor-active .promen-services-carousel-fullwidth.has-gradient:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 150px;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 70%, #ffffff 100%);
+}
+
+.elementor-editor-active .promen-services-carousel-fullwidth.has-gradient.light-gradient:after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 70%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+.elementor-editor-active .promen-services-carousel-fullwidth.has-gradient.medium-gradient:after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.elementor-editor-active .promen-services-carousel-fullwidth.has-gradient.strong-gradient:after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 80%, #ffffff 100%);
+}
+
+
+/* Responsive styles */
+
+@media (max-width: 1200px) {
+    .promen-services-content-container {
+        max-width: 100%;
+    }
+    .elementor-editor-active .promen-services-carousel:not(.swiper-initialized) .service-card {
+        min-width: 280px;
+    }
+    .promen-services-carousel-wrapper .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-gradient:after {
+        width: 30vw;
+    }
+}
+
+@media (max-width: 1024px) {
+    .promen-services-title {
+        font-size: 36px;
+    }
+    .service-card {
+        padding: 25px 15px;
+        min-height: 170px;
+    }
+    .service-icon {
+        font-size: 32px;
+    }
+    .service-title {
+        font-size: 16px;
+    }
+    .elementor-editor-active .promen-services-carousel:not(.swiper-initialized) .service-card {
+        min-width: 240px;
+    }
+    .promen-services-carousel-wrapper .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-gradient:after {
+        width: 25vw;
+    }
+}
+
+@media (max-width: 767px) {
+    .promen-services-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .promen-services-navigation {
+        align-self: flex-start;
+    }
+    .promen-services-title {
+        font-size: 28px;
+    }
+    .carousel-arrow {
+        width: 36px;
+        height: 36px;
+    }
+    .service-card {
+        padding: 20px 12px;
+        min-height: 150px;
+    }
+    .service-icon {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+    .promen-services-carousel.swiper.swiper-center-mode .swiper-slide-active .service-card {
+        transform: translateY(-3px) scale(1.03);
+    }
+    .promen-services-content-container {
+        padding: 0 10px;
+    }
+    .elementor-editor-active .promen-services-carousel:not(.swiper-initialized) .service-card {
+        min-width: 200px;
+    }
+    .promen-services-carousel-wrapper .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-gradient:after {
+        width: 20vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .promen-services-title {
+        font-size: 24px;
+    }
+    .carousel-arrow {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 14px;
+        background-color: #002469;
+        color: #ffffff;
+    }
+    .service-card {
+        min-height: 140px;
+    }
+    .promen-services-carousel-wrapper .carousel-arrow-prev {
+        left: -10px;
+    }
+    .promen-services-carousel-wrapper .carousel-arrow-next {
+        right: -10px;
+    }
+    .promen-services-carousel-fullwidth .carousel-arrow-prev {
+        left: -10px;
+    }
+    .promen-services-carousel-fullwidth .carousel-arrow-next {
+        right: -10px;
+    }
+    .promen-services-carousel-wrapper .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-gradient:after {
+        width: 15vw;
+    }
+}
+
+
+/* Center Mode Specific Styles */
+
+.promen-services-carousel.swiper.swiper-center-mode {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: calc(-1 * var(--center-padding, 60px));
+    margin-right: calc(-1 * var(--center-padding, 60px));
+}
+
+.promen-services-carousel.swiper.swiper-center-mode .swiper-wrapper {
+    padding-left: var(--center-padding, 60px);
+    padding-right: var(--center-padding, 60px);
+}
+
+
+/* Adjust gradient position for center mode */
+
+.promen-services-carousel-wrapper.has-center-mode .viewport-edge-gradient {
+    right: var(--center-padding, 60px);
+}
+
+.promen-services-carousel-fullwidth.has-center-mode.has-gradient:after {
+    right: var(--center-padding, 60px);
+}
+
+@media (max-width: 1024px) {
+    .promen-services-carousel.swiper.swiper-center-mode {
+        margin-left: calc(-1 * var(--center-padding-tablet, 40px));
+        margin-right: calc(-1 * var(--center-padding-tablet, 40px));
+    }
+    .promen-services-carousel.swiper.swiper-center-mode .swiper-wrapper {
+        padding-left: var(--center-padding-tablet, 40px);
+        padding-right: var(--center-padding-tablet, 40px);
+    }
+    .promen-services-carousel-wrapper.has-center-mode .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-center-mode.has-gradient:after {
+        right: var(--center-padding-tablet, 40px);
+    }
+}
+
+@media (max-width: 767px) {
+    .promen-services-carousel.swiper.swiper-center-mode {
+        margin-left: calc(-1 * var(--center-padding-mobile, 20px));
+        margin-right: calc(-1 * var(--center-padding-mobile, 20px));
+    }
+    .promen-services-carousel.swiper.swiper-center-mode .swiper-wrapper {
+        padding-left: var(--center-padding-mobile, 20px);
+        padding-right: var(--center-padding-mobile, 20px);
+    }
+    .promen-services-carousel-wrapper.has-center-mode .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-center-mode.has-gradient:after {
+        right: var(--center-padding-mobile, 20px);
+    }
+}

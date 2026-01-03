@@ -1,0 +1,821 @@
+/**
+ * Hamburger Menu Widget Styles
+ */
+
+
+/* Main container for the site content - used for push animation */
+
+#page {
+    transition: none;
+    /* Let GSAP handle transitions for better performance */
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    /* Force GPU acceleration */
+}
+
+
+/* Hamburger Menu Container */
+
+.hamburger-menu {
+    position: relative;
+    z-index: 9999;
+}
+
+
+/* Toggle Button Wrapper */
+
+.hamburger-menu__toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.hamburger-menu__toggle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+    transform-origin: center;
+}
+
+
+/* Hamburger Bars */
+
+.hamburger-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+.hamburger-bar+.hamburger-bar {
+    margin-top: 6px;
+}
+
+
+/* Toggle Label */
+
+.hamburger-menu__toggle-label {
+    margin-left: 10px;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+
+/* Toggle Animation (X shape) with smoother bezier curve */
+
+.hamburger-menu__toggle.is-active .hamburger-bar:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+.hamburger-menu__toggle.is-active .hamburger-bar:nth-child(2) {
+    opacity: 0;
+    transform: scale(0.2);
+}
+
+.hamburger-menu__toggle.is-active .hamburger-bar:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+
+/* Menu Panel */
+
+.hamburger-menu__panel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    z-index: 9998;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 60px 30px;
+}
+
+
+/* Panel Animations - Initial states only, GSAP handles transitions */
+
+.hamburger-menu__panel.panel-animation-slide-down {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    transform: translateY(-20px);
+}
+
+.hamburger-menu__panel.panel-animation-slide-left {
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    transform: translateX(-100%);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.hamburger-menu__panel.panel-animation-slide-right {
+    top: 0;
+    right: 0;
+    left: auto;
+    width: 300px;
+    height: 100vh;
+    transform: translateX(100%);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.hamburger-menu__panel.panel-animation-fade {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+
+/* Active Panel Styles */
+
+.hamburger-menu.is-active .hamburger-menu__panel {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.hamburger-menu.is-active .hamburger-menu__panel.panel-animation-slide-down {
+    height: 100vh;
+    transform: translateY(0);
+}
+
+.hamburger-menu.is-active .hamburger-menu__panel.panel-animation-slide-left,
+.hamburger-menu.is-active .hamburger-menu__panel.panel-animation-slide-right {
+    transform: translateX(0);
+}
+
+
+/* Menu Navigation */
+
+.hamburger-menu__navigation {
+    width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding-top: 20px;
+}
+
+
+/* Menu Items */
+
+.hamburger-menu__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.hamburger-menu__items li {
+    margin: 0;
+    padding: 0;
+}
+
+.hamburger-menu__items a {
+    display: block;
+    padding: 10px 0;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.hamburger-menu__panel nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.hamburger-menu__items .menu-item {
+    transform: translate3d(0, 0, 0);
+    /* Force GPU acceleration */
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    margin-bottom: 30px;
+}
+
+.hamburger-menu__items .menu-item>a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 400;
+    display: block;
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 5px 0;
+    line-height: 1.2;
+}
+
+.hamburger-menu__items .current-menu-item>a {
+    color: #fff;
+}
+
+.hamburger-menu__items .menu-item:not(.current-menu-item)>a {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.hamburger-menu__items .menu-item>a:hover,
+.hamburger-menu__items .menu-item>a:focus {
+    color: #fff;
+}
+
+
+/* Submenu indicators */
+
+.submenu-toggle-indicator {
+    display: inline-block;
+    margin-left: 8px;
+    font-weight: bold;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: currentColor;
+}
+
+.menu-item-has-children.is-active>a .submenu-toggle-indicator {
+    transform: rotate(45deg);
+}
+
+
+/* Screen Reader Text */
+
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+
+/* Submenu Styles */
+
+.hamburger-menu__items .sub-menu {
+    padding-left: 20px;
+    margin-top: 10px;
+    list-style: none;
+    display: block !important;
+    /* Always use display block */
+    height: 0;
+    /* Initial closed state */
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+    transform: translateZ(0);
+    /* Force GPU acceleration */
+    backface-visibility: hidden;
+    will-change: height, opacity, visibility;
+    transition: height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+}
+
+
+/* Submenu items - initial state for GSAP animations */
+
+.hamburger-menu__items .sub-menu .menu-item {
+    margin-bottom: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    position: relative;
+    will-change: opacity, transform;
+}
+
+.hamburger-menu__items .sub-menu .menu-item>a {
+    font-size: 1.6rem;
+}
+
+
+/* Open Submenu Styles */
+
+.hamburger-menu__items .submenu-open>.sub-menu {
+    height: auto !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+    position: relative;
+    z-index: 10;
+}
+
+
+/* Active submenu items */
+
+.hamburger-menu__items .submenu-open>.sub-menu .menu-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+/* Submenu toggle button rotation */
+
+.hamburger-menu__items .submenu-active>.menu-item-wrapper .submenu-toggle {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+
+/* Contact information section at bottom */
+
+.hamburger-menu__contact-info {
+    margin-top: auto;
+    margin-bottom: 40px;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.hamburger-menu__contact-info h4 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+}
+
+.hamburger-menu__contact-info p {
+    margin: 0 0 15px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+
+/* Error Message */
+
+.hamburger-menu-error {
+    padding: 15px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 4px;
+}
+
+
+/* Push animation for the page content */
+
+body.menu-is-active {
+    overflow: hidden;
+}
+
+
+/* Responsive Adjustments */
+
+@media (max-width: 767px) {
+    .hamburger-menu__items .menu-item>a {
+        font-size: 1.8rem;
+    }
+    .hamburger-menu__panel.panel-animation-slide-left,
+    .hamburger-menu__panel.panel-animation-slide-right {
+        width: 100%;
+    }
+    .hamburger-menu__panel {
+        padding: 40px 25px;
+    }
+    .hamburger-menu__items .menu-item {
+        margin-bottom: 20px;
+    }
+}
+
+
+/* Hamburger Icon Types */
+
+
+/* Classic */
+
+.hamburger-menu__toggle[data-icon-type="classic"] .hamburger-bar {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+/* Spin */
+
+.hamburger-menu__toggle[data-icon-type="spin"] {
+    transition: transform 0.5s ease;
+}
+
+.hamburger-menu__toggle[data-icon-type="spin"] .hamburger-bar {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+/* Elastic */
+
+.hamburger-menu__toggle[data-icon-type="elastic"] .hamburger-bar {
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease, width 0.3s ease;
+}
+
+
+/* Arrow */
+
+.hamburger-menu__toggle[data-icon-type="arrow"] .hamburger-bar {
+    transition: transform 0.3s ease, width 0.3s ease, opacity 0.3s ease;
+}
+
+
+/* Minus */
+
+.hamburger-menu__toggle[data-icon-type="minus"] .hamburger-bar {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+/* Submenu Icons */
+
+
+/* Chevron */
+
+.submenu-toggle[data-icon-type="chevron"] svg {
+    transition: transform 0.3s ease;
+}
+
+.submenu-toggle[data-icon-type="chevron"].is-active svg {
+    transform: rotate(180deg);
+}
+
+
+/* Plus */
+
+.submenu-toggle[data-icon-type="plus"] svg {
+    transition: transform 0.3s ease;
+}
+
+.submenu-toggle[data-icon-type="plus"].is-active svg {
+    transform: rotate(45deg);
+}
+
+
+/* Arrow */
+
+.submenu-toggle[data-icon-type="arrow"] svg {
+    transition: transform 0.3s ease;
+}
+
+.submenu-toggle[data-icon-type="arrow"].is-active svg {
+    transform: rotate(90deg);
+}
+
+
+/* Responsive Styles */
+
+@media screen and (max-width: 767px) {
+    .hamburger-menu__panel {
+        width: 100%;
+    }
+    .hamburger-menu__items {
+        padding: unset !important;
+    }
+    .sub-menu {
+        padding-left: 15px;
+    }
+    .hamburger-menu__toggle {
+        padding: 10px;
+    }
+}
+
+
+/* Accessibility */
+
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+
+/* GPU Acceleration */
+
+.use-gpu .hamburger-menu__panel,
+.use-gpu .hamburger-menu__toggle,
+.use-gpu .hamburger-bar,
+.use-gpu .submenu-toggle svg {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+
+/* Close Button */
+
+.hamburger-menu__close {
+    position: absolute;
+    background: none;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    color: inherit;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.hamburger-menu__close:hover {
+    transform: scale(1.1);
+}
+
+.hamburger-menu__close svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.hamburger-menu__close--top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.hamburger-menu__close--top-left {
+    top: 20px;
+    left: 20px;
+}
+
+
+/* Submenu Toggle Button */
+
+.submenu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    padding: 8px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: inherit;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 50%;
+    outline: none;
+    z-index: 10;
+    /* Ensure it's above other elements */
+    position: relative;
+}
+
+.submenu-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.submenu-toggle svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.submenu-toggle.is-active {
+    transform: rotate(180deg);
+}
+
+
+/* Active submenu state - add subtle highlight */
+
+.menu-item-has-children.submenu-open>.menu-item-wrapper {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+
+/* Prevent text selection on toggle buttons */
+
+.submenu-toggle {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+
+/* Prevent any conflicts with other styles */
+
+.hamburger-menu__items .sub-menu {
+    display: block !important;
+    /* Always use display block, control visibility with other properties */
+}
+
+
+/* Focus states for accessibility */
+
+.submenu-toggle:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
+}
+
+
+/* Touch-friendly toggle buttons */
+
+@media (pointer: coarse) {
+    .submenu-toggle {
+        padding: 10px;
+        min-width: 44px;
+        /* Larger touch target */
+        min-height: 44px;
+    }
+}
+
+
+/* Menu Item Wrapper */
+
+.menu-item-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 5;
+    /* Ensure it's above the submenu content */
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+/* Menu Item Wrapper - Parent items */
+
+.menu-item-has-children>.menu-item-wrapper {
+    cursor: pointer;
+}
+
+
+/* Contact Information */
+
+.hamburger-menu__contact {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hamburger-menu__contact-title {
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    color: inherit;
+    opacity: 0.9;
+}
+
+.hamburger-menu__contact-item {
+    margin-bottom: 15px;
+}
+
+.hamburger-menu__contact-item a {
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.hamburger-menu__contact-item a:hover {
+    opacity: 1;
+}
+
+
+/* Touch device specific styles */
+
+.hamburger-menu.is-touch-device .submenu-toggle {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 12px;
+}
+
+.hamburger-menu.is-touch-device .menu-item-wrapper {
+    padding: 5px 0;
+}
+
+
+/* Ensure submenus always stay visible when open */
+
+.hamburger-menu__items .submenu-open>.sub-menu {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+    transition: height 0.3s ease, opacity 0.3s ease !important;
+    position: relative;
+    z-index: 10;
+}
+
+
+/* Animation stabilization */
+
+.hamburger-menu__items .menu-item-has-children>.sub-menu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: height, opacity;
+    overflow: hidden;
+    height: 0;
+    display: block !important;
+}
+
+
+/* Prevent events on closing submenus */
+
+.hamburger-menu__items .menu-item-has-children:not(.submenu-open)>.sub-menu {
+    pointer-events: none !important;
+}
+
+
+/* Fix for submenu toggle rotation */
+
+.submenu-toggle.is-active {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+
+/* Add delay to prevent accidental clicks */
+
+.submenu-toggle {
+    position: relative;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    touch-action: manipulation;
+    /* Improve touch behavior */
+}
+
+
+/* Prevent text selection during submenu toggle */
+
+.hamburger-menu__items .menu-item-wrapper,
+.hamburger-menu__items .submenu-toggle,
+.hamburger-menu__items .sub-menu {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+
+/* Active submenu parent styling */
+
+.menu-item-has-children.submenu-open>a {
+    color: #fff !important;
+    font-weight: 500;
+}
+
+
+/* Ensure toggles are separated from links */
+
+.menu-item-has-children>.menu-item-wrapper {
+    gap: 8px;
+}
+
+
+/* Fix hover states for submenu parents */
+
+.menu-item-has-children>.menu-item-wrapper:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+
+/* Fix animations for nested submenus */
+
+.menu-item-has-children .menu-item-has-children>.sub-menu {
+    margin-top: 5px;
+    padding-left: 15px;
+}
+
+
+/* Ensure proper submenu transitions */
+
+.hamburger-menu__items .menu-item-has-children>.sub-menu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: height, opacity;
+    overflow: hidden;
+    height: 0;
+    display: block !important;
+}
+
+
+/* Fix animation timing - make height/opacity work better together */
+
+.hamburger-menu__items .submenu-open>.sub-menu .menu-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}

@@ -1,0 +1,322 @@
+/**
+ * Stats Counter Accessibility Styles
+ * WCAG 2.2 compliant styles for enhanced accessibility
+ */
+
+
+/* Screen reader only content */
+
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+
+/* Focus indicators - WCAG 2.2 compliant */
+
+.promen-stats-counter-wrapper:focus,
+.promen-stats-counter-container:focus {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.promen-stats-counter-item:focus {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 4px rgba(0, 95, 204, 0.2);
+}
+
+.promen-counter-circle:focus {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 95, 204, 0.2);
+}
+
+
+/* High contrast mode support */
+
+@media (prefers-contrast: high) {
+    .promen-stats-counter-item {
+        border: 2px solid currentColor;
+    }
+    .promen-counter-circle {
+        border: 2px solid currentColor;
+    }
+    .promen-stats-counter-item:focus,
+    .promen-counter-circle:focus {
+        outline: 3px solid currentColor;
+        outline-offset: 2px;
+    }
+}
+
+
+/* Reduced motion support */
+
+@media (prefers-reduced-motion: reduce) {
+    .promen-stats-counter-wrapper *,
+    .promen-stats-counter-wrapper *::before,
+    .promen-stats-counter-wrapper *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .promen-counter-circle {
+        transition: none !important;
+    }
+    .promen-counter-circle:hover {
+        transform: none !important;
+    }
+}
+
+
+/* Additional reduced motion class for JavaScript control */
+
+.reduce-motion .promen-counter-circle {
+    transition: none !important;
+}
+
+.reduce-motion .promen-counter-circle:hover {
+    transform: none !important;
+}
+
+
+/* Ensure proper color contrast for text */
+
+.promen-counter-number {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.promen-counter-title {
+    color: #0A3254;
+    font-weight: 600;
+}
+
+
+/* Improve text readability */
+
+.promen-counter-title {
+    line-height: 1.4;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+
+/* Ensure minimum touch target size (44px minimum) */
+
+.promen-stats-counter-item {
+    min-height: 44px;
+    min-width: 44px;
+    cursor: pointer;
+}
+
+
+/* Focus visible support for modern browsers */
+
+.promen-stats-counter-item:focus-visible,
+.promen-counter-circle:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 95, 204, 0.2);
+}
+
+
+/* Remove default focus outline and replace with custom */
+
+.promen-stats-counter-item:focus:not(:focus-visible),
+.promen-counter-circle:focus:not(:focus-visible) {
+    outline: none;
+}
+
+
+/* Ensure proper spacing for screen readers */
+
+.promen-stats-counter-item[aria-hidden="true"] {
+    display: none;
+}
+
+
+/* Skip link for keyboard navigation */
+
+.promen-stats-counter-skip-link {
+    /* Use the sr-only class for proper hiding */
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    /* Skip link specific styles */
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    font-size: 14px;
+    left: 6px;
+    top: 6px;
+}
+
+.promen-stats-counter-skip-link:focus {
+    /* Restore normal dimensions when focused */
+    position: absolute !important;
+    top: 6px !important;
+    left: 6px !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    padding: 8px !important;
+    margin: 0 !important;
+    /* High contrast focus indicator */
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+
+/* Ensure proper heading hierarchy */
+
+.promen-counter-title {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+}
+
+
+/* Improve visual hierarchy */
+
+.promen-stats-counter-item {
+    position: relative;
+}
+
+.promen-stats-counter-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.promen-stats-counter-item:focus::before {
+    opacity: 0.1;
+    background-color: currentColor;
+}
+
+
+/* Responsive accessibility improvements */
+
+@media (max-width: 767px) {
+    .promen-stats-counter-item {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    .promen-counter-circle {
+        min-width: 48px;
+        min-height: 48px;
+    }
+}
+
+
+/* Dark mode support */
+
+@media (prefers-color-scheme: dark) {
+    .promen-stats-counter-item:focus,
+    .promen-counter-circle:focus {
+        outline-color: #4a9eff;
+        box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.2);
+    }
+    .promen-stats-counter-skip-link {
+        background: #fff;
+        color: #000;
+    }
+}
+
+
+/* Print styles */
+
+@media print {
+    .promen-stats-counter-item {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+    .promen-counter-circle {
+        border: 1px solid #000;
+        background: #fff !important;
+        color: #000 !important;
+    }
+    .promen-counter-number {
+        color: #000 !important;
+        text-shadow: none;
+    }
+    .promen-counter-title {
+        color: #000 !important;
+    }
+}
+
+
+/* Animation accessibility improvements */
+
+.promen-counter-number[aria-live="polite"] {
+    /* Ensure live region is properly positioned */
+    position: relative;
+}
+
+
+/* Ensure proper contrast for animated numbers */
+
+.promen-counter-number {
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+
+
+/* Focus management for keyboard navigation */
+
+.promen-stats-counter-container {
+    /* Ensure proper tab order */
+    display: grid;
+}
+
+.promen-stats-counter-item {
+    /* Make items focusable */
+    outline: none;
+}
+
+
+/* Ensure proper spacing for focus indicators */
+
+.promen-stats-counter-item {
+    margin: 4px;
+    padding: 4px;
+}
+
+
+/* High contrast mode for better visibility */
+
+@media (prefers-contrast: high) {
+    .promen-counter-number {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid currentColor;
+    }
+    .promen-counter-circle {
+        border: 2px solid currentColor;
+    }
+}
