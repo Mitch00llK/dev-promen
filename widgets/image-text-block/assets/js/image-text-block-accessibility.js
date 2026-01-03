@@ -49,6 +49,9 @@
 
         // Initialize skip links
         initSkipLinks($block);
+
+        // Initialize reduced motion
+        PromenAccessibility.setupReducedMotion($block[0]);
     }
 
     /**

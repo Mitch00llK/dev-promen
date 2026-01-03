@@ -146,53 +146,64 @@
             // Initialize accessibility features
             if (typeof PromenAccessibility !== 'undefined') {
                 PromenAccessibility.setupSwiperAccessibility(swiper, sliderElement);
-            }
 
-            // Add resize handler to update slider on window resize
-            $(window).on('resize', function () {
-                if (swiper) {
-                    swiper.update();
+                // Add reduced motion support
+                PromenAccessibility.setupReducedMotion(sliderElement, {
+                    if(swiper && swiper.autoplay && swiper.autoplay.running) {
+                    swiper.autoplay.stop();
                 }
-            });
-
-            // Pause autoplay when slider is not in viewport to improve performance
-            if (autoplay) {
-                $(window).on('scroll', function () {
-                    if (isElementInViewport(sliderElement)) {
-                        if (swiper.autoplay && swiper.autoplay.paused) {
-                            swiper.autoplay.start();
-                        }
-                    } else {
-                        if (swiper.autoplay && !swiper.autoplay.paused) {
-                            swiper.autoplay.pause();
-                        }
-                    }
-                });
             }
+        });
 
-            return swiper;
-        } catch (error) {
-            return null;
-        }
+        // Add skip link
+        PromenAccessibility.setupSkipLink(sliderElement, 'Sla over afbeeldingslider');
     }
 
-    // Initialize all sliders on page load
-    $(document).ready(function () {
-        $('.promen-image-slider').each(function () {
-            initializeSlider(this);
-        });
-    });
-
-    // Initialize sliders when they are created by Elementor frontend
-    $(window).on('elementor/frontend/init', function () {
-        if (typeof elementorFrontend !== 'undefined') {
-            elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_slider.default', function ($scope) {
-                var slider = $scope.find('.promen-image-slider');
-                if (slider.length) {
-                    initializeSlider(slider[0]);
-                } else { }
-            });
+    // Add resize handler to update slider on window resize
+    $(window).on('resize', function () {
+        if (swiper) {
+            swiper.update();
         }
     });
 
-})(jQuery);
+    // Pause autoplay when slider is not in viewport to improve performance
+    if (autoplay) {
+        $(window).on('scroll', function () {
+            if (isElementInViewport(sliderElement)) {
+                if (swiper.autoplay && swiper.autoplay.paused) {
+                    swiper.autoplay.start();
+                }
+            } else {
+                if (swiper.autoplay && !swiper.autoplay.paused) {
+                    swiper.autoplay.pause();
+                }
+            }
+        });
+    }
+
+    return swiper;
+} catch (error) {
+    return null;
+}
+    }
+
+// Initialize all sliders on page load
+$(document).ready(function () {
+    $('.promen-image-slider').each(function () {
+        initializeSlider(this);
+    });
+});
+
+// Initialize sliders when they are created by Elementor frontend
+$(window).on('elementor/frontend/init', function () {
+    if (typeof elementorFrontend !== 'undefined') {
+        elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_slider.default', function ($scope) {
+            var slider = $scope.find('.promen-image-slider');
+            if (slider.length) {
+                initializeSlider(slider[0]);
+            } else { }
+        });
+    }
+});
+
+}) (jQuery);

@@ -35,7 +35,19 @@
         initSkipLinks();
         initKeyboardNavigation();
         initFocusManagement();
+        initFocusManagement();
         initFormAccessibility();
+        initReducedMotion();
+    }
+
+    /**
+     * Initialize reduced motion handling
+     */
+    function initReducedMotion() {
+        const contactCards = document.querySelectorAll('.contact-info-card');
+        contactCards.forEach(function (card) {
+            PromenAccessibility.setupReducedMotion(card);
+        });
     }
 
     /**

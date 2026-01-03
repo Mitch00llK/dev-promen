@@ -15,7 +15,21 @@ class TextColumnRepeaterAccessibility {
     init() {
         this.setupKeyboardNavigation();
         this.setupScreenReaderSupport();
+        this.setupScreenReaderSupport();
         this.setupFocusManagement();
+        this.setupSkipLinks();
+    }
+
+    /**
+     * Setup skip links
+     */
+    setupSkipLinks() {
+        if (typeof PromenAccessibility !== 'undefined') {
+            const repeaters = document.querySelectorAll('.text-column-repeater');
+            repeaters.forEach(repeater => {
+                PromenAccessibility.setupSkipLink(repeater, 'Sla over tekstkolommen');
+            });
+        }
     }
 
     /**

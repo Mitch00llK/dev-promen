@@ -151,6 +151,14 @@ class Promen_Assets_Config {
                 'path' => 'widgets/hamburger-menu/assets/css/hamburger-menu.css',
                 'enqueue' => true,
             ],
+            'promen-accessibility-target-sizes' => [
+                'path' => 'assets/css/accessibility-target-sizes.css',
+                'enqueue' => true,
+            ],
+            'promen-accessibility-focus' => [
+                'path' => 'assets/css/accessibility-focus.css',
+                'enqueue' => true,
+            ],
         ];
     }
 

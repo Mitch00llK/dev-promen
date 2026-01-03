@@ -54,6 +54,11 @@ class ServicesCarouselAccessibility {
         // Add focus management
         this.addFocusManagement();
 
+        // Add skip link
+        if (typeof PromenAccessibility !== 'undefined') {
+            PromenAccessibility.setupSkipLink(this.carousel, getString('skipCarousel', 'Sla over dienstencarrousel'));
+        }
+
         this.isInitialized = true;
     }
 

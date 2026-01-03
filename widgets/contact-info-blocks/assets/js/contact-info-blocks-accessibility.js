@@ -43,6 +43,11 @@
             this.enhanceLinks();
             this.bindEvents();
             this.setupReducedMotion();
+
+            // Add skip link
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.setupSkipLink(this.container, getString('skipToContent', 'Sla over naar inhoud'));
+            }
         }
 
         /**

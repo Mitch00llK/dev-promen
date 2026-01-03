@@ -20,7 +20,13 @@
         init() {
             this.bindEvents();
             this.enhanceKeyboardNavigation();
+            this.enhanceKeyboardNavigation();
             this.addScreenReaderSupport();
+
+            // Add reduced motion support
+            $('.document-info-list-container').each(function () {
+                PromenAccessibility.setupReducedMotion(this);
+            });
         }
 
         /**

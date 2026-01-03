@@ -22,7 +22,13 @@
             this.enhanceServiceCards();
             this.addKeyboardNavigation();
             this.addFocusManagement();
+            this.addFocusManagement();
             this.addScreenReaderSupport();
+
+            // Add reduced motion support
+            $('.services-grid, .services-slider').each((index, container) => {
+                PromenAccessibility.setupReducedMotion(container);
+            });
         }
 
         /**

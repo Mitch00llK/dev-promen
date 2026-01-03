@@ -88,7 +88,16 @@
         setupKeyboardNavigation($carousel, swiper);
         setupReducedMotion($carousel, swiper);
         setupSlideAnnouncements($carousel, swiper);
+        setupReducedMotion($carousel, swiper);
+        setupSlideAnnouncements($carousel, swiper);
         setupNavigationButtons($carousel, swiper);
+        setupSkipLink($carousel);
+    }
+
+    function setupSkipLink($carousel) {
+        if (typeof PromenAccessibility !== 'undefined') {
+            PromenAccessibility.setupSkipLink($carousel[0], getString('skipTeamCarousel', 'Sla over team carrousel'));
+        }
     }
 
     /**

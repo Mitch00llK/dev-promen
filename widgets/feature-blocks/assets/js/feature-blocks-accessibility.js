@@ -17,6 +17,13 @@
             this.setupFocusManagement();
             this.setupARIALiveRegions();
             this.setupSkipLinks();
+
+            // Add reduced motion support
+            $('.promen-feature-blocks-container').each(function () {
+                if (typeof PromenAccessibility !== 'undefined') {
+                    PromenAccessibility.setupReducedMotion(this);
+                }
+            });
         }
 
         /**

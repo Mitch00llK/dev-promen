@@ -300,6 +300,35 @@
         }
 
         /**
+         * Setup reduced motion handling for a specific element/component
+         * @param {HTMLElement} element The container element
+         * @param {Object} options Options for handling reduced motion
+         * @param {Function} options.onMotionReduced Callback when motion should be reduced
+         * @param {Function} options.onMotionRestored Callback when motion can be restored
+         */
+        setupReducedMotion(element, options = {}) {
+            if (!element) return;
+
+            const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+            const handleMotion = (matches) => {
+                if (matches) {
+                    element.classList.add('promen-disable-motion');
+                    if (typeof options.onMotionReduced === 'function') options.onMotionReduced();
+                } else {
+                    element.classList.remove('promen-disable-motion');
+                    if (typeof options.onMotionRestored === 'function') options.onMotionRestored();
+                }
+            };
+
+            // Initial check
+            handleMotion(mediaQuery.matches);
+
+            // Listen for changes
+            mediaQuery.addEventListener('change', (e) => handleMotion(e.matches));
+        }
+
+        /**
          * Create or reuse a skip link
          * @param {HTMLElement} contextElement The element to skip to
          * @param {string} label Label for the link
@@ -412,6 +441,23 @@
             if (errorElement) {
                 errorElement.style.display = 'none';
                 errorElement.textContent = '';
+            }
+        }
+
+        /**
+         * Ensure focused element is visible (not obscured by sticky headers)
+         */
+        ensureFocusVisible(element) {
+            if (!element) return;
+
+            const rect = element.getBoundingClientRect();
+            const stickyHeaderHeight = 120; // Approximate height of sticky headers + buffer
+
+            if (rect.top < stickyHeaderHeight) {
+                window.scrollBy({
+                    top: rect.top - stickyHeaderHeight,
+                    behavior: 'smooth'
+                });
             }
         }
     }

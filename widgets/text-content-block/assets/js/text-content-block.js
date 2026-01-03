@@ -731,6 +731,16 @@
 
     const onReady = (scope) => {
         initCollapsibles(scope);
+
+        // Add reduced motion support
+        if (typeof PromenAccessibility !== 'undefined') {
+            const root = scope || document;
+            const blocks = root.querySelectorAll('.promen-text-content-block');
+            blocks.forEach(block => {
+                PromenAccessibility.setupReducedMotion(block);
+                PromenAccessibility.setupSkipLink(block, 'Sla over tekstblok');
+            });
+        }
     };
 
     if (document.readyState === 'loading') {

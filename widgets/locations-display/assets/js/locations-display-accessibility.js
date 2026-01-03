@@ -16,6 +16,19 @@ class LocationsDisplayAccessibility {
         this.setupKeyboardNavigation();
         this.setupScreenReaderSupport();
         this.setupFocusManagement();
+        this.setupSkipLinks();
+    }
+
+    /**
+     * Setup skip links
+     */
+    setupSkipLinks() {
+        if (typeof PromenAccessibility !== 'undefined') {
+            const containers = document.querySelectorAll('.locations-container');
+            containers.forEach(container => {
+                PromenAccessibility.setupSkipLink(container, 'Sla over locaties');
+            });
+        }
     }
 
     /**

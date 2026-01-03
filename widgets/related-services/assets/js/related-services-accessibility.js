@@ -17,6 +17,19 @@ class RelatedServicesAccessibility {
         this.setupScreenReaderSupport();
         this.setupFocusManagement();
         this.setupHoverEffects();
+        this.setupSkipLinks();
+    }
+
+    /**
+     * Setup skip links
+     */
+    setupSkipLinks() {
+        if (typeof PromenAccessibility !== 'undefined') {
+            const containers = document.querySelectorAll('.related-services-container');
+            containers.forEach(container => {
+                PromenAccessibility.setupSkipLink(container, 'Sla over gerelateerde diensten');
+            });
+        }
     }
 
     /**

@@ -40,6 +40,7 @@ class StatsCounterAccessibility {
         this.setupScreenReaderSupport();
         this.setupFocusManagement();
         this.setupAnimationAccessibility();
+        this.setupSkipLink();
 
         this.isInitialized = true;
     }
@@ -103,6 +104,12 @@ class StatsCounterAccessibility {
         // Only if it exists globally
         if (window.animateCounter) {
             this.enhanceCounterAnimation();
+        }
+    }
+
+    setupSkipLink() {
+        if (typeof PromenAccessibility !== 'undefined') {
+            PromenAccessibility.setupSkipLink(this.container, getString('skipStats', 'Sla over statistieken'));
         }
     }
 

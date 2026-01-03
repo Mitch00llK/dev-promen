@@ -38,8 +38,12 @@
 
         // Integrate with PromenAccessibility if available
         if (typeof PromenAccessibility !== 'undefined') {
-            // Example: Check high contrast mode to potentially adjust icon visibility if needed
-            // Currently no specific logic required but connection is established.
+            // Setup reduced motion
+            var $widgetEl = $widget[0];
+            if ($widgetEl) {
+                PromenAccessibility.setupReducedMotion($widgetEl);
+                PromenAccessibility.setupSkipLink($widgetEl, 'Sla over naar inhoud');
+            }
         }
     };
 

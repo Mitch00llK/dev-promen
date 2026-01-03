@@ -68,7 +68,17 @@
         setupReducedMotion($timeline);
         setupKeyboardNavigation($timeline);
         setupFocusIndicators($timeline);
+        setupSkipLink($timeline);
         announceTimelineLoaded($timeline);
+    }
+
+    /**
+     * Setup skip link
+     */
+    function setupSkipLink($timeline) {
+        if (typeof PromenAccessibility !== 'undefined') {
+            PromenAccessibility.setupSkipLink($timeline[0], getString('skipTimeline', 'Sla over tijdlijn'));
+        }
     }
 
     /**

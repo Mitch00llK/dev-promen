@@ -55,7 +55,14 @@
         addSkipLinks();
         enhanceScreenReaderSupport();
         enhanceModalAccessibility();
+        enhanceScreenReaderSupport();
+        enhanceModalAccessibility();
         enhanceSliderAccessibility();
+
+        // Add reduced motion support
+        $('.promen-content-posts-widget').each(function () {
+            PromenAccessibility.setupReducedMotion(this);
+        });
     }
 
     /**

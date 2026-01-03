@@ -15,7 +15,21 @@ class TestimonialCardAccessibility {
     init() {
         this.setupKeyboardNavigation();
         this.setupScreenReaderSupport();
+        this.setupScreenReaderSupport();
         this.setupFocusManagement();
+        this.setupSkipLinks();
+    }
+
+    /**
+     * Setup skip links
+     */
+    setupSkipLinks() {
+        if (typeof PromenAccessibility !== 'undefined') {
+            const cards = document.querySelectorAll('.testimonial-card');
+            cards.forEach(card => {
+                PromenAccessibility.setupSkipLink(card, 'Sla over testimonial');
+            });
+        }
     }
 
     /**

@@ -22,6 +22,24 @@
             this.enhanceKeyboardNavigation();
             this.addScreenReaderSupport();
             this.setupSliderAccessibility();
+            this.setupReducedMotion();
+        }
+
+        /**
+         * Setup reduced motion handling
+         */
+        setupReducedMotion() {
+            $('.promen-certification-logos').each(function () {
+                const $widget = $(this);
+                PromenAccessibility.setupReducedMotion(this, {
+                    onMotionReduced: () => {
+                        const swiper = $widget.find('.swiper')[0]?.swiper;
+                        if (swiper && swiper.autoplay && swiper.autoplay.running) {
+                            swiper.autoplay.stop();
+                        }
+                    }
+                });
+            });
         }
 
         /**

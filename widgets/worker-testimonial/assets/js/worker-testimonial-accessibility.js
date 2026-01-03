@@ -20,7 +20,10 @@
         const fallbacks = {
             exitedTestimonial: 'Exited testimonial',
             testimonial: 'Testimonial',
-            testimonialBy: 'by {0}'
+            exitedTestimonial: 'Exited testimonial',
+            testimonial: 'Testimonial',
+            testimonialBy: 'by {0}',
+            skipTestimonial: 'Skip worker testimonial'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {
@@ -43,8 +46,14 @@
         init() {
             this.setupKeyboardNavigation();
             this.setupFocusManagement();
-            // Reduced motion is handled globally by PromenAccessibility
-            // Screen reader support (live region) is handled globally by PromenAccessibility
+            this.setupFocusManagement();
+
+            // Add reduced motion support and skip links
+            $('.worker-testimonial').each(function () {
+                PromenAccessibility.setupReducedMotion(this);
+                PromenAccessibility.setupSkipLink(this, getString('skipTestimonial', 'Sla over werknemer testimonial'));
+            });
+
             this.validateColorContrast();
         }
 

@@ -1,0 +1,20 @@
+/**
+ * Accessibility Focus Enhancements
+ * 
+ * Ensures focus indicators are visible and content is not obscured.
+ */
+
+/* Add scroll margin to all focusable elements to prevent sticky header overlap */
+:focus {
+    scroll-margin-top: 120px;
+    /* Adjust based on your header height */
+    scroll-margin-bottom: 20px;
+}
+
+/* Ensure focus outline is visible even if hidden by default styles */
+:focus-visible {
+    outline: 2px solid #007cba;
+    outline-offset: 2px;
+    z-index: 9999;
+    /* Bring to front */
+}

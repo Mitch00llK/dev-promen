@@ -668,6 +668,15 @@
         },
 
         /**
+         * Setup skip link
+         */
+        setupSkipLink: function (sliderEl) {
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.setupSkipLink(sliderEl, 'Sla over slider');
+            }
+        },
+
+        /**
          * Initialize accessibility features for a slider
          */
         initSliderAccessibility: function (sliderEl, swiper, options) {
@@ -675,6 +684,9 @@
 
             // Check slide count and toggle controls visibility
             AccessibilityUtils.checkSlideCountAndToggleControls(sliderEl, swiper);
+
+            // Setup skip link
+            AccessibilityUtils.setupSkipLink(sliderEl);
 
             // Setup keyboard navigation
             AccessibilityUtils.setupKeyboardNavigation(sliderEl, swiper);

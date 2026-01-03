@@ -21,6 +21,11 @@
             this.bindEvents();
             this.enhanceKeyboardNavigation();
             this.addScreenReaderSupport();
+
+            // Add reduced motion support
+            $('.benefits-widget').each(function () {
+                PromenAccessibility.setupReducedMotion(this);
+            });
         }
 
         /**
