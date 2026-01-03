@@ -91,10 +91,22 @@ final class Promen_Elementor_Widgets {
             return;
         }
 
-        // Include common controls after Elementor is loaded
+        // Defer loading of our widget base class and managers until Elementor is fully initialized
+        // This prevents "Class Elementor\Widget_Base not found" errors
+        add_action('elementor/init', [$this, 'on_elementor_init']);
+        
+        // Include common controls after Elementor is loaded (controls don't extend Widget_Base so this is safeish, but cleaner in init)
+        // Moving this to on_elementor_init as well just to be safe and consistent.
+    }
+
+    /**
+     * Load plugin components after Elementor has initialized
+     */
+    public function on_elementor_init() {
+        // Include common controls
         require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/controls/split-title-controls.php');
         
-        // Include Promen Widget Base Class (safe to load now that Elementor is loaded)
+        // Include Promen Widget Base Class (Elementor is fully loaded now)
         require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-promen-widget-base.php');
 
         // Initialize managers
