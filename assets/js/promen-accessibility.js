@@ -30,6 +30,24 @@
         }
 
         /**
+         * Get localized string with optional placeholder replacement
+         * @param {string} key String key from promenA11yStrings
+         * @param {...string} args Values to replace {0}, {1}, etc.
+         * @returns {string} Localized string or fallback
+         */
+        getString(key, ...args) {
+            const strings = window.promenA11yStrings || {};
+            let str = strings[key] || key;
+
+            // Replace placeholders {0}, {1}, etc.
+            args.forEach((arg, index) => {
+                str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+            });
+
+            return str;
+        }
+
+        /**
          * Save currently focused element
          */
         saveFocus() {

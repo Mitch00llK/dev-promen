@@ -4,7 +4,7 @@
  * Implements WCAG 2.2 compliant reduced motion support, screen reader 
  * announcements, and focus management for the Solicitation Timeline widget.
  * 
- * Uses the centralized PromenAccessibility core library.
+ * Uses the centralized PromenAccessibility core library with i18n support.
  */
 (function ($) {
     'use strict';
@@ -23,6 +23,27 @@
             );
         }
     });
+
+    /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        // Fallback
+        const fallbacks = {
+            solicitationTimelineLabel: 'Solicitation process timeline',
+            timelineWithSteps: 'Timeline with {0} steps',
+            stepOf: 'Step {0} of {1}',
+            timelineAnimationsDisabled: 'Timeline animations disabled for reduced motion preference'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
 
     /**
      * Initialize accessibility features for all timelines
@@ -54,13 +75,11 @@
      * Setup ARIA attributes for the timeline
      */
     function setupARIA($timeline) {
-        // Set up timeline container
         $timeline.attr({
             'role': 'list',
-            'aria-label': 'Solicitation process timeline'
+            'aria-label': getString('solicitationTimelineLabel')
         });
 
-        // Set up each timeline step
         const steps = $timeline.find('.promen-solicitation-timeline__step');
         steps.each(function (index) {
             const $step = $(this);
@@ -69,10 +88,9 @@
 
             $step.attr({
                 'role': 'listitem',
-                'aria-label': `Step ${stepNumber} of ${totalSteps}`
+                'aria-label': getString('stepOf', stepNumber, totalSteps)
             });
 
-            // Make step marker accessible
             const $marker = $step.find('.promen-solicitation-timeline__marker');
             if ($marker.length) {
                 $marker.attr({
@@ -81,16 +99,14 @@
                 });
             }
 
-            // Ensure step content is accessible
             const $content = $step.find('.promen-solicitation-timeline__content');
             if ($content.length) {
                 $content.attr('role', 'group');
 
-                // Get title for better description
                 const $title = $content.find('.promen-solicitation-timeline__title');
                 if ($title.length) {
                     const titleText = $title.text().trim();
-                    $step.attr('aria-label', `Step ${stepNumber} of ${totalSteps}: ${titleText}`);
+                    $step.attr('aria-label', getString('stepOf', stepNumber, totalSteps) + ': ' + titleText);
                 }
             }
         });
@@ -105,12 +121,9 @@
             : window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         if (prefersReducedMotion) {
-            // Add class to disable CSS animations
             $timeline.addClass('reduced-motion-active');
 
-            // Kill any GSAP animations on this timeline
             if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                // Find and kill ScrollTrigger instances for this timeline
                 const triggers = ScrollTrigger.getAll();
                 triggers.forEach(function (trigger) {
                     if (trigger.trigger && $.contains($timeline[0], trigger.trigger)) {
@@ -119,7 +132,6 @@
                 });
             }
 
-            // Make all steps visible immediately
             $timeline.find('.promen-solicitation-timeline__step').css({
                 'opacity': '1',
                 'transform': 'none',
@@ -136,16 +148,13 @@
                 'transform': 'none'
             });
 
-            // Announce that animations are disabled
             if (typeof PromenAccessibility !== 'undefined') {
-                PromenAccessibility.announce('Timeline animations disabled for reduced motion preference');
+                PromenAccessibility.announce(getString('timelineAnimationsDisabled'));
             }
         }
 
-        // Register with global animation controller
         if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.registerAnimation) {
             PromenAccessibility.registerAnimation('solicitation-timeline', function () {
-                // Kill all GSAP animations for this timeline
                 if (typeof gsap !== 'undefined') {
                     gsap.killTweensOf($timeline.find('*').toArray());
                 }
@@ -159,10 +168,8 @@
     function setupKeyboardNavigation($timeline) {
         const steps = $timeline.find('.promen-solicitation-timeline__step');
 
-        // Make steps focusable
         steps.attr('tabindex', '0');
 
-        // Handle keyboard navigation
         steps.on('keydown', function (e) {
             const $currentStep = $(this);
             const currentIndex = steps.index($currentStep);
@@ -217,7 +224,7 @@
         const stepCount = $timeline.find('.promen-solicitation-timeline__step').length;
 
         if (typeof PromenAccessibility !== 'undefined') {
-            PromenAccessibility.announce(`Solicitation timeline with ${stepCount} steps`);
+            PromenAccessibility.announce(getString('timelineWithSteps', stepCount));
         }
     }
 
@@ -228,7 +235,7 @@
         const $title = $step.find('.promen-solicitation-timeline__title');
         const titleText = $title.length ? $title.text().trim() : '';
 
-        let message = `Step ${index + 1} of ${total}`;
+        let message = getString('stepOf', index + 1, total);
         if (titleText) {
             message += `: ${titleText}`;
         }
@@ -238,7 +245,6 @@
         }
     }
 
-    // Expose for external use
     window.PromenSolicitationTimelineAccessibility = {
         init: initSolicitationTimelineAccessibility
     };

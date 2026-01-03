@@ -10,6 +10,32 @@
 (function ($) {
     'use strict';
 
+    /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        const fallbacks = {
+            modalClosed: 'Modal closed',
+            loadedItems: 'Loaded {0} {1}',
+            item: 'item',
+            items: 'items',
+            newsCarouselLabel: 'Content carousel',
+            previousSlide: 'Previous slide',
+            nextSlide: 'Next slide',
+            sliderPagination: 'Slider pagination',
+            goToSlide: 'Go to slide {0}',
+            skipToContent: 'Skip to content'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
+
     // Initialize accessibility features when DOM is ready
     $(document).ready(function () {
         initializeAccessibilityFeatures();
@@ -57,7 +83,7 @@
                 if ($activeModal.length) {
                     $activeModal.removeClass('active');
                     $activeModal.trigger('modalClosed');
-                    PromenAccessibility.announce('Modal closed');
+                    PromenAccessibility.announce(getString('modalClosed'));
                 }
             }
         });
@@ -100,7 +126,8 @@
                 if (postCount > 0) {
                     // Debounce announcement slightly to ensure it's not buried
                     setTimeout(() => {
-                        PromenAccessibility.announce(`Loaded ${postCount} ${postCount === 1 ? 'item' : 'items'}`);
+                        const itemWord = postCount === 1 ? getString('item') : getString('items');
+                        PromenAccessibility.announce(getString('loadedItems', postCount, itemWord));
                     }, 500);
                     $widget.data('announced-load', true);
                 }
@@ -154,13 +181,13 @@
 
             if (sliderId) {
                 // Add proper ARIA labels
-                $slider.attr('aria-label', 'Content carousel');
+                $slider.attr('aria-label', getString('newsCarouselLabel'));
 
                 // Enhance navigation buttons
                 $slider.find('.swiper-button-prev, .swiper-button-next').each(function () {
                     const $button = $(this);
                     const isPrev = $button.hasClass('swiper-button-prev');
-                    const label = isPrev ? 'Previous slide' : 'Next slide';
+                    const label = isPrev ? getString('previousSlide') : getString('nextSlide');
 
                     $button.attr({
                         'aria-label': label,
@@ -178,13 +205,13 @@
                 if ($pagination.length) {
                     $pagination.attr({
                         'role': 'tablist',
-                        'aria-label': 'Slider pagination'
+                        'aria-label': getString('sliderPagination')
                     });
 
                     $pagination.find('.swiper-pagination-bullet').each(function (index) {
                         $(this).attr({
                             'role': 'tab',
-                            'aria-label': `Go to slide ${index + 1}`,
+                            'aria-label': getString('goToSlide', index + 1),
                             'tabindex': '0'
                         });
                         PromenAccessibility.addKeyboardClick(this);

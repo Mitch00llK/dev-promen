@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/assets/class-assets-config.php');
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/assets/class-script-registrar.php');
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/assets/class-style-registrar.php');
+require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-accessibility-i18n.php');
 
 class Promen_Assets_Manager {
     
@@ -80,6 +81,14 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
+        
+        // Localize accessibility strings for i18n
+        wp_localize_script(
+            'promen-accessibility',
+            'promenA11yStrings',
+            Promen_Accessibility_i18n::get_js_strings()
+        );
+        
         wp_enqueue_script('promen-accessibility');
         
         // Register widget scripts from config

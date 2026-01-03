@@ -4,7 +4,7 @@
  * Implements WCAG 2.2 compliant keyboard navigation, ARIA management,
  * and screen reader support for the Team Members Carousel widget.
  * 
- * Uses the centralized PromenAccessibility core library.
+ * Uses the centralized PromenAccessibility core library with i18n support.
  */
 (function ($) {
     'use strict';
@@ -23,6 +23,29 @@
             );
         }
     });
+
+    /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        // Fallback
+        const fallbacks = {
+            teamMembersCarouselLabel: 'Team Members Carousel',
+            slideOf: 'Slide {0} of {1}',
+            previousTeamMember: 'Previous team member',
+            nextTeamMember: 'Next team member',
+            slideLabel: 'slide',
+            reducedMotionEnabled: 'Animations disabled for reduced motion preference'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
 
     /**
      * Initialize accessibility features for all carousels
@@ -46,7 +69,6 @@
         // Get Swiper instance
         const swiperEl = $carousel.find('.swiper')[0];
         if (!swiperEl || !swiperEl.swiper) {
-            // Retry after a short delay if Swiper isn't initialized yet
             setTimeout(function () {
                 if (swiperEl && swiperEl.swiper) {
                     setupAccessibility($carousel, swiperEl.swiper);
@@ -76,43 +98,34 @@
         const container = $carousel.find('.swiper')[0];
         const slides = $carousel.find('.swiper-slide');
 
-        // Set up carousel container
         container.setAttribute('role', 'region');
-        container.setAttribute('aria-label', 'Team Members Carousel');
+        container.setAttribute('aria-label', getString('teamMembersCarouselLabel'));
         container.setAttribute('aria-roledescription', 'carousel');
 
-        // Set up slides
         slides.each(function (index) {
             const slide = $(this);
             slide.attr('role', 'group');
-            slide.attr('aria-roledescription', 'slide');
-            slide.attr('aria-label', `Slide ${index + 1} of ${slides.length}`);
+            slide.attr('aria-roledescription', getString('slideLabel'));
+            slide.attr('aria-label', getString('slideOf', index + 1, slides.length));
 
-            // Ensure slide content is focusable
             const memberCard = slide.find('.promen-team-member-card');
             if (memberCard.length && !memberCard.attr('tabindex')) {
                 memberCard.attr('tabindex', '0');
             }
         });
 
-        // Update ARIA on slide change
         swiper.on('slideChange', function () {
             updateSlideARIA($carousel, swiper);
         });
 
-        // Initial update
         updateSlideARIA($carousel, swiper);
     }
 
-    /**
-     * Update ARIA attributes when slide changes
-     */
     function updateSlideARIA($carousel, swiper) {
         const slides = $carousel.find('.swiper-slide');
 
         slides.each(function (index) {
             const slide = $(this);
-            const isActive = index === swiper.activeIndex;
             const isVisible = index >= swiper.activeIndex &&
                 index < swiper.activeIndex + (swiper.params.slidesPerView || 1);
 
@@ -121,18 +134,13 @@
         });
     }
 
-    /**
-     * Setup keyboard navigation
-     */
     function setupKeyboardNavigation($carousel, swiper) {
         const container = $carousel.find('.swiper')[0];
 
-        // Make container focusable
         if (!container.hasAttribute('tabindex')) {
             container.setAttribute('tabindex', '0');
         }
 
-        // Handle keyboard events
         $(container).on('keydown', function (e) {
             switch (e.key) {
                 case 'ArrowLeft':
@@ -159,24 +167,17 @@
         });
     }
 
-    /**
-     * Setup reduced motion support
-     */
     function setupReducedMotion($carousel, swiper) {
         if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.isReducedMotion()) {
-            // Disable transitions
             swiper.params.speed = 0;
 
-            // Disable autoplay if enabled
             if (swiper.autoplay && swiper.autoplay.running) {
                 swiper.autoplay.stop();
             }
 
-            // Add visual indicator
             $carousel.addClass('reduced-motion-active');
         }
 
-        // Register with global animation controller
         if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.registerAnimation) {
             PromenAccessibility.registerAnimation('team-members-carousel', function () {
                 if (swiper.autoplay && swiper.autoplay.running) {
@@ -186,28 +187,21 @@
         }
     }
 
-    /**
-     * Setup slide change announcements
-     */
     function setupSlideAnnouncements($carousel, swiper) {
         swiper.on('slideChangeTransitionEnd', function () {
             announceSlideChange($carousel, swiper);
         });
     }
 
-    /**
-     * Announce slide change to screen readers
-     */
     function announceSlideChange($carousel, swiper) {
         const currentSlide = swiper.activeIndex + 1;
         const totalSlides = swiper.slides.length;
 
-        // Get member name from current slide
         const activeSlide = $(swiper.slides[swiper.activeIndex]);
         const memberName = activeSlide.find('.promen-team-member-card__name').text().trim();
         const memberRole = activeSlide.find('.promen-team-member-card__role').text().trim();
 
-        let message = `Slide ${currentSlide} of ${totalSlides}`;
+        let message = getString('slideOf', currentSlide, totalSlides);
         if (memberName) {
             message += `: ${memberName}`;
             if (memberRole) {
@@ -220,27 +214,22 @@
         }
     }
 
-    /**
-     * Setup accessible navigation buttons
-     */
     function setupNavigationButtons($carousel, swiper) {
         const prevBtn = $carousel.find('.swiper-button-prev');
         const nextBtn = $carousel.find('.swiper-button-next');
 
-        // Ensure buttons have proper ARIA
         prevBtn.attr({
             'role': 'button',
-            'aria-label': 'Previous team member',
+            'aria-label': getString('previousTeamMember'),
             'tabindex': '0'
         });
 
         nextBtn.attr({
             'role': 'button',
-            'aria-label': 'Next team member',
+            'aria-label': getString('nextTeamMember'),
             'tabindex': '0'
         });
 
-        // Handle keyboard activation
         prevBtn.add(nextBtn).on('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -248,18 +237,13 @@
             }
         });
 
-        // Update button states
         swiper.on('slideChange', function () {
             updateNavigationState($carousel, swiper);
         });
 
-        // Initial state
         updateNavigationState($carousel, swiper);
     }
 
-    /**
-     * Update navigation button disabled states
-     */
     function updateNavigationState($carousel, swiper) {
         const prevBtn = $carousel.find('.swiper-button-prev');
         const nextBtn = $carousel.find('.swiper-button-next');
@@ -270,7 +254,6 @@
         }
     }
 
-    // Expose for external use
     window.PromenTeamMembersCarouselAccessibility = {
         init: initTeamMembersCarouselAccessibility
     };

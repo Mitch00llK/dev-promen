@@ -8,6 +8,24 @@
 (function () {
     'use strict';
 
+    /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        const fallbacks = {
+            skipToContent: 'Skip to {0}',
+            contactCard: 'Contact Card'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
+
     // Initialize accessibility features when DOM is ready
     document.addEventListener('DOMContentLoaded', function () {
         initContactInfoCardAccessibility();

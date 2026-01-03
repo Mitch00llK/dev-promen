@@ -11,6 +11,25 @@
     'use strict';
 
     /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        const fallbacks = {
+            exitedTestimonial: 'Exited testimonial',
+            testimonial: 'Testimonial',
+            testimonialBy: 'by {0}'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
+
+    /**
      * Worker Testimonial Accessibility Class
      */
     class WorkerTestimonialAccessibility {
@@ -45,7 +64,7 @@
                 // Handle Escape key to reset focus
                 if (e.key === 'Escape') {
                     $widget.blur();
-                    PromenAccessibility.announce('Exited testimonial');
+                    PromenAccessibility.announce(getString('exitedTestimonial'));
                 }
             });
 
@@ -98,10 +117,10 @@
 
             let announcement = '';
             if (quote) {
-                announcement += `Testimonial: ${quote}`;
+                announcement += `${getString('testimonial')}: ${quote}`;
             }
             if (name) {
-                announcement += ` by ${name}`;
+                announcement += ` ${getString('testimonialBy', name)}`;
             }
 
             if (announcement) {

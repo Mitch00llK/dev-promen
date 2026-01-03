@@ -5,6 +5,29 @@
  * Uses global PromenAccessibility core library.
  */
 
+/**
+ * Get localized string helper
+ */
+function getString(key, ...args) {
+    if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+        return PromenAccessibility.getString(key, ...args);
+    }
+    const fallbacks = {
+        servicesCarouselLabel: 'Services Carousel',
+        slideOf: 'Slide {0} of {1}',
+        previousService: 'Previous service',
+        nextService: 'Next service',
+        slideshowPlaying: 'Carousel autoplay started',
+        slideshowPaused: 'Carousel autoplay stopped',
+        autoplayStopped: 'Autoplay stopped'
+    };
+    let str = fallbacks[key] || key;
+    args.forEach((arg, index) => {
+        str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+    });
+    return str;
+}
+
 class ServicesCarouselAccessibility {
     constructor(carouselElement) {
         this.carousel = carouselElement;
@@ -66,11 +89,11 @@ class ServicesCarouselAccessibility {
 
         // Announce when carousel starts/stops autoplay
         this.swiper.on('autoplayStart', () => {
-            PromenAccessibility.announce('Carousel autoplay started');
+            PromenAccessibility.announce(getString('slideshowPlaying'));
         });
 
         this.swiper.on('autoplayStop', () => {
-            PromenAccessibility.announce('Carousel autoplay stopped');
+            PromenAccessibility.announce(getString('slideshowPaused'));
         });
     }
 
@@ -84,7 +107,7 @@ class ServicesCarouselAccessibility {
             stop: () => {
                 if (this.swiper.autoplay.running) {
                     this.swiper.autoplay.stop();
-                    PromenAccessibility.announce('Carousel paused globally');
+                    PromenAccessibility.announce(getString('slideshowPaused'));
                 }
             },
             pause: () => {
@@ -135,7 +158,7 @@ class ServicesCarouselAccessibility {
             case 'Escape':
                 if (this.swiper && this.swiper.autoplay && this.swiper.autoplay.running) {
                     this.swiper.autoplay.stop();
-                    PromenAccessibility.announce('Autoplay stopped');
+                    PromenAccessibility.announce(getString('autoplayStopped'));
                 }
                 break;
         }
@@ -181,7 +204,7 @@ class ServicesCarouselAccessibility {
         const titleEl = currentSlide ? currentSlide.querySelector('.service-title') : null;
         const slideTitle = titleEl ? titleEl.textContent : '';
 
-        const announcement = `Slide ${this.currentSlideIndex + 1} of ${this.totalSlides}${slideTitle ? `: ${slideTitle}` : ''}`;
+        const announcement = getString('slideOf', this.currentSlideIndex + 1, this.totalSlides) + (slideTitle ? `: ${slideTitle}` : '');
         PromenAccessibility.announce(announcement);
     }
 

@@ -149,7 +149,7 @@
                 if (e.key === 'Escape') {
                     // Clear all focus states
                     this.blocks.forEach(b => b.classList.remove('is-focused'));
-                    this.announce('Navigatie geannuleerd');
+                    this.announce(getString('navigationCancelled'));
                 }
             });
         }
@@ -267,7 +267,8 @@
                 if (href.startsWith('tel:')) {
                     const phoneNumber = link.querySelector('[aria-hidden="true"]')?.textContent.trim()
                         || link.textContent.trim();
-                    this.announce(`Bellen naar ${phoneNumber}`);
+                    const callingMsg = getString('callingNumber', phoneNumber);
+                    this.announce(callingMsg);
 
                     // Additional feedback for keyboard users
                     if (isKeyboardActivation) {
@@ -277,7 +278,8 @@
                 } else if (href.startsWith('mailto:')) {
                     const email = link.querySelector('[aria-hidden="true"]')?.textContent.trim()
                         || link.textContent.trim();
-                    this.announce(`E-mail opstellen naar ${email}`);
+                    const emailMsg = getString('composingEmail', email);
+                    this.announce(emailMsg);
 
                     // Additional feedback for keyboard users
                     if (isKeyboardActivation) {
@@ -295,11 +297,11 @@
          */
         getBlockTypeLabel(blockType) {
             const labels = {
-                'address': 'Adres',
-                'phone': 'Telefoonnummer',
-                'email': 'E-mailadres'
+                'address': getString('address'),
+                'phone': getString('phone'),
+                'email': getString('email')
             };
-            return labels[blockType] || 'Contactinformatie';
+            return labels[blockType] || getString('contactInfo');
         }
 
         /**
@@ -336,7 +338,7 @@
                     });
 
                     // Announce to screen readers
-                    this.announce('Animaties uitgeschakeld op basis van systeemvoorkeuren');
+                    this.announce(getString('animationsDisabled'));
                 } else {
                     this.container.classList.remove('reduce-motion');
                 }

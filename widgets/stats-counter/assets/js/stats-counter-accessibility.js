@@ -5,6 +5,25 @@
  * Uses global PromenAccessibility core library.
  */
 
+/**
+ * Get localized string helper
+ */
+function getString(key, ...args) {
+    if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+        return PromenAccessibility.getString(key, ...args);
+    }
+    const fallbacks = {
+        statisticsLoading: 'Statistics are loading',
+        counterFor: 'Counter for {0}',
+        statisticLabel: 'Statistic {0}'
+    };
+    let str = fallbacks[key] || key;
+    args.forEach((arg, index) => {
+        str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+    });
+    return str;
+}
+
 class StatsCounterAccessibility {
     constructor(containerElement) {
         this.container = containerElement;
@@ -33,16 +52,16 @@ class StatsCounterAccessibility {
     setupScreenReaderSupport() {
         // Announce when counters start animating (if not reduced motion)
         if (!this.prefersReducedMotion()) {
-            PromenAccessibility.announce('Statistics are loading');
+            PromenAccessibility.announce(getString('statisticsLoading'));
         }
 
         // Set up labels
         this.counterNumbers.forEach(function (counter, index) {
             const item = counter.closest('.promen-stats-counter-item');
-            const title = (item && item.querySelector('.promen-counter-title') && item.querySelector('.promen-counter-title').textContent) || 'Statistic ' + (index + 1);
+            const title = (item && item.querySelector('.promen-counter-title') && item.querySelector('.promen-counter-title').textContent) || getString('statisticLabel', index + 1);
 
             // Add aria-label to counter for better context
-            counter.setAttribute('aria-label', 'Teller voor ' + title);
+            counter.setAttribute('aria-label', getString('counterFor', title));
         });
     }
 

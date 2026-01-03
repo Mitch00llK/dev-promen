@@ -8,6 +8,32 @@
 (function ($) {
     'use strict';
 
+    /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        const fallbacks = {
+            heroSliderLabel: 'Hero Slider',
+            slideOf: 'Slide {0} of {1}',
+            goToSlide: 'Go to slide {0}',
+            slideshowPaused: 'Slideshow paused',
+            slideshowPlaying: 'Slideshow playing',
+            pauseSlideshow: 'Pause slideshow',
+            playSlideshow: 'Play slideshow',
+            slideshowPausedGlobally: 'Slideshow paused globally',
+            slideshowPausedOnFocus: 'Slideshow paused on focus',
+            navigatedTo: 'Navigated to'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
+
     const HeroSliderAccessibility = {
 
         init: function () {
@@ -113,7 +139,7 @@
                     if ($swiper && $swiper.swiper && $swiper.swiper.autoplay && $swiper.swiper.autoplay.running) {
                         $swiper.swiper.autoplay.stop();
                         this.updatePlayPauseButton($playPause, false);
-                        PromenAccessibility.announce('Slideshow paused globally');
+                        PromenAccessibility.announce(getString('slideshowPausedGlobally'));
                     }
                 }
             });
@@ -141,11 +167,11 @@
             if (swiper.autoplay.running) {
                 swiper.autoplay.stop();
                 HeroSliderAccessibility.updatePlayPauseButton($button, false);
-                PromenAccessibility.announce('Slideshow paused');
+                PromenAccessibility.announce(getString('slideshowPaused'));
             } else {
                 swiper.autoplay.start();
                 HeroSliderAccessibility.updatePlayPauseButton($button, true);
-                PromenAccessibility.announce('Slideshow playing');
+                PromenAccessibility.announce(getString('slideshowPlaying'));
             }
         },
 
@@ -158,14 +184,14 @@
                 $playIcon.show();
                 $pauseIcon.hide();
                 $button.attr('aria-pressed', 'true');
-                $controlText.text('Pause slideshow');
-                $button.attr('aria-label', 'Pause slideshow');
+                $controlText.text(getString('pauseSlideshow'));
+                $button.attr('aria-label', getString('pauseSlideshow'));
             } else {
                 $playIcon.hide();
                 $pauseIcon.show();
                 $button.attr('aria-pressed', 'false');
-                $controlText.text('Play slideshow');
-                $button.attr('aria-label', 'Play slideshow');
+                $controlText.text(getString('playSlideshow'));
+                $button.attr('aria-label', getString('playSlideshow'));
             }
         },
 
@@ -176,8 +202,8 @@
             setTimeout(() => {
                 $pagination.find('.swiper-pagination-bullet').each(function (index) {
                     const $bullet = $(this);
-                    $bullet.attr('role', 'button') // Changed to button for better semantic fit here
-                        .attr('aria-label', `Go to slide ${index + 1}`)
+                    $bullet.attr('role', 'button')
+                        .attr('aria-label', getString('goToSlide', index + 1))
                         .attr('tabindex', $bullet.hasClass('swiper-pagination-bullet-active') ? '0' : '-1');
                 });
 
@@ -241,10 +267,10 @@
             const $title = $activeSlide.find('.hero-slide-title');
             const title = $title.text().trim();
 
-            announcement = `Slide ${activeIndex + 1} of ${totalSlides}${title ? ': ' + title : ''}`;
+            announcement = getString('slideOf', activeIndex + 1, totalSlides) + (title ? ': ' + title : '');
 
             if (trigger === 'navigation') {
-                announcement = `Navigated to ${announcement}`;
+                announcement = getString('navigatedTo') + ' ' + announcement;
             }
 
             PromenAccessibility.announce(announcement);
@@ -313,7 +339,7 @@
                 swiper.autoplay.stop();
                 const $playPause = $container.find('.hero-slider-play-pause');
                 this.updatePlayPauseButton($playPause, false);
-                PromenAccessibility.announce('Slideshow paused on focus');
+                PromenAccessibility.announce(getString('slideshowPausedOnFocus'));
             }
         }
     };
