@@ -44,7 +44,7 @@ $slider_settings = [
     'pagination' => $this->get_safe_setting('slider_pagination', '') === 'yes',
     'loop' => $this->get_safe_setting('slider_loop', '') === 'yes',
     'effect' => isset($settings['slider_effect']) ? $settings['slider_effect'] : 'slide',
-    'autoplay' => $settings['slider_autoplay'] === 'yes' ? [
+    'autoplay' => $this->get_safe_setting('slider_autoplay', '') === 'yes' ? [
         'delay' => isset($settings['slider_autoplay_delay']) ? intval($settings['slider_autoplay_delay']) : 5000,
         'disableOnInteraction' => false,
     ] : false,
