@@ -41,14 +41,22 @@
         initializeAccessibilityFeatures();
     });
 
-    // Initialize when Elementor frontend is ready
-    $(document).on('elementor/frontend/init', function () {
-        if (typeof elementorFrontend !== 'undefined') {
+    /**
+     * Re-initialize for dynamically loaded content
+     */
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
             elementorFrontend.hooks.addAction('frontend/element_ready/promen_content_posts_grid.default', function ($element) {
                 initializeAccessibilityFeatures();
             });
         }
-    });
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
     function initializeAccessibilityFeatures() {
         enhanceKeyboardNavigation();

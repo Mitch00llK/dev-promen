@@ -278,12 +278,18 @@
     });
 
     // Re-initialize on Elementor frontend init (for editor preview)
-    $(window).on('elementor/frontend/init', function () {
+    const initElementorHooks = () => {
         if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
             elementorFrontend.hooks.addAction('frontend/element_ready/promen_team_members_carousel.default', function () {
                 TeamMembersCarousel.init();
             });
         }
-    });
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
 })(jQuery);

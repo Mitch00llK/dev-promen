@@ -335,10 +335,18 @@
     /**
      * Re-initialize on Elementor frontend updates
      */
-    if (typeof elementorFrontend !== 'undefined') {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_document_info_list.default', function ($scope) {
-            new DocumentInfoListAccessibility();
-        });
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_document_info_list.default', function ($scope) {
+                new DocumentInfoListAccessibility();
+            });
+        }
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
     }
 
 })(jQuery);

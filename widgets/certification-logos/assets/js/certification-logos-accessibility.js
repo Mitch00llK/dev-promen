@@ -7,6 +7,27 @@
     'use strict';
 
     /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        const fallbacks = {
+            gridKeyboardInstructions: 'Use arrow keys to navigate between certification logos. Press Enter or Space to visit the certification page.',
+            sliderKeyboardInstructions: 'Use arrow keys to navigate between certification logos. Press Enter or Space to visit the certification page.',
+            skipLinkText: 'Sla over naar inhoud',
+            sliderInstructions: 'This is a carousel of certification logos. Use arrow keys to navigate between logos.',
+            openingPage: 'Opening {0} page'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
+
+    /**
      * Certification Logos Accessibility Class
      */
     class CertificationLogosAccessibility {
@@ -217,7 +238,7 @@
                 $link[0].click();
                 const $img = $logo.find('img');
                 const altText = $img.attr('alt') || 'Certification logo';
-                this.announceToScreenReader(`Opening ${altText} page`);
+                this.announceToScreenReader(getString('openingPage', altText));
             }
         }
 
@@ -230,7 +251,7 @@
                 $link[0].click();
                 const $img = $slide.find('img');
                 const altText = $img.attr('alt') || 'Certification logo';
-                this.announceToScreenReader(`Opening ${altText} page`);
+                this.announceToScreenReader(getString('openingPage', altText));
             }
         }
 
@@ -255,7 +276,7 @@
                     $logo.append(`
                         <div class="keyboard-instructions screen-reader-text" 
                              id="${$logo.attr('id')}-instructions">
-                            ${CertificationLogosAccessibility.getGridKeyboardInstructions()}
+                            ${getString('gridKeyboardInstructions')}
                         </div>
                     `);
                 }
@@ -278,7 +299,7 @@
                     $slide.append(`
                         <div class="keyboard-instructions screen-reader-text" 
                              id="${$slide.attr('id')}-instructions">
-                            ${CertificationLogosAccessibility.getSliderKeyboardInstructions()}
+                            ${getString('sliderKeyboardInstructions')}
                         </div>
                     `);
                 }
@@ -295,7 +316,7 @@
             if (!$('.promen-certification-logos .skip-link').length) {
                 $('.promen-certification-logos').prepend(`
                     <a href="#certification-logos-content" class="skip-link">
-                        ${CertificationLogosAccessibility.getSkipLinkText()}
+                        ${getString('skipLinkText')}
                     </a>
                 `);
             }
@@ -313,7 +334,7 @@
                 if (!$slider.find('.slider-instructions').length) {
                     $slider.prepend(`
                         <div class="slider-instructions screen-reader-text">
-                            ${CertificationLogosAccessibility.getSliderInstructions()}
+                            ${getString('sliderInstructions')}
                         </div>
                     `);
                 }
@@ -347,34 +368,6 @@
                 PromenAccessibility.announce(text);
             }
         }
-
-        /**
-         * Get grid keyboard navigation instructions
-         */
-        static getGridKeyboardInstructions() {
-            return 'Use arrow keys to navigate between certification logos. Press Enter or Space to visit the certification page.';
-        }
-
-        /**
-         * Get slider keyboard navigation instructions
-         */
-        static getSliderKeyboardInstructions() {
-            return 'Use arrow keys to navigate between certification logos. Press Enter or Space to visit the certification page.';
-        }
-
-        /**
-         * Get skip link text
-         */
-        static getSkipLinkText() {
-            return 'Sla over naar inhoud';
-        }
-
-        /**
-         * Get slider instructions
-         */
-        static getSliderInstructions() {
-            return 'This is a carousel of certification logos. Use arrow keys to navigate between logos.';
-        }
     }
 
     /**
@@ -389,10 +382,18 @@
     /**
      * Re-initialize on Elementor frontend updates
      */
-    if (typeof elementorFrontend !== 'undefined') {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_certification_logos.default', function ($scope) {
-            new CertificationLogosAccessibility();
-        });
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_certification_logos.default', function ($scope) {
+                new CertificationLogosAccessibility();
+            });
+        }
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
     }
 
 })(jQuery);

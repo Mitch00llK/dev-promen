@@ -48,8 +48,16 @@
     };
 
     // Make sure we initialize the widget when it's ready in Elementor
-    $(window).on('elementor/frontend/init', function () {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_checklist_comparison.default', ChecklistComparisonHandler);
-    });
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_checklist_comparison.default', ChecklistComparisonHandler);
+        }
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
 })(jQuery);

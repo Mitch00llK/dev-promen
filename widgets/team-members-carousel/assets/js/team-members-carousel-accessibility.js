@@ -15,14 +15,20 @@
     });
 
     // Initialize when Elementor frontend is initialized (for editor preview)
-    $(window).on('elementor/frontend/init', function () {
-        if (typeof elementorFrontend !== 'undefined') {
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
             elementorFrontend.hooks.addAction(
                 'frontend/element_ready/promen_team_members_carousel.default',
                 initTeamMembersCarouselAccessibility
             );
         }
-    });
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
     /**
      * Get localized string helper

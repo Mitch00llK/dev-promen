@@ -209,10 +209,18 @@
     /**
      * Re-initialize on Elementor frontend updates
      */
-    if (typeof elementorFrontend !== 'undefined') {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_benefits.default', function ($scope) {
-            new BenefitsAccessibility();
-        });
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_benefits.default', function ($scope) {
+                new BenefitsAccessibility();
+            });
+        }
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
     }
 
 })(jQuery);

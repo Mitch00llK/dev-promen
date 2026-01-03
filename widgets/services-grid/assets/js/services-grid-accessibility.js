@@ -218,6 +218,21 @@
         });
     });
 
+    // Re-initialize on Elementor frontend updates
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_services_grid.default', function ($scope) {
+                new ServicesGridAccessibility();
+            });
+        }
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
+
     // Export for external use
     window.ServicesGridAccessibility = ServicesGridAccessibility;
 

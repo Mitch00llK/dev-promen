@@ -352,6 +352,21 @@
         HeroSliderAccessibility.init();
     });
 
+    // Initialize on Elementor frontend init
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/hero_slider.default', function ($scope) {
+                HeroSliderAccessibility.initSliders();
+            });
+        }
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
+
     // Make available globally
     window.HeroSliderAccessibility = HeroSliderAccessibility;
 

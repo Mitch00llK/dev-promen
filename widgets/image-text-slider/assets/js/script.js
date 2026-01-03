@@ -1091,99 +1091,95 @@
         setTimeout(ensureStaticContentAlignment, 300);
 
         // Check if elementorFrontend and hooks are available
-        if (window.elementorFrontend && window.elementorFrontend.hooks) {
-            // Reinitialize sliders when Elementor frontend is initialized
-            elementorFrontend.hooks.addAction('frontend/element_ready/image_text_slider.default', function ($scope) {
-                if (!isElementorEditor) {
-                    initImageTextSlider($scope.find('.image-text-slider-container')[0]);
-                } else {
-                    initImageTextSliderForEditor($scope.find('.image-text-slider-container')[0]);
-                }
-
-                // Handle breadcrumb visibility in the editor
-                if (window.elementor && window.elementorFrontend.isEditMode()) {
-                    const widget = $scope.data('model-cid');
-
-                    if (widget) {
-                        // Listen for changes to the breadcrumb settings
-                        elementor.channels.editor.on('change', function (view) {
-                            const changedWidget = view.model.cid;
-
-                            // Only proceed if this is our widget
-                            if (changedWidget !== widget) {
-                                return;
-                            }
-
-                            // Get the changed control name
-                            const changedControlName = view.model.get('name');
-
-                            // If the breadcrumb visibility or position control changed
-                            if (changedControlName === 'show_breadcrumb' || changedControlName === 'breadcrumb_position') {
-                                // Re-render the widget
-                                window.elementor.reloadPreview();
-                            }
-                        });
+        const initElementorHooks = () => {
+            if (window.elementorFrontend && window.elementorFrontend.hooks) {
+                // Reinitialize sliders when Elementor frontend is initialized
+                elementorFrontend.hooks.addAction('frontend/element_ready/image_text_slider.default', function ($scope) {
+                    if (!isElementorEditor) {
+                        initImageTextSlider($scope.find('.image-text-slider-container')[0]);
+                    } else {
+                        initImageTextSliderForEditor($scope.find('.image-text-slider-container')[0]);
                     }
-                }
-            });
 
-            // Additional handling for editor mode
-            if (window.elementorFrontend.isEditMode()) {
-                // Initialize on section/column changes in Elementor editor
-                elementorFrontend.hooks.addAction('frontend/element_ready/section', function () {
-                    setTimeout(function () {
-                        initEditorSliders();
-                    }, 100);
+                    // Handle breadcrumb visibility in the editor
+                    if (window.elementor && window.elementorFrontend.isEditMode()) {
+                        const widget = $scope.data('model-cid');
+
+                        if (widget) {
+                            // Listen for changes to the breadcrumb settings
+                            elementor.channels.editor.on('change', function (view) {
+                                const changedWidget = view.model.cid;
+
+                                // Only proceed if this is our widget
+                                if (changedWidget !== widget) {
+                                    return;
+                                }
+
+                                // Get the changed control name
+                                const changedControlName = view.model.get('name');
+
+                                // If the breadcrumb visibility or position control changed
+                                if (changedControlName === 'show_breadcrumb' || changedControlName === 'breadcrumb_position') {
+                                    // Re-render the widget
+                                    window.elementor.reloadPreview();
+                                }
+                            });
+                        }
+                    }
                 });
 
-                elementorFrontend.hooks.addAction('frontend/element_ready/column', function () {
-                    setTimeout(function () {
-                        initEditorSliders();
-                    }, 100);
-                });
-
-                // Initialize when panel is opened
-                if (window.elementor && window.elementor.hooks) {
-                    window.elementor.hooks.addAction('panel/open_editor/widget', function () {
+                // Additional handling for editor mode
+                if (window.elementorFrontend.isEditMode()) {
+                    // Initialize on section/column changes in Elementor editor
+                    elementorFrontend.hooks.addAction('frontend/element_ready/section', function () {
                         setTimeout(function () {
                             initEditorSliders();
                         }, 100);
                     });
-                }
 
-                // Initialize on any preview reload
-                document.addEventListener('elementor/popup/show', function () {
-                    setTimeout(function () {
-                        initEditorSliders();
-                    }, 50);
-                });
-
-                // Handle spacing control changes
-                if (window.elementor && window.elementor.channels) {
-                    elementor.channels.editor.on('change', function (view) {
-                        const changedControlName = view.model.get('name');
-
-                        // Update visual spacing indicator when margin control changes
-                        if (changedControlName === 'slider_container_margin_bottom') {
-                            setTimeout(function () {
-                                updateEditorSpacingIndicators();
-                            }, 100);
-                        }
+                    elementorFrontend.hooks.addAction('frontend/element_ready/column', function () {
+                        setTimeout(function () {
+                            initEditorSliders();
+                        }, 100);
                     });
+
+                    // Initialize when panel is opened
+                    if (window.elementor && window.elementor.hooks) {
+                        window.elementor.hooks.addAction('panel/open_editor/widget', function () {
+                            setTimeout(function () {
+                                initEditorSliders();
+                            }, 100);
+                        });
+                    }
                 }
             }
+        };
 
-            // Add resize handler when elements are ready
-            elementorFrontend.hooks.addAction('frontend/element_ready/global', function () {
-                setTimeout(positionSliderSpacers, 100);
-            });
+        if (window.elementorFrontend && window.elementorFrontend.hooks) {
+            initElementorHooks();
         } else {
-            // If elementorFrontend hooks are not available, initialize sliders directly
-            // This ensures that sliders will work even if Elementor hooks are not loaded
+            window.addEventListener('elementor/frontend/init', initElementorHooks);
+        }
+
+        // Initialize on any preview reload
+        document.addEventListener('elementor/popup/show', function () {
             setTimeout(function () {
-                initImageTextSliders();
-                positionSliderSpacers();
-            }, 300);
+                initEditorSliders();
+            }, 50);
+        });
+
+        // Handle spacing control changes
+        if (window.elementor && window.elementor.channels) {
+            elementor.channels.editor.on('change', function (view) {
+                const changedControlName = view.model.get('name');
+
+                // Update visual spacing indicator when margin control changes
+                if (changedControlName === 'slider_container_margin_bottom') {
+                    setTimeout(function () {
+                        updateEditorSpacingIndicators();
+                    }, 100);
+                }
+            });
         }
 
         // Force hide inactive content slides on initial load

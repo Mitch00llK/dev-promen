@@ -11,6 +11,19 @@
     'use strict';
 
     /**
+     * Helper to get localized strings from core library
+     * @param {string} key 
+     * @param  {...any} args 
+     * @returns {string}
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && typeof PromenAccessibility.getString === 'function') {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        return key;
+    }
+
+    /**
      * Contact Info Blocks Accessibility Class
      * Pure vanilla JS implementation for better performance
      */
@@ -410,23 +423,31 @@
     /**
      * Re-initialize on Elementor frontend updates
      */
-    if (typeof elementorFrontend !== 'undefined') {
-        elementorFrontend.hooks.addAction(
-            'frontend/element_ready/contact_info_blocks.default',
-            function ($scope) {
-                const container = $scope[0].querySelector('.contact-info-blocks');
-                if (container) {
-                    // Clean up old instance
-                    if (container._accessibilityInstance) {
-                        container._accessibilityInstance.destroy();
-                    }
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction(
+                'frontend/element_ready/contact_info_blocks.default',
+                function ($scope) {
+                    const container = $scope[0].querySelector('.contact-info-blocks');
+                    if (container) {
+                        // Clean up old instance
+                        if (container._accessibilityInstance) {
+                            container._accessibilityInstance.destroy();
+                        }
 
-                    // Reinitialize
-                    container.dataset.accessibilityInit = 'false';
-                    initContactInfoBlocks();
+                        // Reinitialize
+                        container.dataset.accessibilityInit = 'false';
+                        initContactInfoBlocks();
+                    }
                 }
-            }
-        );
+            );
+        }
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
     }
 
     // Expose to global scope for manual initialization if needed

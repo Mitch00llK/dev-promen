@@ -22,8 +22,8 @@
     });
 
     // Initialize on Elementor frontend init to support Elementor Pro features
-    $(window).on('elementor/frontend/init', function () {
-        if (typeof elementorFrontend !== 'undefined') {
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
             elementorFrontend.hooks.addAction('frontend/element_ready/promen_solicitation_timeline.default', function ($scope) {
                 // Initialize keyboard navigation
                 if (typeof PromenAccessibility !== 'undefined') {
@@ -50,7 +50,13 @@
                 }
             });
         }
-    });
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
     // Re-initialize on window resize (debounced)
     let resizeTimer;

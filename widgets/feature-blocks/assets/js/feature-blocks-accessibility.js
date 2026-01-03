@@ -264,12 +264,20 @@
         });
 
         // Handle Elementor preview updates
-        if (typeof elementorFrontend !== 'undefined') {
-            elementorFrontend.hooks.addAction('frontend/element_ready/promen_feature_blocks.default', function ($scope) {
-                setTimeout(() => {
-                    window.featureBlocksAccessibility.initializeDynamicContent();
-                }, 100);
-            });
+        const initElementorHooks = () => {
+            if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+                elementorFrontend.hooks.addAction('frontend/element_ready/promen_feature_blocks.default', function ($scope) {
+                    setTimeout(() => {
+                        window.featureBlocksAccessibility.initializeDynamicContent();
+                    }, 100);
+                });
+            }
+        };
+
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            initElementorHooks();
+        } else {
+            window.addEventListener('elementor/frontend/init', initElementorHooks);
         }
     });
 

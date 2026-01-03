@@ -1,5 +1,5 @@
 // Define initCarousel as a global function immediately
-window.initCarousel = function(carouselId) {
+window.initCarousel = function (carouselId) {
     try {
         var $carousel = jQuery('#' + carouselId);
 
@@ -41,7 +41,7 @@ window.initCarousel = function(carouselId) {
         }
 
         // Calculate center offset for center mode
-        var calculateCenterOffset = function(padding) {
+        var calculateCenterOffset = function (padding) {
             if (typeof padding === 'string' && padding.endsWith('px')) {
                 return parseInt(padding.replace('px', ''));
             }
@@ -103,20 +103,20 @@ window.initCarousel = function(carouselId) {
         var $prevArrow = jQuery('.carousel-arrow-prev[data-carousel="' + carouselId + '"]');
         var $nextArrow = jQuery('.carousel-arrow-next[data-carousel="' + carouselId + '"]');
 
-        $prevArrow.off('click').on('click', function() {
+        $prevArrow.off('click').on('click', function () {
             if (swiper) {
                 swiper.slidePrev();
             }
         });
 
-        $nextArrow.off('click').on('click', function() {
+        $nextArrow.off('click').on('click', function () {
             if (swiper) {
                 swiper.slideNext();
             }
         });
 
         // Update arrow states
-        swiper.on('slideChange', function() {
+        swiper.on('slideChange', function () {
             if (!infinite) {
                 if (swiper.isBeginning) {
                     $prevArrow.addClass('swiper-button-disabled');
@@ -135,7 +135,7 @@ window.initCarousel = function(carouselId) {
         // Initialize GSAP animations if enabled
         initGsapAnimations($carousel);
 
-    } catch (error) {}
+    } catch (error) { }
 };
 
 // Function to initialize GSAP animations
@@ -186,7 +186,7 @@ function initGsapAnimations($carousel) {
             duration: staggerDuration,
             stagger: staggerDelay,
             force3D: true,
-            onComplete: function() {
+            onComplete: function () {
                 // Reset any slides that might have been missed
                 gsap.set($slides, {
                     clearProps: "opacity,y"
@@ -197,7 +197,7 @@ function initGsapAnimations($carousel) {
         // Handle slide change events
         var swiper = $carousel.data('swiper');
         if (swiper) {
-            swiper.on('slideChangeTransitionStart', function() {
+            swiper.on('slideChangeTransitionStart', function () {
                 var activeSlides = $carousel.find('.swiper-slide-active, .swiper-slide-visible');
                 var inactiveSlides = $carousel.find('.swiper-slide:not(.swiper-slide-active):not(.swiper-slide-visible)');
 
@@ -219,22 +219,22 @@ function initGsapAnimations($carousel) {
                 });
             });
         }
-    } catch (error) {}
+    } catch (error) { }
 }
 
 // The rest of the code wrapped in jQuery
-(function($) {
+(function ($) {
     'use strict';
 
     // Initialize carousel based on context (front-end or editor)
-    var initializeCarousel = function(scope) {
+    var initializeCarousel = function (scope) {
         var $carousel = scope.find('.promen-services-carousel');
         if ($carousel.length) {
             var carouselId = $carousel.attr('id');
             if (carouselId) {
                 if (typeof Swiper === 'undefined') {
                     // If Swiper is not loaded yet, wait for it
-                    var checkInterval = setInterval(function() {
+                    var checkInterval = setInterval(function () {
                         if (typeof Swiper !== 'undefined') {
                             clearInterval(checkInterval);
                             window.initCarousel(carouselId);
@@ -242,7 +242,7 @@ function initGsapAnimations($carousel) {
                     }, 100);
 
                     // Set a timeout to stop checking after 5 seconds
-                    setTimeout(function() {
+                    setTimeout(function () {
                         clearInterval(checkInterval);
                     }, 5000);
                 } else {
@@ -253,13 +253,21 @@ function initGsapAnimations($carousel) {
     };
 
     // Initialize on Elementor frontend init
-    $(window).on('elementor/frontend/init', function() {
-        elementorFrontend.hooks.addAction('frontend/element_ready/promen_services_carousel.default', initializeCarousel);
-    });
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_services_carousel.default', initializeCarousel);
+        }
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
     // Initialize on document ready for non-Elementor contexts
-    $(document).ready(function() {
-        $('.promen-services-carousel').each(function() {
+    $(document).ready(function () {
+        $('.promen-services-carousel').each(function () {
             var carouselId = $(this).attr('id');
             if (carouselId) {
                 window.initCarousel(carouselId);

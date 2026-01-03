@@ -749,12 +749,20 @@
         onReady(document);
     }
 
+    const initElementorHooks = () => {
+        if (window.elementorFrontend && window.elementorFrontend.hooks) {
+            window.elementorFrontend.hooks.addAction('frontend/element_ready/promen_text_content_block.default', ($scope) => {
+                if ($scope && $scope.length) {
+                    onReady($scope[0]);
+                }
+            });
+        }
+    };
+
     if (window.elementorFrontend && window.elementorFrontend.hooks) {
-        window.elementorFrontend.hooks.addAction('frontend/element_ready/promen_text_content_block.default', ($scope) => {
-            if ($scope && $scope.length) {
-                onReady($scope[0]);
-            }
-        });
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
     }
 
     window.addEventListener('beforeunload', stopSpeaking);

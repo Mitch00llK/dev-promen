@@ -4,13 +4,13 @@
  * Optimized version with improved performance and structure
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     // Check if Swiper is available
     var isSwiperAvailable = typeof Swiper !== 'undefined';
 
-    if (!isSwiperAvailable) {}
+    if (!isSwiperAvailable) { }
 
     /**
      * Load remaining slides progressively after page load
@@ -30,20 +30,20 @@
             }
 
             // Append remaining slides to the wrapper
-            remainingSlidesData.forEach(function(slideData) {
+            remainingSlidesData.forEach(function (slideData) {
                 if (slideData.html) {
                     const $slideHtml = $(slideData.html);
                     $wrapper.append($slideHtml);
 
                     // Mark content containers in newly loaded slides to prevent duplicate processing
-                    $slideHtml.find('.hero-slide-content-container').each(function() {
+                    $slideHtml.find('.hero-slide-content-container').each(function () {
                         const $container = $(this);
                         if (!$container.data('content-initialized')) {
                             $container.data('content-initialized', true);
                         }
                     });
 
-                    $slideHtml.find('.hero-slide-content-wrapper').each(function() {
+                    $slideHtml.find('.hero-slide-content-wrapper').each(function () {
                         const $wrapper = $(this);
                         if (!$wrapper.data('content-initialized')) {
                             $wrapper.data('content-initialized', true);
@@ -66,7 +66,7 @@
      * Initialize Hero Slider
      */
     function initHeroSlider() {
-        $('.hero-slider-container').each(function() {
+        $('.hero-slider-container').each(function () {
             try {
                 const $container = $(this);
                 const sliderId = $container.attr('id');
@@ -106,10 +106,10 @@
                 }
 
                 // Load remaining slides first, then initialize Swiper
-                loadRemainingSlides($container).then(function() {
+                loadRemainingSlides($container).then(function () {
                     initializeSwiper($container, sliderId);
                 });
-            } catch (mainError) {}
+            } catch (mainError) { }
         });
     }
 
@@ -174,18 +174,18 @@
                     prevEl: `#${sliderId} .swiper-button-prev`
                 },
                 on: {
-                    init: function() {
+                    init: function () {
                         // Handle overflow for Elementor
                         handleOverflow($container);
 
                         // Make sure navigation arrows are visible
                         ensureNavigationVisible($container);
                     },
-                    slideChange: function() {
+                    slideChange: function () {
                         // Ensure navigation arrows remain visible during slide transitions
                         ensureNavigationVisible($container);
                     },
-                    resize: function() {
+                    resize: function () {
                         // Handle overflow for Elementor on resize
                         handleOverflow($container);
 
@@ -311,7 +311,7 @@
                 });
 
                 // Ensure content wrapper has proper styling (only apply once per wrapper)
-                $container.find('.hero-slide-content-wrapper').each(function() {
+                $container.find('.hero-slide-content-wrapper').each(function () {
                     const $wrapper = $(this);
                     if (!$wrapper.data('overflow-styled')) {
                         $wrapper.css({
@@ -322,7 +322,7 @@
                     }
                 });
             }
-        } catch (error) {}
+        } catch (error) { }
     }
 
     /**
@@ -358,7 +358,7 @@
                 });
 
                 // Make sure the content wrapper has a high z-index (only once per wrapper)
-                $container.find('.hero-slide-content-wrapper').each(function() {
+                $container.find('.hero-slide-content-wrapper').each(function () {
                     const $wrapper = $(this);
                     if (!$wrapper.data('editor-z-index-applied')) {
                         $wrapper.css({
@@ -374,11 +374,11 @@
                 });
 
                 // Force editor to update (only once)
-                setTimeout(function() {
+                setTimeout(function () {
                     $(window).trigger('resize');
                 }, 500);
             }
-        } catch (error) {}
+        } catch (error) { }
     }
 
     /**
@@ -410,8 +410,8 @@
 
         // Set up a mutation observer to watch for style changes
         if (window.MutationObserver) {
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
                     if (mutation.attributeName === 'style') {
                         // Get the current align-items value
                         const alignItems = $contentContainer.css('align-items');
@@ -481,10 +481,10 @@
 
         // Listen for Elementor control changes
         if (window.elementor) {
-            $(window.elementor.$window).on('elementor/frontend/init', function() {
-                elementor.channels.editor.on('change', function() {
+            $(window.elementor.$window).on('elementor/frontend/init', function () {
+                elementor.channels.editor.on('change', function () {
                     // Re-apply the vertical positioning fix after a short delay
-                    setTimeout(function() {
+                    setTimeout(function () {
                         fixVerticalPositioningInEditor($container);
                     }, 300);
                 });
@@ -496,13 +496,13 @@
     let documentReadyInitialized = false;
 
     // Initialize on document ready - wait for full page load for progressive loading
-    $(document).ready(function() {
+    $(document).ready(function () {
         if (!documentReadyInitialized) {
             // Wait for window load to ensure all resources are loaded before loading remaining slides
             if (document.readyState === 'complete') {
                 initHeroSlider();
             } else {
-                $(window).on('load', function() {
+                $(window).on('load', function () {
                     initHeroSlider();
                 });
             }
@@ -511,9 +511,9 @@
     });
 
     // Initialize in Elementor frontend
-    $(window).on('elementor/frontend/init', function() {
-        if (typeof elementorFrontend !== 'undefined') {
-            elementorFrontend.hooks.addAction('frontend/element_ready/hero_slider.default', function($scope) {
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/hero_slider.default', function ($scope) {
                 // Only initialize if not already initialized
                 const $container = $scope.find('.hero-slider-container');
                 if ($container.length && !$container.data('hero-slider-initialized')) {
@@ -526,6 +526,12 @@
                 }
             });
         }
-    });
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
 })(jQuery);

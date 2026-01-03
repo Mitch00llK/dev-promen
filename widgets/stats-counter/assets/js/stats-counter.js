@@ -1,11 +1,11 @@
-(function($) {
+(function ($) {
     'use strict';
 
     // Counter animation function
     function animateCounter(element, duration) {
         const $counters = $(element).find('.promen-counter-number');
 
-        $counters.each(function() {
+        $counters.each(function () {
             const $this = $(this);
             const finalValue = parseInt($this.attr('data-count'), 10);
 
@@ -14,10 +14,10 @@
                 $({ countValue: 0 }).animate({ countValue: finalValue }, {
                     duration: duration || 2000,
                     easing: 'swing',
-                    step: function() {
+                    step: function () {
                         $this.text(Math.floor(this.countValue));
                     },
-                    complete: function() {
+                    complete: function () {
                         $this.text(finalValue);
                     }
                 });
@@ -29,7 +29,7 @@
     window.animateCounter = animateCounter;
 
     // Initialize counters on page load
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Function to check if element is in viewport
         function isElementInViewport(el) {
             if (!el.length) return false;
@@ -52,7 +52,7 @@
 
             // Check on scroll and on page load
             function checkCounters() {
-                $counterContainers.each(function() {
+                $counterContainers.each(function () {
                     const $container = $(this);
                     const containerId = $container.attr('id') || $container.index();
 
@@ -80,29 +80,37 @@
         }
 
         // For Elementor editor
-        if (window.elementorFrontend && window.elementorFrontend.hooks) {
-            elementorFrontend.hooks.addAction('frontend/element_ready/promen_stats_counter.default', function($scope) {
-                const $container = $scope.find('.promen-stats-counter-container');
+        const initElementorHooks = () => {
+            if (window.elementorFrontend && window.elementorFrontend.hooks) {
+                elementorFrontend.hooks.addAction('frontend/element_ready/promen_stats_counter.default', function ($scope) {
+                    const $container = $scope.find('.promen-stats-counter-container');
 
-                // Initialize accessibility features with proper timing
-                setTimeout(function() {
-                    if (typeof StatsCounterAccessibility !== 'undefined') {
-                        new StatsCounterAccessibility($container[0]);
-                    } else {
-                        // Fallback: try again after a short delay
-                        setTimeout(function() {
-                            if (typeof StatsCounterAccessibility !== 'undefined') {
-                                new StatsCounterAccessibility($container[0]);
-                            }
-                        }, 100);
+                    // Initialize accessibility features with proper timing
+                    setTimeout(function () {
+                        if (typeof StatsCounterAccessibility !== 'undefined') {
+                            new StatsCounterAccessibility($container[0]);
+                        } else {
+                            // Fallback: try again after a short delay
+                            setTimeout(function () {
+                                if (typeof StatsCounterAccessibility !== 'undefined') {
+                                    new StatsCounterAccessibility($container[0]);
+                                }
+                            }, 100);
+                        }
+                    }, 50);
+
+                    if ($container.length && $container.attr('data-animation') === 'true') {
+                        const duration = parseInt($container.attr('data-animation-duration'), 10) || 2000;
+                        animateCounter($container, duration);
                     }
-                }, 50);
+                });
+            }
+        };
 
-                if ($container.attr('data-animation') === 'true') {
-                    const duration = parseInt($container.attr('data-animation-duration'), 10) || 2000;
-                    animateCounter($container, duration);
-                }
-            });
+        if (window.elementorFrontend && window.elementorFrontend.hooks) {
+            initElementorHooks();
+        } else {
+            window.addEventListener('elementor/frontend/init', initElementorHooks);
         }
     });
 

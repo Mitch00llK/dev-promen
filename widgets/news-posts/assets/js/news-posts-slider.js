@@ -4,12 +4,12 @@
  * This script ensures the grid is visible and removes loading state.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     // Function to show grid and remove loading state
     function initializeWidget() {
-        $('.promen-content-posts-widget').each(function() {
+        $('.promen-content-posts-widget').each(function () {
             var $widget = $(this);
             var $grid = $widget.find('.promen-content-grid');
 
@@ -48,7 +48,7 @@
 
     // Run immediately if DOM is ready, otherwise wait
     if (document.readyState === 'loading') {
-        $(document).ready(function() {
+        $(document).ready(function () {
             initImmediate();
             initializeWidget();
         });
@@ -58,10 +58,10 @@
     }
 
     // Initialize on document ready (for widgets added dynamically)
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Fallback: Show widget after 500ms if initialization hasn't completed
-        var fallbackTimer = setTimeout(function() {
-            $('.promen-content-posts-widget.promen-widget-loading').each(function() {
+        var fallbackTimer = setTimeout(function () {
+            $('.promen-content-posts-widget.promen-widget-loading').each(function () {
                 var $widget = $(this);
                 var $grid = $widget.find('.promen-content-grid');
 
@@ -76,26 +76,32 @@
         }, 500);
 
         // Initialize after a short delay to ensure DOM is ready
-        setTimeout(function() {
+        setTimeout(function () {
             initializeWidget();
             clearTimeout(fallbackTimer);
         }, 50);
 
         // Also handle window load to ensure images are loaded
-        $(window).on('load', function() {
+        $(window).on('load', function () {
             initializeWidget();
         });
 
         // Handle Elementor frontend init (for when widget is added or edited in Elementor)
-        $(document).on('elementor/frontend/init', function() {
-            if (typeof elementorFrontend !== 'undefined') {
-                elementorFrontend.hooks.addAction('frontend/element_ready/promen_content_posts_grid.default', function($element) {
-                    setTimeout(function() {
+        const initElementorHooks = () => {
+            if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+                elementorFrontend.hooks.addAction('frontend/element_ready/promen_content_posts_grid.default', function ($element) {
+                    setTimeout(function () {
                         initializeWidget();
                     }, 50);
                 });
             }
-        });
+        };
+
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            initElementorHooks();
+        } else {
+            window.addEventListener('elementor/frontend/init', initElementorHooks);
+        }
     });
 
 })(jQuery);

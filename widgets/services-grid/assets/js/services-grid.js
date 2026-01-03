@@ -5,7 +5,7 @@
  * when the viewport is smaller than 992px.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
     // Store all initialized sliders
@@ -59,19 +59,19 @@
                 paginationBulletMessage: 'Go to slide {{index}}'
             },
             on: {
-                init: function(swiper) {
+                init: function (swiper) {
                     // Set active slide to 100% opacity after initialization
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $(swiper.slides[swiper.activeIndex]).css('opacity', '1');
                     }, 50);
                 },
-                slideChange: function(swiper) {
+                slideChange: function (swiper) {
                     // Reset all slides to 50% opacity
                     $(swiper.slides).css('opacity', '0.5');
                     // Set active slide to 100% opacity
                     $(swiper.slides[swiper.activeIndex]).css('opacity', '1');
                 },
-                slideChangeTransitionEnd: function(swiper) {
+                slideChangeTransitionEnd: function (swiper) {
                     // Ensure active slide is 100% opacity after transition
                     $(swiper.slides).css('opacity', '0.5');
                     $(swiper.slides[swiper.activeIndex]).css('opacity', '1');
@@ -120,19 +120,19 @@
                 var breakpoints = {};
 
                 // Convert string keys to numbers
-                Object.keys(breakpointsData).forEach(function(key) {
+                Object.keys(breakpointsData).forEach(function (key) {
                     breakpoints[parseInt(key)] = breakpointsData[key];
                 });
 
                 swiperOptions.breakpoints = breakpoints;
-            } catch (e) {}
+            } catch (e) { }
         }
 
         // Initialize Swiper
         initializedSliders[sliderId] = new Swiper('#' + sliderId, swiperOptions);
 
         // Double-check active slide opacity after a short delay
-        setTimeout(function() {
+        setTimeout(function () {
             if (initializedSliders[sliderId]) {
                 var activeIndex = initializedSliders[sliderId].activeIndex;
                 $(initializedSliders[sliderId].slides).css('opacity', '0.5');
@@ -153,7 +153,7 @@
     function handleResponsiveSliders() {
         var isMobile = window.innerWidth < 992;
 
-        $('.services-grid-container').each(function() {
+        $('.services-grid-container').each(function () {
             var $container = $(this);
             var $grid = $container.find('.services-grid');
             var $sliderContainer = $container.find('.services-slider-container');
@@ -187,13 +187,13 @@
     }
 
     // Initialize on document ready
-    $(document).ready(function() {
+    $(document).ready(function () {
         handleResponsiveSliders();
 
         // Initialize sliders when they come into view
-        $(window).on('scroll', function() {
+        $(window).on('scroll', function () {
             if (window.innerWidth < 992) {
-                $('.swiper:not(.swiper-initialized)').each(function() {
+                $('.swiper:not(.swiper-initialized)').each(function () {
                     if (isElementInViewport(this)) {
                         initializeSlider(this);
                     }
@@ -203,19 +203,25 @@
 
         // Handle resize events
         var resizeTimer;
-        $(window).on('resize', function() {
+        $(window).on('resize', function () {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(handleResponsiveSliders, 250);
         });
 
         // Handle Elementor frontend init (for when widget is added or edited in Elementor)
-        $(document).on('elementor/frontend/init', function() {
-            if (typeof elementorFrontend !== 'undefined') {
-                elementorFrontend.hooks.addAction('frontend/element_ready/promen_services_grid.default', function($element) {
+        const initElementorHooks = () => {
+            if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+                elementorFrontend.hooks.addAction('frontend/element_ready/promen_services_grid.default', function ($element) {
                     handleResponsiveSliders();
                 });
             }
-        });
+        };
+
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            initElementorHooks();
+        } else {
+            window.addEventListener('elementor/frontend/init', initElementorHooks);
+        }
     });
 
 })(jQuery);

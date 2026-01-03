@@ -14,13 +14,19 @@
     });
 
     // Initialize when Elementor frontend is initialized (for editor preview)
-    $(window).on('elementor/frontend/init', function () {
-        if (typeof elementorFrontend !== 'undefined') {
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
             elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_text_block.default', function ($scope) {
                 initImageTextBlock($scope.find('.promen-image-text-block'));
             });
         }
-    });
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
     /**
      * Initialize a single image text block
