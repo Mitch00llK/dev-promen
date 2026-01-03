@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-assets-manager.php');
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-widget-manager.php');
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-accessibility-utils.php');
-require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-promen-widget-base.php');
+
 
 /**
  * Main Promen Elementor Widgets Class
@@ -94,6 +94,9 @@ final class Promen_Elementor_Widgets {
         // Include common controls after Elementor is loaded
         require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/controls/split-title-controls.php');
         
+        // Include Promen Widget Base Class (safe to load now that Elementor is loaded)
+        require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-promen-widget-base.php');
+
         // Initialize managers
         $this->assets_manager = new Promen_Assets_Manager();
         $this->widget_manager = new Promen_Widget_Manager();
