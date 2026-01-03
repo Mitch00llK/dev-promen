@@ -151,150 +151,30 @@
 
     // Initialize tabs functionality
     function initTabs($block) {
-
         // Find all tab elements
         var $tabTitles = $block.find('.promen-tab-title, .promen-image-text-block__tab');
-        var $tabContents = $block.find('.promen-tab-content, .promen-image-text-block__tab-content');
-        var $tabImages = $block.find('.promen-tab-image, .promen-image-text-block__image');
-        var $tabsContentWrapper = $block.find('.promen-tabs-content-wrapper, .promen-image-text-block__tabs-content');
-
 
         // First, remove any existing click handlers to prevent duplicates
         $tabTitles.off('click');
 
-        // Calculate and set the maximum height of all tab contents to prevent jumping
-        function setTabContentHeight() {
-            // Reset height first
-            $tabsContentWrapper.css('height', 'auto');
-
-            // Store the current scroll position
-            var scrollTop = $(window).scrollTop();
-
-            // Find the tallest tab content
-            var maxHeight = 0;
-            $tabContents.each(function () {
-                // Determine if this content is active/visible
-                // We check this BEFORE resetting styles because the reset below wipes inline display styles
-                var isVisible = $content.css('display') === 'block';
-                var hasHiddenAttr = $content.is('[hidden]');
-                var hasActiveClass = $content.hasClass('active');
-                var ariaHiddenFalse = $content.attr('aria-hidden') === 'false';
-
-                // It is active if:
-                // 1. It has .active class (Legacy & Sync)
-                // 2. It does NOT have the [hidden] attribute (Core A11y)
-                // 3. It currently has display: block (Core A11y inline style)
-                var isActive = hasActiveClass || !hasHiddenAttr || isVisible || ariaHiddenFalse;
-
-                // Temporarily make it visible to measure
-                $content.css({
-                    'position': 'relative',
-                    'visibility': 'hidden',
-                    'display': 'block',
-                    'opacity': 0,
-                    'height': 'auto'
-                });
-
-                // Get the full height including all children
-                var contentHeight = $content.outerHeight(true);
-                maxHeight = Math.max(maxHeight, contentHeight);
-
-                // Reset back
-                $content.css({
-                    'position': '',
-                    'visibility': '',
-                    'display': '',
-                    'opacity': '',
-                    'height': ''
-                });
-
-                if (isActive) {
-                    $content.css({
-                        'display': 'block',
-                        'opacity': 1,
-                        'visibility': 'visible',
-                        'position': 'relative'
-                    });
-                    // Ensure [hidden] is removed if we are forcing it visible
-                    $content.removeAttr('hidden');
-                } else {
-                    $content.css({
-                        'display': 'none',
-                        'opacity': 0,
-                        'visibility': 'hidden'
-                    });
-                    // Ensure [hidden] is added if we are forcing it hidden
-                    $content.attr('hidden', '');
-                }
-            });
-
-            // Set the height of the container to the max height plus some padding
-            if (maxHeight > 0) {
-                $tabsContentWrapper.css('height', (maxHeight + 20) + 'px');
-
-                // After a short delay, restore the scroll position
-                setTimeout(function () {
-                    $(window).scrollTop(scrollTop);
-                }, 10);
-            }
-        }
-
-        // Then add our new click handler (accessibility-compatible)
+        // Add click handler - only used as fallback when accessibility script is not loaded
         $tabTitles.on('click', function (e) {
             e.preventDefault();
-            // Use accessibility-compatible tab switching
-            if (typeof window.PromenImageTextBlockAccessibility !== 'undefined') {
-                // Do nothing, let event bubble to PromenAccessibility core
-            } else {
-                e.stopPropagation();
-                // Fallback to original method
+
+            // If accessibility library is handling tabs, don't do anything here
+            if (typeof window.PromenAccessibility !== 'undefined') {
+                // Let the event bubble to the accessibility library
+                return;
+            }
+
+            // Fallback: manually switch tabs if no accessibility library
+            var $clickedTab = $(this);
+            var tabId = $clickedTab.data('tab');
+
+            if (tabId) {
                 switchTabLegacy($clickedTab, $block, tabId);
             }
-
         });
-
-        // Initialize the first tab
-        if ($tabTitles.length > 0) {
-            // Ensure first tab is properly active
-            var $firstTab = $tabTitles.first();
-            var firstTabId = $firstTab.data('tab');
-
-            // Clear all active states first
-            $tabTitles.removeClass('active');
-            $tabContents.removeClass('active').addClass('promen-tab-hidden');
-            $tabImages.removeClass('active').addClass('promen-tab-hidden');
-
-            // Set first tab as active
-            $firstTab.addClass('active');
-
-            if (firstTabId) {
-                var $firstContent = $block.find('[data-tab="' + firstTabId + '"].promen-tab-content, [data-tab="' + firstTabId + '"].promen-image-text-block__tab-content');
-                var $firstImage = $block.find('[data-tab="' + firstTabId + '"].promen-tab-image');
-
-                if ($firstContent.length === 0) {
-                    $firstContent = $block.find('#' + firstTabId);
-                }
-
-                if ($firstContent.length > 0) {
-                    $firstContent.removeClass('promen-tab-hidden').addClass('active').css({
-                        'display': 'block',
-                        'opacity': 1,
-                        'visibility': 'visible',
-                        'position': 'relative'
-                    });
-                }
-
-                if ($firstImage.length > 0) {
-                    $firstImage.removeClass('promen-tab-hidden').addClass('active').css({
-                        'display': 'block',
-                        'opacity': 1,
-                        'visibility': 'visible'
-                    });
-                }
-            }
-
-
-        }
     }
 
     /**
