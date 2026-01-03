@@ -65,12 +65,7 @@ class Promen_Checklist_Comparison_Widget extends \Promen_Widget_Base {
         return ['promen-checklist-comparison-widget'];
     }
 
-    /**
-     * Register widget scripts in constructor.
-     */
-    public function __construct($data = [], $args = null) {
-        parent::__construct($data, $args);
-    }
+
 
     /**
      * Register widget controls.

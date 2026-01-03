@@ -62,7 +62,7 @@ class Promen_Solicitation_Timeline_Widget extends \Promen_Widget_Base {
      * Register widget scripts.
      */
     public function get_script_depends() {
-        return ['gsap', 'gsap-scrolltrigger', 'promen-solicitation-timeline-widget'];
+        return ['promen-solicitation-timeline-widget'];
     }
 
     /**

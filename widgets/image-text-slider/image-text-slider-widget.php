@@ -130,16 +130,9 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
         if (\Elementor\Plugin::$instance->editor->is_edit_mode() || \Elementor\Plugin::$instance->preview->is_preview_mode()) {
             // Enqueue editor styles - attached directly to the Elementor editor via admin_enqueue_scripts
             add_action('admin_enqueue_scripts', function() {
-                wp_register_style(
-                    'image-text-slider-editor', 
-                    false, 
-                    [], 
-                    '1.0.0'
-                );
+                wp_enqueue_style('image-text-slider');
                 
-                wp_enqueue_style('image-text-slider-editor');
-                
-                wp_add_inline_style('image-text-slider-editor', '
+                wp_add_inline_style('image-text-slider', '
                     /* Ensure slider container is properly visible in the editor */
                     .elementor-editor-active .image-text-slider-container {
                         overflow: visible !important;
@@ -323,16 +316,9 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
             
             // Force all content to be visible in preview mode
             add_action('elementor/preview/enqueue_styles', function() {
-                wp_register_style(
-                    'image-text-slider-preview', 
-                    false, 
-                    [], 
-                    '1.0.0'
-                );
+                wp_enqueue_style('image-text-slider');
                 
-                wp_enqueue_style('image-text-slider-preview');
-                
-                wp_add_inline_style('image-text-slider-preview', '
+                wp_add_inline_style('image-text-slider', '
                     /* Make sure everything is visible in preview mode */
                     .elementor-editor-preview .image-text-slider-container,
                     .elementor-editor-preview .image-text-slider-container .swiper,

@@ -65,16 +65,7 @@ class Promen_Team_Members_Carousel_Widget extends \Promen_Widget_Base {
      * Get widget script dependencies.
      */
     public function get_script_depends() {
-        // Register accessibility script
-        wp_register_script(
-            'promen-team-members-carousel-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/team-members-carousel/assets/js/team-members-carousel-accessibility.js',
-            [],
-            filemtime(__DIR__ . '/assets/js/team-members-carousel-accessibility.js'),
-            true
-        );
-        
-        return ['swiper-bundle', 'promen-team-members-carousel-widget', 'promen-team-members-carousel-accessibility'];
+        return ['promen-team-members-carousel-widget', 'promen-team-members-carousel-accessibility'];
     }
 
     /**

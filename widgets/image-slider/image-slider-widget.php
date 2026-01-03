@@ -58,7 +58,7 @@ class Promen_Image_Slider_Widget extends \Promen_Widget_Base {
      * Get widget script dependencies.
      */
     public function get_script_depends() {
-        return ['swiper-bundle', 'promen-image-slider-script'];
+        return ['promen-image-slider-widget'];
     }
 
     /**

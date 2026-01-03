@@ -57,15 +57,6 @@ class Promen_Testimonial_Card_Widget extends \Promen_Widget_Base {
      * Get widget script dependencies.
      */
     public function get_script_depends() {
-        // Register accessibility script
-        wp_register_script(
-            'promen-testimonial-card-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/testimonial-card/assets/js/testimonial-card-accessibility.js',
-            ['jquery', 'promen-accessibility'],
-            filemtime(__DIR__ . '/assets/js/testimonial-card-accessibility.js'),
-            true
-        );
-        
         return ['promen-testimonial-card-script', 'promen-testimonial-card-accessibility'];
     }
 

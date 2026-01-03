@@ -9,8 +9,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-// Include asset registration file
-require_once(__DIR__ . '/contact-info-blocks-register.php');
+
 
 /**
  * Contact Info Blocks widget.

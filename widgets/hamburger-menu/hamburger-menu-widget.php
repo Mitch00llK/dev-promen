@@ -90,7 +90,7 @@ class Promen_Hamburger_Menu_Widget extends \Promen_Widget_Base {
      * @return array Scripts dependencies.
      */
     public function get_script_depends() {
-        return ['gsap', 'promen-hamburger-menu-js'];
+        return ['promen-hamburger-menu-widget'];
     }
     
     /**

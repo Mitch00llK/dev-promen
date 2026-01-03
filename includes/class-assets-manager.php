@@ -419,6 +419,14 @@ class Promen_Assets_Manager {
             true
         );
 
+        wp_register_script(
+            'promen-team-members-carousel-accessibility',
+            PROMEN_ELEMENTOR_WIDGET_URL . 'widgets/team-members-carousel/assets/js/team-members-carousel-accessibility.js',
+            ['jquery', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGET_VERSION,
+            true
+        );
+
         // Worker Testimonial (Accessibility only)
         wp_register_script(
             'promen-worker-testimonial-accessibility',
@@ -443,11 +451,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('hero-slider');
-        
-        if (wp_script_is('hero-slider', 'registered')) {
-             wp_add_inline_script('hero-slider', 'window.heroSliderSwiperAvailable = typeof Swiper !== "undefined";', 'before');
-        }
 
         // Text Content Block
         wp_register_script(
@@ -466,7 +469,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-image-slider-widget');
 
         // Solicitation Timeline
         wp_register_script(
@@ -477,7 +479,7 @@ class Promen_Assets_Manager {
             true
         );
 
-        // News Posts
+        // News Posts Accessibility
         wp_register_script(
             'promen-news-posts-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/js/news-posts-accessibility.js',
@@ -521,7 +523,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-hamburger-menu-widget');
 
         // Business Catering
         wp_register_script(
@@ -543,7 +544,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-locations-display-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/locations-display/assets/js/locations-display-accessibility.js',
-            ['jquery', 'promen-accessibility'],
+            ['jquery', 'gsap', 'gsap-scrolltrigger', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
@@ -552,7 +553,7 @@ class Promen_Assets_Manager {
         wp_register_script(
             'promen-contact-info-blocks-accessibility',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-blocks/assets/js/contact-info-blocks-accessibility.js',
-            ['jquery'],
+            ['jquery', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
@@ -568,9 +569,66 @@ class Promen_Assets_Manager {
 
         // Document Info List
         wp_register_script(
-            'promen-document-info-list-widget',
+            'document-info-list-script',
             PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/document-info-list/assets/js/document-info-list.js',
+            ['jquery', 'gsap'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_register_script(
+            'promen-document-info-list-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/document-info-list/assets/js/document-info-list-accessibility.js',
+            ['jquery', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Related Services
+        wp_register_script(
+            'promen-related-services-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/related-services/assets/js/related-services-accessibility.js',
+            ['jquery', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Testimonial Card
+        wp_register_script(
+            'promen-testimonial-card-script',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/testimonial-card/assets/js/testimonial-card.js',
             ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_register_script(
+            'promen-testimonial-card-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/testimonial-card/assets/js/testimonial-card-accessibility.js',
+            ['jquery', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Text Column Repeater
+        wp_register_script(
+            'promen-text-column-repeater-widget',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/text-column-repeater/assets/js/text-column-repeater.js',
+            ['jquery'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+        wp_register_script(
+            'promen-text-column-repeater-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/text-column-repeater/assets/js/text-column-repeater-accessibility.js',
+            ['jquery', 'promen-accessibility'],
+            PROMEN_ELEMENTOR_WIDGETS_VERSION,
+            true
+        );
+
+        // Benefits Widget
+        wp_register_script(
+            'promen-benefits-accessibility',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/benefits-widget/assets/js/benefits-accessibility.js',
+            ['jquery', 'promen-accessibility'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );

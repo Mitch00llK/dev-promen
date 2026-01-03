@@ -9,8 +9,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-// Include asset registration file
-require_once(__DIR__ . '/locations-display-register.php');
+
 
 // Include the split title functions
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/controls/split-title-controls.php');
