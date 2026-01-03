@@ -78,7 +78,7 @@ class Promen_Assets_Manager {
         // Feature Blocks Widget
         wp_register_style(
             'promen-feature-blocks-widget', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/feature-blocks.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/feature-blocks/assets/css/feature-blocks.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -86,7 +86,7 @@ class Promen_Assets_Manager {
         // Services Carousel Widget
         wp_register_style(
             'promen-services-carousel-widget', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/services-carousel.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-carousel/assets/css/services-carousel.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -94,7 +94,7 @@ class Promen_Assets_Manager {
         // Services Grid Widget
         wp_register_style(
             'promen-services-grid-widget', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/services-grid.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/css/services-grid.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -107,18 +107,10 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
 
-        // Image Slider Accessibility Styles
-        wp_register_style(
-            'promen-image-slider-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-slider/assets/css/image-slider-accessibility.css',
-            ['promen-image-slider-style'],
-            PROMEN_ELEMENTOR_WIDGETS_VERSION
-        );
-        
         // Image Text Block Widget
         wp_register_style(
             'promen-image-text-block-widget', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/image-text-block.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/css/image-text-block.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -126,7 +118,7 @@ class Promen_Assets_Manager {
         // Image Text Block Widget Accessibility
         wp_register_style(
             'promen-image-text-block-accessibility', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/image-text-block-accessibility.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/css/image-text-block-accessibility.css',
             ['promen-image-text-block-widget'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -134,7 +126,7 @@ class Promen_Assets_Manager {
         // News Posts Widget
         wp_register_style(
             'promen-content-posts-style', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/news-posts.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/css/news-posts.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -142,7 +134,7 @@ class Promen_Assets_Manager {
         // Team Members Carousel Widget
         wp_register_style(
             'promen-team-members-carousel-widget', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/team-members-carousel.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/team-members-carousel/assets/css/team-members-carousel.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -158,7 +150,7 @@ class Promen_Assets_Manager {
         // Contact Info Card Widget
         wp_register_style(
             'contact-info-card', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/contact-info-card.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/contact-info-card/assets/css/contact-info-card.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -175,7 +167,7 @@ class Promen_Assets_Manager {
         // Worker Testimonial Widget
         wp_register_style(
             'promen-worker-testimonial-widget',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/worker-testimonial.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/worker-testimonial/assets/css/worker-testimonial.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION . '.' . time()
         );
@@ -184,7 +176,7 @@ class Promen_Assets_Manager {
         // Worker Testimonial Accessibility Script
         wp_register_script(
             'promen-worker-testimonial-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/worker-testimonial-accessibility.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/worker-testimonial/assets/js/worker-testimonial-accessibility.js',
             ['jquery'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION . '.' . time(),
             true
@@ -203,7 +195,7 @@ class Promen_Assets_Manager {
         // Hero Slider Widget
         wp_register_style(
             'promen-hero-slider',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/hero-slider.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hero-slider/assets/css/hero-slider.css',
             [],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -211,7 +203,7 @@ class Promen_Assets_Manager {
         // Text Content Block Widget
         wp_register_style(
             'promen-text-content-block',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/text-content-block.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/text-content-block/assets/css/text-content-block.css',
             [],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -286,7 +278,7 @@ class Promen_Assets_Manager {
         
         wp_register_script(
             'promen-hamburger-menu-widget',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/hamburger-menu.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hamburger-menu/assets/js/hamburger-menu.js',
             ['jquery', 'gsap'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -296,7 +288,7 @@ class Promen_Assets_Manager {
         // Checklist Comparison Widget
         wp_register_style(
             'promen-checklist-comparison-widget', 
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/checklist-comparison.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/checklist-comparison/assets/css/checklist-comparison.css',
             ['promen-elementor-widgets'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -304,7 +296,7 @@ class Promen_Assets_Manager {
         // Checklist Comparison Widget JS
         wp_register_script(
             'promen-checklist-comparison-widget',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/checklist-comparison.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/checklist-comparison/assets/js/checklist-comparison.js',
             ['jquery'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -313,7 +305,7 @@ class Promen_Assets_Manager {
         // Feature Blocks Accessibility JS
         wp_register_script(
             'feature-blocks-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/feature-blocks-accessibility.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/feature-blocks/assets/js/feature-blocks-accessibility.js',
             ['jquery'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -343,7 +335,7 @@ class Promen_Assets_Manager {
 
         wp_register_script(
             'promen-text-content-block',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/text-content-block.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/text-content-block/assets/js/text-content-block.js',
             ['jquery'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -444,7 +436,7 @@ class Promen_Assets_Manager {
         // Register and enqueue the image text block script
         wp_register_script(
             'promen-image-text-block-widget',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/image-text-block.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/js/image-text-block.js',
             ['jquery'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -453,7 +445,7 @@ class Promen_Assets_Manager {
         // Register accessibility script
         wp_register_script(
             'promen-image-text-block-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/image-text-block-accessibility.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-text-block/assets/js/image-text-block-accessibility.js',
             ['jquery', 'promen-image-text-block-widget'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -506,7 +498,7 @@ class Promen_Assets_Manager {
         // Register and enqueue the team members carousel script
         wp_register_script(
             'promen-team-members-carousel-widget',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/team-members-carousel.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/team-members-carousel/assets/js/team-members-carousel.js',
             ['jquery', 'swiper-bundle'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -523,7 +515,7 @@ class Promen_Assets_Manager {
         // Register and enqueue the services carousel script
         wp_register_script(
             'promen-services-carousel-widget',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/services-carousel.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-carousel/assets/js/services-carousel.js',
             ['jquery', 'swiper-bundle', 'gsap'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -532,7 +524,7 @@ class Promen_Assets_Manager {
         // Register accessibility script
         wp_register_script(
             'promen-services-carousel-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/services-carousel-accessibility.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-carousel/assets/js/services-carousel-accessibility.js',
             ['jquery'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -552,8 +544,8 @@ class Promen_Assets_Manager {
      */
     public function register_hero_slider_scripts() {
         // Check if hero slider script exists
-        $hero_slider_js_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'assets/js/hero-slider.js';
-        $hero_slider_css_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'assets/css/hero-slider.css';
+        $hero_slider_js_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'widgets/hero-slider/assets/js/hero-slider.js';
+        $hero_slider_css_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'widgets/hero-slider/assets/css/hero-slider.css';
         
         if (!file_exists($hero_slider_js_path)) {
             error_log('Promen Elementor Widgets: Hero Slider JS file not found at ' . $hero_slider_js_path);
@@ -570,7 +562,7 @@ class Promen_Assets_Manager {
         // Register Hero Slider script
         wp_register_script(
             'hero-slider',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/hero-slider.js',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hero-slider/assets/js/hero-slider.js',
             ['jquery', 'swiper-bundle'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
@@ -582,7 +574,7 @@ class Promen_Assets_Manager {
         // Register Hero Slider style
         wp_register_style(
             'hero-slider',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/hero-slider.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/hero-slider/assets/css/hero-slider.css',
             ['swiper-bundle-css'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -608,7 +600,7 @@ class Promen_Assets_Manager {
         // Register News Posts Slider style
         wp_register_style(
             'promen-news-slider-style',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/news-posts-slider.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/news-posts/assets/css/news-posts-slider.css',
             ['swiper-bundle-css'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -634,7 +626,7 @@ class Promen_Assets_Manager {
         // Register Services Grid Slider style
         wp_register_style(
             'services-grid-slider-style',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/services-grid-slider.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/css/services-grid-slider.css',
             ['swiper-bundle-css'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
@@ -656,20 +648,11 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-
-        // Image Slider Accessibility Script
-        wp_register_script(
-            'promen-image-slider-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-slider/assets/js/image-slider-accessibility.js',
-            ['jquery'],
-            PROMEN_ELEMENTOR_WIDGETS_VERSION,
-            true
-        );
         
         // Register Image Slider style
         wp_register_style(
             'promen-image-slider-style',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/css/widgets/image-slider.css',
+            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/image-slider/assets/css/image-slider.css',
             ['swiper-bundle-css'],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
