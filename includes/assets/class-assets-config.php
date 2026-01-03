@@ -205,6 +205,10 @@ class Promen_Assets_Config {
                 'path' => 'widgets/team-members-carousel/assets/js/team-members-carousel.js',
                 'deps' => ['jquery', 'swiper-bundle', 'promen-accessibility'],
             ],
+            'promen-team-members-carousel-accessibility' => [
+                'path' => 'widgets/team-members-carousel/assets/js/team-members-carousel-accessibility.js',
+                'deps' => ['jquery', 'promen-accessibility'],
+            ],
             'promen-worker-testimonial-accessibility' => [
                 'path' => 'widgets/worker-testimonial/assets/js/worker-testimonial-accessibility.js',
                 'deps' => ['jquery', 'promen-accessibility'],
@@ -229,6 +233,10 @@ class Promen_Assets_Config {
             'promen-solicitation-timeline-widget' => [
                 'path' => 'widgets/solicitation-timeline/assets/js/solicitation-timeline.js',
                 'deps' => ['jquery', 'gsap', 'gsap-scrolltrigger', 'promen-accessibility'],
+            ],
+            'promen-solicitation-timeline-accessibility' => [
+                'path' => 'widgets/solicitation-timeline/assets/js/solicitation-timeline-accessibility.js',
+                'deps' => ['jquery', 'promen-accessibility'],
             ],
             'promen-news-posts-accessibility' => [
                 'path' => 'widgets/news-posts/assets/js/news-posts-accessibility.js',
