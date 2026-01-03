@@ -1,16 +1,16 @@
 /**
  * Promen Image Text Block Widget JavaScript
  */
-(function($) {
+(function ($) {
     'use strict';
 
     // Initialize on document ready
-    $(document).ready(function() {
+    $(document).ready(function () {
         initImageTextBlocks();
     });
 
     // Initialize when Elementor frontend is initialized (for editor preview)
-    $(window).on('elementor/frontend/init', function() {
+    $(window).on('elementor/frontend/init', function () {
         if (typeof elementorFrontend !== 'undefined') {
             elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_text_block.default', initImageTextBlock);
         }
@@ -18,7 +18,7 @@
 
     // Initialize all image text blocks
     function initImageTextBlocks() {
-        $('.promen-image-text-block').each(function() {
+        $('.promen-image-text-block').each(function () {
             initImageTextBlock($(this));
         });
     }
@@ -35,7 +35,7 @@
         // Handle layout switching in the Elementor editor
         if (typeof elementor !== 'undefined') {
             // This code runs only in the Elementor editor
-            elementor.channels.editor.on('change', function(view) {
+            elementor.channels.editor.on('change', function (view) {
                 var changedElement = view.elementSettingsModel;
 
                 // Check if the changed control is the layout control
@@ -63,7 +63,7 @@
             initTabs($block);
 
             // Handle resize events for responsive behavior
-            $(window).on('resize', function() {
+            $(window).on('resize', function () {
                 adjustTabsForScreenSize($block);
             });
 
@@ -172,7 +172,7 @@
 
             // Find the tallest tab content
             var maxHeight = 0;
-            $tabContents.each(function() {
+            $tabContents.each(function () {
                 var $content = $(this);
                 // Temporarily make it visible to measure
                 $content.css({
@@ -217,35 +217,26 @@
                 $tabsContentWrapper.css('height', (maxHeight + 20) + 'px');
 
                 // After a short delay, restore the scroll position
-                setTimeout(function() {
+                setTimeout(function () {
                     $(window).scrollTop(scrollTop);
                 }, 10);
             }
         }
 
         // Then add our new click handler (accessibility-compatible)
-        $tabTitles.on('click', function(e) {
+        $tabTitles.on('click', function (e) {
             e.preventDefault();
-            e.stopPropagation();
-
-            var $clickedTab = $(this);
-            var tabId = $clickedTab.data('tab');
-
-
-            if (!tabId) {
-                return false;
-            }
-
             // Use accessibility-compatible tab switching
             if (typeof window.PromenImageTextBlockAccessibility !== 'undefined') {
-                window.PromenImageTextBlockAccessibility.switchToTab($clickedTab, $block);
+                // Do nothing, let event bubble to PromenAccessibility core
             } else {
+                e.stopPropagation();
                 // Fallback to original method
                 switchTabLegacy($clickedTab, $block, tabId);
             }
 
             // Recalculate heights after tab switch
-            setTimeout(function() {
+            setTimeout(function () {
                 setTabContentHeight();
             }, 50);
 
@@ -293,13 +284,13 @@
             }
 
             // Set initial heights
-            setTimeout(function() {
+            setTimeout(function () {
                 setTabContentHeight();
             }, 100);
 
             // Recalculate on window resize
-            $(window).on('resize', function() {
-                setTimeout(function() {
+            $(window).on('resize', function () {
+                setTimeout(function () {
                     setTabContentHeight();
                 }, 100);
             });
@@ -359,7 +350,7 @@
 
             // Add animation to the image
             $selectedImage.removeClass('tab-image-animate');
-            setTimeout(function() {
+            setTimeout(function () {
                 $selectedImage.addClass('tab-image-animate');
             }, 10);
         }

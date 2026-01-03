@@ -63,20 +63,22 @@
     function initTabsAccessibility($block) {
         PromenAccessibility.setupTabs($block[0]);
 
-        // Add event listener to sync images when tabs change (custom logic needing preservation)
+        // Add event listener to sync images and content when tabs change
         const tabs = $block.find('[role="tab"]');
         tabs.on('click keydown', function (e) {
             // Wait for core to update attributes
             setTimeout(() => {
-                const activeTabId = $block.find('[role="tab"][aria-selected="true"]').attr('id');
+                const activeTab = $block.find('[role="tab"][aria-selected="true"]');
+                const activeTabId = activeTab.attr('id') || activeTab.data('tab');
                 if (activeTabId) {
-                    syncTabImages($block, activeTabId);
+                    syncTabState($block, activeTabId);
                 }
             }, 10);
         });
     }
 
-    function syncTabImages($block, tabId) {
+    function syncTabState($block, tabId) {
+        // Sync Images
         $block.find('.promen-tab-image').each(function () {
             var $this = $(this);
             var isActive = $this.data('tab') === tabId;
@@ -86,6 +88,29 @@
             $this.attr('aria-hidden', !isActive);
 
             if (isActive) {
+                $this.css({ 'display': 'block', 'opacity': '1', 'visibility': 'visible' });
+            } else {
+                $this.css({ 'display': 'none', 'opacity': '0', 'visibility': 'hidden' });
+            }
+        });
+
+        // Sync Content Panels (Fix for !important CSS overriding inline styles)
+        $block.find('.promen-tab-content').each(function () {
+            var $this = $(this);
+            // Match by data-tab (legacy) or ID (accessibility)
+            var isActive = $this.data('tab') === tabId || $this.attr('id') === tabId;
+
+            // If the tab button has aria-controls pointing to this ID, it's a match
+            var activeTabControl = $block.find('[role="tab"][aria-selected="true"]').attr('aria-controls');
+            if (activeTabControl && activeTabControl === $this.attr('id')) {
+                isActive = true;
+            }
+
+            $this.toggleClass('active', isActive);
+            $this.toggleClass('promen-tab-hidden', !isActive);
+
+            if (isActive) {
+                // Ensure legacy CSS doesn't hide it
                 $this.css({ 'display': 'block', 'opacity': '1', 'visibility': 'visible' });
             } else {
                 $this.css({ 'display': 'none', 'opacity': '0', 'visibility': 'hidden' });
