@@ -60,15 +60,6 @@ class Promen_Services_Grid extends \Promen_Widget_Base {
      * Get widget script dependencies.
      */
     public function get_script_depends() {
-        // Register accessibility script
-        wp_register_script(
-            'promen-services-grid-accessibility',
-            PROMEN_ELEMENTOR_WIDGETS_URL . 'widgets/services-grid/assets/js/services-grid-accessibility.js',
-            ['jquery'],
-            filemtime(__DIR__ . '/assets/js/services-grid-accessibility.js'),
-            true
-        );
-        
         return ['swiper-bundle', 'services-grid-slider-script', 'promen-services-grid-accessibility'];
     }
 

@@ -103,8 +103,21 @@
 
             // Check global reduced motion via Core Library
             const prefersReducedMotion = PromenAccessibility.isReducedMotion();
-
             const isAutoplay = $container.data('options') && $container.data('options').autoplay;
+
+            // Register for Global Pause via Core Library
+            // Use a closure or bind to access the specific swiper instance later
+            PromenAccessibility.registerAnimation({
+                stop: () => {
+                    const $swiper = $container.find('.swiper')[0];
+                    if ($swiper && $swiper.swiper && $swiper.swiper.autoplay && $swiper.swiper.autoplay.running) {
+                        $swiper.swiper.autoplay.stop();
+                        this.updatePlayPauseButton($playPause, false);
+                        PromenAccessibility.announce('Slideshow paused globally');
+                    }
+                }
+            });
+
             // Stop autoplay if reduced motion is preferred
             if (prefersReducedMotion && isAutoplay) {
                 const $swiper = $container.find('.swiper')[0];

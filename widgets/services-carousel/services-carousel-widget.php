@@ -53,7 +53,7 @@ class Promen_Services_Carousel_Widget extends \Promen_Widget_Base {
      * Get widget script dependencies.
      */
     public function get_script_depends() {
-        return ['gsap', 'swiper-bundle', 'promen-services-carousel-widget'];
+        return ['gsap', 'swiper-bundle', 'promen-services-carousel-widget', 'promen-services-carousel-accessibility'];
     }
 
     /**

@@ -351,7 +351,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-services-carousel-accessibility');
 
         // Services Grid
         wp_register_script(
@@ -368,7 +367,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-services-grid-accessibility');
 
         // Image Text Block
         wp_register_script(
@@ -385,7 +383,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-image-text-block-accessibility');
 
         // News Posts
         // Note: Using 'promen-news-slider-script' handle for backward compatibility
@@ -412,7 +409,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-stats-counter-accessibility');
 
         // Team Members Carousel
         wp_register_script(
@@ -431,7 +427,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION . '.' . time(),
             true
         );
-        wp_enqueue_script('promen-worker-testimonial-accessibility');
 
         // Hero Slider
         wp_register_script(
@@ -449,7 +444,6 @@ class Promen_Assets_Manager {
             true
         );
         wp_enqueue_script('hero-slider');
-        wp_enqueue_script('promen-hero-slider-accessibility');
         
         if (wp_script_is('hero-slider', 'registered')) {
              wp_add_inline_script('hero-slider', 'window.heroSliderSwiperAvailable = typeof Swiper !== "undefined";', 'before');
@@ -491,7 +485,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-news-posts-accessibility');
 
         // Image Text Slider
         // Promen Image Text Slider Init (MUST be loaded before script.js due to function definition)
@@ -545,7 +538,6 @@ class Promen_Assets_Manager {
             PROMEN_ELEMENTOR_WIDGETS_VERSION,
             true
         );
-        wp_enqueue_script('promen-business-catering-accessibility');
         
         // Locations Display (Accessibility only)
         wp_register_script(

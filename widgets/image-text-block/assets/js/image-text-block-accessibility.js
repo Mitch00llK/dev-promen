@@ -54,122 +54,26 @@
     /**
      * Initialize tabs accessibility with keyboard navigation
      */
+    /**
+     * Initialize tabs accessibility with Core Library
+     */
     function initTabsAccessibility($block) {
-        var $tabs = $block.find('[role="tab"]');
-        var $tablist = $block.find('[role="tablist"]');
+        PromenAccessibility.setupTabs($block[0]);
 
-        if ($tabs.length === 0) {
-            return;
-        }
-
-        // Handle keyboard navigation
-        $tabs.on('keydown', function (e) {
-            var $currentTab = $(this);
-            var currentIndex = $tabs.index($currentTab);
-            var $nextTab, $prevTab;
-
-            switch (e.key) {
-                case 'ArrowRight':
-                case 'ArrowDown':
-                    e.preventDefault();
-                    $nextTab = $tabs.eq((currentIndex + 1) % $tabs.length);
-                    switchToTab($nextTab, $block);
-                    break;
-
-                case 'ArrowLeft':
-                case 'ArrowUp':
-                    e.preventDefault();
-                    $prevTab = $tabs.eq(currentIndex === 0 ? $tabs.length - 1 : currentIndex - 1);
-                    switchToTab($prevTab, $block);
-                    break;
-
-                case 'Home':
-                    e.preventDefault();
-                    switchToTab($tabs.first(), $block);
-                    break;
-
-                case 'End':
-                    e.preventDefault();
-                    switchToTab($tabs.last(), $block);
-                    break;
-
-                case 'Enter':
-                case ' ':
-                    e.preventDefault();
-                    switchToTab($currentTab, $block);
-                    break;
-
-                case 'Escape':
-                    // Return focus to the tablist
-                    $tablist.focus();
-                    PromenAccessibility.announce('Exited tabs');
-                    break;
-            }
-        });
-
-        // Handle click events (for mouse users)
-        $tabs.on('click', function (e) {
-            e.preventDefault();
-            switchToTab($(this), $block);
-        });
-
-        // Handle focus events
-        $tabs.on('focus', function () {
-            $(this).addClass('focused');
-        }).on('blur', function () {
-            $(this).removeClass('focused');
+        // Add event listener to sync images when tabs change (custom logic needing preservation)
+        const tabs = $block.find('[role="tab"]');
+        tabs.on('click keydown', function (e) {
+            // Wait for core to update attributes
+            setTimeout(() => {
+                const activeTabId = $block.find('[role="tab"][aria-selected="true"]').attr('id');
+                if (activeTabId) {
+                    syncTabImages($block, activeTabId);
+                }
+            }, 10);
         });
     }
 
-    /**
-     * Switch to a specific tab with proper ARIA management
-     */
-    function switchToTab($tab, $block) {
-        var tabId = $tab.attr('id');
-        var panelId = $tab.attr('aria-controls');
-        var tabTitle = $tab.find('.promen-image-text-block__tab-title').text();
-
-        // Update tab states
-        $block.find('[role="tab"]').each(function () {
-            var $this = $(this);
-            var isActive = $this.attr('id') === tabId;
-
-            $this.attr('aria-selected', isActive);
-            $this.attr('aria-expanded', isActive ? 'true' : 'false');
-            $this.attr('tabindex', isActive ? '0' : '-1');
-            $this.toggleClass('active', isActive);
-        });
-
-        // Update panel states - handle both individual tabpanels and the main tabpanel container
-        $block.find('[role="tabpanel"]').each(function () {
-            var $this = $(this);
-            var isActive = $this.attr('id') === panelId;
-
-            // For individual tab content panels
-            if ($this.hasClass('promen-tab-content')) {
-                $this.attr('aria-hidden', !isActive);
-                $this.attr('tabindex', isActive ? '0' : '-1');
-                $this.toggleClass('active', isActive);
-                $this.toggleClass('promen-tab-hidden', !isActive);
-
-                if (isActive) {
-                    $this.css({
-                        'display': 'block',
-                        'opacity': '1',
-                        'visibility': 'visible',
-                        'position': 'relative'
-                    });
-                } else {
-                    $this.css({
-                        'display': 'none',
-                        'opacity': '0',
-                        'visibility': 'hidden'
-                    });
-                }
-            }
-        });
-
-        // Update image states
+    function syncTabImages($block, tabId) {
         $block.find('.promen-tab-image').each(function () {
             var $this = $(this);
             var isActive = $this.data('tab') === tabId;
@@ -179,28 +83,11 @@
             $this.attr('aria-hidden', !isActive);
 
             if (isActive) {
-                $this.css({
-                    'display': 'block',
-                    'opacity': '1',
-                    'visibility': 'visible'
-                });
+                $this.css({ 'display': 'block', 'opacity': '1', 'visibility': 'visible' });
             } else {
-                $this.css({
-                    'display': 'none',
-                    'opacity': '0',
-                    'visibility': 'hidden'
-                });
+                $this.css({ 'display': 'none', 'opacity': '0', 'visibility': 'hidden' });
             }
         });
-
-        // Focus the tab
-        $tab.focus();
-
-        // Announce the change to screen readers via Core Library
-        PromenAccessibility.announce('Switched to ' + tabTitle + ' tab');
-
-        // Trigger custom event for other scripts
-        $block.trigger('tabChanged', [tabId, panelId, tabTitle]);
     }
 
     /**

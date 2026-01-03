@@ -91,6 +91,17 @@ class Worker_Testimonial extends Widget_Base {
     }
 
     /**
+     * Get widget script dependencies.
+     *
+     * @since 1.0.0
+     * @access public
+     * @return array Widget scripts.
+     */
+    public function get_script_depends() {
+        return ['promen-worker-testimonial-accessibility'];
+    }
+
+    /**
      * Register widget controls.
      *
      * @since 1.0.0

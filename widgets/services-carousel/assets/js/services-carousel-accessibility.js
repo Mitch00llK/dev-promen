@@ -19,8 +19,11 @@ class ServicesCarouselAccessibility {
     init() {
         if (!this.carousel) return;
 
+        // Use Core Library for reduced motion check
+        const prefersReducedMotion = PromenAccessibility.isReducedMotion();
+
         // Wait for Swiper to be initialized
-        this.waitForSwiper();
+        this.waitForSwiper(prefersReducedMotion);
 
         // Add keyboard navigation
         this.addKeyboardNavigation();
@@ -31,12 +34,18 @@ class ServicesCarouselAccessibility {
         this.isInitialized = true;
     }
 
-    waitForSwiper() {
+    waitForSwiper(prefersReducedMotion) {
         const checkSwiper = () => {
             if (this.carousel.swiper) {
                 this.swiper = this.carousel.swiper;
                 this.totalSlides = this.swiper.slides.length;
+
+                if (prefersReducedMotion && this.swiper.autoplay && this.swiper.autoplay.running) {
+                    this.swiper.autoplay.stop();
+                }
+
                 this.setupSwiperEvents();
+                this.registerWithGlobalPause();
             } else {
                 setTimeout(checkSwiper, 100);
             }
@@ -47,7 +56,8 @@ class ServicesCarouselAccessibility {
     setupSwiperEvents() {
         if (!this.swiper) return;
 
-        // Update current slide index on slide change
+        // Use Core Library helper for swiper announcements if applicable, 
+        // or keep custom if it's more specific.
         this.swiper.on('slideChange', () => {
             this.currentSlideIndex = this.swiper.activeIndex;
             this.makeAnnouncement();
@@ -64,36 +74,43 @@ class ServicesCarouselAccessibility {
         });
     }
 
+    /**
+     * Register with Core Library for Global Pause control
+     */
+    registerWithGlobalPause() {
+        if (!this.swiper || !this.swiper.autoplay) return;
+
+        PromenAccessibility.registerAnimation({
+            stop: () => {
+                if (this.swiper.autoplay.running) {
+                    this.swiper.autoplay.stop();
+                    PromenAccessibility.announce('Carousel paused globally');
+                }
+            },
+            pause: () => {
+                if (this.swiper.autoplay.running) {
+                    this.swiper.autoplay.stop();
+                }
+            }
+        });
+    }
+
     addKeyboardNavigation() {
-        // Add keyboard support to navigation buttons
         const prevButton = this.carousel.parentNode.querySelector('.carousel-arrow-prev');
         const nextButton = this.carousel.parentNode.querySelector('.carousel-arrow-next');
 
         if (prevButton) {
-            prevButton.addEventListener('keydown', (e) => this.handleNavigationKeydown(e, 'prev'));
+            PromenAccessibility.addKeyboardClick(prevButton, () => this.navigateSlide('prev'));
         }
 
         if (nextButton) {
-            nextButton.addEventListener('keydown', (e) => this.handleNavigationKeydown(e, 'next'));
+            PromenAccessibility.addKeyboardClick(nextButton, () => this.navigateSlide('next'));
         }
 
-        // Add keyboard support to carousel container
         this.carousel.addEventListener('keydown', (e) => this.handleCarouselKeydown(e));
 
-        // Make carousel focusable if not already
         if (!this.carousel.hasAttribute('tabindex')) {
             this.carousel.setAttribute('tabindex', '0');
-        }
-    }
-
-    handleNavigationKeydown(event, direction) {
-        if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            this.navigateSlide(direction);
-        } else if ((event.key === 'ArrowLeft' && direction === 'prev') ||
-            (event.key === 'ArrowRight' && direction === 'next')) {
-            event.preventDefault();
-            this.navigateSlide(direction);
         }
     }
 
@@ -116,7 +133,6 @@ class ServicesCarouselAccessibility {
                 this.goToSlide(this.totalSlides - 1);
                 break;
             case 'Escape':
-                // Stop autoplay if running
                 if (this.swiper && this.swiper.autoplay && this.swiper.autoplay.running) {
                     this.swiper.autoplay.stop();
                     PromenAccessibility.announce('Autoplay stopped');
@@ -127,12 +143,11 @@ class ServicesCarouselAccessibility {
 
     navigateSlide(direction) {
         if (!this.swiper) return;
+        if (direction === 'prev') this.swiper.slidePrev();
+        else if (direction === 'next') this.swiper.slideNext();
 
-        if (direction === 'prev') {
-            this.swiper.slidePrev();
-        } else if (direction === 'next') {
-            this.swiper.slideNext();
-        }
+        // Announce immediately on manual navigation for better feedback
+        setTimeout(() => this.makeAnnouncement(), 50);
     }
 
     goToSlide(index) {
@@ -141,7 +156,6 @@ class ServicesCarouselAccessibility {
     }
 
     addFocusManagement() {
-        // Manage focus when slides change
         if (this.swiper) {
             this.swiper.on('slideChangeTransitionEnd', () => {
                 this.manageFocusAfterSlideChange();
@@ -150,17 +164,12 @@ class ServicesCarouselAccessibility {
     }
 
     manageFocusAfterSlideChange() {
-        // Focus the active slide for screen readers
-        const activeSlide = this.carousel.querySelector('.swiper-slide-active');
-        if (activeSlide) {
-            const link = activeSlide.querySelector('a');
-            if (link) {
-                // Temporarily focus the link, then return focus to carousel
-                // This ensures VO reads the new slide content
-                link.focus();
-                setTimeout(() => {
-                    this.carousel.focus();
-                }, 100);
+        // Only focus if the carousel itself or a child was already focused
+        if (this.carousel.contains(document.activeElement)) {
+            const activeSlide = this.carousel.querySelector('.swiper-slide-active');
+            if (activeSlide) {
+                const link = activeSlide.querySelector('a');
+                if (link) link.focus();
             }
         }
     }
@@ -173,8 +182,6 @@ class ServicesCarouselAccessibility {
         const slideTitle = titleEl ? titleEl.textContent : '';
 
         const announcement = `Slide ${this.currentSlideIndex + 1} of ${this.totalSlides}${slideTitle ? `: ${slideTitle}` : ''}`;
-
-        // Use Global Core Library
         PromenAccessibility.announce(announcement);
     }
 
@@ -197,7 +204,6 @@ class ServicesCarouselAccessibility {
         }
     }
 
-    // Public methods for external control
     destroy() {
         if (this.swiper) {
             this.swiper.off('slideChange');
@@ -209,5 +215,15 @@ class ServicesCarouselAccessibility {
     }
 }
 
-// Make the class globally available
 window.ServicesCarouselAccessibility = ServicesCarouselAccessibility;
+
+// Self-initialize for any carousels on the page
+document.addEventListener('DOMContentLoaded', () => {
+    const carousels = document.querySelectorAll('.promen-services-carousel');
+    carousels.forEach(el => {
+        if (!el.dataset.accessibilityInitialized) {
+            new ServicesCarouselAccessibility(el);
+            el.dataset.accessibilityInitialized = 'true';
+        }
+    });
+});

@@ -17,14 +17,6 @@ class Promen_Business_Catering_Widget extends \Promen_Widget_Base {
      */
     public function __construct($data = [], $args = null) {
         parent::__construct($data, $args);
-
-        wp_register_script(
-            'promen-business-catering-accessibility',
-            plugins_url('assets/js/business-catering-accessibility.js', __FILE__),
-            ['jquery'],
-            '1.0.0',
-            true
-        );
     }
 
     /**

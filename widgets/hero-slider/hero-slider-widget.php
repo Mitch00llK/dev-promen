@@ -85,7 +85,7 @@ class Hero_Slider_Widget extends \Promen_Widget_Base {
      * @return array Widget script dependencies.
      */
     public function get_script_depends() {
-        return ['swiper-bundle', 'hero-slider'];
+        return ['swiper-bundle', 'hero-slider', 'promen-hero-slider-accessibility'];
     }
 
     /**

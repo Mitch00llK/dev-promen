@@ -120,110 +120,21 @@
      * Validate individual form field
      */
     function validateField(field) {
-        const value = field.value.trim();
-        const isRequired = field.hasAttribute('required');
-        const fieldType = field.type;
-        let isValid = true;
-        let errorMessage = '';
-
-        // Required field validation
-        if (isRequired && !value) {
-            isValid = false;
-            errorMessage = 'This field is required.';
-        }
-
-        // Email validation
-        if (fieldType === 'email' && value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(value)) {
-                isValid = false;
-                errorMessage = 'Please enter a valid email address.';
-            }
-        }
-
-        // Phone validation
-        if (fieldType === 'tel' && value) {
-            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-            if (!phoneRegex.test(value.replace(/[\s\-\(\)]/g, ''))) {
-                isValid = false;
-                errorMessage = 'Please enter a valid phone number.';
-            }
-        }
-
-        // File validation
-        if (fieldType === 'file' && field.files.length > 0) {
-            const file = field.files[0];
-            const allowedTypes = ['.pdf', '.doc', '.docx'];
-            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
-
-            if (!allowedTypes.includes(fileExtension)) {
-                isValid = false;
-                errorMessage = 'Please select a PDF, DOC, or DOCX file.';
-            }
-        }
-
-        // Update field state
-        if (isValid) {
-            clearFieldError(field);
-        } else {
-            showFieldError(field, errorMessage);
-        }
-
-        return isValid;
+        return PromenAccessibility.validateField(field);
     }
 
     /**
-     * Validate entire form
-     */
-    function validateForm(form) {
-        const fields = form.querySelectorAll('input[required], textarea[required], select[required]');
-        let isFormValid = true;
-
-        fields.forEach(function (field) {
-            if (!validateField(field)) {
-                isFormValid = false;
-            }
-        });
-
-        return isFormValid;
-    }
-
-    /**
-     * Show field error
+     * Show field error (Delegated to Core)
      */
     function showFieldError(field, message) {
-        field.setAttribute('aria-invalid', 'true');
-        field.setAttribute('aria-describedby', field.id + '-error');
-
-        let errorElement = document.getElementById(field.id + '-error');
-        if (!errorElement) {
-            errorElement = document.createElement('div');
-            errorElement.id = field.id + '-error';
-            errorElement.className = 'error-message';
-            errorElement.setAttribute('role', 'alert');
-            errorElement.setAttribute('aria-live', 'polite');
-            field.parentNode.appendChild(errorElement);
-        }
-
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
-
-        // Announce error to screen readers
-        PromenAccessibility.announce('Error: ' + message);
+        PromenAccessibility.showFieldError(field, message);
     }
 
     /**
-     * Clear field error
+     * Clear field error (Delegated to Core)
      */
     function clearFieldError(field) {
-        field.removeAttribute('aria-invalid');
-        field.removeAttribute('aria-describedby');
-
-        const errorElement = document.getElementById(field.id + '-error');
-        if (errorElement) {
-            errorElement.style.display = 'none';
-            errorElement.textContent = '';
-        }
+        PromenAccessibility.clearFieldError(field);
     }
 
 })();

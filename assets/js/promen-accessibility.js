@@ -15,6 +15,8 @@
     class PromenAccessibilityClass {
         constructor() {
             this.liveRegion = null;
+            this.lastFocusedElement = null; // Track last focus
+            this.animationControllers = []; // Track animators for global pause
             this.init();
         }
 
@@ -25,6 +27,124 @@
 
             // Expose globally
             window.PromenAccessibility = this;
+        }
+
+        /**
+         * Save currently focused element
+         */
+        saveFocus() {
+            this.lastFocusedElement = document.activeElement;
+        }
+
+        /**
+         * Restore focus to saved element
+         */
+        restoreFocus() {
+            if (this.lastFocusedElement) {
+                this.lastFocusedElement.focus();
+                this.lastFocusedElement = null;
+            }
+        }
+
+        /**
+         * Register an animation controller to be stopped globally
+         * @param {Object} controller Object with a stop() or pause() method
+         */
+        registerAnimation(controller) {
+            if (controller && (typeof controller.stop === 'function' || typeof controller.pause === 'function')) {
+                this.animationControllers.push(controller);
+            }
+        }
+
+        /**
+         * Pause all registered animations
+         */
+        pauseAllAnimations() {
+            this.animationControllers.forEach(ctrl => {
+                if (typeof ctrl.stop === 'function') ctrl.stop();
+                else if (typeof ctrl.pause === 'function') ctrl.pause();
+            });
+            this.announce('All animations paused');
+        }
+
+        /**
+         * Standardized Tabs Setup
+         * Expects container with [role="tablist"], [role="tab"], [role="tabpanel"]
+         */
+        setupTabs(container) {
+            const tabs = container.querySelectorAll('[role="tab"]');
+            const panels = container.querySelectorAll('[role="tabpanel"]');
+
+            if (!tabs.length) return;
+
+            // Helper to switch tabs
+            const activateTab = (tab) => {
+                // Deactivate all
+                tabs.forEach(t => {
+                    t.setAttribute('aria-selected', 'false');
+                    t.setAttribute('tabindex', '-1');
+                });
+                panels.forEach(p => {
+                    p.hidden = true;
+                    // Support removing custom hidden classes if needed, but standard prop is best
+                    p.style.display = 'none';
+                });
+
+                // Activate target
+                tab.setAttribute('aria-selected', 'true');
+                tab.setAttribute('tabindex', '0');
+                const controls = tab.getAttribute('aria-controls');
+                const targetPanel = document.getElementById(controls);
+                if (targetPanel) {
+                    targetPanel.hidden = false;
+                    targetPanel.style.display = 'block';
+                }
+                tab.focus();
+
+                const label = tab.textContent || tab.getAttribute('aria-label');
+                this.announce(`Tab ${label} selected`);
+            };
+
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => activateTab(tab));
+
+                tab.addEventListener('keydown', (e) => {
+                    let targetIndex = index;
+                    if (e.key === 'ArrowRight') targetIndex = (index + 1) % tabs.length;
+                    if (e.key === 'ArrowLeft') targetIndex = (index - 1 + tabs.length) % tabs.length;
+                    if (e.key === 'Home') targetIndex = 0;
+                    if (e.key === 'End') targetIndex = tabs.length - 1;
+
+                    if (targetIndex !== index) {
+                        e.preventDefault();
+                        activateTab(tabs[targetIndex]);
+                    }
+                });
+            });
+        }
+
+        /**
+         * Standardized Accordion Setup
+         * Expects triggers with [aria-expanded] and targets with [hidden]
+         */
+        setupAccordion(triggers) {
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+                    const controls = trigger.getAttribute('aria-controls');
+                    const content = document.getElementById(controls);
+
+                    if (!content) return;
+
+                    // Toggle
+                    trigger.setAttribute('aria-expanded', !isExpanded);
+                    content.hidden = isExpanded; // If it was expanded, now hidden (true)
+
+                    // Optional: Close others? (Accordion vs Details)
+                    // For now, allow independent toggle (Details pattern)
+                });
+            });
         }
 
         /**
@@ -197,6 +317,84 @@
             });
 
             contextElement.prepend(link);
+        }
+
+        /**
+         * Validate a form field and show/announce error
+         * @param {HTMLElement} field Input element to validate
+         * @returns {boolean} isValid
+         */
+        validateField(field) {
+            const value = field.value.trim();
+            const isRequired = field.hasAttribute('required');
+            const fieldType = field.type;
+            let isValid = true;
+            let errorMessage = '';
+
+            // Required check
+            if (isRequired && !value) {
+                isValid = false;
+                errorMessage = field.getAttribute('data-error-required') || 'This field is required.';
+            }
+
+            // Email check
+            if (isValid && fieldType === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    isValid = false;
+                    errorMessage = field.getAttribute('data-error-email') || 'Please enter a valid email address.';
+                }
+            }
+
+            // Update UI
+            if (isValid) {
+                this.clearFieldError(field);
+            } else {
+                this.showFieldError(field, errorMessage);
+            }
+
+            return isValid;
+        }
+
+        /**
+         * Show error message for a field
+         */
+        showFieldError(field, message) {
+            field.setAttribute('aria-invalid', 'true');
+            const errorId = field.id + '-error';
+            field.setAttribute('aria-describedby', errorId);
+
+            let errorElement = document.getElementById(errorId);
+            if (!errorElement) {
+                errorElement = document.createElement('div');
+                errorElement.id = errorId;
+                errorElement.className = 'promen-field-error error-message'; // Standard class
+                errorElement.style.color = '#dc3232'; // Default WP error red
+                errorElement.style.fontSize = '0.9em';
+                errorElement.style.marginTop = '5px';
+                errorElement.setAttribute('role', 'alert');
+                field.parentNode.appendChild(errorElement);
+            }
+
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        /**
+         * Clear error message for a field
+         */
+        clearFieldError(field) {
+            field.removeAttribute('aria-invalid');
+            const errorId = field.id + '-error';
+            const describedBy = (field.getAttribute('aria-describedby') || '').replace(errorId, '').trim();
+            if (describedBy) field.setAttribute('aria-describedby', describedBy);
+            else field.removeAttribute('aria-describedby');
+
+            const errorElement = document.getElementById(errorId);
+            if (errorElement) {
+                errorElement.style.display = 'none';
+                errorElement.textContent = '';
+            }
         }
     }
 
