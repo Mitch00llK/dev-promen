@@ -796,76 +796,69 @@
 
         // Function to perform the actual measurement
         const measure = () => {
-            // Reset spacer height first to get accurate slider dimensions
-            spacer.style.height = '1px';
-            spacer.style.marginTop = '-1px';
-
-            // Force reflow
-            void slider.offsetHeight;
-
+            // Get the slider's bounding rect
             const sliderRect = slider.getBoundingClientRect();
+            const sliderBottom = sliderRect.bottom;
 
-            // Check if the slider has extended overlays
-            const hasExtendedOverlays = slider.classList.contains('has-extended-overlays');
+            // Find the active content slide
+            // We look for both the active slide in the content swiper AND potentially static content
+            let activeContent = slider.querySelector('.swiper-content-slider .swiper-slide-active .slide-content-container');
 
-            // Set spacer position base
-            spacer.style.position = 'relative';
-            spacer.style.zIndex = '1';
-            spacer.style.marginTop = hasExtendedOverlays ? '0' : '-1px';
-
-            // Find any absolute overlay images that extend beyond
-            const extendingOverlays = slider.querySelectorAll('.absolute-overlay-image.extend-beyond');
-            let maxExtension = 0;
-
-            // Calculate maximum extension from overlays
-            extendingOverlays.forEach(overlay => {
-                if (overlay.classList.contains('position-bottom-left') ||
-                    overlay.classList.contains('position-bottom-center') ||
-                    overlay.classList.contains('position-bottom-right')) {
-                    const overlayRect = overlay.getBoundingClientRect();
-                    const extension = (overlayRect.bottom - sliderRect.bottom);
-                    if (extension > maxExtension) {
-                        maxExtension = extension;
-                    }
-                }
-            });
-
-            // Calculate maximum extension from ACTIVE content container
-            // We specifically target the active slide to avoid measuring hidden/fading out slides
-            const activeContentSlide = slider.querySelector('.swiper-content-slider .swiper-slide-active');
-            if (activeContentSlide) {
-                const container = activeContentSlide.querySelector('.slide-content-container');
-                if (container) {
-                    const containerRect = container.getBoundingClientRect();
-                    // Extension relative to the CURRENT slider bottom (which is now based on reset spacer)
-                    const extension = (containerRect.bottom - sliderRect.bottom);
-
-                    // Add a small buffer (20px) for shadow/padding
-                    if (extension + 20 > maxExtension) {
-                        maxExtension = extension + 20;
-                    }
-                }
+            // Fallback: if no active slide found (e.g. initialization), try the first visible one
+            if (!activeContent) {
+                activeContent = slider.querySelector('.swiper-content-slider .swiper-slide .slide-content-container');
             }
 
-            // Apply max extension as padding/margin
-            // We use padding on the slider if we want the background to extend, 
-            // but here we are using a spacer element to push content down.
-            // Using height on the spacer is cleaner for flow.
+            if (!activeContent) {
+                // No content found, reset spacer
+                spacer.style.height = '1px';
+                spacer.style.marginTop = '-1px';
+                return;
+            }
 
-            if (maxExtension > 0) {
-                spacer.style.height = maxExtension + 'px';
+            // Measure content bottom position
+            const contentRect = activeContent.getBoundingClientRect();
+            const contentBottom = contentRect.bottom;
+
+            // Calculate overlap
+            // If content extends below slider: contentBottom > sliderBottom
+            const overlap = contentBottom - sliderBottom;
+
+            if (window.debugImageTextSlider) {
+                console.log('Spacer Debug:', {
+                    sliderBottom,
+                    contentBottom,
+                    overlap,
+                    contentElement: activeContent
+                });
+            }
+
+            if (overlap > 0) {
+                // Content overlaps, expand spacer
+                // Add 30px buffer to be safe
+                const newHeight = Math.ceil(overlap + 30);
+                spacer.style.height = newHeight + 'px';
+                spacer.style.marginTop = '-1px'; // Keep negative margin to start from slider bottom
                 spacer.style.display = 'block';
             } else {
-                spacer.style.height = '1px'; // Maintain minimal height
+                // No overlap, collapse spacer but keep it present
+                spacer.style.height = '1px';
+                // spacer.style.marginTop = '-1px'; 
             }
         };
 
         // Run immediately
         measure();
 
-        // And again after a delay to allow for transitions/reflows
-        setTimeout(measure, 300);
+        // And again after a short delay to account for any transitions/rendering
+        window.requestAnimationFrame(() => {
+            measure();
+            // Double check as layout settles
+            window.requestAnimationFrame(measure);
+        });
     }
+
+
 
     /**
      * Handle resize events for all sliders

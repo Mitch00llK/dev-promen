@@ -52,6 +52,8 @@
     margin-top: -1px;
     clear: both;
     pointer-events: none;
+    transition: height 0.3s ease-out;
+    /* Smooth transition for height changes */
 }
 
 /* Elementor Section/Column spacing */
