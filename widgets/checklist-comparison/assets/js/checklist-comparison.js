@@ -42,7 +42,7 @@
             var $widgetEl = $widget[0];
             if ($widgetEl) {
                 PromenAccessibility.setupReducedMotion($widgetEl);
-                PromenAccessibility.setupSkipLink($widgetEl, 'Sla over naar inhoud');
+                PromenAccessibility.setupSkipLink($widgetEl, getString('skipToContent'));
             }
         }
     };

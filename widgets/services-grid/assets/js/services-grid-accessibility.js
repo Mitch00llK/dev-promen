@@ -13,6 +13,22 @@
 (function ($) {
     'use strict';
 
+    /**
+     * Get translated string from promenA11yStrings
+     * @param {string} key - String key
+     * @param {...any} args - Replacement arguments
+     * @returns {string}
+     */
+    function getString(key, ...args) {
+        const strings = window.promenA11yStrings || {};
+        let str = strings[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(`{${index}}`, arg);
+        });
+        return str;
+    }
+
+
     class ServicesGridAccessibility {
         constructor() {
             this.init();
@@ -54,7 +70,7 @@
                         if ($link.length) {
                             const currentLabel = $link.attr('aria-label');
                             if (!currentLabel || currentLabel === serviceTitle) {
-                                $link.attr('aria-label', `Klik hier om meer informatie te lezen over ${serviceTitle}`);
+                                $link.attr('aria-label', getString('readMoreAbout', serviceTitle));
                             }
                         }
 
@@ -62,7 +78,7 @@
                         if ($icon.length) {
                             const currentIconLabel = $icon.attr('aria-label');
                             if (!currentIconLabel || currentIconLabel === serviceTitle) {
-                                $icon.attr('aria-label', `Visueel icoon dat ${serviceTitle} representeert`);
+                                $icon.attr('aria-label', getString('iconFor', serviceTitle));
                             }
                         }
 
@@ -160,7 +176,7 @@
                 const count = $cards.length;
 
                 if (count > 0) {
-                    const announcement = `Er zijn ${count} service${count !== 1 ? 's' : ''} beschikbaar die u kunt bekijken`;
+                    const announcement = getString('servicesAvailable', count);
                     $container.attr('aria-label', announcement);
                 }
             });
@@ -177,7 +193,7 @@
                 // Add skip link if not already present
                 if (!$container.prev('.skip-link').length) {
                     // This could be standardized via PHP render, but for now maintaining JS injection if render doesn't handle it
-                    $container.before(`<a href="#${containerId}" class="skip-link screen-reader-text">Sla over naar inhoud</a>`);
+                    $container.before(`<a href="#${containerId}" class="skip-link screen-reader-text">${getString('skipToContent')}</a>`);
                 }
             });
         }
@@ -195,7 +211,7 @@
                     // Announce slide change via Global Announcer
                     const serviceTitle = $serviceCard.find('.service-title').text().trim();
                     if (serviceTitle) {
-                        PromenAccessibility.announce(`De service ${serviceTitle} wordt nu getoond in de schuifregelaar`);
+                        PromenAccessibility.announce(getString('serviceNowShowing', serviceTitle));
                     }
 
                     // Update aria-current for pagination

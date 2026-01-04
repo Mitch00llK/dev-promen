@@ -113,7 +113,8 @@
             const widgetId = $widget.attr('id') || 'promen-content-widget-' + Math.random().toString(36).substr(2, 9);
 
             if (!$widget.find('.promen-content-skip-link').length) {
-                const skipLink = $('<a href="#' + widgetId + '" class="promen-content-skip-link">Sla over naar inhoud</a>');
+                const skipLinkText = getString('skipToContent');
+                const skipLink = $('<a href="#' + widgetId + '" class="promen-content-skip-link skip-link">' + skipLinkText + '</a>');
                 $widget.prepend(skipLink);
                 $widget.attr('id', widgetId);
 

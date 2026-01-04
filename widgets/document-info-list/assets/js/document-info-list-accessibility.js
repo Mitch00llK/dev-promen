@@ -7,6 +7,21 @@
     'use strict';
 
     /**
+     * Get translated string from promenA11yStrings
+     * @param {string} key - String key
+     * @param {...any} args - Replacement arguments
+     * @returns {string}
+     */
+    function getString(key, ...args) {
+        const strings = window.promenA11yStrings || {};
+        let str = strings[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(`{${index}}`, arg);
+        });
+        return str;
+    }
+
+    /**
      * Document Info List Accessibility Class
      */
     class DocumentInfoListAccessibility {
@@ -287,7 +302,7 @@
                 const year = $yearTitle.text().trim();
 
                 if (year && !$section.attr('aria-label')) {
-                    $section.attr('aria-label', `Documenten uit het jaar ${year} die u kunt downloaden`);
+                    $section.attr('aria-label', getString('documentsFromYear', year));
                 }
             });
         }
@@ -319,7 +334,7 @@
          * Get skip link text
          */
         static getSkipLinkText() {
-            return 'Sla over naar inhoud';
+            return getString('skipToContent');
         }
     }
 

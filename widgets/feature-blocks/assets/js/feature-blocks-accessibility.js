@@ -234,7 +234,7 @@
             const containers = document.querySelectorAll('.promen-feature-blocks-container');
             containers.forEach(container => {
                 if (typeof PromenAccessibility !== 'undefined') {
-                    PromenAccessibility.setupSkipLink(container, 'Sla over naar inhoud');
+                    PromenAccessibility.setupSkipLink(container, getString('skipToContent'));
                 }
             });
         }

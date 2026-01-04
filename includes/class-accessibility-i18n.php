@@ -62,10 +62,22 @@ class Promen_Accessibility_i18n {
             'tabPanelLabel' => __('Tab panel', 'promen-elementor-widgets'),
             'switchedToTab' => __('Switched to %s tab', 'promen-elementor-widgets'),
             
-            // Navigation
+            // Navigation & Skip Links
             'skipToContent' => __('Skip to content', 'promen-elementor-widgets'),
             'skipToMainContent' => __('Skip to main content', 'promen-elementor-widgets'),
+            'skipToNavigation' => __('Skip to navigation', 'promen-elementor-widgets'),
+            'skipToSection' => __('Skip this section', 'promen-elementor-widgets'),
+            'skipCarousel' => __('Skip carousel', 'promen-elementor-widgets'),
+            'skipSlider' => __('Skip slider', 'promen-elementor-widgets'),
+            'skipGallery' => __('Skip gallery', 'promen-elementor-widgets'),
+            'skipToForm' => __('Skip to form', 'promen-elementor-widgets'),
             'backToTop' => __('Back to top', 'promen-elementor-widgets'),
+            'goToSlide' => __('Go to slide %s', 'promen-elementor-widgets'),
+            'sliderPagination' => __('Slider pagination', 'promen-elementor-widgets'),
+            'readMoreAbout' => __('Read more about %s', 'promen-elementor-widgets'),
+            'viewDetails' => __('View details', 'promen-elementor-widgets'),
+            'iconFor' => __('Icon for %s', 'promen-elementor-widgets'),
+            'documentsFromYear' => __('Documents from year %s', 'promen-elementor-widgets'),
             
             // Stats Counter
             'statisticsLoading' => __('Statistics are loading', 'promen-elementor-widgets'),
@@ -74,6 +86,8 @@ class Promen_Accessibility_i18n {
             // Services
             'servicesCarouselLabel' => __('Services Carousel', 'promen-elementor-widgets'),
             'servicesGridLabel' => __('Services Grid', 'promen-elementor-widgets'),
+            'servicesAvailable' => __('%s services available', 'promen-elementor-widgets'),
+            'serviceNowShowing' => __('Now showing service: %s', 'promen-elementor-widgets'),
             'previousService' => __('Previous service', 'promen-elementor-widgets'),
             'nextService' => __('Next service', 'promen-elementor-widgets'),
             

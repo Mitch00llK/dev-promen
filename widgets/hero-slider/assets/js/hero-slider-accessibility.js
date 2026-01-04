@@ -62,7 +62,7 @@
                 if (!$container.data('accessibility-enhanced')) {
                     HeroSliderAccessibility.enhanceSlider($container);
                     if (typeof PromenAccessibility !== 'undefined') {
-                        PromenAccessibility.setupSkipLink($container[0], getString('skipToContent', 'Sla over naar inhoud'));
+                        PromenAccessibility.setupSkipLink($container[0], getString('skipToContent'));
                     }
                 }
             });

@@ -59,7 +59,7 @@
 
             // Add skip link
             if (typeof PromenAccessibility !== 'undefined') {
-                PromenAccessibility.setupSkipLink(this.container, getString('skipToContent', 'Sla over naar inhoud'));
+                PromenAccessibility.setupSkipLink(this.container, getString('skipToContent'));
             }
         }
 

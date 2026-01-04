@@ -47,7 +47,7 @@
                     HamburgerMenuAccessibility.enhanceMenu($menu);
                     if (typeof PromenAccessibility !== 'undefined') {
                         PromenAccessibility.setupReducedMotion($menu[0]);
-                        PromenAccessibility.setupSkipLink($menu[0], 'Sla over naar inhoud');
+                        PromenAccessibility.setupSkipLink($menu[0], getString('skipToContent'));
                     }
                 }
             });

@@ -389,7 +389,8 @@
          * Get skip link text
          */
         static getSkipLinkText() {
-            return 'Sla over naar inhoud';
+            const strings = window.promenA11yStrings || {};
+            return strings.skipToContent || 'Skip to content';
         }
 
         /**
