@@ -338,17 +338,8 @@
                 }
             });
 
-            // After initialization, ensure static content alignment is preserved
-            if (typeof ContentUtils.ensureStaticContentAlignment === 'function') {
-                setTimeout(ContentUtils.ensureStaticContentAlignment, 500);
-            }
-
-            // Add event listener to ensure alignment on slide changes
-            swiper.on('slideChangeTransitionEnd', function () {
-                if (typeof ContentUtils.ensureStaticContentAlignment === 'function') {
-                    setTimeout(ContentUtils.ensureStaticContentAlignment, 50);
-                }
-            });
+            // Content visibility is now handled by Swiper's fade effect with crossFade: true
+            // No manual visibility management needed - this was causing the content to disappear
 
             // Initialize accessibility features
             if (AccessibilityUtils && typeof AccessibilityUtils.initSliderAccessibility === 'function') {
@@ -358,9 +349,6 @@
             // Remove initializing class after everything is set up
             setTimeout(() => {
                 sliderEl.classList.remove('initializing');
-                if (typeof ContentUtils.ensureStaticContentAlignment === 'function') {
-                    ContentUtils.ensureStaticContentAlignment();
-                }
             }, 300);
 
         } catch (error) {
