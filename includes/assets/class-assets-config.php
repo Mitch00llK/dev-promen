@@ -302,6 +302,48 @@ class Promen_Assets_Config {
                 'path' => 'widgets/benefits-widget/assets/js/benefits-accessibility.js',
                 'deps' => ['jquery', 'promen-accessibility'],
             ],
+            // Image Text Slider scripts
+            'promen-accessibility-utils' => [
+                'path' => 'widgets/image-text-slider/assets/js/accessibility.js',
+                'deps' => [],
+            ],
+            'promen-slider-utils' => [
+                'path' => 'widgets/image-text-slider/assets/js/utils.js',
+                'deps' => [],
+            ],
+            'promen-image-text-slider-config' => [
+                'path' => 'widgets/image-text-slider/assets/js/modules/slider-config.js',
+                'deps' => ['promen-slider-utils'],
+            ],
+            'promen-image-text-slider-spacer' => [
+                'path' => 'widgets/image-text-slider/assets/js/modules/slider-spacer.js',
+                'deps' => ['promen-slider-utils'],
+            ],
+            'promen-image-text-slider-content' => [
+                'path' => 'widgets/image-text-slider/assets/js/modules/slider-content.js',
+                'deps' => ['promen-slider-utils', 'promen-accessibility-utils'],
+            ],
+            'promen-image-text-slider-editor' => [
+                'path' => 'widgets/image-text-slider/assets/js/modules/slider-editor.js',
+                'deps' => ['promen-slider-utils', 'promen-accessibility-utils'],
+            ],
+            'promen-image-text-slider-core' => [
+                'path' => 'widgets/image-text-slider/assets/js/modules/slider-main.js',
+                'deps' => [
+                    'jquery',
+                    'swiper-bundle',
+                    'promen-slider-utils',
+                    'promen-accessibility-utils',
+                    'promen-image-text-slider-config',
+                    'promen-image-text-slider-spacer',
+                    'promen-image-text-slider-content',
+                    'promen-image-text-slider-editor'
+                ],
+            ],
+            'promen-image-text-slider-init' => [
+                'path' => 'widgets/image-text-slider/assets/js/init-slider.js',
+                'deps' => ['promen-image-text-slider-core'],
+            ],
         ];
     }
 }
