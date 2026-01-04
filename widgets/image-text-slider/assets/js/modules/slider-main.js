@@ -143,55 +143,25 @@
                     // Add a short delay before showing content for initial load
                     setTimeout(() => {
                         sliderEl.classList.remove('initializing');
-                        if (typeof ContentUtils.updateSlideVisibility === 'function') {
-                            ContentUtils.updateSlideVisibility(this);
-                        }
                     }, 50);
-
-                    // Store initial slide order for debugging
-                    if (typeof ContentUtils.logSlideOrder === 'function') {
-                        ContentUtils.logSlideOrder(this, 'Main Swiper Init');
-                    }
                 },
                 beforeTransitionStart: function () {
                     // Add transitioning class to handle content visibility during transitions
                     sliderEl.classList.add('transitioning');
-
-                    // Force hide all inactive slides
-                    if (typeof ContentUtils.forceHideInactiveContentSlides === 'function') {
-                        ContentUtils.forceHideInactiveContentSlides();
-                    }
-
-                    // Immediately hide content to prevent flashing
-                    const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide');
-                    contentSlides.forEach(slide => {
-                        if (!slide.classList.contains('swiper-slide-active')) {
-                            slide.style.opacity = "0";
-                            slide.style.visibility = "hidden";
-                        }
-                    });
                 },
                 slideChange: function () {
-                    if (typeof ContentUtils.updateSlideVisibility === 'function') {
-                        ContentUtils.updateSlideVisibility(this);
-                    }
-                    if (typeof ContentUtils.logSlideOrder === 'function') {
-                        ContentUtils.logSlideOrder(this, 'Main Swiper Change');
-                    }
-
                     // Manually sync the content slider with the image slider
                     if (sliderEl.contentSwiper) {
-                        // Get target slide before animation 
+                        // Get target slide - always use realIndex for proper sync
                         const targetIndex = useLoop ? this.realIndex : this.activeIndex;
 
-                        // Reset all content slides immediately
+                        // Reset all content slides immediately if using GSAP
                         if (options.enableGsapAnimations && window.gsap && typeof ContentUtils.resetSlideContent === 'function') {
                             const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide');
                             contentSlides.forEach(slide => ContentUtils.resetSlideContent(slide));
                         }
 
                         // Content swiper uses simple slideTo (no loop mode)
-                        // Always use realIndex from main swiper for proper sync
                         sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
                     }
                 },
@@ -206,11 +176,6 @@
                     // Remove transitioning class when finished
                     setTimeout(() => {
                         sliderEl.classList.remove('transitioning');
-
-                        // Force correct visibility again after transition
-                        if (typeof ContentUtils.forceHideInactiveContentSlides === 'function') {
-                            ContentUtils.forceHideInactiveContentSlides();
-                        }
                     }, 50);
                 }
             }
@@ -261,93 +226,26 @@
                 preventInteractionOnTransition: true,
                 on: {
                     init: function () {
-                        if (typeof ContentUtils.updateContentSlideVisibility === 'function') {
-                            ContentUtils.updateContentSlideVisibility(this);
-                        }
-
                         // Set initial slide based on main swiper's realIndex
                         this.slideTo(swiper.realIndex, 0, false);
 
-                        // Log for debugging
-                        if (typeof ContentUtils.logSlideOrder === 'function') {
-                            ContentUtils.logSlideOrder(this, 'Content Swiper Init');
-                        }
-
-                        // Initialize GSAP animations for first slide
+                        // Initialize GSAP animations for first slide if enabled
                         if (options.enableGsapAnimations && window.gsap) {
                             const initialSlide = sliderEl.querySelector('.swiper-content-slider .swiper-slide-active');
                             if (initialSlide) {
-                                // Show slide without animation first to prevent flashing
                                 if (typeof ContentUtils.showSlideContentWithoutAnimation === 'function') {
                                     ContentUtils.showSlideContentWithoutAnimation(initialSlide);
                                 }
-
-                                // Then animate with a slight delay
                                 setTimeout(() => {
-                                    if (typeof ContentUtils.resetSlideContent === 'function') {
-                                        ContentUtils.resetSlideContent(initialSlide);
-                                    }
                                     if (typeof ContentUtils.setupGsapAnimations === 'function') {
                                         ContentUtils.setupGsapAnimations(sliderEl, swiper, options);
                                     }
                                 }, 50);
                             }
                         }
-
-                        // Ensure visibility is set properly for all content slides
-                        const slides = this.slides;
-                        if (slides && slides.length > 0) {
-                            slides.forEach((slide, index) => {
-                                if (index === this.activeIndex) {
-                                    slide.style.opacity = '1';
-                                    slide.style.visibility = 'visible';
-                                } else {
-                                    slide.style.opacity = '0';
-                                    slide.style.visibility = 'hidden';
-                                }
-                            });
-                        }
-                    },
-                    slideChange: function () {
-                        if (typeof ContentUtils.updateContentSlideVisibility === 'function') {
-                            ContentUtils.updateContentSlideVisibility(this);
-                        }
-                        if (typeof ContentUtils.logSlideOrder === 'function') {
-                            ContentUtils.logSlideOrder(this, 'Content Swiper Change');
-                        }
-
-                        // Explicitly set visibility based on active state
-                        const slides = this.slides;
-                        if (slides && slides.length > 0) {
-                            slides.forEach((slide, index) => {
-                                if (index === this.activeIndex) {
-                                    slide.style.opacity = '1';
-                                    slide.style.visibility = 'visible';
-                                } else {
-                                    slide.style.opacity = '0';
-                                    slide.style.visibility = 'hidden';
-                                }
-                            });
-                        }
-                    },
-                    transitionStart: function () {
-                        // Hide all non-active slides immediately
-                        const slides = this.slides;
-                        if (slides && slides.length > 0) {
-                            slides.forEach((slide, index) => {
-                                if (index !== this.activeIndex) {
-                                    slide.style.opacity = '0';
-                                    slide.style.visibility = 'hidden';
-                                }
-                            });
-                        }
-                    },
-                    transitionEnd: function () {
-                        // Ensure only active slide is visible after transition
-                        if (typeof ContentUtils.ensureStaticContentAlignment === 'function') {
-                            setTimeout(ContentUtils.ensureStaticContentAlignment, 50);
-                        }
                     }
+                    // Removed slideChange, transitionStart, transitionEnd handlers
+                    // Let Swiper's fade effect handle visibility naturally
                 }
             };
 
