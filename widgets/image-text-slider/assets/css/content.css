@@ -24,7 +24,7 @@
 .image-text-slider-container .swiper-content-slider .swiper-slide {
     opacity: 1;
     visibility: visible;
-    height: auto;
+    /* height: auto; */
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
