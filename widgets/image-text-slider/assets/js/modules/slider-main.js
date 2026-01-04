@@ -36,7 +36,15 @@
      * @param {HTMLElement} sliderEl - The slider container element
      */
     function initImageTextSlider(sliderEl) {
-        if (!sliderEl || typeof Swiper === 'undefined') {
+        if (!sliderEl) {
+            return;
+        }
+
+        // Retry if Swiper is not loaded yet
+        if (typeof Swiper === 'undefined') {
+            setTimeout(function () {
+                initImageTextSlider(sliderEl);
+            }, 500);
             return;
         }
 
