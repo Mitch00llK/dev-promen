@@ -190,14 +190,9 @@
                             contentSlides.forEach(slide => ContentUtils.resetSlideContent(slide));
                         }
 
-                        // Set exact same index to ensure synchronization with 0 speed
-                        if (useLoop) {
-                            // For loop mode, use realIndex
-                            sliderEl.contentSwiper.slideToLoop(targetIndex, 0, false);
-                        } else {
-                            // For non-loop mode, use activeIndex
-                            sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
-                        }
+                        // Content swiper uses simple slideTo (no loop mode)
+                        // Always use realIndex from main swiper for proper sync
+                        sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
                     }
                 },
                 transitionStart: function () {
@@ -261,8 +256,8 @@
                 observer: true,
                 observeParents: true,
                 observeSlideChildren: true,
-                loop: useLoop,
-                loopedSlides: useLoop ? slideCount : null, // Match loopedSlides with main swiper
+                loop: false, // Content swiper should NOT loop - syncs via slideTo with main swiper's realIndex
+                loopedSlides: null,
                 preventInteractionOnTransition: true,
                 on: {
                     init: function () {
@@ -270,12 +265,8 @@
                             ContentUtils.updateContentSlideVisibility(this);
                         }
 
-                        // Set initial slide based on main swiper
-                        if (useLoop) {
-                            this.slideToLoop(swiper.realIndex, 0, false);
-                        } else {
-                            this.slideTo(swiper.activeIndex, 0, false);
-                        }
+                        // Set initial slide based on main swiper's realIndex
+                        this.slideTo(swiper.realIndex, 0, false);
 
                         // Log for debugging
                         if (typeof ContentUtils.logSlideOrder === 'function') {
@@ -372,12 +363,8 @@
                 instance.contentSwiper = contentSwiper;
             }
 
-            // Set initial sync after initialization
-            if (useLoop) {
-                contentSwiper.slideToLoop(swiper.realIndex, 0, false);
-            } else {
-                contentSwiper.slideTo(swiper.activeIndex, 0, false);
-            }
+            // Set initial sync after initialization - content swiper uses simple slideTo
+            contentSwiper.slideTo(swiper.realIndex, 0, false);
 
             // Add event listener for navigation clicks to ensure sync - using querySelectorAll fix naturally
             sliderEl.querySelectorAll('.swiper-button-next, .swiper-button-prev').forEach(function (btn) {
@@ -414,11 +401,8 @@
             if (options.autoplay) {
                 swiper.on('autoplay', function () {
                     sliderEl.classList.add('transitioning');
-                    if (useLoop) {
-                        contentSwiper.slideToLoop(swiper.realIndex, 0, false);
-                    } else {
-                        contentSwiper.slideTo(swiper.activeIndex, 0, false);
-                    }
+                    // Content swiper never uses loop, just slideTo
+                    contentSwiper.slideTo(swiper.realIndex, 0, false);
                 });
             }
 
