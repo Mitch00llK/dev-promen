@@ -138,6 +138,7 @@ class Promen_Assets_Config {
             'promen-contact-info-blocks-widget' => [
                 'path' => 'widgets/contact-info-blocks/assets/css/contact-info-blocks.css',
                 'deps' => ['promen-elementor-widgets'],
+                'enqueue' => true,
             ],
             'promen-locations-display-widget' => [
                 'path' => 'widgets/locations-display/assets/css/locations-display.css',

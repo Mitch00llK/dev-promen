@@ -37,8 +37,8 @@ class Promen_Assets_Manager {
         $this->style_registrar  = new Promen_Style_Registrar();
 
         // Core Assets Registration
-        add_action('elementor/frontend/after_register_styles', [$this, 'register_styles']);
-        add_action('elementor/frontend/after_register_scripts', [$this, 'register_scripts']);
+        add_action('init', [$this, 'register_styles'], 20);
+        add_action('init', [$this, 'register_scripts'], 20);
         
         // Global Enqueues
         add_action('wp_enqueue_scripts', [$this, 'enqueue_global_assets']);
@@ -57,8 +57,6 @@ class Promen_Assets_Manager {
             [],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
-        wp_enqueue_style('promen-elementor-widgets');
-        
         // Register widget styles from config
         $this->style_registrar->register_widget_styles(
             Promen_Assets_Config::get_widget_styles()
@@ -106,6 +104,7 @@ class Promen_Assets_Manager {
      * Enqueue global assets (Fonts, Swiper)
      */
     public function enqueue_global_assets() {
+        wp_enqueue_style('promen-elementor-widgets');
         $this->enqueue_google_fonts();
         $this->enqueue_swiper();
     }
