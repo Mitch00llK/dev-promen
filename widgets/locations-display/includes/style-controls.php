@@ -50,10 +50,12 @@ $this->add_responsive_control(
     ]
 );
 
+$this->end_controls_section();
+
 // Use standardized split title style controls
 promen_add_split_title_style_controls(
     $this, 
-    'section_heading_style_controls', 
+    'section_title_style', 
     ['show_heading_section' => 'yes'], 
     'locations'
 );
@@ -74,10 +76,18 @@ $this->update_control(
     ]
 );
 
-// Heading Alignment is already handled at the section level above with 'heading_alignment'
-// but the helper adds 'title_alignment' which maps to 'locations-title'
-// 'locations-title' is the container for split titles as well.
-
+// Description Style
+$this->start_controls_section(
+    'section_description_style',
+    [
+        'label' => esc_html__('Description', 'promen-elementor-widgets'),
+        'tab' => Controls_Manager::TAB_STYLE,
+        'condition' => [
+            'show_heading_section' => 'yes',
+            'show_heading_description' => 'yes',
+        ],
+    ]
+);
 
 // Title Spacing
 $this->add_responsive_control(
