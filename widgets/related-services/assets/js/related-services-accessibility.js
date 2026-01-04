@@ -27,7 +27,7 @@ class RelatedServicesAccessibility {
         if (typeof PromenAccessibility !== 'undefined') {
             const containers = document.querySelectorAll('.related-services-container');
             containers.forEach(container => {
-                PromenAccessibility.setupSkipLink(container, 'Sla over gerelateerde diensten');
+                PromenAccessibility.setupSkipLink(container, PromenAccessibility.getString('skipRelatedServices'));
             });
         }
     }

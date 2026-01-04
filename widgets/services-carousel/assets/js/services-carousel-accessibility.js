@@ -56,7 +56,7 @@ class ServicesCarouselAccessibility {
 
         // Add skip link
         if (typeof PromenAccessibility !== 'undefined') {
-            PromenAccessibility.setupSkipLink(this.carousel, getString('skipCarousel', 'Sla over dienstencarrousel'));
+            PromenAccessibility.setupSkipLink(this.carousel, getString('skipCarousel'));
         }
 
         this.isInitialized = true;

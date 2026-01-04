@@ -83,7 +83,7 @@
      */
     function setupSkipLink($timeline) {
         if (typeof PromenAccessibility !== 'undefined') {
-            PromenAccessibility.setupSkipLink($timeline[0], getString('skipTimeline', 'Sla over tijdlijn'));
+            PromenAccessibility.setupSkipLink($timeline[0], getString('skipTimeline'));
         }
     }
 

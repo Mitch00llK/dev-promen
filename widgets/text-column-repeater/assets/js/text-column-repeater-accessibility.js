@@ -27,7 +27,7 @@ class TextColumnRepeaterAccessibility {
         if (typeof PromenAccessibility !== 'undefined') {
             const repeaters = document.querySelectorAll('.text-column-repeater');
             repeaters.forEach(repeater => {
-                PromenAccessibility.setupSkipLink(repeater, 'Sla over tekstkolommen');
+                PromenAccessibility.setupSkipLink(repeater, PromenAccessibility.getString('skipTextColumns'));
             });
         }
     }

@@ -191,9 +191,8 @@
                 }
 
                 // Add skip link if not already present
-                if (!$container.prev('.skip-link').length) {
-                    // This could be standardized via PHP render, but for now maintaining JS injection if render doesn't handle it
-                    $container.before(`<a href="#${containerId}" class="skip-link screen-reader-text">${getString('skipToContent')}</a>`);
+                if (typeof PromenAccessibility !== 'undefined') {
+                    PromenAccessibility.setupSkipLink($container[0], getString('skipToContent'));
                 }
             });
         }

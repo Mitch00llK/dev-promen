@@ -109,7 +109,7 @@ class StatsCounterAccessibility {
 
     setupSkipLink() {
         if (typeof PromenAccessibility !== 'undefined') {
-            PromenAccessibility.setupSkipLink(this.container, getString('skipStats', 'Sla over statistieken'));
+            PromenAccessibility.setupSkipLink(this.container, getString('skipStats'));
         }
     }
 

@@ -26,7 +26,7 @@ class LocationsDisplayAccessibility {
         if (typeof PromenAccessibility !== 'undefined') {
             const containers = document.querySelectorAll('.locations-container');
             containers.forEach(container => {
-                PromenAccessibility.setupSkipLink(container, 'Sla over locaties');
+                PromenAccessibility.setupSkipLink(container, PromenAccessibility.getString('skipLocations'));
             });
         }
     }

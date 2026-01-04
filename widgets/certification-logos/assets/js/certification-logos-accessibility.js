@@ -313,12 +313,10 @@
             // Live region handled by PromenAccessibility
 
             // Add skip links if not exist
-            if (!$('.promen-certification-logos .skip-link').length) {
-                $('.promen-certification-logos').prepend(`
-                    <a href="#certification-logos-content" class="skip-link">
-                        ${getString('skipLinkText')}
-                    </a>
-                `);
+            if (typeof PromenAccessibility !== 'undefined') {
+                $('.promen-certification-logos').each(function () {
+                    PromenAccessibility.setupSkipLink(this, getString('skipLinkText'));
+                });
             }
         }
 

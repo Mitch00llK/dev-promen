@@ -51,7 +51,7 @@
             // Add reduced motion support and skip links
             $('.worker-testimonial').each(function () {
                 PromenAccessibility.setupReducedMotion(this);
-                PromenAccessibility.setupSkipLink(this, getString('skipTestimonial', 'Sla over werknemer testimonial'));
+                PromenAccessibility.setupSkipLink(this, getString('skipWorkerTestimonial'));
             });
 
             this.validateColorContrast();

@@ -317,12 +317,8 @@
         addScreenReaderSupport() {
             // Add skip links if not exist
             $('.promen-business-catering-widget').each(function () {
-                if (!$(this).find('.skip-link').length) {
-                    $(this).prepend(`
-                        <a href="#business-catering-content" class="skip-link">
-                            ${BusinessCateringAccessibility.getSkipLinkText()}
-                        </a>
-                    `);
+                if (typeof PromenAccessibility !== 'undefined') {
+                    PromenAccessibility.setupSkipLink(this, BusinessCateringAccessibility.getSkipLinkText());
                 }
             });
         }

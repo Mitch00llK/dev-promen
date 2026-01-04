@@ -27,7 +27,7 @@ class TestimonialCardAccessibility {
         if (typeof PromenAccessibility !== 'undefined') {
             const cards = document.querySelectorAll('.testimonial-card');
             cards.forEach(card => {
-                PromenAccessibility.setupSkipLink(card, 'Sla over testimonial');
+                PromenAccessibility.setupSkipLink(card, PromenAccessibility.getString('skipTestimonial'));
             });
         }
     }

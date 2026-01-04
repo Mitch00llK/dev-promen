@@ -672,7 +672,7 @@
          */
         setupSkipLink: function (sliderEl) {
             if (typeof PromenAccessibility !== 'undefined') {
-                PromenAccessibility.setupSkipLink(sliderEl, 'Sla over slider');
+                PromenAccessibility.setupSkipLink(sliderEl, PromenAccessibility.getString('skipSlider'));
             }
         },
 

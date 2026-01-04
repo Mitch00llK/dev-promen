@@ -738,7 +738,7 @@
             const blocks = root.querySelectorAll('.promen-text-content-block');
             blocks.forEach(block => {
                 PromenAccessibility.setupReducedMotion(block);
-                PromenAccessibility.setupSkipLink(block, 'Sla over tekstblok');
+                PromenAccessibility.setupSkipLink(block, PromenAccessibility.getString('skipTextBlock'));
             });
         }
     };

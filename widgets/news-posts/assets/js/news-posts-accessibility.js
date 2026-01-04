@@ -112,20 +112,10 @@
             const $widget = $(this);
             const widgetId = $widget.attr('id') || 'promen-content-widget-' + Math.random().toString(36).substr(2, 9);
 
-            if (!$widget.find('.promen-content-skip-link').length) {
-                const skipLinkText = getString('skipToContent');
-                const skipLink = $('<a href="#' + widgetId + '" class="promen-content-skip-link skip-link">' + skipLinkText + '</a>');
-                $widget.prepend(skipLink);
-                $widget.attr('id', widgetId);
-
-                // Add basic skip link behavior if standard one isn't caught
-                skipLink.on('click', function (e) {
-                    e.preventDefault();
-                    const targetId = $(this).attr('href');
-                    const $target = $(targetId);
-                    $target.attr('tabindex', '-1').focus();
-                });
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.setupSkipLink($widget[0], getString('skipToContent'));
             }
+
         });
     }
 

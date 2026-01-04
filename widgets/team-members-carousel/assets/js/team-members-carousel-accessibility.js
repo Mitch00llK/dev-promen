@@ -102,7 +102,7 @@
 
     function setupSkipLink($carousel) {
         if (typeof PromenAccessibility !== 'undefined') {
-            PromenAccessibility.setupSkipLink($carousel[0], getString('skipTeamCarousel', 'Sla over team carrousel'));
+            PromenAccessibility.setupSkipLink($carousel[0], getString('skipTeamCarousel'));
         }
     }
 

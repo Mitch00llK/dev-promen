@@ -159,7 +159,7 @@
 
             // Add skip link
             if (typeof PromenAccessibility !== 'undefined') {
-                PromenAccessibility.setupSkipLink(sliderElement, 'Sla over afbeeldingslider');
+                PromenAccessibility.setupSkipLink(sliderElement, PromenAccessibility.getString('skipSlider'));
             }
 
             // Add resize handler to update slider on window resize

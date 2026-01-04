@@ -35,7 +35,7 @@
         // Setup reduced motion
         if (typeof PromenAccessibility !== 'undefined') {
             PromenAccessibility.setupReducedMotion($block[0]);
-            PromenAccessibility.setupSkipLink($block[0], 'Skip to Image Text Block content');
+            PromenAccessibility.setupSkipLink($block[0], PromenAccessibility.getString('skipImageTextBlock'));
         }
     }
 
