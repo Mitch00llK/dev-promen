@@ -249,15 +249,7 @@ class Promen_Assets_Config {
                 'path' => 'widgets/news-posts/assets/js/news-posts-accessibility.js',
                 'deps' => ['jquery', 'promen-accessibility'],
             ],
-            'promen-image-text-slider-init' => [
-                'path' => 'widgets/image-text-slider/assets/js/modules/init-slider.js',
-                'deps' => ['jquery', 'swiper-bundle', 'gsap'],
-            ],
-            'image-text-slider' => [
-                'path' => 'widgets/image-text-slider/assets/js/script.js',
-                'deps' => ['jquery', 'swiper-bundle', 'gsap', 'promen-image-text-slider-init', 'promen-accessibility'],
-                'ver' => '1.0.2-mobile-optimized',
-            ],
+
             'promen-checklist-comparison-widget' => [
                 'path' => 'widgets/checklist-comparison/assets/js/checklist-comparison.js',
                 'deps' => ['jquery'],
