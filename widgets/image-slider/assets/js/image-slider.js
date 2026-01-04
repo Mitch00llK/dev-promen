@@ -67,6 +67,10 @@
                 el: sliderElement.querySelector('.swiper-pagination'),
                 clickable: true,
             } : false,
+            // Add observer for handling dynamic layout changes
+            observer: true,
+            observeParents: true,
+            watchSlidesProgress: true,
             // Responsive breakpoints
             breakpoints: {
                 // Mobile breakpoint (0px and up)
@@ -143,6 +147,13 @@
             var swiper = new Swiper(sliderElement, config);
             initializedSliders[sliderId] = swiper;
 
+            // Force update to ensure correct dimensions
+            setTimeout(function () {
+                if (swiper && typeof swiper.update === 'function') {
+                    swiper.update();
+                }
+            }, 100);
+
             // Initialize accessibility features
             if (typeof PromenAccessibility !== 'undefined') {
                 PromenAccessibility.setupSwiperAccessibility(swiper, sliderElement);
@@ -204,7 +215,9 @@
             elementorFrontend.hooks.addAction('frontend/element_ready/promen_image_slider.default', function ($scope) {
                 var slider = $scope.find('.promen-image-slider');
                 if (slider.length) {
-                    initializeSlider(slider[0]);
+                    setTimeout(function () {
+                        initializeSlider(slider[0]);
+                    }, 50);
                 }
             });
         }
