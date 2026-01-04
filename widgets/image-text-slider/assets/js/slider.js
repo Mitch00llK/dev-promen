@@ -800,25 +800,21 @@
     function updateSpacerPosition(slider, spacer) {
         if (!slider || !spacer) return;
 
-        // Get the slider height
-        const sliderHeight = slider.offsetHeight;
+        // Function to perform the actual measurement
+        const measure = () => {
+            const sliderRect = slider.getBoundingClientRect();
 
-        // Check if the slider has extended overlays
-        const hasExtendedOverlays = slider.classList.contains('has-extended-overlays');
+            // Check if the slider has extended overlays
+            const hasExtendedOverlays = slider.classList.contains('has-extended-overlays');
 
-        // Set spacer position
-        spacer.style.position = 'relative';
-        spacer.style.zIndex = '1';
-        spacer.style.marginTop = hasExtendedOverlays ? '0' : '-1px';
+            // Set spacer position
+            spacer.style.position = 'relative';
+            spacer.style.zIndex = '1';
+            spacer.style.marginTop = hasExtendedOverlays ? '0' : '-1px'; // Negative margin to avoid 1px gap if not extended
 
-        // Add a small delay for overlays to settle
-        setTimeout(() => {
-            // Find any absolute overlay images that extend beyond
             // Find any absolute overlay images that extend beyond
             const extendingOverlays = slider.querySelectorAll('.absolute-overlay-image.extend-beyond');
-            const contentContainers = slider.querySelectorAll('.slide-content-container');
             let maxExtension = 0;
-            const sliderRect = slider.getBoundingClientRect();
 
             // Calculate maximum extension from overlays
             extendingOverlays.forEach(overlay => {
@@ -833,24 +829,41 @@
                 }
             });
 
-            // Calculate maximum extension from content containers
-            contentContainers.forEach(container => {
-                // Only consider visible containers or the active ones
-                const style = window.getComputedStyle(container);
-                if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
+            // Calculate maximum extension from ACTIVE content container
+            // We specifically target the active slide to avoid measuring hidden/fading out slides
+            const activeContentSlide = slider.querySelector('.swiper-content-slider .swiper-slide-active');
+            if (activeContentSlide) {
+                const container = activeContentSlide.querySelector('.slide-content-container');
+                if (container) {
                     const containerRect = container.getBoundingClientRect();
+                    // Calculated extension relative to the slider bottom
                     const extension = (containerRect.bottom - sliderRect.bottom);
-                    if (extension > maxExtension) {
-                        maxExtension = extension;
+
+                    // Add a small buffer (20px) for shadow/padding
+                    if (extension + 20 > maxExtension) {
+                        maxExtension = extension + 20;
                     }
                 }
-            });
-
-            // Apply max extension as padding if needed
-            if (maxExtension > 0) {
-                slider.style.paddingBottom = maxExtension + 'px';
             }
-        }, 200);
+
+            // Apply max extension as padding/margin
+            // We use padding on the slider if we want the background to extend, 
+            // but here we are using a spacer element to push content down.
+            // Using height on the spacer is cleaner for flow.
+
+            if (maxExtension > 0) {
+                spacer.style.height = maxExtension + 'px';
+                spacer.style.display = 'block';
+            } else {
+                spacer.style.height = '1px'; // Maintain minimal height
+            }
+        };
+
+        // Run immediately
+        measure();
+
+        // And again after a delay to allow for transitions/reflows
+        setTimeout(measure, 300);
     }
 
     /**
@@ -861,19 +874,16 @@
         clearTimeout(window.sliderResizeTimer);
         window.sliderResizeTimer = setTimeout(() => {
             positionSliderSpacers();
-            ensureProperSpacingAfterSliders();
+            // ensureProperSpacingAfterSliders is now redundant if positionSliderSpacers calls updateSpacerPosition correctly for all
 
             // Reapply static content alignment
             ensureStaticContentAlignment();
 
             // Force container below to redraw
             document.querySelectorAll('.image-text-slider-container').forEach(slider => {
-                if (slider.nextElementSibling && slider.nextElementSibling.nextElementSibling) {
-                    const elem = slider.nextElementSibling.nextElementSibling;
-                    const display = elem.style.display;
-                    elem.style.display = 'none';
-                    void elem.offsetHeight; // Force reflow
-                    elem.style.display = display;
+                const spacer = slider.nextElementSibling;
+                if (spacer && spacer.classList.contains('slider-bottom-spacer')) {
+                    updateSpacerPosition(slider, spacer);
                 }
             });
         }, 150);
@@ -881,56 +891,22 @@
 
     /**
      * Ensure proper spacing after sliders to prevent container overflow
+     * Note: This function is kept for backward compatibility but delegates to updateSpacerPosition
      */
     function ensureProperSpacingAfterSliders() {
         document.querySelectorAll('.image-text-slider-container').forEach(slider => {
-            // Create or get the spacer element
             let spacer = slider.nextElementSibling;
             if (!spacer || !spacer.classList.contains('slider-bottom-spacer')) {
                 // Create spacer if it doesn't exist
                 spacer = document.createElement('div');
                 spacer.classList.add('slider-bottom-spacer');
-                // Insert after slider
                 if (slider.nextElementSibling) {
                     slider.parentNode.insertBefore(spacer, slider.nextElementSibling);
                 } else {
                     slider.parentNode.appendChild(spacer);
                 }
             }
-
-            // Get the slider height including any extended overlays
-            const sliderRect = slider.getBoundingClientRect();
-            const sliderHeight = sliderRect.height;
-
-            // Find any overlay elements that might extend beyond
-            // Find any overlay elements that might extend beyond
-            const extendedOverlays = slider.querySelectorAll('.absolute-overlay-image.extend-beyond');
-            const contentContainers = slider.querySelectorAll('.slide-content-container');
-            let maxExtension = 0;
-
-            extendedOverlays.forEach(overlay => {
-                if (overlay.classList.contains('position-bottom-left') ||
-                    overlay.classList.contains('position-bottom-center') ||
-                    overlay.classList.contains('position-bottom-right')) {
-                    const overlayRect = overlay.getBoundingClientRect();
-                    const extension = (overlayRect.bottom - sliderRect.bottom);
-                    maxExtension = Math.max(maxExtension, extension);
-                }
-            });
-
-            // Calculate maximum extension from content containers
-            contentContainers.forEach(container => {
-                // Only consider visible containers
-                const style = window.getComputedStyle(container);
-                if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
-                    const containerRect = container.getBoundingClientRect();
-                    const extension = (containerRect.bottom - sliderRect.bottom);
-                    maxExtension = Math.max(maxExtension, extension);
-                }
-            });
-
-            // Apply appropriate height to the spacer
-            spacer.style.height = (maxExtension + 1) + 'px';
+            updateSpacerPosition(slider, spacer);
         });
     }
 
