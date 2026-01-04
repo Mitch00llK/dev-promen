@@ -3,6 +3,9 @@
  * Error Handling Class
  * 
  * Handles error logging and debugging for the plugin.
+ * 
+ * @package Promen_Elementor_Widgets
+ * @since 1.0.0
  */
 
 // Exit if accessed directly
@@ -13,13 +16,33 @@ if (!defined('ABSPATH')) {
 class Promen_Error_Handling {
     
     /**
+     * Log directory path.
+     *
+     * @var string
+     */
+    private $log_dir;
+
+    /**
+     * Cached disabled widgets.
+     *
+     * @var array|null
+     */
+    private $disabled_widgets_cache = null;
+    
+    /**
      * Constructor
      */
     public function __construct() {
-        // Enable error logging for debugging
-        ini_set('display_errors', 0);
-        ini_set('log_errors', 1);
-        ini_set('error_log', WP_CONTENT_DIR . '/debug.log');
+        // Set log directory to uploads folder (writable, not in plugin dir)
+        $upload_dir = wp_upload_dir();
+        $this->log_dir = trailingslashit($upload_dir['basedir']) . 'promen-logs/';
+        
+        // Create log directory if it doesn't exist
+        if (!file_exists($this->log_dir)) {
+            wp_mkdir_p($this->log_dir);
+            // Add .htaccess to protect logs
+            file_put_contents($this->log_dir . '.htaccess', 'Deny from all');
+        }
         
         // Setup AJAX error handling
         $this->setup_ajax_error_handling();
@@ -84,9 +107,9 @@ class Promen_Error_Handling {
     public function handle_widget_error() {
         check_ajax_referer('promen_widget_nonce', 'nonce');
         
-        $error_type = sanitize_text_field($_POST['error_type'] ?? 'generic');
-        $error_message = sanitize_text_field($_POST['error_message'] ?? '');
-        $widget_id = sanitize_text_field($_POST['widget_id'] ?? '');
+        $error_type = sanitize_text_field(wp_unslash($_POST['error_type'] ?? 'generic'));
+        $error_message = sanitize_text_field(wp_unslash($_POST['error_message'] ?? ''));
+        $widget_id = sanitize_text_field(wp_unslash($_POST['widget_id'] ?? ''));
         
         // Create accessible error response
         $response = [
@@ -111,6 +134,10 @@ class Promen_Error_Handling {
     
     /**
      * Get accessible error message
+     *
+     * @param string $error_type Error type identifier.
+     * @param string $custom_message Optional custom message.
+     * @return string Accessible error message.
      */
     private function get_accessible_error_message($error_type, $custom_message = '') {
         if (!empty($custom_message)) {
@@ -131,24 +158,50 @@ class Promen_Error_Handling {
     }
     
     /**
-     * Log user-facing errors
+     * Log user-facing errors (GDPR compliant - no IP logging)
+     *
+     * @param string $error_type Error type.
+     * @param string $message Error message.
+     * @param string $widget_id Widget ID.
      */
     private function log_user_error($error_type, $message, $widget_id) {
-        $log_file = PROMEN_ELEMENTOR_WIDGETS_PATH . 'user-errors.log';
-        $log_data = date('[Y-m-d H:i:s]') . "\n";
+        $log_file = $this->log_dir . 'user-errors.log';
+        
+        $log_data = gmdate('[Y-m-d H:i:s]') . "\n";
         $log_data .= "USER ERROR: $error_type\n";
         $log_data .= "MESSAGE: $message\n";
         $log_data .= "WIDGET: $widget_id\n";
         $log_data .= "USER: " . (is_user_logged_in() ? get_current_user_id() : 'anonymous') . "\n";
-        $log_data .= "PAGE: " . ($_SERVER['HTTP_REFERER'] ?? 'unknown') . "\n";
-        $log_data .= "IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
+        $log_data .= "PAGE: " . esc_url(wp_get_referer() ?: 'unknown') . "\n";
         $log_data .= "-----------------------------------\n\n";
         
+        $this->write_log($log_file, $log_data);
+    }
+    
+    /**
+     * Write to log file with size rotation
+     *
+     * @param string $log_file Log file path.
+     * @param string $log_data Data to write.
+     */
+    private function write_log($log_file, $log_data) {
+        // Rotate log if it exceeds 5MB
+        if (file_exists($log_file) && filesize($log_file) > 5 * 1024 * 1024) {
+            $backup_file = str_replace('.log', '-' . gmdate('Y-m-d-His') . '.log', $log_file);
+            rename($log_file, $backup_file);
+        }
+        
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
         file_put_contents($log_file, $log_data, FILE_APPEND | LOCK_EX);
     }
     
     /**
      * Display accessible error message
+     *
+     * @param string $error_message Error message.
+     * @param string $error_type Error type.
+     * @param string $widget_id Widget ID.
+     * @return string Error HTML.
      */
     public static function display_error($error_message, $error_type = 'error', $widget_id = '') {
         $error_id = 'promen-error-' . wp_generate_uuid4();
@@ -175,6 +228,10 @@ class Promen_Error_Handling {
     
     /**
      * Display accessible success message
+     *
+     * @param string $message Success message.
+     * @param string $widget_id Widget ID.
+     * @return string Success HTML.
      */
     public static function display_success($message, $widget_id = '') {
         $success_id = 'promen-success-' . wp_generate_uuid4();
@@ -204,26 +261,21 @@ class Promen_Error_Handling {
      */
     private function setup_ajax_error_handling() {
         // Only apply to AJAX requests
-        if (strpos($_SERVER['REQUEST_URI'], 'admin-ajax.php') === false) {
+        if (!wp_doing_ajax()) {
             return;
         }
         
-        // Increase memory limit for AJAX requests
-        ini_set('memory_limit', '256M');
-        
         // Set a custom error handler for AJAX requests
         set_error_handler(function($errno, $errstr, $errfile, $errline) {
-            // Log the error
-            $log_file = PROMEN_ELEMENTOR_WIDGETS_PATH . 'ajax-errors.log';
-            $log_data = date('[Y-m-d H:i:s]') . "\n";
+            $log_file = $this->log_dir . 'ajax-errors.log';
+            
+            $log_data = gmdate('[Y-m-d H:i:s]') . "\n";
             $log_data .= "ERROR: [$errno] $errstr\n";
             $log_data .= "FILE: $errfile\n";
             $log_data .= "LINE: $errline\n";
-            $log_data .= "REQUEST URI: " . $_SERVER['REQUEST_URI'] . "\n";
             $log_data .= "-----------------------------------\n\n";
             
-            // Write to log file
-            file_put_contents($log_file, $log_data, FILE_APPEND);
+            $this->write_log($log_file, $log_data);
             
             // Let PHP handle the error as well
             return false;
@@ -233,71 +285,20 @@ class Promen_Error_Handling {
         register_shutdown_function(function() {
             $error = error_get_last();
             
-            if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
-                // Log the error
-                $log_file = PROMEN_ELEMENTOR_WIDGETS_PATH . 'fatal-errors.log';
-                $log_data = date('[Y-m-d H:i:s]') . "\n";
+            if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
+                $log_file = $this->log_dir . 'fatal-errors.log';
+                
+                $log_data = gmdate('[Y-m-d H:i:s]') . "\n";
                 $log_data .= "FATAL ERROR: [{$error['type']}] {$error['message']}\n";
                 $log_data .= "FILE: {$error['file']}\n";
                 $log_data .= "LINE: {$error['line']}\n";
-                $log_data .= "REQUEST URI: " . $_SERVER['REQUEST_URI'] . "\n";
                 $log_data .= "-----------------------------------\n\n";
                 
-                // Write to log file
-                file_put_contents($log_file, $log_data, FILE_APPEND);
+                $this->write_log($log_file, $log_data);
             }
         });
-        
-        // Add specific error handling for Elementor AJAX requests
-        add_action('wp_ajax_elementor_ajax', function() {
-            // Set a higher error reporting level for AJAX requests
-            error_reporting(E_ALL);
-            
-            // Increase memory limit for AJAX requests
-            ini_set('memory_limit', '256M');
-            
-            // Log the request
-            $log_file = PROMEN_ELEMENTOR_WIDGETS_PATH . 'elementor-ajax-debug.log';
-            $log_data = date('[Y-m-d H:i:s]') . " - Elementor AJAX Request\n";
-            file_put_contents($log_file, $log_data, FILE_APPEND);
-        }, 1);
-    }
-    
-    /**
-     * Debug Elementor AJAX requests
-     */
-    public function debug_elementor_ajax() {
-        // Create a log file in the plugin directory
-        $log_file = PROMEN_ELEMENTOR_WIDGETS_PATH . 'elementor-ajax-debug.log';
-        
-        // Get the actions from the request
-        $actions = isset($_REQUEST['actions']) ? json_decode(stripslashes($_REQUEST['actions']), true) : [];
-        
-        // Log request information
-        $log_data = date('[Y-m-d H:i:s]') . "\n";
-        $log_data .= "ELEMENTOR AJAX REQUEST\n";
-        $log_data .= "ACTIONS: " . json_encode($actions) . "\n";
-        
-        // Log POST data
-        if (!empty($_POST)) {
-            $log_data .= "POST DATA:\n";
-            foreach ($_POST as $key => $value) {
-                if ($key !== 'actions') { // Skip actions as we already logged them
-                    if (is_array($value)) {
-                        $log_data .= "- $key: " . json_encode($value) . "\n";
-                    } else {
-                        $log_data .= "- $key: $value\n";
-                    }
-                }
-            }
-        }
-        
-        $log_data .= "-----------------------------------\n\n";
-        
-        // Write to log file
-        file_put_contents($log_file, $log_data, FILE_APPEND);
     }
 }
 
 // Initialize error handling
-new Promen_Error_Handling(); 
+new Promen_Error_Handling();

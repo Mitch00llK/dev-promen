@@ -3,6 +3,9 @@
  * Widget Manager Class
  * 
  * Handles registration of Elementor widgets.
+ * 
+ * @package Promen_Elementor_Widgets
+ * @since 1.0.0
  */
 
 // Exit if accessed directly
@@ -10,10 +13,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Widget Manager Class
+ */
 class Promen_Widget_Manager {
     
     /**
      * Widget definitions (file path => class name)
+     *
+     * @var array
      */
     private $widgets = [
         'feature-blocks/feature-blocks-widget.php' => [
@@ -38,7 +46,7 @@ class Promen_Widget_Manager {
         ],
         'contact-info-card/contact-info-card-widget.php' => [
             'class' => 'Contact_Info_Card_Widget',
-            'name' => 'contact_info_card'
+            'name' => 'promen_contact_info_card'
         ],
         'team-members-carousel/team-members-carousel-widget.php' => [
             'class' => 'Promen_Team_Members_Carousel_Widget',
@@ -94,7 +102,7 @@ class Promen_Widget_Manager {
         ],
         'image-text-slider/image-text-slider-widget.php' => [
             'class' => 'Promen_Image_Text_Slider_Widget',
-            'name' => 'image_text_slider'
+            'name' => 'promen_image_text_slider'
         ],
         'checklist-comparison/checklist-comparison-widget.php' => [
             'class' => 'Promen_Checklist_Comparison_Widget',
@@ -110,40 +118,63 @@ class Promen_Widget_Manager {
         ],
         'document-info-list/document-info-list-widget.php' => [
             'class' => 'Promen_Document_Info_List_Widget',
-            'name' => 'document_info_list'
+            'name' => 'promen_document_info_list'
         ],
         'hamburger-menu/hamburger-menu-widget.php' => [
             'class' => 'Promen_Hamburger_Menu_Widget',
             'name' => 'promen_hamburger_menu'
         ]
     ];
+
+    /**
+     * Cached disabled widgets
+     *
+     * @var array|null
+     */
+    private $disabled_widgets_cache = null;
+
+    /**
+     * Widgets requiring Swiper
+     *
+     * @var array
+     */
+    private $swiper_widgets = [
+        'promen_services_carousel',
+        'promen_team_members_carousel',
+        'promen_hero_slider',
+        'promen_image_slider',
+        'promen_image_text_slider',
+        'promen_certification_logos'
+    ];
     
     /**
      * Constructor
      */
     public function __construct() {
-        // Register widgets
         add_action('elementor/widgets/register', [$this, 'register_widgets']);
     }
     
     /**
-     * Get disabled widgets from options
+     * Get disabled widgets from options (cached)
      * 
      * @return array
      */
-    private function get_disabled_widgets() {
-        return get_option('promen_disabled_widgets', []);
+    private function get_disabled_widgets(): array {
+        if (null === $this->disabled_widgets_cache) {
+            $this->disabled_widgets_cache = get_option('promen_disabled_widgets', []);
+        }
+        return $this->disabled_widgets_cache;
     }
     
     /**
      * Check if a widget is disabled
      * 
-     * @param string $widget_name
+     * @param string $widget_name Widget name.
      * @return bool
      */
-    public function is_widget_disabled($widget_name) {
+    public function is_widget_disabled(string $widget_name): bool {
         $disabled = $this->get_disabled_widgets();
-        return in_array($widget_name, $disabled);
+        return in_array($widget_name, $disabled, true);
     }
     
     /**
@@ -151,38 +182,45 @@ class Promen_Widget_Manager {
      * 
      * @return array
      */
-    public function get_all_widgets() {
+    public function get_all_widgets(): array {
         return $this->widgets;
     }
     
     /**
      * Register widgets
+     *
+     * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager.
      */
-    public function register_widgets($widgets_manager) {
-        // Get disabled widgets
+    public function register_widgets($widgets_manager): void {
         $disabled_widgets = $this->get_disabled_widgets();
+        $needs_swiper = false;
         
-        // Include and register each widget
         foreach ($this->widgets as $file => $widget_data) {
             // Skip disabled widgets
-            if (in_array($widget_data['name'], $disabled_widgets)) {
+            if (in_array($widget_data['name'], $disabled_widgets, true)) {
                 continue;
             }
             
             // Include file
             $file_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'widgets/' . $file;
             if (file_exists($file_path)) {
-                require_once($file_path);
+                require_once $file_path;
                 
                 // Register widget if class exists
                 if (class_exists($widget_data['class'])) {
                     $widgets_manager->register(new $widget_data['class']());
+                    
+                    // Check if this widget needs Swiper
+                    if (in_array($widget_data['name'], $this->swiper_widgets, true)) {
+                        $needs_swiper = true;
+                    }
                 }
             }
         }
         
-        // Ensure Swiper is loaded for widgets that need it
-        wp_enqueue_script('swiper-bundle');
+        // Only enqueue Swiper if at least one slider widget is registered
+        if ($needs_swiper) {
+            wp_enqueue_script('swiper-bundle');
+        }
     }
 }
- 

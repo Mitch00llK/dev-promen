@@ -120,11 +120,6 @@ final class Promen_Elementor_Widgets {
             Promen_Widget_Admin::instance();
         }
         
-        // Fix for Elementor editor site navigation settings
-        add_action('elementor/editor/before_enqueue_scripts', function() {
-            wp_add_inline_script('elementor-editor-site-navigation', 'window.elementorSiteNavigationSettings = window.elementorSiteNavigationSettings || {};', 'before');
-        });
-        
         // Add accessibility test endpoint for administrators
         if (current_user_can('administrator')) {
             add_action('wp_ajax_promen_accessibility_test', [$this, 'run_accessibility_tests']);

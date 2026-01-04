@@ -157,7 +157,7 @@ class Promen_Assets_Manager {
         $settings = get_option('lenis_scroll_options', ['enable_lenis' => true, 'scroll_duration' => 1.2, 'scroll_easing' => 'ease-out-expo']);
         if (!$settings['enable_lenis']) return;
 
-        wp_register_script('lenis-js', 'https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js', [], '1.0.19', true);
+        wp_register_script('lenis-js', 'https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js', [], '1.1.18', true);
         wp_register_script('promen-lenis-smooth-scroll', PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/lenis-smooth-scroll.js', ['lenis-js', 'gsap', 'gsap-scrolltrigger'], PROMEN_ELEMENTOR_WIDGETS_VERSION, true);
         
         if (!is_admin()) {
