@@ -171,7 +171,7 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
             $js_path . 'modules/slider-main.js', 
             [
                 'jquery', 
-                'swiper', 
+                'swiper-bundle', 
                 'promen-slider-utils', 
                 'promen-accessibility-utils',
                 'promen-image-text-slider-config',
