@@ -207,6 +207,14 @@ body:not(.elementor-editor-active) .image-text-slider-container .swiper-slide:no
     visibility: hidden;
 }
 
+/* Ensure first slide is visible before initialization */
+body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-initialized) .swiper-slide:first-child,
+body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-initialized) .swiper-wrapper .swiper-slide:first-child {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
 .image-text-slider-container .swiper-slide-active,
 .image-text-slider-container .swiper-slide-next,
 .image-text-slider-container .swiper-slide-prev {
