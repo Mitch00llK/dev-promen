@@ -115,10 +115,10 @@
             longSwipesRatio: Config.isMobile ? 0.3 : 0.5,
             threshold: Config.isMobile ? 5 : 0,
 
-            // Navigation - FIX APPLIED: TARGET ALL MATCHING BUTTONS
+            // Navigation
             navigation: {
-                nextEl: Array.from(sliderEl.querySelectorAll('.swiper-button-next')),
-                prevEl: Array.from(sliderEl.querySelectorAll('.swiper-button-prev')),
+                nextEl: sliderEl.querySelector('.swiper-button-next'),
+                prevEl: sliderEl.querySelector('.swiper-button-prev'),
             },
 
             // Pagination

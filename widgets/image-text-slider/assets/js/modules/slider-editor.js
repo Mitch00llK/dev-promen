@@ -96,8 +96,8 @@
                     type: 'bullets'
                 } : false,
                 navigation: {
-                    nextEl: Array.from(sliderEl.querySelectorAll('.swiper-button-next')),
-                    prevEl: Array.from(sliderEl.querySelectorAll('.swiper-button-prev')),
+                    nextEl: sliderEl.querySelector('.swiper-button-next'),
+                    prevEl: sliderEl.querySelector('.swiper-button-prev'),
                 },
                 allowTouchMove: true,
                 grabCursor: true,
