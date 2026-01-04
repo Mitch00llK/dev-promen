@@ -249,4 +249,152 @@ class Promen_Accessibility_Aria {
         
         return '<div class="screen-reader-text keyboard-instructions" role="region" aria-label="' . esc_attr__('Keyboard navigation instructions', 'promen-elementor-widgets') . '">' . esc_html($instruction) . '</div>';
     }
+
+    /**
+     * Generate service accessibility attributes
+     * 
+     * @param array  $service Service data.
+     * @param int    $index Service index.
+     * @param string $widget_id Widget ID.
+     * @return array Service accessibility data.
+     */
+    public static function get_service_attrs($service, $index = 0, $widget_id = '') {
+        $service_title = !empty($service['service_title']) ? $service['service_title'] : '';
+        $service_description = !empty($service['service_description']) ? $service['service_description'] : '';
+        $service_link = !empty($service['service_link']['url']) ? $service['service_link']['url'] : '';
+        
+        $service_item_id = self::generate_id('service-item-' . ($index + 1), $widget_id);
+        $service_title_id = self::generate_id('service-title-' . ($index + 1), $widget_id);
+        $service_description_id = self::generate_id('service-description-' . ($index + 1), $widget_id);
+        $service_icon_id = self::generate_id('service-icon-' . ($index + 1), $widget_id);
+        
+        $base_label = $service_title;
+        $link_label = $service_title;
+        $icon_label = $service_title;
+        
+        if (!empty($service_link)) {
+            $link_label = sprintf(__('Read more about %s', 'promen-elementor-widgets'), $service_title);
+        }
+        
+        if (!empty($service['service_icon']['value'])) {
+            $icon_label = sprintf(__('%s icon', 'promen-elementor-widgets'), $service_title);
+        }
+        
+        if (!empty($service_description)) {
+            $base_label = sprintf(__('%s: %s', 'promen-elementor-widgets'), $service_title, $service_description);
+        }
+        
+        return [
+            'service_item_id' => $service_item_id,
+            'service_title_id' => $service_title_id,
+            'service_description_id' => $service_description_id,
+            'service_icon_id' => $service_icon_id,
+            'service_item_attrs' => 'role="listitem" tabindex="0" aria-labelledby="' . esc_attr($service_title_id) . '"' . (!empty($service_description_id) ? ' aria-describedby="' . esc_attr($service_description_id) . '"' : ''),
+            'service_link_attrs' => 'aria-label="' . esc_attr($link_label) . '"',
+            'service_icon_attrs' => 'role="img" aria-label="' . esc_attr($icon_label) . '"',
+            'service_title_attrs' => 'id="' . esc_attr($service_title_id) . '"',
+            'service_description_attrs' => 'id="' . esc_attr($service_description_id) . '"',
+            'service_icon_id_attr' => 'id="' . esc_attr($service_icon_id) . '"',
+            'base_label' => $base_label,
+            'link_label' => $link_label,
+            'icon_label' => $icon_label
+        ];
+    }
+
+    /**
+     * Generate services grid accessibility attributes
+     * 
+     * @param array  $services Services array.
+     * @param string $widget_id Widget ID.
+     * @return array Services grid accessibility data.
+     */
+    public static function get_services_grid_attrs($services, $widget_id = '') {
+        $services_count = count($services);
+        $services_id = self::generate_id('services-grid-list', $widget_id);
+        $services_label = sprintf(
+            _n('Services grid with %d service', 'Services grid with %d services', $services_count, 'promen-elementor-widgets'),
+            $services_count
+        );
+        
+        return [
+            'services_id' => $services_id,
+            'services_attrs' => 'role="list" aria-label="' . esc_attr($services_label) . '" id="' . esc_attr($services_id) . '"',
+            'services_count' => $services_count
+        ];
+    }
+
+    /**
+     * Generate image slider accessibility attributes
+     * 
+     * @param array  $images Images array.
+     * @param int    $index Image index.
+     * @param string $widget_id Widget ID.
+     * @return array Image accessibility data.
+     */
+    public static function get_image_slider_attrs($images, $index = 0, $widget_id = '') {
+        $image = $images[$index] ?? [];
+        $image_title = !empty($image['title']) ? $image['title'] : '';
+        $image_description = !empty($image['description']) ? $image['description'] : '';
+        $image_alt = !empty($image['image']['alt']) ? $image['image']['alt'] : $image_title;
+        
+        $image_item_id = self::generate_id('image-item-' . ($index + 1), $widget_id);
+        $image_title_id = self::generate_id('image-title-' . ($index + 1), $widget_id);
+        $image_description_id = self::generate_id('image-description-' . ($index + 1), $widget_id);
+        
+        $base_label = $image_title;
+        $image_label = $image_title;
+        
+        if (!empty($image_title)) {
+            $image_label = sprintf(__('Image: %s', 'promen-elementor-widgets'), $image_title);
+        }
+        
+        if (!empty($image_description)) {
+            $base_label = sprintf(__('%s: %s', 'promen-elementor-widgets'), $image_title, $image_description);
+        }
+        
+        return [
+            'image_item_id' => $image_item_id,
+            'image_title_id' => $image_title_id,
+            'image_description_id' => $image_description_id,
+            'image_item_attrs' => 'role="listitem" tabindex="0" aria-labelledby="' . esc_attr($image_title_id) . '"' . (!empty($image_description_id) ? ' aria-describedby="' . esc_attr($image_description_id) . '"' : ''),
+            'image_attrs' => 'alt="' . esc_attr($image_alt) . '" aria-label="' . esc_attr($image_label) . '"',
+            'image_title_attrs' => 'id="' . esc_attr($image_title_id) . '"',
+            'image_description_attrs' => 'id="' . esc_attr($image_description_id) . '"',
+            'base_label' => $base_label,
+            'image_label' => $image_label
+        ];
+    }
+
+    /**
+     * Generate image slider container accessibility attributes
+     * 
+     * @param array  $images Images array.
+     * @param string $widget_id Widget ID.
+     * @param bool   $is_slider Whether it's a slider or grid.
+     * @return array Image slider accessibility data.
+     */
+    public static function get_image_slider_container_attrs($images, $widget_id = '', $is_slider = false) {
+        $images_count = count($images);
+        $container_id = self::generate_id($is_slider ? 'image-slider-container' : 'image-grid-container', $widget_id);
+        
+        if ($is_slider) {
+            $container_label = sprintf(
+                _n('Image slider with %d image', 'Image slider with %d images', $images_count, 'promen-elementor-widgets'),
+                $images_count
+            );
+            $container_attrs = 'role="region" aria-label="' . esc_attr($container_label) . '" aria-live="polite"';
+        } else {
+            $container_label = sprintf(
+                _n('Image grid with %d image', 'Image grid with %d images', $images_count, 'promen-elementor-widgets'),
+                $images_count
+            );
+            $container_attrs = 'role="list" aria-label="' . esc_attr($container_label) . '"';
+        }
+        
+        return [
+            'container_id' => $container_id,
+            'container_attrs' => $container_attrs . ' id="' . esc_attr($container_id) . '"',
+            'images_count' => $images_count
+        ];
+    }
 }

@@ -285,6 +285,34 @@ class Promen_Accessibility_Utils {
         initFocusTrap('" . esc_js($container_selector) . "');
         ";
     }
+
+    /**
+     * @see Promen_Accessibility_Aria::get_service_attrs()
+     */
+    public static function get_service_attrs($service, $index = 0, $widget_id = '') {
+        return Promen_Accessibility_Aria::get_service_attrs($service, $index, $widget_id);
+    }
+
+    /**
+     * @see Promen_Accessibility_Aria::get_services_grid_attrs()
+     */
+    public static function get_services_grid_attrs($services, $widget_id = '') {
+        return Promen_Accessibility_Aria::get_services_grid_attrs($services, $widget_id);
+    }
+
+    /**
+     * @see Promen_Accessibility_Aria::get_image_slider_attrs()
+     */
+    public static function get_image_slider_attrs($images, $index = 0, $widget_id = '') {
+        return Promen_Accessibility_Aria::get_image_slider_attrs($images, $index, $widget_id);
+    }
+
+    /**
+     * @see Promen_Accessibility_Aria::get_image_slider_container_attrs()
+     */
+    public static function get_image_slider_container_attrs($images, $widget_id = '', $is_slider = false) {
+        return Promen_Accessibility_Aria::get_image_slider_container_attrs($images, $widget_id, $is_slider);
+    }
 }
 
 // Initialize the accessibility utils
