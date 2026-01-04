@@ -66,13 +66,14 @@ class Promen_Widget_Admin {
      * Add admin menu page
      */
     public function add_admin_menu() {
-        add_submenu_page(
-            'elementor', // Parent slug (Elementor menu)
-            __('Widget Manager', 'promen-elementor-widgets'),
-            __('Widget Manager', 'promen-elementor-widgets'),
+        add_menu_page(
+            __('Promen Widgets', 'promen-elementor-widgets'),
+            __('Promen Widgets', 'promen-elementor-widgets'),
             'manage_options',
             'promen-widget-manager',
-            [$this, 'render_admin_page']
+            [$this, 'render_admin_page'],
+            'dashicons-layout',
+            58 // Position after Elementor
         );
     }
     
@@ -81,7 +82,7 @@ class Promen_Widget_Admin {
      */
     public function enqueue_admin_assets($hook) {
         // Only load on our admin page
-        if ($hook !== 'elementor_page_promen-widget-manager') {
+        if ($hook !== 'toplevel_page_promen-widget-manager') {
             return;
         }
         
