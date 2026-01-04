@@ -27,10 +27,12 @@
     .service-card {
         border: 2px solid currentColor;
     }
+
     .service-card:focus {
         outline: 3px solid currentColor;
         outline-offset: 2px;
     }
+
     .service-title {
         font-weight: bold;
     }
@@ -43,15 +45,19 @@
     .service-card {
         transition: none;
     }
+
     .service-card:hover {
         transform: none;
     }
+
     .service-card.hover-translateY:hover {
         transform: none;
     }
+
     .service-card.hover-scale:hover {
         transform: none;
     }
+
     .service-card.hover-translateY.hover-scale:hover {
         transform: none;
     }
@@ -237,7 +243,7 @@
 
 .services-grid {
     display: grid;
-    gap: 1.5rem;
+    gap: 1.5rem !important;
 }
 
 .services-grid .service-card {
@@ -251,14 +257,17 @@
     .service-card {
         min-height: 100px;
     }
+
     .swiper-button-prev,
     .swiper-button-next {
         width: 36px;
         height: 36px;
     }
+
     .swiper-button-prev {
         left: 5px;
     }
+
     .swiper-button-next {
         right: 5px;
     }
@@ -274,10 +283,12 @@
         padding: 1em;
         margin-bottom: 1em;
     }
+
     .service-card a {
         color: #000;
         text-decoration: underline;
     }
+
     .swiper-button-prev,
     .swiper-button-next,
     .swiper-pagination {
@@ -293,15 +304,18 @@
         outline-color: #4a9eff;
         box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.2);
     }
+
     .swiper-pagination-bullet-active {
         background: #4a9eff;
     }
+
     .swiper-button-prev,
     .swiper-button-next {
         background: #333;
         border-color: #4a9eff;
         color: #fff;
     }
+
     .swiper-button-prev:focus,
     .swiper-button-next:focus {
         outline-color: #4a9eff;

@@ -33,7 +33,7 @@ switch ($content_selection) {
 
     case 'taxonomy':
         // Taxonomy-based selection
-        $args['posts_per_page'] = $settings['posts_per_page'];
+        $args['posts_per_page'] = isset($settings['posts_per_page']) ? $settings['posts_per_page'] : 6;
         $args['orderby'] = isset($settings['orderby']) ? $settings['orderby'] : 'date';
         $args['order'] = isset($settings['order']) ? $settings['order'] : 'DESC';
 
@@ -200,7 +200,7 @@ $widget_id = $this->get_id();
                         aria-selected="true" 
                         aria-controls="content-grid-<?php echo esc_attr($widget_id); ?>"
                         id="filter-all-<?php echo esc_attr($widget_id); ?>">
-                    <?php echo esc_html($settings['filter_all_text']); ?>
+                    <?php echo esc_html(isset($settings['filter_all_text']) ? $settings['filter_all_text'] : esc_html__('Alle vacatures', 'promen-elementor-widgets')); ?>
                 </button>
                 
                 <?php foreach ($vacature_categories as $category) : ?>
