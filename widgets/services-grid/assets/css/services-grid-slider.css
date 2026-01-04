@@ -56,6 +56,7 @@
     min-height: 10rem;
     height: 100%;
     margin: 0;
+    padding: 1rem;
 }
 
 
@@ -128,19 +129,23 @@
 /* Responsive Styles */
 
 @media (max-width: 767px) {
+
     .services-slider .swiper-button-next,
     .services-slider .swiper-button-prev {
         width: 35px;
         height: 35px;
     }
+
     .services-slider .swiper-button-next:after,
     .services-slider .swiper-button-prev:after {
         font-size: 16px;
     }
+
     .services-slider .swiper-pagination-bullet {
         width: 8px;
         height: 8px;
     }
+
     .services-slider .swiper-pagination-bullet-active {
         width: 10px;
         height: 10px;
