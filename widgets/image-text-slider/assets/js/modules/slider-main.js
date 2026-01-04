@@ -11,15 +11,16 @@
 (function (window, $) {
     "use strict";
 
-    // Dependencies
-    const AccessibilityUtils = window.PromenAccessibilityUtils;
-    const Utils = window.PromenSliderUtils;
-    const { debounce, throttle } = Utils;
-    const BrowserCompatibility = Utils.BrowserCompatibility;
+    // Dependencies - with defensive checks
+    const AccessibilityUtils = window.PromenAccessibilityUtils || {};
+    const Utils = window.PromenSliderUtils || {};
+    const debounce = Utils.debounce || function (fn) { return fn; };
+    const throttle = Utils.throttle || function (fn) { return fn; };
+    const BrowserCompatibility = Utils.BrowserCompatibility || { applyBrowserFixes: function (el, opt) { return opt; } };
 
-    // Modules
-    const ContentUtils = window.PromenSliderContent;
-    const Config = window.PromenSliderConfig;
+    // Modules - with defensive checks
+    const ContentUtils = window.PromenSliderContent || {};
+    const Config = window.PromenSliderConfig || { isMobile: false, isLowEndDevice: false };
 
     /**
      * Initialize all image text sliders on the page
@@ -142,18 +143,24 @@
                     // Add a short delay before showing content for initial load
                     setTimeout(() => {
                         sliderEl.classList.remove('initializing');
-                        ContentUtils.updateSlideVisibility(this);
+                        if (typeof ContentUtils.updateSlideVisibility === 'function') {
+                            ContentUtils.updateSlideVisibility(this);
+                        }
                     }, 50);
 
                     // Store initial slide order for debugging
-                    ContentUtils.logSlideOrder(this, 'Main Swiper Init');
+                    if (typeof ContentUtils.logSlideOrder === 'function') {
+                        ContentUtils.logSlideOrder(this, 'Main Swiper Init');
+                    }
                 },
                 beforeTransitionStart: function () {
                     // Add transitioning class to handle content visibility during transitions
                     sliderEl.classList.add('transitioning');
 
                     // Force hide all inactive slides
-                    ContentUtils.forceHideInactiveContentSlides();
+                    if (typeof ContentUtils.forceHideInactiveContentSlides === 'function') {
+                        ContentUtils.forceHideInactiveContentSlides();
+                    }
 
                     // Immediately hide content to prevent flashing
                     const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide');
@@ -165,8 +172,12 @@
                     });
                 },
                 slideChange: function () {
-                    ContentUtils.updateSlideVisibility(this);
-                    ContentUtils.logSlideOrder(this, 'Main Swiper Change');
+                    if (typeof ContentUtils.updateSlideVisibility === 'function') {
+                        ContentUtils.updateSlideVisibility(this);
+                    }
+                    if (typeof ContentUtils.logSlideOrder === 'function') {
+                        ContentUtils.logSlideOrder(this, 'Main Swiper Change');
+                    }
 
                     // Manually sync the content slider with the image slider
                     if (sliderEl.contentSwiper) {
@@ -174,7 +185,7 @@
                         const targetIndex = useLoop ? this.realIndex : this.activeIndex;
 
                         // Reset all content slides immediately
-                        if (options.enableGsapAnimations && window.gsap) {
+                        if (options.enableGsapAnimations && window.gsap && typeof ContentUtils.resetSlideContent === 'function') {
                             const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide');
                             contentSlides.forEach(slide => ContentUtils.resetSlideContent(slide));
                         }
@@ -191,7 +202,7 @@
                 },
                 transitionStart: function () {
                     // If using GSAP, prepare content slides
-                    if (options.enableGsapAnimations && window.gsap) {
+                    if (options.enableGsapAnimations && window.gsap && typeof ContentUtils.resetSlideContent === 'function') {
                         const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide:not(.swiper-slide-active)');
                         contentSlides.forEach(slide => ContentUtils.resetSlideContent(slide));
                     }
@@ -202,7 +213,9 @@
                         sliderEl.classList.remove('transitioning');
 
                         // Force correct visibility again after transition
-                        ContentUtils.forceHideInactiveContentSlides();
+                        if (typeof ContentUtils.forceHideInactiveContentSlides === 'function') {
+                            ContentUtils.forceHideInactiveContentSlides();
+                        }
                     }, 50);
                 }
             }
@@ -253,7 +266,9 @@
                 preventInteractionOnTransition: true,
                 on: {
                     init: function () {
-                        ContentUtils.updateContentSlideVisibility(this);
+                        if (typeof ContentUtils.updateContentSlideVisibility === 'function') {
+                            ContentUtils.updateContentSlideVisibility(this);
+                        }
 
                         // Set initial slide based on main swiper
                         if (useLoop) {
@@ -263,23 +278,27 @@
                         }
 
                         // Log for debugging
-                        ContentUtils.logSlideOrder(this, 'Content Swiper Init');
+                        if (typeof ContentUtils.logSlideOrder === 'function') {
+                            ContentUtils.logSlideOrder(this, 'Content Swiper Init');
+                        }
 
                         // Initialize GSAP animations for first slide
                         if (options.enableGsapAnimations && window.gsap) {
                             const initialSlide = sliderEl.querySelector('.swiper-content-slider .swiper-slide-active');
                             if (initialSlide) {
                                 // Show slide without animation first to prevent flashing
-                                ContentUtils.showSlideContentWithoutAnimation(initialSlide);
+                                if (typeof ContentUtils.showSlideContentWithoutAnimation === 'function') {
+                                    ContentUtils.showSlideContentWithoutAnimation(initialSlide);
+                                }
 
                                 // Then animate with a slight delay
                                 setTimeout(() => {
-                                    ContentUtils.resetSlideContent(initialSlide);
-                                    ContentUtils.setupGsapAnimations(sliderEl, swiper, options);
-                                    // Wait, setupGsapAnimations handles init logic too. 
-                                    // But here we might just want to animate the specific slide as setupGsapAnimations adds listeners.
-                                    // It seems setupGsapAnimations also handles the initial slide logic.
-                                    // So calling setupGsapAnimations below is correct.
+                                    if (typeof ContentUtils.resetSlideContent === 'function') {
+                                        ContentUtils.resetSlideContent(initialSlide);
+                                    }
+                                    if (typeof ContentUtils.setupGsapAnimations === 'function') {
+                                        ContentUtils.setupGsapAnimations(sliderEl, swiper, options);
+                                    }
                                 }, 50);
                             }
                         }
@@ -299,8 +318,12 @@
                         }
                     },
                     slideChange: function () {
-                        ContentUtils.updateContentSlideVisibility(this);
-                        ContentUtils.logSlideOrder(this, 'Content Swiper Change');
+                        if (typeof ContentUtils.updateContentSlideVisibility === 'function') {
+                            ContentUtils.updateContentSlideVisibility(this);
+                        }
+                        if (typeof ContentUtils.logSlideOrder === 'function') {
+                            ContentUtils.logSlideOrder(this, 'Content Swiper Change');
+                        }
 
                         // Explicitly set visibility based on active state
                         const slides = this.slides;
@@ -330,7 +353,9 @@
                     },
                     transitionEnd: function () {
                         // Ensure only active slide is visible after transition
-                        setTimeout(ContentUtils.ensureStaticContentAlignment, 50);
+                        if (typeof ContentUtils.ensureStaticContentAlignment === 'function') {
+                            setTimeout(ContentUtils.ensureStaticContentAlignment, 50);
+                        }
                     }
                 }
             };
@@ -413,7 +438,7 @@
             }
 
             // Add GSAP animation if enabled
-            if (options.enableGsapAnimations && window.gsap) {
+            if (options.enableGsapAnimations && window.gsap && typeof ContentUtils.setupGsapAnimations === 'function') {
                 ContentUtils.setupGsapAnimations(sliderEl, swiper, options);
             }
 
@@ -432,22 +457,28 @@
             });
 
             // After initialization, ensure static content alignment is preserved
-            setTimeout(ContentUtils.ensureStaticContentAlignment, 500);
+            if (typeof ContentUtils.ensureStaticContentAlignment === 'function') {
+                setTimeout(ContentUtils.ensureStaticContentAlignment, 500);
+            }
 
             // Add event listener to ensure alignment on slide changes
             swiper.on('slideChangeTransitionEnd', function () {
-                setTimeout(ContentUtils.ensureStaticContentAlignment, 50);
+                if (typeof ContentUtils.ensureStaticContentAlignment === 'function') {
+                    setTimeout(ContentUtils.ensureStaticContentAlignment, 50);
+                }
             });
 
             // Initialize accessibility features
-            if (AccessibilityUtils) {
+            if (AccessibilityUtils && typeof AccessibilityUtils.initSliderAccessibility === 'function') {
                 AccessibilityUtils.initSliderAccessibility(sliderEl, swiper, options);
             }
 
             // Remove initializing class after everything is set up
             setTimeout(() => {
                 sliderEl.classList.remove('initializing');
-                ContentUtils.ensureStaticContentAlignment();
+                if (typeof ContentUtils.ensureStaticContentAlignment === 'function') {
+                    ContentUtils.ensureStaticContentAlignment();
+                }
             }, 300);
 
         } catch (error) {
