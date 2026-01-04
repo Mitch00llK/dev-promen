@@ -395,15 +395,15 @@
             }
 
             // Update spacer after initialization
-            const spacer = sliderEl.nextElementSibling;
-            if (spacer && spacer.classList.contains('slider-bottom-spacer')) {
+            let spacer = sliderEl.querySelector('.slider-bottom-spacer');
+            if (spacer) {
                 setTimeout(() => updateSpacerPosition(sliderEl, spacer), 300);
             }
 
             // Add event listener to handle slide changes and update spacer if needed
             swiper.on('slideChange', function () {
-                const spacer = sliderEl.nextElementSibling;
-                if (spacer && spacer.classList.contains('slider-bottom-spacer')) {
+                spacer = sliderEl.querySelector('.slider-bottom-spacer');
+                if (spacer) {
                     setTimeout(() => updateSpacerPosition(sliderEl, spacer), 300);
                 }
             });
@@ -766,28 +766,22 @@
     function positionSliderSpacers() {
         const sliders = document.querySelectorAll('.image-text-slider-container');
         sliders.forEach(function (slider) {
-            const spacer = slider.nextElementSibling;
+            // Find internal spacer first
+            let spacer = slider.querySelector('.slider-bottom-spacer');
 
-            // Create spacer if it doesn't exist
-            if (!spacer || !spacer.classList.contains('slider-bottom-spacer')) {
-                const newSpacer = document.createElement('div');
-                newSpacer.classList.add('slider-bottom-spacer');
-
-                if (slider.nextElementSibling) {
-                    slider.parentNode.insertBefore(newSpacer, slider.nextElementSibling);
-                } else {
-                    slider.parentNode.appendChild(newSpacer);
-                }
-
-                updateSpacerPosition(slider, newSpacer);
-            } else if (spacer) {
-                updateSpacerPosition(slider, spacer);
+            // Fallback: Create spacer if it doesn't exist internally
+            if (!spacer) {
+                spacer = document.createElement('div');
+                spacer.classList.add('slider-bottom-spacer');
+                slider.appendChild(spacer);
             }
 
+            updateSpacerPosition(slider, spacer);
+
             // Force the next element to have proper z-index
-            if (spacer && spacer.nextElementSibling) {
-                spacer.nextElementSibling.style.position = 'relative';
-                spacer.nextElementSibling.style.zIndex = '0';
+            if (slider.nextElementSibling) {
+                slider.nextElementSibling.style.position = 'relative';
+                slider.nextElementSibling.style.zIndex = '0';
             }
         });
     }
@@ -802,15 +796,22 @@
 
         // Function to perform the actual measurement
         const measure = () => {
+            // Reset spacer height first to get accurate slider dimensions
+            spacer.style.height = '1px';
+            spacer.style.marginTop = '-1px';
+
+            // Force reflow
+            void slider.offsetHeight;
+
             const sliderRect = slider.getBoundingClientRect();
 
             // Check if the slider has extended overlays
             const hasExtendedOverlays = slider.classList.contains('has-extended-overlays');
 
-            // Set spacer position
+            // Set spacer position base
             spacer.style.position = 'relative';
             spacer.style.zIndex = '1';
-            spacer.style.marginTop = hasExtendedOverlays ? '0' : '-1px'; // Negative margin to avoid 1px gap if not extended
+            spacer.style.marginTop = hasExtendedOverlays ? '0' : '-1px';
 
             // Find any absolute overlay images that extend beyond
             const extendingOverlays = slider.querySelectorAll('.absolute-overlay-image.extend-beyond');
@@ -836,7 +837,7 @@
                 const container = activeContentSlide.querySelector('.slide-content-container');
                 if (container) {
                     const containerRect = container.getBoundingClientRect();
-                    // Calculated extension relative to the slider bottom
+                    // Extension relative to the CURRENT slider bottom (which is now based on reset spacer)
                     const extension = (containerRect.bottom - sliderRect.bottom);
 
                     // Add a small buffer (20px) for shadow/padding
@@ -881,8 +882,8 @@
 
             // Force container below to redraw
             document.querySelectorAll('.image-text-slider-container').forEach(slider => {
-                const spacer = slider.nextElementSibling;
-                if (spacer && spacer.classList.contains('slider-bottom-spacer')) {
+                const spacer = slider.querySelector('.slider-bottom-spacer');
+                if (spacer) {
                     updateSpacerPosition(slider, spacer);
                 }
             });
@@ -894,20 +895,7 @@
      * Note: This function is kept for backward compatibility but delegates to updateSpacerPosition
      */
     function ensureProperSpacingAfterSliders() {
-        document.querySelectorAll('.image-text-slider-container').forEach(slider => {
-            let spacer = slider.nextElementSibling;
-            if (!spacer || !spacer.classList.contains('slider-bottom-spacer')) {
-                // Create spacer if it doesn't exist
-                spacer = document.createElement('div');
-                spacer.classList.add('slider-bottom-spacer');
-                if (slider.nextElementSibling) {
-                    slider.parentNode.insertBefore(spacer, slider.nextElementSibling);
-                } else {
-                    slider.parentNode.appendChild(spacer);
-                }
-            }
-            updateSpacerPosition(slider, spacer);
-        });
+        positionSliderSpacers();
     }
 
     /**
