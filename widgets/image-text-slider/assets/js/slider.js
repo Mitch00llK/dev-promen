@@ -796,9 +796,23 @@
 
         // Function to perform the actual measurement
         const measure = () => {
-            // Get the slider's bounding rect
+            // Reset spacer height first to get accurate slider dimensions
+            // spacer.style.height = '1px'; // REMOVED THIS LINE
+            // spacer.style.marginTop = '-1px'; // RETAINED IF NEEDED
+
+            // Force reflow
+            void slider.offsetHeight;
+
             const sliderRect = slider.getBoundingClientRect();
             const sliderBottom = sliderRect.bottom;
+
+            // UNCONDITIONAL DEBUG LOG
+            console.log('Running Spacer Measurement:', {
+                id: slider.id,
+                rect: sliderRect,
+                bottom: sliderBottom
+            });
+
 
             // Find the active content slide
             // We look for both the active slide in the content swiper AND potentially static content
@@ -1314,5 +1328,7 @@
     window.ensureStaticContentAlignment = ensureStaticContentAlignment;
     window.monitorPerformance = monitorPerformance;
     window.ensureProperSpacingAfterSliders = ensureProperSpacingAfterSliders;
+    window.updateSpacerPosition = updateSpacerPosition; // EXPORTED FOR DEBUGGING
+
 
 })(window, jQuery);

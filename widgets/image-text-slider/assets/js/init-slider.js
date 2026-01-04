@@ -55,7 +55,9 @@
 
         // Initial positioning of the spacer
         if (typeof window.positionSliderSpacers === 'function') {
-            setTimeout(window.positionSliderSpacers, 100);
+            setTimeout(window.positionSliderSpacers, 500);
+            // And again later to be sure
+            setTimeout(window.positionSliderSpacers, 1000);
         }
 
         // Add a more comprehensive resize handler that prevents overlap issues
