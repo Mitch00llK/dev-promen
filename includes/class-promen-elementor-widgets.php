@@ -91,7 +91,11 @@ final class Promen_Elementor_Widgets {
             return;
         }
 
-        // Defer loading of our widget base class and managers until Elementor is fully initialized
+        // Initialize managers that don't depend on Elementor classes being loaded yet
+        $this->assets_manager = new Promen_Assets_Manager();
+        $this->accessibility_utils = Promen_Accessibility_Utils::instance();
+
+        // Defer loading of our widget base class and widget registration until Elementor is fully initialized
         // This prevents "Class Elementor\Widget_Base not found" errors
         add_action('elementor/init', [$this, 'on_elementor_init']);
         
@@ -109,10 +113,8 @@ final class Promen_Elementor_Widgets {
         // Include Promen Widget Base Class (Elementor is fully loaded now)
         require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-promen-widget-base.php');
 
-        // Initialize managers
-        $this->assets_manager = new Promen_Assets_Manager();
+        // Initialize Widget Manager (depends on Elementor)
         $this->widget_manager = new Promen_Widget_Manager();
-        $this->accessibility_utils = Promen_Accessibility_Utils::instance();
         
         // Initialize Widget Admin (admin only)
         if (is_admin()) {

@@ -143,10 +143,12 @@ class Promen_Assets_Config {
             'promen-locations-display-widget' => [
                 'path' => 'widgets/locations-display/assets/css/locations-display.css',
                 'deps' => ['promen-elementor-widgets'],
+                'enqueue' => true,
             ],
             'promen-document-info-list-widget' => [
                 'path' => 'widgets/document-info-list/assets/css/document-info-list.css',
                 'deps' => ['promen-elementor-widgets'],
+                'enqueue' => true,
             ],
             'promen-hamburger-menu-widget' => [
                 'path' => 'widgets/hamburger-menu/assets/css/hamburger-menu.css',
