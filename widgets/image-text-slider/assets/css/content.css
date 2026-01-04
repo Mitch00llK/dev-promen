@@ -26,7 +26,7 @@
     visibility: visible;
     height: auto;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: flex-start;
     overflow: visible;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -51,6 +51,7 @@ body:not(.elementor-editor-active) .image-text-slider-container .swiper-content-
     position: relative;
     width: 40%;
     pointer-events: auto;
+    margin-top: 0 !important;
 }
 
 .content-position-left .slide-content-container {
