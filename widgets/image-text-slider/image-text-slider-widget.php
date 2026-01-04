@@ -129,10 +129,56 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
             true
         );
 
+        // Register config module
+        wp_register_script(
+            'promen-image-text-slider-config',
+            $js_path . 'modules/slider-config.js',
+            ['promen-slider-utils'],
+            $version,
+            true
+        );
+
+        // Register spacer module
+        wp_register_script(
+            'promen-image-text-slider-spacer',
+            $js_path . 'modules/slider-spacer.js',
+            ['promen-slider-utils'],
+            $version,
+            true
+        );
+
+        // Register content module
+        wp_register_script(
+            'promen-image-text-slider-content',
+            $js_path . 'modules/slider-content.js',
+            ['promen-slider-utils', 'promen-accessibility-utils'],
+            $version,
+            true
+        );
+
+        // Register editor module
+        wp_register_script(
+            'promen-image-text-slider-editor',
+            $js_path . 'modules/slider-editor.js',
+            ['promen-slider-utils', 'promen-accessibility-utils'],
+            $version,
+            true
+        );
+
+        // Register core logic (main entry point)
         wp_register_script(
             'promen-image-text-slider-core', 
-            $js_path . 'slider.js', 
-            ['jquery', 'swiper', 'promen-slider-utils', 'promen-accessibility-utils'], 
+            $js_path . 'modules/slider-main.js', 
+            [
+                'jquery', 
+                'swiper', 
+                'promen-slider-utils', 
+                'promen-accessibility-utils',
+                'promen-image-text-slider-config',
+                'promen-image-text-slider-spacer',
+                'promen-image-text-slider-content',
+                'promen-image-text-slider-editor'
+            ], 
             $version, 
             true
         );
