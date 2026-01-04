@@ -74,7 +74,7 @@ class Promen_Contact_Info_Blocks_Widget extends \Promen_Widget_Base {
      * Enqueue widget styles and scripts
      */
     public function get_style_depends() {
-        return ['contact-info-blocks'];
+        return ['promen-contact-info-blocks-widget'];
     }
 
     /**

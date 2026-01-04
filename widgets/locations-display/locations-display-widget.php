@@ -70,7 +70,7 @@ class Promen_Locations_Display_Widget extends \Promen_Widget_Base {
      * Enqueue widget styles and scripts
      */
     public function get_style_depends() {
-        return ['locations-display'];
+        return ['promen-locations-display-widget'];
     }
 
     /**

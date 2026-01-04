@@ -69,7 +69,7 @@ class Promen_Document_Info_List_Widget extends \Promen_Widget_Base {
     }
 
     public function get_style_depends() {
-        return ['document-info-list'];
+        return ['promen-document-info-list-widget'];
     }
 
     public function get_script_depends() {

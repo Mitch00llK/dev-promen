@@ -51,7 +51,7 @@ class Promen_Image_Slider_Widget extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-image-slider-style', 'swiper-bundle-css'];
+        return ['promen-image-slider-widget', 'swiper-bundle-css'];
     }
 
     /**
