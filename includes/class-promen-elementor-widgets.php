@@ -114,6 +114,12 @@ final class Promen_Elementor_Widgets {
         $this->widget_manager = new Promen_Widget_Manager();
         $this->accessibility_utils = Promen_Accessibility_Utils::instance();
         
+        // Initialize Widget Admin (admin only)
+        if (is_admin()) {
+            require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/admin/class-widget-admin.php');
+            Promen_Widget_Admin::instance();
+        }
+        
         // Fix for Elementor editor site navigation settings
         add_action('elementor/editor/before_enqueue_scripts', function() {
             wp_add_inline_script('elementor-editor-site-navigation', 'window.elementorSiteNavigationSettings = window.elementorSiteNavigationSettings || {};', 'before');
