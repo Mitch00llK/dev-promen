@@ -150,10 +150,6 @@ class Promen_Assets_Config {
                 'deps' => ['promen-elementor-widgets'],
                 'enqueue' => true,
             ],
-            'promen-hamburger-menu-widget' => [
-                'path' => 'widgets/hamburger-menu/assets/css/hamburger-menu.css',
-                'enqueue' => true,
-            ],
             'promen-accessibility-target-sizes' => [
                 'path' => 'assets/css/accessibility-target-sizes.css',
                 'enqueue' => true,
@@ -265,10 +261,6 @@ class Promen_Assets_Config {
             'promen-checklist-comparison-widget' => [
                 'path' => 'widgets/checklist-comparison/assets/js/checklist-comparison.js',
                 'deps' => ['jquery'],
-            ],
-            'promen-hamburger-menu-widget' => [
-                'path' => 'widgets/hamburger-menu/assets/js/hamburger-menu.js',
-                'deps' => ['jquery', 'gsap', 'promen-accessibility'],
             ],
             'promen-business-catering-slider' => [
                 'path' => 'widgets/business-catering/assets/js/business-catering-slider.js',

@@ -48,9 +48,16 @@ $locations_id = Promen_Accessibility_Utils::generate_id('locations-list', $widge
     <?php if ('yes' === $settings['show_heading_section']) : ?>
         <header class="locations-heading" id="<?php echo esc_attr($heading_id); ?>">
             <?php 
-            // Use the standardized split title render function
-            echo promen_render_split_title($this, $settings, 'heading_text', 'locations'); 
+            $title_tag = !empty($settings['title_html_tag']) ? $settings['title_html_tag'] : 'h2';
             ?>
+            <<?php echo esc_attr($title_tag); ?> class="locations-title locations-split-title">
+                <?php if (!empty($settings['title_part_1'])) : ?>
+                    <span class="locations-title-part-1"><?php echo esc_html($settings['title_part_1']); ?></span>
+                <?php endif; ?>
+                <?php if (!empty($settings['title_part_2'])) : ?>
+                    <span class="locations-title-part-2"><?php echo esc_html($settings['title_part_2']); ?></span>
+                <?php endif; ?>
+            </<?php echo esc_attr($title_tag); ?>>
             
             <?php if ('yes' === $settings['show_heading_description'] && !empty($settings['heading_description'])) : ?>
                 <p class="locations-heading-description" id="<?php echo esc_attr($description_id); ?>">

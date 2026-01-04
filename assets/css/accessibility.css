@@ -22,7 +22,7 @@
     padding: 0.5em !important;
     z-index: 100000 !important;
     text-decoration: none !important;
-    box-shadow: 0 0 2px 2px rgba(0,0,0,.6) !important;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, .6) !important;
     border-radius: 3px !important;
     left: 6px !important;
     top: 7px !important;
@@ -70,7 +70,7 @@
     clip: auto !important;
     width: auto !important;
     height: auto !important;
-    box-shadow: 0 0 2px 2px rgba(0,0,0,.6) !important;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, .6) !important;
 }
 
 /* Ensure widget containers can be targeted by skip links */
@@ -129,12 +129,7 @@ select:focus,
     justify-content: center !important;
 }
 
-/* Menu Toggle Button */
-.hamburger-menu__toggle {
-    min-height: 44px !important;
-    min-width: 44px !important;
-    padding: 8px !important;
-}
+
 
 /* ARIA Live Regions */
 .aria-live-region {
@@ -186,14 +181,14 @@ select:focus,
     .promen-widget {
         border: 1px solid;
     }
-    
+
     .promen-widget button,
     .promen-widget a {
         border: 2px solid;
         background: ButtonFace;
         color: ButtonText;
     }
-    
+
     .promen-widget button:hover,
     .promen-widget a:hover {
         background: Highlight;
@@ -209,7 +204,7 @@ select:focus,
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
-    
+
     /* Stop auto-playing content */
     .swiper-autoplay,
     .hero-slider[data-autoplay="true"] {
@@ -224,13 +219,13 @@ select:focus,
         color: #ff6b6b;
         border-color: #ff6b6b;
     }
-    
+
     .promen-form-success {
         background: #1a3a4a;
         color: #6bb6ff;
         border-color: #6bb6ff;
     }
-    
+
     .screen-reader-text:focus {
         background: #fff !important;
         color: #000 !important;
@@ -375,181 +370,19 @@ select:focus,
     margin-left: 8px;
 }
 
-/* Hamburger Menu Accessibility */
-.hamburger-menu__toggle {
-    min-height: 44px !important;
-    min-width: 44px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: transparent !important;
-    border: 2px solid currentColor !important;
-    border-radius: 4px !important;
-    cursor: pointer !important;
-}
 
-.hamburger-menu__toggle:focus {
-    outline: 3px solid #0073aa !important;
-    outline-offset: 2px !important;
-    box-shadow: 0 0 0 1px #fff, 0 0 0 4px #0073aa !important;
-}
-
-.hamburger-menu__close {
-    min-height: 44px !important;
-    min-width: 44px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: transparent !important;
-    border: 2px solid currentColor !important;
-    border-radius: 4px !important;
-    cursor: pointer !important;
-    position: absolute !important;
-    z-index: 10 !important;
-}
-
-.hamburger-menu__close:focus {
-    outline: 3px solid #0073aa !important;
-    outline-offset: 2px !important;
-    box-shadow: 0 0 0 1px #fff, 0 0 0 4px #0073aa !important;
-}
-
-.hamburger-menu__panel {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 9999 !important;
-    background: rgba(0, 0, 0, 0.9) !important;
-    overflow-y: auto !important;
-    transition: transform 0.3s ease !important;
-}
-
-.hamburger-menu__panel[aria-hidden="true"] {
-    transform: translateX(-100%) !important;
-    visibility: hidden !important;
-}
-
-.hamburger-menu__panel[aria-hidden="false"] {
-    transform: translateX(0) !important;
-    visibility: visible !important;
-}
-
-.hamburger-menu__items a {
-    display: block !important;
-    padding: 16px 24px !important;
-    color: #fff !important;
-    text-decoration: none !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    min-height: 44px !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-.hamburger-menu__items a:focus {
-    outline: 3px solid #fff !important;
-    outline-offset: -3px !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-}
-
-.submenu-toggle {
-    min-height: 44px !important;
-    min-width: 44px !important;
-    background: transparent !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    color: #fff !important;
-    border-radius: 4px !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-left: auto !important;
-}
-
-.submenu-toggle:focus {
-    outline: 2px solid #fff !important;
-    outline-offset: 2px !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-}
-
-.sub-menu {
-    background: rgba(0, 0, 0, 0.5) !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    list-style: none !important;
-}
-
-.submenu-collapsed {
-    display: none !important;
-}
-
-.submenu-expanded {
-    display: block !important;
-}
-
-.sub-menu a {
-    padding-left: 48px !important;
-    font-size: 14px !important;
-}
-
-/* Prevent body scroll when menu is open */
-body.hamburger-menu-open {
-    overflow: hidden !important;
-}
-
-/* Menu depth styling */
-.menu-depth-0 > a {
-    font-weight: 600 !important;
-}
-
-.menu-depth-1 > a {
-    padding-left: 48px !important;
-}
-
-.menu-depth-2 > a {
-    padding-left: 72px !important;
-}
-
-/* Contact info section accessibility */
-.hamburger-menu__contact {
-    padding: 24px !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-    margin-top: auto !important;
-}
-
-.hamburger-menu__contact-title {
-    color: #fff !important;
-    margin: 0 0 16px 0 !important;
-    font-size: 18px !important;
-}
-
-.hamburger-menu__contact-item {
-    margin-bottom: 8px !important;
-}
-
-.hamburger-menu__contact-item a {
-    color: rgba(255, 255, 255, 0.8) !important;
-    padding: 8px 0 !important;
-    min-height: auto !important;
-    border: none !important;
-}
-
-.hamburger-menu__contact-item a:focus {
-    color: #fff !important;
-    outline: 2px solid #fff !important;
-    outline-offset: 2px !important;
-}
 
 /* Responsive Touch Targets */
 @media (max-width: 768px) {
+
     .promen-widget button,
     .promen-widget a,
     .promen-widget input[type="button"],
     .promen-widget input[type="submit"] {
         min-height: 48px;
         min-width: 48px;
-        font-size: 16px; /* Prevent zoom on iOS */
+        font-size: 16px;
+        /* Prevent zoom on iOS */
     }
 }
 
@@ -562,9 +395,8 @@ body.hamburger-menu-open {
         height: auto !important;
         overflow: visible !important;
     }
-    
-    .promen-modal-overlay,
-    .hamburger-menu__panel {
+
+    .promen-modal-overlay {
         display: none !important;
     }
 }

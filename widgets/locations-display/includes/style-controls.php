@@ -50,182 +50,34 @@ $this->add_responsive_control(
     ]
 );
 
-// Add split title controls manually instead of using the standard function
-// Title Typography
-$this->add_group_control(
-    Group_Control_Typography::get_type(),
-    [
-        'name' => 'title_typography',
-        'label' => esc_html__('Title Typography', 'promen-elementor-widgets'),
-        'selector' => '{{WRAPPER}} .locations-title',
-        'global' => [
-            'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
-        ],
-        'condition' => [
-            'split_title!' => 'yes',
-        ],
-    ]
+// Use standardized split title style controls
+promen_add_split_title_style_controls(
+    $this, 
+    'section_heading_style_controls', 
+    ['show_heading_section' => 'yes'], 
+    'locations'
 );
 
-// Title Color
-$this->add_control(
-    'title_color',
-    [
-        'label' => esc_html__('Title Color', 'promen-elementor-widgets'),
-        'type' => Controls_Manager::COLOR,
-        'selectors' => [
-            '{{WRAPPER}} .locations-title' => 'color: {{VALUE}};',
-        ],
-        'global' => [
-            'default' => Global_Colors::COLOR_PRIMARY,
-        ],
-        'condition' => [
-            'split_title!' => 'yes',
-        ],
-    ]
-);
-
-// Title Alignment - added specifically for title
-$this->add_responsive_control(
-    'title_text_alignment',
-    [
-        'label' => esc_html__('Title Alignment', 'promen-elementor-widgets'),
-        'type' => Controls_Manager::CHOOSE,
-        'options' => [
-            'left' => [
-                'title' => esc_html__('Left', 'promen-elementor-widgets'),
-                'icon' => 'eicon-text-align-left',
-            ],
-            'center' => [
-                'title' => esc_html__('Center', 'promen-elementor-widgets'),
-                'icon' => 'eicon-text-align-center',
-            ],
-            'right' => [
-                'title' => esc_html__('Right', 'promen-elementor-widgets'),
-                'icon' => 'eicon-text-align-right',
-            ],
-        ],
-        'condition' => [
-            'split_title!' => 'yes',
-        ],
-        'selectors' => [
-            '{{WRAPPER}} .locations-title' => 'text-align: {{VALUE}};',
-        ],
-    ]
-);
-
-// Split Title Part 1 Heading
-$this->add_control(
-    'title_part_1_heading',
-    [
-        'label' => esc_html__('Title Part 1 Style', 'promen-elementor-widgets'),
-        'type' => Controls_Manager::HEADING,
-        'separator' => 'before',
-        'condition' => [
-            'split_title' => 'yes',
-        ],
-    ]
-);
-
-// Title Part 1 Typography
-$this->add_group_control(
-    Group_Control_Typography::get_type(),
-    [
-        'name' => 'title_part_1_typography',
-        'label' => esc_html__('Typography', 'promen-elementor-widgets'),
-        'selector' => '{{WRAPPER}} .locations-title-part-1',
-        'condition' => [
-            'split_title' => 'yes',
-        ],
-    ]
-);
-
-// Title Part 1 Color
-$this->add_control(
+// Override part 1 color default
+$this->update_control(
     'title_part_1_color',
     [
-        'label' => esc_html__('Color', 'promen-elementor-widgets'),
-        'type' => Controls_Manager::COLOR,
         'default' => '#002868',
-        'selectors' => [
-            '{{WRAPPER}} .locations-title-part-1' => 'color: {{VALUE}};',
-        ],
-        'condition' => [
-            'split_title' => 'yes',
-        ],
     ]
 );
 
-// Split Title Part 2 Heading
-$this->add_control(
-    'title_part_2_heading',
-    [
-        'label' => esc_html__('Title Part 2 Style', 'promen-elementor-widgets'),
-        'type' => Controls_Manager::HEADING,
-        'separator' => 'before',
-        'condition' => [
-            'split_title' => 'yes',
-        ],
-    ]
-);
-
-// Title Part 2 Typography
-$this->add_group_control(
-    Group_Control_Typography::get_type(),
-    [
-        'name' => 'title_part_2_typography',
-        'label' => esc_html__('Typography', 'promen-elementor-widgets'),
-        'selector' => '{{WRAPPER}} .locations-title-part-2',
-        'condition' => [
-            'split_title' => 'yes',
-        ],
-    ]
-);
-
-// Title Part 2 Color
-$this->add_control(
+// Override part 2 color default
+$this->update_control(
     'title_part_2_color',
     [
-        'label' => esc_html__('Color', 'promen-elementor-widgets'),
-        'type' => Controls_Manager::COLOR,
         'default' => '#00a0e3',
-        'selectors' => [
-            '{{WRAPPER}} .locations-title-part-2' => 'color: {{VALUE}};',
-        ],
-        'condition' => [
-            'split_title' => 'yes',
-        ],
     ]
 );
 
-// Split Title Alignment
-$this->add_responsive_control(
-    'split_title_alignment',
-    [
-        'label' => esc_html__('Split Title Alignment', 'promen-elementor-widgets'),
-        'type' => Controls_Manager::CHOOSE,
-        'options' => [
-            'flex-start' => [
-                'title' => esc_html__('Left', 'promen-elementor-widgets'),
-                'icon' => 'eicon-text-align-left',
-            ],
-            'center' => [
-                'title' => esc_html__('Center', 'promen-elementor-widgets'),
-                'icon' => 'eicon-text-align-center',
-            ],
-            'flex-end' => [
-                'title' => esc_html__('Right', 'promen-elementor-widgets'),
-                'icon' => 'eicon-text-align-right',
-            ],
-        ],
-        'condition' => [
-            'split_title' => 'yes',
-        ],
-        'selectors' => [
-            '{{WRAPPER}} .locations-split-title' => 'justify-content: {{VALUE}};',
-        ],
-    ]
-);
+// Heading Alignment is already handled at the section level above with 'heading_alignment'
+// but the helper adds 'title_alignment' which maps to 'locations-title'
+// 'locations-title' is the container for split titles as well.
+
 
 // Title Spacing
 $this->add_responsive_control(

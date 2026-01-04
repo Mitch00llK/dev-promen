@@ -19,7 +19,8 @@
 
 /* Swiper Pagination Bullets */
 .swiper-pagination-bullet {
-    min-width: 24px; /* Visual size might be smaller, but touch area needs to be 24px */
+    min-width: 24px;
+    /* Visual size might be smaller, but touch area needs to be 24px */
     min-height: 24px;
     position: relative;
 }
@@ -30,8 +31,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 24px; /* Hit area */
-    height: 24px; /* Hit area */
+    width: 24px;
+    /* Hit area */
+    height: 24px;
+    /* Hit area */
 }
 
 /* Form inputs & buttons */
@@ -46,13 +49,13 @@ select,
 button,
 .button,
 .btn {
-    min-height: 44px; /* WCAG AAA preferred, AA requires 24px but 44px is standard for touch */
+    min-height: 44px;
+    /* WCAG AAA preferred, AA requires 24px but 44px is standard for touch */
 }
 
 /* Links in navigation */
 .menu-item a,
-.nav-link,
-.promen-hamburger-menu a {
+.nav-link {
     min-height: 24px;
     display: inline-flex;
     align-items: center;

@@ -26,13 +26,56 @@ $this->add_control(
     ]
 );
 
-// Use standardized split title controls
-promen_add_split_title_controls(
-    $this, 
-    'section_heading', 
-    ['show_heading_section' => 'yes'], 
-    esc_html__('Onze locaties', 'promen-elementor-widgets'),
-    'heading_text'
+// Title Part 1
+$this->add_control(
+    'title_part_1',
+    [
+        'label' => esc_html__('Title Part 1', 'promen-elementor-widgets'),
+        'type' => Controls_Manager::TEXT,
+        'default' => esc_html__('Onze', 'promen-elementor-widgets'),
+        'label_block' => true,
+        'condition' => [
+            'show_heading_section' => 'yes',
+        ],
+    ]
+);
+
+// Title Part 2
+$this->add_control(
+    'title_part_2',
+    [
+        'label' => esc_html__('Title Part 2', 'promen-elementor-widgets'),
+        'type' => Controls_Manager::TEXT,
+        'default' => esc_html__('locaties', 'promen-elementor-widgets'),
+        'label_block' => true,
+        'condition' => [
+            'show_heading_section' => 'yes',
+        ],
+    ]
+);
+
+// Title HTML Tag
+$this->add_control(
+    'title_html_tag',
+    [
+        'label' => esc_html__('Title HTML Tag', 'promen-elementor-widgets'),
+        'type' => Controls_Manager::SELECT,
+        'default' => 'h2',
+        'options' => [
+            'h1' => 'H1',
+            'h2' => 'H2',
+            'h3' => 'H3',
+            'h4' => 'H4',
+            'h5' => 'H5',
+            'h6' => 'H6',
+            'div' => 'div',
+            'span' => 'span',
+            'p' => 'p',
+        ],
+        'condition' => [
+            'show_heading_section' => 'yes',
+        ],
+    ]
 );
 
 $this->add_control(

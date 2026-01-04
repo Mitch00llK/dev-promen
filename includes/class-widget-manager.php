@@ -119,10 +119,6 @@ class Promen_Widget_Manager {
         'document-info-list/document-info-list-widget.php' => [
             'class' => 'Promen_Document_Info_List_Widget',
             'name' => 'promen_document_info_list'
-        ],
-        'hamburger-menu/hamburger-menu-widget.php' => [
-            'class' => 'Promen_Hamburger_Menu_Widget',
-            'name' => 'promen_hamburger_menu'
         ]
     ];
 
