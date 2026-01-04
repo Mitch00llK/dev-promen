@@ -17,6 +17,7 @@ require_once(__DIR__ . '/controls/content-section.php');
 require_once(__DIR__ . '/controls/slider-section.php');
 require_once(__DIR__ . '/controls/style-section.php');
 require_once(__DIR__ . '/controls/typography-section.php');
+require_once(__DIR__ . '/includes/ViewHelper.php');
 
 /**
  * Image Text Slider Widget Class
@@ -80,9 +81,7 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
      * @return array Widget script dependencies.
      */
     public function get_script_depends() {
-        // 'image-text-slider' is the main script (script.js) registered by Assets Manager
-        // 'promen-image-text-slider-init' is the initialization script (init-slider.js)
-        return ['image-text-slider', 'promen-image-text-slider-init'];
+        return ['promen-image-text-slider-init'];
     }
 
     /**
@@ -94,8 +93,6 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
         return ['image-text-slider', 'image-text-slider-accessibility', 'image-text-slider-mobile'];
     }
 
-
-
     /**
      * Constructor method.
      *
@@ -104,6 +101,49 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
      */
     public function __construct($data = [], $args = null) {
         parent::__construct($data, $args);
+        
+        add_action('elementor/frontend/after_register_scripts', [$this, 'register_scripts']);
+    }
+
+    /**
+     * Register widget scripts
+     */
+    public function register_scripts() {
+        $js_path = plugin_dir_url(__FILE__) . 'assets/js/';
+        $version = '1.0.0'; 
+
+        // Register all modules
+        wp_register_script(
+            'promen-accessibility-utils', 
+            $js_path . 'accessibility.js', 
+            [], 
+            $version, 
+            true
+        );
+
+        wp_register_script(
+            'promen-slider-utils', 
+            $js_path . 'utils.js', 
+            [], 
+            $version, 
+            true
+        );
+
+        wp_register_script(
+            'promen-image-text-slider-core', 
+            $js_path . 'slider.js', 
+            ['jquery', 'swiper', 'promen-slider-utils', 'promen-accessibility-utils'], 
+            $version, 
+            true
+        );
+
+        wp_register_script(
+            'promen-image-text-slider-init', 
+            $js_path . 'init-slider.js', 
+            ['promen-image-text-slider-core'], 
+            $version, 
+            true
+        );
     }
 
     /**
@@ -126,263 +166,26 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
      * Register editor-specific scripts and styles
      */
     protected function register_editor_scripts() {
-        // Only add these styles if we're in the editor
+        // Only add these styles if we're in the editor or preview
         if (\Elementor\Plugin::$instance->editor->is_edit_mode() || \Elementor\Plugin::$instance->preview->is_preview_mode()) {
-            // Enqueue editor styles - attached directly to the Elementor editor via admin_enqueue_scripts
-            add_action('admin_enqueue_scripts', function() {
-                wp_enqueue_style('image-text-slider');
-                
-                wp_add_inline_style('image-text-slider', '
-                    /* Ensure slider container is properly visible in the editor */
-                    .elementor-editor-active .image-text-slider-container {
-                        overflow: visible !important;
-                        min-height: 40rem !important;
-                        display: block !important;
-                    }
-                    
-                    /* Make sure the slides container is visible */
-                    .elementor-editor-active .image-text-slider-container .swiper {
-                        overflow: hidden !important;
-                        min-height: 40rem !important;
-                        display: block !important;
-                    }
-                    
-                    /* Ensure content wrapper is visible */
-                    .elementor-editor-active .image-text-slider-container .slide-content-wrapper,
-                    .elementor-editor-active .image-text-slider-container .swiper-content-slider {
-                        overflow: visible !important;
-                        display: block !important;
-                    }
-                    
-                    /* Make all slides visible in the editor */
-                    .elementor-editor-active .image-text-slider-container .swiper-slide,
-                    .elementor-editor-active .image-text-slider-container .swiper-wrapper {
-                        opacity: 1 !important;
-                        visibility: visible !important;
-                        display: block !important;
-                    }
-                    
-                    /* First slide should be in front */
-                    .elementor-editor-active .image-text-slider-container .swiper-slide:first-child {
-                        z-index: 3 !important;
-                    }
-                    
-                    /* Make content slides visible */
-                    .elementor-editor-active .image-text-slider-container .swiper-content-slider .swiper-slide,
-                    .elementor-editor-active .image-text-slider-container .swiper-content-slider .swiper-wrapper {
-                        opacity: 1 !important;
-                        visibility: visible !important;
-                        display: block !important;
-                    }
-                    
-                    /* First content slide should be in front */
-                    .elementor-editor-active .image-text-slider-container .swiper-content-slider .swiper-slide:first-child {
-                        z-index: 3 !important;
-                    }
-                    
-                    /* Make sure back link and publication date are visible in the editor when enabled */
-                    .elementor-editor-active .slide-back-link {
-                        display: block !important;
-                        visibility: visible !important;
-                        opacity: 1 !important;
-                        margin-bottom: 1rem !important;
-                        padding: 0.3rem 0.7rem !important;
-                        background-color: rgba(48, 86, 211, 0.1) !important;
-                        border-left: 3px solid #3056D3 !important;
-                        max-width: fit-content !important;
-                    }
-                    
-                    .elementor-editor-active .slide-back-link a {
-                        color: #3056D3 !important;
-                        text-decoration: none !important;
-                        font-size: 0.9rem !important;
-                        display: inline-flex !important;
-                        align-items: center !important;
-                        font-weight: 500 !important;
-                        gap: 0.5rem !important;
-                    }
-                    
-                    .elementor-editor-active .slide-back-link .back-link-chevron {
-                        width: 16px !important;
-                        height: 16px !important;
-                        transform: rotate(90deg) !important;
-                    }
-                    
-                    .elementor-editor-active .slide-publication-date {
-                        display: block !important;
-                        visibility: visible !important;
-                        opacity: 1 !important;
-                        margin-top: 0.5rem !important;
-                        margin-bottom: 1rem !important;
-                        font-size: 0.85rem !important;
-                        font-style: italic !important;
-                        padding: 0.3rem 0.7rem !important;
-                        background-color: rgba(0, 0, 0, 0.05) !important;
-                        max-width: fit-content !important;
-                    }
-                    
-                    /* Make sure breadcrumb is always visible in the editor */
-                    .elementor-editor-active .image-text-slider-breadcrumb {
-                        opacity: 1 !important;
-                        visibility: visible !important;
-                        display: flex !important;
-                    }
-                    
-                    /* Make sure breadcrumb overlay is clearly visible */
-                    .elementor-editor-active .image-text-slider-breadcrumb.overlay {
-                        background-color: rgba(255, 255, 255, 0.7) !important;
-                        z-index: 15 !important;
-                        margin-bottom: 0 !important;
-                        margin-top: 0 !important;
-                        padding: 0.5rem 1rem !important;
-                        position: relative !important;
-                    }
-                    
-                    /* Style for above position */
-                    .elementor-editor-active .slide-content-container > .image-text-slider-breadcrumb:first-child:not(.overlay) {
-                        margin-bottom: 1rem !important;
-                    }
-                    
-                    /* Style for below position */
-                    .elementor-editor-active .slide-content-container > .image-text-slider-breadcrumb:last-child:not(.overlay) {
-                        margin-top: 1rem !important;
-                        margin-bottom: 0 !important;
-                    }
-                    
-                    /* Specific overlay styles based on position */
-                    .elementor-editor-active .slide-content-container > .image-text-slider-breadcrumb.overlay:first-child {
-                        border-radius: 6px 6px 0 0 !important;
-                    }
-                    
-                    .elementor-editor-active .slide-content-container > .image-text-slider-breadcrumb.overlay:last-child {
-                        border-radius: 0 0 6px 6px !important;
-                    }
-                    
-                    /* Make sure tilted divider is properly visible and styled in the editor */
-                    .elementor-editor-active .has-tilted-divider-yes .swiper::after {
-                        display: block !important;
-                        visibility: visible !important;
-                        opacity: 0.7 !important;
-                        background-color: #ffffff;
-                        z-index: 5 !important;
-                        pointer-events: none !important;
-                        bottom: 0 !important;
-                        transform-origin: bottom center !important;
-                    }
-                    
-                    /* Ensure flipped divider is properly displayed */
-                    .elementor-editor-active .divider-flipped-yes .swiper::after {
-                        transform: skewY(12deg) !important;
-                        transform-origin: bottom center !important;
-                    }
-                    
-                    /* Adjust divider origin based on content position */
-                    .elementor-editor-active .content-position-left.has-tilted-divider-yes .swiper::after {
-                        transform-origin: bottom left !important;
-                    }
-                    
-                    .elementor-editor-active .content-position-right.has-tilted-divider-yes .swiper::after {
-                        transform-origin: bottom right !important;
-                    }
-                    
-                    /* Adjust flipped divider origin based on content position */
-                    .elementor-editor-active .divider-flipped-yes.content-position-left .swiper::after {
-                        transform-origin: bottom left !important;
-                    }
-                    
-                    .elementor-editor-active .divider-flipped-yes.content-position-right .swiper::after {
-                        transform-origin: bottom right !important;
-                    }
-                    
-                    /* Add angle indicator for the divider in the editor */
-                    .elementor-editor-active .has-tilted-divider-yes .swiper::before {
-                        content: attr(data-degrees) "°";
-                        position: absolute;
-                        bottom: 10px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        background-color: rgba(0, 0, 0, 0.7);
-                        color: white;
-                        padding: 3px 8px;
-                        border-radius: 4px;
-                        font-size: 12px;
-                        font-family: monospace;
-                        pointer-events: none;
-                        z-index: 100;
-                        display: block !important;
-                    }
-                ');
-            });
             
-            // Force all content to be visible in preview mode
-            add_action('elementor/preview/enqueue_styles', function() {
-                wp_enqueue_style('image-text-slider');
-                
-                wp_add_inline_style('image-text-slider', '
-                    /* Make sure everything is visible in preview mode */
-                    .elementor-editor-preview .image-text-slider-container,
-                    .elementor-editor-preview .image-text-slider-container .swiper,
-                    .elementor-editor-preview .image-text-slider-container .slide-content-wrapper,
-                    .elementor-editor-preview .image-text-slider-container .swiper-content-slider,
-                    .elementor-editor-preview .image-text-slider-container .swiper-slide,
-                    .elementor-editor-preview .image-text-slider-container .swiper-wrapper,
-                    .elementor-editor-preview .image-text-slider-container .swiper-content-slider .swiper-slide,
-                    .elementor-editor-preview .image-text-slider-container .swiper-content-slider .swiper-wrapper,
-                    .elementor-editor-preview .image-text-slider-container .tilted-divider {
-                        display: block !important;
-                        visibility: visible !important;
-                        opacity: 1 !important;
-                    }
-                    
-                    /* Make sure back link and publication date are visible in preview when enabled */
-                    .elementor-editor-preview .slide-back-link {
-                        display: block !important;
-                        visibility: visible !important;
-                        opacity: 1 !important;
-                    }
-                    
-                    .elementor-editor-preview .slide-publication-date {
-                        display: block !important;
-                        visibility: visible !important;
-                        opacity: 1 !important;
-                    }
-                    
-                    /* Position the divider at the bottom in preview mode */
-                    .elementor-editor-preview .has-tilted-divider-yes .swiper::after {
-                        bottom: 0 !important;
-                        transform-origin: bottom center !important;
-                        opacity: 0.7 !important;
-                        visibility: visible !important;
-                        display: block !important;
-                    }
-                    
-                    /* Adjust preview mode origin positions */
-                    .elementor-editor-preview .content-position-left.has-tilted-divider-yes .swiper::after {
-                        transform-origin: bottom left !important;
-                    }
-                    
-                    .elementor-editor-preview .content-position-right.has-tilted-divider-yes .swiper::after {
-                        transform-origin: bottom right !important;
-                    }
-                    
-                    /* Add angle indicator for preview mode too */
-                    .elementor-editor-preview .has-tilted-divider-yes .swiper::before {
-                        content: attr(data-degrees) "°";
-                        position: absolute;
-                        bottom: 10px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        background-color: rgba(0, 0, 0, 0.7);
-                        color: white;
-                        padding: 3px 8px;
-                        border-radius: 4px;
-                        font-size: 12px;
-                        font-family: monospace;
-                        pointer-events: none;
-                        z-index: 100;
-                        display: block !important;
-                    }
-                ');
+            add_action('elementor/frontend/after_enqueue_styles', function() {
+                wp_enqueue_style(
+                    'image-text-slider-editor',
+                    plugin_dir_url(__FILE__) . 'assets/css/editor.css',
+                    [],
+                    '1.0.0'
+                );
+            });
+
+            // Make sure it loads in admin as well for the editor frame
+            add_action('admin_enqueue_scripts', function() {
+                wp_enqueue_style(
+                    'image-text-slider-editor',
+                    plugin_dir_url(__FILE__) . 'assets/css/editor.css',
+                    [],
+                    '1.0.0'
+                );
             });
         }
     }
@@ -447,29 +250,44 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
             return;
         }
         
-        // Include main render template
         $settings = $this->get_settings_for_display();
-        include(__DIR__ . '/templates/render.php');
+        $id_int = substr($this->get_id_int(), 0, 3);
+        $slider_id = 'image-text-slider-' . $id_int;
         
-        // Add a spacer element after the slider to prevent content below from overlapping
-        echo '<div class="slider-bottom-spacer" aria-hidden="true"></div>';
+        // Include breadcrumb logic to generate $breadcrumb_html
+        include __DIR__ . '/templates/partials/_breadcrumb.php';
         
-        // Add inline script for better editor handling if in edit mode
-        if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
-            ?>
-            <script type="text/javascript">
-            (function() {
-                setTimeout(function() {
-                    if (typeof window.setupEditorView === 'function') {
-                        window.setupEditorView();
-                    } else {
-                    }
-                }, 200);
-            })();
-            </script>
-            <?php
+        // Use ViewHelper to prepare data
+        $visible_slides = Promen_Image_Text_Slider_View_Helper::get_visible_slides($settings['slides']);
+        
+        if (empty($visible_slides)) {
+            echo '<div class="image-text-slider-no-slides">';
+            echo esc_html__('No slides to display. Please add slides in the widget settings.', 'promen-elementor-widgets');
+            echo '</div>';
+            return;
         }
+        
+        $container_class = Promen_Image_Text_Slider_View_Helper::get_container_classes($settings, $visible_slides);
+        $slider_options = Promen_Image_Text_Slider_View_Helper::get_slider_options($settings);
+        $divider_data_attrs = Promen_Image_Text_Slider_View_Helper::get_divider_data_attrs($settings);
+        
+        // Accessibility attributes
+        $accessibility_attrs = \Promen_Accessibility_Utils::get_slider_attrs([
+            'widget_id' => $this->get_id(),
+            'slides_count' => count($visible_slides),
+            'autoplay' => $slider_options['autoplay'],
+            'loop' => $slider_options['infinite']
+        ]);
+        
+        // Transition settings
+        $transition_speed = (int)$settings['transition_speed'];
+        $show_arrows = $settings['show_arrows'] === 'yes';
+        $show_pagination = $settings['show_pagination'] === 'yes';
+
+        // Include main render template
+        include(__DIR__ . '/templates/render.php');
     }
+
 
     /**
      * Render content template

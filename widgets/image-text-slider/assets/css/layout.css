@@ -1,0 +1,336 @@
+/* Image Text Slider Layout Styles */
+
+.image-text-slider-container {
+    position: relative;
+    width: 100%;
+    overflow: visible !important;
+    margin-bottom: 4rem;
+    isolation: isolate;
+    contain: layout style;
+    contain: none size !important;
+    display: block;
+    clear: both;
+    min-height: 40rem;
+    z-index: 1;
+}
+
+/* Clearfix */
+.image-text-slider-container::after {
+    content: "";
+    display: table;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+
+/* Prevent container overlap */
+.image-text-slider-container::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    z-index: 5;
+    background: transparent;
+    pointer-events: none;
+}
+
+.image-text-slider-container.height-full {
+    height: 70vh;
+}
+
+/* Spacer */
+.image-text-slider-container .slider-bottom-spacer {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    height: 1px !important;
+    z-index: 1 !important;
+    margin-top: -1px !important;
+    clear: both !important;
+}
+
+/* Elementor Section/Column spacing */
+.elementor-section:not(.elementor-inner-section)+.elementor-section:not(.elementor-inner-section),
+.elementor-column+.elementor-column,
+.image-text-slider-container+* {
+    position: relative;
+    z-index: 0;
+}
+
+/* Swiper Base */
+.image-text-slider-container .swiper {
+    width: 100%;
+    overflow: visible !important;
+    height: 45rem;
+    min-height: 40rem;
+    will-change: transform;
+    position: relative;
+}
+
+.image-text-slider-container .swiper-wrapper {
+    overflow: visible !important;
+}
+
+.image-text-slider-container .swiper-slide {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    will-change: transform, opacity;
+    overflow: visible !important;
+}
+
+.image-text-slider-container .slide-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: visible !important;
+}
+
+.image-text-slider-container .slide-image picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Overlay Image */
+.image-text-slider-container .slide-image .overlay-image {
+    position: absolute !important;
+    left: 75% !important;
+    bottom: 24% !important;
+    z-index: 10 !important;
+    max-width: 10% !important;
+    display: block !important;
+    pointer-events: none;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.image-text-slider-container .slide-image .overlay-image img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    max-width: 100% !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Absolute Overlay Image */
+.image-text-slider-container .slide-image .absolute-overlay-image {
+    position: absolute !important;
+    z-index: 15 !important;
+    /* Higher than divider (z-index: 5) */
+    width: 30%;
+    height: auto;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    max-height: none !important;
+    pointer-events: none;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
+    mask: none !important;
+    -webkit-mask: none !important;
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    max-width: 100% !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Position classes for absolute overlay */
+.image-text-slider-container .slide-image .absolute-overlay-image.position-top-left {
+    top: 0;
+    left: 0;
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image.position-top-center {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image.position-top-right {
+    top: 0;
+    right: 0;
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image.position-middle-left {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image.position-middle-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image.position-middle-right {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image.position-bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image.position-bottom-center {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.image-text-slider-container .slide-image .absolute-overlay-image.position-bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+/* Slide Visibility Logic (Frontend) */
+body:not(.elementor-editor-active) .image-text-slider-container .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-next):not(.swiper-slide-prev) {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.image-text-slider-container .swiper-slide-active,
+.image-text-slider-container .swiper-slide-next,
+.image-text-slider-container .swiper-slide-prev {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tilted Divider */
+.has-tilted-divider-yes .swiper::after {
+    content: "";
+    position: absolute;
+    z-index: 5;
+    background-color: #ffffff;
+    width: 100%;
+    height: 20rem;
+    transform: skewY(-12deg);
+    transform-origin: bottom center;
+    bottom: 0;
+    left: 0;
+    opacity: 0.8;
+    pointer-events: none !important;
+    will-change: transform;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    overflow: visible;
+}
+
+.divider-flipped-yes .swiper::after {
+    transform: skewY(12deg);
+}
+
+.content-position-left.has-tilted-divider-yes .swiper::after {
+    transform-origin: bottom left;
+    left: 0;
+}
+
+.content-position-center.has-tilted-divider-yes .swiper::after {
+    transform-origin: bottom center;
+    left: 0;
+}
+
+.content-position-right.has-tilted-divider-yes .swiper::after {
+    transform-origin: bottom right;
+    right: 0;
+    left: auto;
+}
+
+.divider-flipped-yes.content-position-left .swiper::after {
+    transform-origin: bottom left;
+}
+
+.divider-flipped-yes.content-position-center .swiper::after {
+    transform-origin: bottom center;
+}
+
+.divider-flipped-yes.content-position-right .swiper::after {
+    transform-origin: bottom right;
+}
+
+/* Overlay Extension Logic */
+.overlay-overflow-yes .absolute-overlay-image {
+    z-index: 20 !important;
+}
+
+.overlay-overflow-yes .absolute-overlay-image.position-bottom-left,
+.overlay-overflow-yes .absolute-overlay-image.position-bottom-center,
+.overlay-overflow-yes .absolute-overlay-image.position-bottom-right {
+    bottom: -10%;
+    transform-origin: bottom center;
+}
+
+.overlay-overflow-yes .absolute-overlay-image.position-bottom-center {
+    transform: translateX(-50%) translateY(10%);
+}
+
+.overlay-overflow-yes.has-tilted-divider-yes .swiper::after {
+    pointer-events: none;
+    z-index: 5;
+}
+
+.overlay-overflow-yes.has-tilted-divider-yes .swiper,
+.overlay-overflow-yes.has-tilted-divider-yes .swiper-slide {
+    overflow: visible !important;
+}
+
+.image-text-slider-container.has-extended-overlays {
+    padding-bottom: 10%;
+}
+
+.absolute-overlay-image.extend-beyond.position-bottom-left,
+.absolute-overlay-image.extend-beyond.position-bottom-center,
+.absolute-overlay-image.extend-beyond.position-bottom-right {
+    bottom: -10% !important;
+}
+
+.absolute-overlay-image.extend-beyond.position-bottom-center {
+    transform: translateX(-50%) translateY(10%) !important;
+}
+
+.absolute-overlay-image.extend-beyond.position-top-left {
+    top: -10% !important;
+    left: -10% !important;
+}
+
+.absolute-overlay-image.extend-beyond.position-top-right {
+    top: -10% !important;
+    right: -10% !important;
+}
+
+.absolute-overlay-image.extend-beyond.position-bottom-left {
+    bottom: -10% !important;
+    left: -10% !important;
+}
+
+.absolute-overlay-image.extend-beyond.position-bottom-right {
+    bottom: -10% !important;
+    right: -10% !important;
+}
+
+/* Hardware Acceleration & 3D Fixes */
+.image-text-slider-container .swiper,
+.image-text-slider-container .swiper-slide,
+.image-text-slider-container .swiper-content-slider,
+.image-text-slider-container .swiper-content-slider .swiper-slide {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+}

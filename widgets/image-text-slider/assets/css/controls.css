@@ -1,0 +1,344 @@
+/* Image Text Slider Controls Styles */
+
+/* Navigation Container */
+.image-text-slider-container .slider-navigation {
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
+    gap: 8px;
+}
+
+.content-position-center .slider-navigation {
+    justify-content: center;
+    gap: 20px;
+}
+
+.content-position-right .slider-navigation {
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Arrows */
+.image-text-slider-container .swiper-button-prev,
+.image-text-slider-container .swiper-button-next {
+    position: static;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.image-text-slider-container .swiper-button-prev:hover,
+.image-text-slider-container .swiper-button-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.image-text-slider-container .swiper-button-prev:after,
+.image-text-slider-container .swiper-button-next:after,
+.image-text-slider-container .swiper-button-prev:before,
+.image-text-slider-container .swiper-button-next:before {
+    display: none !important;
+}
+
+/* Base Button Styles (Play/Pause/Stop) */
+.image-text-slider-container .slider-play-pause,
+.image-text-slider-container .slider-stop {
+    position: static;
+    min-width: 40px;
+    height: 40px;
+    padding: 8px 12px;
+    margin: 0;
+    color: #fff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    pointer-events: auto;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+}
+
+.image-text-slider-container .slider-play-pause {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.image-text-slider-container .slider-play-pause:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.image-text-slider-container .slider-play-pause.active {
+    background-color: rgba(52, 152, 219, 0.8);
+}
+
+.image-text-slider-container .slider-play-pause.active:hover {
+    background-color: rgba(52, 152, 219, 1);
+}
+
+.image-text-slider-container .slider-stop {
+    background-color: rgba(220, 53, 69, 0.8);
+}
+
+.image-text-slider-container .slider-stop:hover {
+    background-color: rgba(220, 53, 69, 1);
+}
+
+.image-text-slider-container .slider-play-pause .play-icon,
+.image-text-slider-container .slider-play-pause .pause-icon,
+.image-text-slider-container .slider-stop .stop-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.image-text-slider-container .slider-play-pause .control-text,
+.image-text-slider-container .slider-stop .control-text {
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+/* Inline Controls Container */
+.image-text-slider-container .image-text-slider-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 20;
+    padding: 0;
+}
+
+.content-position-center .image-text-slider-controls {
+    justify-content: center;
+    gap: 12px;
+}
+
+.content-position-right .image-text-slider-controls {
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.content-position-left .image-text-slider-controls {
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+/* Persistent Controls (Top Right) */
+.image-text-slider-container .image-text-slider-controls-persistent {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 30;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 25px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent .slider-play-pause,
+.image-text-slider-container .image-text-slider-controls-persistent .slider-stop {
+    min-width: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    background-color: transparent;
+    border-radius: 18px;
+    font-size: 14px;
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent .slider-play-pause:hover,
+.image-text-slider-container .image-text-slider-controls-persistent .slider-stop:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent .slider-play-pause.active {
+    background-color: rgba(52, 152, 219, 0.6);
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent .slider-play-pause.active:hover {
+    background-color: rgba(52, 152, 219, 0.8);
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent .slider-stop[aria-pressed="true"] {
+    background-color: rgba(220, 53, 69, 0.6);
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent .slider-stop[aria-pressed="true"]:hover {
+    background-color: rgba(220, 53, 69, 0.8);
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent .control-text {
+    display: none;
+}
+
+/* Fraction Indicator */
+.image-text-slider-container .slider-fraction-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    line-height: 1;
+}
+
+.image-text-slider-container .slider-fraction-indicator .current-slide {
+    color: #fff;
+    font-weight: 600;
+}
+
+.image-text-slider-container .slider-fraction-indicator .progress-separator {
+    margin: 0 4px;
+    opacity: 0.7;
+}
+
+.image-text-slider-container .slider-fraction-indicator .total-slides {
+    opacity: 0.8;
+}
+
+.content-position-center .slider-fraction-indicator {
+    justify-content: center;
+}
+
+.content-position-right .slider-fraction-indicator {
+    justify-content: flex-end;
+}
+
+.content-position-left .slider-fraction-indicator {
+    justify-content: flex-start;
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent .slider-fraction-indicator-persistent {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+/* Tooltips */
+.image-text-slider-container .image-text-slider-controls-persistent button[title] {
+    position: relative;
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent button[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    animation: tooltip-fade-in 0.2s ease-out forwards;
+}
+
+.image-text-slider-container .image-text-slider-controls-persistent button[title]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.9);
+    z-index: 1001;
+    pointer-events: none;
+    opacity: 0;
+    animation: tooltip-fade-in 0.2s ease-out forwards;
+}
+
+@keyframes tooltip-fade-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Pagination Bullets */
+.image-text-slider-container .swiper-pagination-wrapper {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.image-text-slider-container .swiper-pagination-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.image-text-slider-container .swiper-pagination {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+}
+
+.image-text-slider-container.pagination-bottom-left .swiper-pagination {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.image-text-slider-container.pagination-bottom-right .swiper-pagination {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.image-text-slider-container .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+
+.image-text-slider-container .swiper-pagination-bullet-active {
+    background-color: #fff;
+}
+
+/* Screen Reader Status */
+.image-text-slider-container .slider-status,
+.image-text-slider-container [id*="slider-live-region"] {
+    position: absolute !important;
+    left: -10000px !important;
+    top: auto !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(1px, 1px, 1px, 1px) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+}

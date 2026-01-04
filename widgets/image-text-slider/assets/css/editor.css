@@ -1,0 +1,253 @@
+/* Image Text Slider Editor Styles */
+
+/* Ensure sliders and contents are visible in the editor */
+.elementor-editor-active .image-text-slider-container {
+    overflow: visible !important;
+    margin-bottom: inherit;
+    position: relative;
+    /* Ensure styles are forced in editor */
+    min-height: 40rem !important;
+    display: block !important;
+}
+
+.elementor-editor-active .image-text-slider-container .swiper,
+.elementor-editor-active .image-text-slider-container .swiper-content-slider {
+    overflow: hidden !important;
+    min-height: 40rem !important;
+    display: block !important;
+}
+
+.elementor-editor-active .image-text-slider-container .swiper-slide,
+.elementor-editor-active .image-text-slider-container .swiper-wrapper {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+/* Ensure content wrapper is visible */
+.elementor-editor-active .image-text-slider-container .slide-content-wrapper {
+    overflow: visible !important;
+    display: block !important;
+}
+
+/* Make first slide most visible for editing */
+.elementor-editor-active .image-text-slider-container .swiper-slide:first-child,
+.elementor-editor-active .image-text-slider-container .swiper-content-slider .swiper-slide:first-child {
+    z-index: 3 !important;
+}
+
+/* Images in Editor */
+.elementor-editor-active .image-text-slider-container .slide-image .overlay-image,
+.elementor-editor-preview .image-text-slider-container .slide-image .overlay-image,
+.elementor-editor-active .image-text-slider-container .slide-image .absolute-overlay-image,
+.elementor-editor-preview .image-text-slider-container .slide-image .absolute-overlay-image {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+/* Editor Spacing Indicator */
+.editor-spacing-indicator {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    background: linear-gradient(45deg, transparent 45%, rgba(0, 0, 0, 0.03) 50%, transparent 55%);
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    margin-top: 1rem;
+    padding: 1rem;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    border-radius: 4px;
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+}
+
+.editor-spacing-indicator span {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.editor-spacing-indicator small {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.elementor-editor-active .elementor-widget-image_text_slider {
+    padding-bottom: 1rem;
+}
+
+/* Tilted Divider in Editor */
+.elementor-editor-active .image-text-slider-container .tilted-divider,
+.elementor-editor-preview .image-text-slider-container .tilted-divider {
+    display: none !important;
+}
+
+.elementor-editor-active .has-tilted-divider-yes .swiper::after,
+.elementor-editor-preview .has-tilted-divider-yes .swiper::after {
+    opacity: 0.7;
+    pointer-events: none;
+    display: block !important;
+    visibility: visible !important;
+}
+
+.elementor-editor-active .has-tilted-divider-yes .swiper::before,
+.elementor-editor-preview .has-tilted-divider-yes .swiper::before {
+    content: attr(data-degrees) "°";
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: monospace;
+    pointer-events: none;
+    z-index: 100;
+    display: block !important;
+}
+
+/* Divider Adjustments based on Content Position in Editor */
+.elementor-editor-active .content-position-left.has-tilted-divider-yes .swiper::after {
+    transform-origin: bottom left !important;
+}
+
+.elementor-editor-active .content-position-right.has-tilted-divider-yes .swiper::after {
+    transform-origin: bottom right !important;
+}
+
+/* Flipped Divider Adjustments */
+.elementor-editor-active .divider-flipped-yes .swiper::after {
+    transform: skewY(12deg) !important;
+    transform-origin: bottom center !important;
+}
+
+.elementor-editor-active .divider-flipped-yes.content-position-left .swiper::after {
+    transform-origin: bottom left !important;
+}
+
+.elementor-editor-active .divider-flipped-yes.content-position-right .swiper::after {
+    transform-origin: bottom right !important;
+}
+
+/* Overlay Overflow in Editor */
+.elementor-editor-active .overlay-overflow-yes .absolute-overlay-image,
+.elementor-editor-active .absolute-overlay-image.extend-beyond {
+    z-index: 20 !important;
+}
+
+/* Back Link & Date in Editor */
+.elementor-editor-active .slide-back-link {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-bottom: 1rem !important;
+    padding: 0.3rem 0.7rem !important;
+    background-color: rgba(48, 86, 211, 0.1) !important;
+    border-left: 3px solid #3056D3 !important;
+    max-width: fit-content !important;
+}
+
+.elementor-editor-active .slide-back-link a {
+    color: #3056D3 !important;
+    text-decoration: none !important;
+    font-size: 0.9rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    font-weight: 500 !important;
+    gap: 0.5rem !important;
+}
+
+.elementor-editor-active .slide-back-link .back-link-chevron {
+    width: 16px !important;
+    height: 16px !important;
+    transform: rotate(90deg) !important;
+}
+
+.elementor-editor-active .slide-publication-date {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 1rem !important;
+    font-size: 0.85rem !important;
+    font-style: italic !important;
+    padding: 0.3rem 0.7rem !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    max-width: fit-content !important;
+}
+
+/* Breadcrumb in Editor */
+.elementor-editor-active .image-text-slider-breadcrumb {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+}
+
+.elementor-editor-active .image-text-slider-breadcrumb.overlay {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    z-index: 15 !important;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    padding: 0.5rem 1rem !important;
+    position: relative !important;
+}
+
+.elementor-editor-active .slide-content-container>.image-text-slider-breadcrumb:first-child:not(.overlay) {
+    margin-bottom: 1rem !important;
+}
+
+.elementor-editor-active .slide-content-container>.image-text-slider-breadcrumb:last-child:not(.overlay) {
+    margin-top: 1rem !important;
+    margin-bottom: 0 !important;
+}
+
+.elementor-editor-active .slide-content-container>.image-text-slider-breadcrumb.overlay:first-child {
+    border-radius: 6px 6px 0 0 !important;
+}
+
+.elementor-editor-active .slide-content-container>.image-text-slider-breadcrumb.overlay:last-child {
+    border-radius: 0 0 6px 6px !important;
+}
+
+/* Preview Mode Adjustments */
+.elementor-editor-preview .image-text-slider-container,
+.elementor-editor-preview .image-text-slider-container .swiper,
+.elementor-editor-preview .image-text-slider-container .slide-content-wrapper,
+.elementor-editor-preview .image-text-slider-container .swiper-content-slider,
+.elementor-editor-preview .image-text-slider-container .swiper-slide,
+.elementor-editor-preview .image-text-slider-container .swiper-wrapper {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.elementor-editor-preview .slide-back-link,
+.elementor-editor-preview .slide-publication-date {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.elementor-editor-preview .has-tilted-divider-yes .swiper::after {
+    bottom: 0 !important;
+    transform-origin: bottom center !important;
+    opacity: 0.7 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+.elementor-editor-preview .content-position-left.has-tilted-divider-yes .swiper::after {
+    transform-origin: bottom left !important;
+}
+
+.elementor-editor-preview .content-position-right.has-tilted-divider-yes .swiper::after {
+    transform-origin: bottom right !important;
+}
