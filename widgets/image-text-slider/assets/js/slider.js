@@ -814,17 +814,32 @@
         // Add a small delay for overlays to settle
         setTimeout(() => {
             // Find any absolute overlay images that extend beyond
+            // Find any absolute overlay images that extend beyond
             const extendingOverlays = slider.querySelectorAll('.absolute-overlay-image.extend-beyond');
+            const contentContainers = slider.querySelectorAll('.slide-content-container');
             let maxExtension = 0;
+            const sliderRect = slider.getBoundingClientRect();
 
-            // Calculate maximum extension
+            // Calculate maximum extension from overlays
             extendingOverlays.forEach(overlay => {
                 if (overlay.classList.contains('position-bottom-left') ||
                     overlay.classList.contains('position-bottom-center') ||
                     overlay.classList.contains('position-bottom-right')) {
                     const overlayRect = overlay.getBoundingClientRect();
-                    const sliderRect = slider.getBoundingClientRect();
                     const extension = (overlayRect.bottom - sliderRect.bottom);
+                    if (extension > maxExtension) {
+                        maxExtension = extension;
+                    }
+                }
+            });
+
+            // Calculate maximum extension from content containers
+            contentContainers.forEach(container => {
+                // Only consider visible containers or the active ones
+                const style = window.getComputedStyle(container);
+                if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
+                    const containerRect = container.getBoundingClientRect();
+                    const extension = (containerRect.bottom - sliderRect.bottom);
                     if (extension > maxExtension) {
                         maxExtension = extension;
                     }
@@ -888,7 +903,9 @@
             const sliderHeight = sliderRect.height;
 
             // Find any overlay elements that might extend beyond
+            // Find any overlay elements that might extend beyond
             const extendedOverlays = slider.querySelectorAll('.absolute-overlay-image.extend-beyond');
+            const contentContainers = slider.querySelectorAll('.slide-content-container');
             let maxExtension = 0;
 
             extendedOverlays.forEach(overlay => {
@@ -897,6 +914,17 @@
                     overlay.classList.contains('position-bottom-right')) {
                     const overlayRect = overlay.getBoundingClientRect();
                     const extension = (overlayRect.bottom - sliderRect.bottom);
+                    maxExtension = Math.max(maxExtension, extension);
+                }
+            });
+
+            // Calculate maximum extension from content containers
+            contentContainers.forEach(container => {
+                // Only consider visible containers
+                const style = window.getComputedStyle(container);
+                if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
+                    const containerRect = container.getBoundingClientRect();
+                    const extension = (containerRect.bottom - sliderRect.bottom);
                     maxExtension = Math.max(maxExtension, extension);
                 }
             });
