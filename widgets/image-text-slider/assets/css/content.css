@@ -33,11 +33,11 @@
     will-change: transform, opacity;
 }
 
-/* Hide non-active content slides on frontend */
-body:not(.elementor-editor-active) .image-text-slider-container .swiper-content-slider .swiper-slide:not(.swiper-slide-active) {
-    opacity: 0;
-    visibility: hidden;
-}
+/* 
+ * Content slide visibility is now handled by JavaScript in slider-main.js
+ * to properly support loop mode and synchronized swipers.
+ * DO NOT add CSS rules that conflict with JS visibility management.
+ */
 
 .content-position-center .swiper-content-slider .swiper-slide {
     justify-content: center;
