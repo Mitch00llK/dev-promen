@@ -146,11 +146,17 @@
                     }, 50);
                 },
                 beforeTransitionStart: function () {
-                    // Add transitioning class to handle content visibility during transitions
+                    // CRITICAL: Sync content slider BEFORE adding transitioning class
+                    // This ensures the correct slide has .swiper-slide-active before CSS hides non-active slides
+                    if (sliderEl.contentSwiper) {
+                        const targetIndex = useLoop ? this.realIndex : this.activeIndex;
+                        sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
+                    }
+                    // Now add transitioning class - the correct slide is already active
                     sliderEl.classList.add('transitioning');
                 },
                 slideChange: function () {
-                    // Manually sync the content slider with the image slider
+                    // Manually sync the content slider with the image slider (backup sync)
                     if (sliderEl.contentSwiper) {
                         // Get target slide - always use realIndex for proper sync
                         const targetIndex = useLoop ? this.realIndex : this.activeIndex;
