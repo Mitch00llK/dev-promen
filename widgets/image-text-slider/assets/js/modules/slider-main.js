@@ -146,12 +146,23 @@
                     }, 50);
                 },
                 beforeTransitionStart: function () {
+<<<<<<< HEAD
                     // Controller handles sync, just add class
                     sliderEl.classList.add('transitioning');
                 },
                 slideChange: function () {
                     // Controller handles sync, but we add explicit sync as a safeguard
                     const currentIndex = this.realIndex;
+=======
+                    // Add transitioning class to handle content visibility during transitions
+                    sliderEl.classList.add('transitioning');
+                },
+                slideChange: function () {
+                    // Manually sync the content slider with the image slider
+                    if (sliderEl.contentSwiper) {
+                        // Get target slide - always use realIndex for proper sync
+                        const targetIndex = useLoop ? this.realIndex : this.activeIndex;
+>>>>>>> parent of 7041c4f (fix: Ensure content slider syncs before transition starts to prevent flickering.)
 
                     // Use sliderEl.contentSwiper to reference the stored instance
                     if (sliderEl.contentSwiper && sliderEl.contentSwiper.realIndex !== currentIndex) {
