@@ -161,22 +161,12 @@
                         // Get target slide - always use realIndex for proper sync
                         const targetIndex = useLoop ? this.realIndex : this.activeIndex;
 
-                        // Reset all content slides immediately if using GSAP
-                        if (options.enableGsapAnimations && window.gsap && typeof ContentUtils.resetSlideContent === 'function') {
-                            const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide');
-                            contentSlides.forEach(slide => ContentUtils.resetSlideContent(slide));
-                        }
-
                         // Content swiper uses simple slideTo (no loop mode)
                         sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
                     }
                 },
                 transitionStart: function () {
-                    // If using GSAP, prepare content slides
-                    if (options.enableGsapAnimations && window.gsap && typeof ContentUtils.resetSlideContent === 'function') {
-                        const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide:not(.swiper-slide-active)');
-                        contentSlides.forEach(slide => ContentUtils.resetSlideContent(slide));
-                    }
+                    // No special logic needed here anymore without GSAP
                 },
                 transitionEnd: function () {
                     // Remove transitioning class when finished
@@ -235,21 +225,6 @@
                     init: function () {
                         // Set initial slide based on main swiper's realIndex
                         this.slideTo(swiper.realIndex, 0, false);
-
-                        // Initialize GSAP animations for first slide if enabled
-                        if (options.enableGsapAnimations && window.gsap) {
-                            const initialSlide = sliderEl.querySelector('.swiper-content-slider .swiper-slide-active');
-                            if (initialSlide) {
-                                if (typeof ContentUtils.showSlideContentWithoutAnimation === 'function') {
-                                    ContentUtils.showSlideContentWithoutAnimation(initialSlide);
-                                }
-                                setTimeout(() => {
-                                    if (typeof ContentUtils.setupGsapAnimations === 'function') {
-                                        ContentUtils.setupGsapAnimations(sliderEl, swiper, options);
-                                    }
-                                }, 50);
-                            }
-                        }
                     },
                     slideChange: function () {
                         // Sync main swiper when content swiper is dragged/swiped
@@ -334,11 +309,6 @@
                     }
                 `;
                 document.head.appendChild(styleEl);
-            }
-
-            // Add GSAP animation if enabled
-            if (options.enableGsapAnimations && window.gsap && typeof ContentUtils.setupGsapAnimations === 'function') {
-                ContentUtils.setupGsapAnimations(sliderEl, swiper, options);
             }
 
             // Update spacer after initialization
