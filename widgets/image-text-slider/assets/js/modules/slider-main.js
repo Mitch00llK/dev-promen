@@ -153,16 +153,6 @@
                 slideChange: function () {
                     // Controller handles sync, but we add explicit sync as a safeguard
                     const currentIndex = this.realIndex;
-=======
-                    // Add transitioning class to handle content visibility during transitions
-                    sliderEl.classList.add('transitioning');
-                },
-                slideChange: function () {
-                    // Manually sync the content slider with the image slider
-                    if (sliderEl.contentSwiper) {
-                        // Get target slide - always use realIndex for proper sync
-                        const targetIndex = useLoop ? this.realIndex : this.activeIndex;
->>>>>>> parent of 7041c4f (fix: Ensure content slider syncs before transition starts to prevent flickering.)
 
                     // Use sliderEl.contentSwiper to reference the stored instance
                     if (sliderEl.contentSwiper && sliderEl.contentSwiper.realIndex !== currentIndex) {
@@ -222,23 +212,16 @@
                 observer: true,
                 observeParents: true,
                 observeSlideChildren: true,
-                loop: useLoop, // Match loop setting of main slider
-                loopedSlides: useLoop ? slideCount : null, // match main slider loopedSlides perfectly
+                loop: options.loop, // Match loop setting of main slider
+                loop: options.loop, // Match loop setting of main slider
+                loopedSlides: options.loop ? slideCount : null, // match main slider loopedSlides perfectly
                 preventInteractionOnTransition: true,
                 on: {
                     init: function () {
                         // Controller handles initial sync mostly, but we set it just in case
                         // this.slideTo(swiper.realIndex, 0, false);
                     },
-                    slideChange: function () {
-                        // Ensure main swiper is synchronized when content swiper changes
-                        const currentIndex = this.realIndex;
-
-                        // Use sliderEl.swiper to reference the stored instance
-                        if (sliderEl.swiper && sliderEl.swiper.realIndex !== currentIndex) {
-                            sliderEl.swiper.slideTo(currentIndex, 0, false);
-                        }
-                    }
+                    // Removed manual slideChange handlers as Controller handles this
                 }
             };
 
