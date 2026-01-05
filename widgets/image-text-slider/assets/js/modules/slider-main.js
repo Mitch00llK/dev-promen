@@ -222,7 +222,7 @@
                     crossFade: true
                 },
                 speed: 0, // Set to 0 for instant transitions - critical fix
-                allowTouchMove: true, // Enable touch interaction
+                allowTouchMove: false, // Disable touch interaction to match old implementation
                 grabCursor: true,     // Show grab cursor
                 observer: true,
                 observeParents: true,
@@ -238,6 +238,50 @@
                         } else {
                             this.slideTo(swiper.activeIndex, 0, false);
                         }
+
+                        // Ensure visibility is set properly
+                        if (ContentUtils.updateContentSlideVisibility) {
+                            ContentUtils.updateContentSlideVisibility(this);
+                        }
+                    },
+                    slideChange: function () {
+                        if (ContentUtils.updateContentSlideVisibility) {
+                            ContentUtils.updateContentSlideVisibility(this);
+                        }
+
+                        // Explicitly set visibility based on active state
+                        const slides = this.slides;
+                        if (slides && slides.length > 0) {
+                            slides.forEach((slide, index) => {
+                                if (index === this.activeIndex) {
+                                    slide.style.opacity = '1';
+                                    slide.style.visibility = 'visible';
+                                } else {
+                                    slide.style.opacity = '0';
+                                    slide.style.visibility = 'hidden';
+                                }
+                            });
+                        }
+                    },
+                    transitionStart: function () {
+                        // Hide all non-active slides immediately
+                        const slides = this.slides;
+                        if (slides && slides.length > 0) {
+                            slides.forEach((slide, index) => {
+                                if (index !== this.activeIndex) {
+                                    slide.style.opacity = '0';
+                                    slide.style.visibility = 'hidden';
+                                }
+                            });
+                        }
+                    },
+                    transitionEnd: function () {
+                        // Ensure only active slide is visible after transition
+                        setTimeout(() => {
+                            if (ContentUtils.ensureStaticContentAlignment) {
+                                ContentUtils.ensureStaticContentAlignment();
+                            }
+                        }, 50);
                     }
                 }
             };
