@@ -206,7 +206,8 @@
                 observeParents: true,
                 observeSlideChildren: true,
                 loop: options.loop, // Match loop setting of main slider
-                loopedSlides: options.loop ? (options.loopedSlides || 3) : null,
+                loop: options.loop, // Match loop setting of main slider
+                loopedSlides: options.loop ? slideCount : null, // match main slider loopedSlides perfectly
                 preventInteractionOnTransition: true,
                 on: {
                     init: function () {

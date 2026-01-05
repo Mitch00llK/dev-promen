@@ -151,20 +151,13 @@
                     if (!isActive) {
                         // Apply strong hiding only if not active
                         // We rely on Swiper to handle opacity during transitions usually, 
-                        // but to fix ghost clicks we must ensure pointer-events: none and visibility: hidden
-                        slide.style.visibility = "hidden";
+                        // but to fix ghost clicks we must ensure pointer-events: none
+                        // We do NOT strictly force opacity to 0 here to avoid fighting with Swiper's fade effect 
                         slide.style.pointerEvents = "none";
                         slide.style.zIndex = "0";
-                        // We do NOT strictly force opacity to 0 here to avoid fighting with Swiper's fade effect 
-                        // if called during a transition (though this function is typically called at the end).
-                        // However, to be safe and clean:
-                        slide.style.opacity = "0";
                     } else {
-                        // Ensure active slide is fully visible
-                        slide.style.opacity = "1";
-                        slide.style.visibility = "visible";
+                        // Ensure active slide is interactive
                         slide.style.pointerEvents = "auto";
-                        slide.style.position = "absolute";
                         slide.style.zIndex = "2";
                     }
                 });
