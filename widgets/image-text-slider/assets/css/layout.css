@@ -6,7 +6,8 @@
     overflow: visible !important;
     margin-bottom: 4rem;
     isolation: isolate;
-    contain: layout style;
+    /* contain: layout style; */
+    /* Removed to ensure overflow works */
     contain: none size !important;
     display: block;
     clear: both;

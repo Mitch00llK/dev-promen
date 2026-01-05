@@ -19,8 +19,7 @@
     align-items: flex-end;
     justify-content: flex-start;
     /* Transform to push content below the slide boundary */
-    /* transform: translateY(50%); */
-    /* Disabled by user manually */
+    transform: translateY(50%);
 
     /* Animation for content "replacement" feel */
     opacity: 0;
