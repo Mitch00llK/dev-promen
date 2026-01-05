@@ -1,0 +1,108 @@
+/**
+ * Accessibility Widget - Toggle Button
+ * 
+ * Styles for the floating toggle button.
+ * 
+ * @package Promen_Elementor_Widgets
+ */
+
+.a11y-widget__toggle {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: var(--a11y-toggle-size);
+    height: var(--a11y-toggle-size);
+
+    background-color: var(--a11y-primary);
+    color: var(--a11y-text-inverse);
+
+    border: none;
+    border-radius: 50%;
+
+    box-shadow: var(--a11y-shadow-lg);
+
+    cursor: pointer;
+    z-index: var(--a11y-z-widget);
+
+    /* Default position: bottom-right */
+    bottom: var(--a11y-space-xl);
+    right: var(--a11y-space-xl);
+}
+
+/* Position variations */
+.a11y-widget--bottom-left .a11y-widget__toggle {
+    right: auto;
+    left: var(--a11y-space-xl);
+}
+
+.a11y-widget--top-right .a11y-widget__toggle {
+    bottom: auto;
+    top: var(--a11y-space-xl);
+}
+
+.a11y-widget--top-left .a11y-widget__toggle {
+    bottom: auto;
+    right: auto;
+    top: var(--a11y-space-xl);
+    left: var(--a11y-space-xl);
+}
+
+/* Hover state */
+.a11y-widget__toggle:hover {
+    background-color: var(--a11y-primary-hover);
+    transform: scale(1.05);
+}
+
+/* Active state */
+.a11y-widget__toggle:active {
+    background-color: var(--a11y-primary-active);
+    transform: scale(0.98);
+}
+
+/* Focus state */
+.a11y-widget__toggle:focus {
+    outline: none;
+}
+
+.a11y-widget__toggle:focus-visible {
+    outline: var(--a11y-focus-ring-width) solid var(--a11y-focus-ring-color);
+    outline-offset: var(--a11y-focus-ring-offset);
+}
+
+/* When panel is open */
+.a11y-widget--open .a11y-widget__toggle {
+    background-color: var(--a11y-primary-active);
+}
+
+/* Toggle icon */
+.a11y-widget__toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.a11y-widget__toggle-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .a11y-widget__toggle {
+        width: 48px;
+        height: 48px;
+        bottom: var(--a11y-space-lg);
+        right: var(--a11y-space-lg);
+    }
+
+    .a11y-widget--bottom-left .a11y-widget__toggle {
+        left: var(--a11y-space-lg);
+    }
+
+    .a11y-widget--top-right .a11y-widget__toggle,
+    .a11y-widget--top-left .a11y-widget__toggle {
+        top: var(--a11y-space-lg);
+    }
+}

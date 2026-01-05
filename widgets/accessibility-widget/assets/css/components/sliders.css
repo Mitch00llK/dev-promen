@@ -1,0 +1,132 @@
+/**
+ * Accessibility Widget - Sliders
+ * 
+ * Styles for range slider controls.
+ * 
+ * @package Promen_Elementor_Widgets
+ */
+
+/* Slider control container */
+.a11y-widget__control--slider {
+    display: flex;
+    flex-direction: column;
+    gap: var(--a11y-space-xs);
+}
+
+.a11y-widget__control--slider label {
+    font-family: var(--a11y-font-family);
+    font-size: var(--a11y-font-size-sm);
+    font-weight: var(--a11y-font-weight-medium);
+    color: var(--a11y-text);
+}
+
+/* Slider wrapper */
+.a11y-widget__slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--a11y-space-sm);
+}
+
+/* Range input base */
+.a11y-widget__slider-wrap input[type="range"] {
+    flex: 1;
+    height: 6px;
+
+    -webkit-appearance: none;
+    appearance: none;
+
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Track */
+.a11y-widget__slider-wrap input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: var(--a11y-border);
+    border-radius: 3px;
+}
+
+.a11y-widget__slider-wrap input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: var(--a11y-border);
+    border-radius: 3px;
+    border: none;
+}
+
+/* Thumb */
+.a11y-widget__slider-wrap input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    margin-top: -6px;
+
+    background: var(--a11y-primary);
+    border: 2px solid var(--a11y-bg);
+    border-radius: 50%;
+
+    box-shadow: var(--a11y-shadow-sm);
+    cursor: grab;
+}
+
+.a11y-widget__slider-wrap input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+
+    background: var(--a11y-primary);
+    border: 2px solid var(--a11y-bg);
+    border-radius: 50%;
+
+    box-shadow: var(--a11y-shadow-sm);
+    cursor: grab;
+}
+
+/* Thumb hover */
+.a11y-widget__slider-wrap input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--a11y-primary-hover);
+}
+
+.a11y-widget__slider-wrap input[type="range"]::-moz-range-thumb:hover {
+    background: var(--a11y-primary-hover);
+}
+
+/* Thumb active */
+.a11y-widget__slider-wrap input[type="range"]::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    background: var(--a11y-primary-active);
+}
+
+.a11y-widget__slider-wrap input[type="range"]::-moz-range-thumb:active {
+    cursor: grabbing;
+    background: var(--a11y-primary-active);
+}
+
+/* Focus state */
+.a11y-widget__slider-wrap input[type="range"]:focus {
+    outline: none;
+}
+
+.a11y-widget__slider-wrap input[type="range"]:focus-visible::-webkit-slider-thumb {
+    outline: var(--a11y-focus-ring-width) solid var(--a11y-focus-ring-color);
+    outline-offset: 2px;
+}
+
+.a11y-widget__slider-wrap input[type="range"]:focus-visible::-moz-range-thumb {
+    outline: var(--a11y-focus-ring-width) solid var(--a11y-focus-ring-color);
+    outline-offset: 2px;
+}
+
+/* Value display */
+.a11y-widget__slider-value {
+    min-width: 48px;
+    padding: var(--a11y-space-xs) var(--a11y-space-sm);
+
+    background-color: var(--a11y-bg-alt);
+    border: 1px solid var(--a11y-border);
+    border-radius: var(--a11y-border-radius-sm);
+
+    font-family: var(--a11y-font-family);
+    font-size: var(--a11y-font-size-sm);
+    font-weight: var(--a11y-font-weight-medium);
+    color: var(--a11y-text);
+    text-align: center;
+}
