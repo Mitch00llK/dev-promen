@@ -33,8 +33,33 @@
 
 /* 
  * Unified slider architecture - content is now inside each slide.
- * No visibility management needed as there's only one Swiper now.
+ * Inactive slides should not intercept pointer events.
  */
+
+/* Disable pointer events on inactive slides to prevent click blocking */
+.image-text-slider-container .swiper-slide:not(.swiper-slide-active) {
+    pointer-events: none;
+}
+
+/* Ensure active slide can receive pointer events */
+.image-text-slider-container .swiper-slide.swiper-slide-active {
+    pointer-events: auto;
+}
+
+/* Controls container must be above slide content and always clickable */
+.image-text-slider-container .image-text-slider-controls {
+    position: relative;
+    z-index: 25;
+    pointer-events: auto;
+}
+
+/* Navigation buttons must always be clickable */
+.image-text-slider-container .swiper-button-prev,
+.image-text-slider-container .swiper-button-next,
+.image-text-slider-container .slider-arrow {
+    pointer-events: auto !important;
+    z-index: 25;
+}
 
 /* Content position classes - updated for unified slide structure */
 .content-position-center .swiper-slide .slide-content-wrapper {
