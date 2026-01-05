@@ -146,21 +146,36 @@
                     }, 50);
                 },
                 beforeTransitionStart: function () {
-<<<<<<< HEAD
-                    // Controller handles sync, just add class
+                    // Add transitioning class to handle content visibility during transitions
                     sliderEl.classList.add('transitioning');
+
+                    // Immediately hide content to prevent flashing
+                    const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide');
+                    contentSlides.forEach(slide => {
+                        if (!slide.classList.contains('swiper-slide-active')) {
+                            slide.style.opacity = "0";
+                            slide.style.visibility = "hidden";
+                        }
+                    });
                 },
                 slideChange: function () {
-                    // Controller handles sync, but we add explicit sync as a safeguard
-                    const currentIndex = this.realIndex;
+                    // Manually sync the content slider with the image slider
+                    if (sliderEl.contentSwiper) {
+                        // Get target slide before animation 
+                        const targetIndex = useLoop ? this.realIndex : this.activeIndex;
 
-                    // Use sliderEl.contentSwiper to reference the stored instance
-                    if (sliderEl.contentSwiper && sliderEl.contentSwiper.realIndex !== currentIndex) {
-                        sliderEl.contentSwiper.slideTo(currentIndex, 0, false);
+                        // Set exact same index to ensure synchronization with 0 speed
+                        if (useLoop) {
+                            // For loop mode, use realIndex
+                            sliderEl.contentSwiper.slideToLoop(targetIndex, 0, false);
+                        } else {
+                            // For non-loop mode, use activeIndex
+                            sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
+                        }
                     }
                 },
                 transitionStart: function () {
-                    // No special logic needed here anymore without GSAP
+                    // Ensure content slides are hidden during transition
                 },
                 transitionEnd: function () {
                     // Remove transitioning class when finished
@@ -212,16 +227,18 @@
                 observer: true,
                 observeParents: true,
                 observeSlideChildren: true,
-                loop: options.loop, // Match loop setting of main slider
-                loop: options.loop, // Match loop setting of main slider
-                loopedSlides: options.loop ? slideCount : null, // match main slider loopedSlides perfectly
+                loop: useLoop, // Match loop setting of main slider
+                loopedSlides: useLoop ? slideCount : null, // match main slider loopedSlides perfectly
                 preventInteractionOnTransition: true,
                 on: {
                     init: function () {
-                        // Controller handles initial sync mostly, but we set it just in case
-                        // this.slideTo(swiper.realIndex, 0, false);
-                    },
-                    // Removed manual slideChange handlers as Controller handles this
+                        // Set initial slide based on main swiper
+                        if (useLoop) {
+                            this.slideToLoop(swiper.realIndex, 0, false);
+                        } else {
+                            this.slideTo(swiper.activeIndex, 0, false);
+                        }
+                    }
                 }
             };
 
@@ -237,9 +254,12 @@
                 instance.contentSwiper = contentSwiper;
             }
 
-            // SETUP CONTROLLER SYNC
-            swiper.controller.control = contentSwiper;
-            contentSwiper.controller.control = swiper;
+            // Set initial sync after initialization
+            if (useLoop) {
+                contentSwiper.slideToLoop(swiper.realIndex, 0, false);
+            } else {
+                contentSwiper.slideTo(swiper.activeIndex, 0, false);
+            }
 
             // Add event listener for navigation clicks to ensure sync - using querySelectorAll fix naturally
             sliderEl.querySelectorAll('.swiper-button-next, .swiper-button-prev').forEach(function (btn) {
@@ -262,8 +282,15 @@
             // Listen for autoplay
             if (options.autoplay) {
                 swiper.on('autoplay', function () {
+                    // Add transitioning class
                     sliderEl.classList.add('transitioning');
-                    // Controller handles sync
+
+                    // Keep content slider in sync with image slider during autoplay
+                    if (useLoop) {
+                        contentSwiper.slideToLoop(swiper.realIndex, 0, false);
+                    } else {
+                        contentSwiper.slideTo(swiper.activeIndex, 0, false);
+                    }
                 });
             }
 
