@@ -1,52 +1,54 @@
 /**
- * Accessibility Widget - CSS Variables (SaaS Revamp)
+ * Accessibility Widget - CSS Variables (SaaS Dark Polish)
  * 
- * Modern color palette and spacing for refined UI.
+ * Deep Navy/Slate theme based on user reference.
  * 
  * @package Promen_Elementor_Widgets
  */
 
 :root {
-    /* Brand Colors (Inter/Slate style) */
+    /* Brand Colors (Reference Image Style) */
     --a11y-primary: #3b82f6;
-    /* Blue-500 */
-    --a11y-primary-hover: #2563eb;
-    /* Blue-600 */
-    --a11y-primary-active: #1d4ed8;
-    /* Blue-700 */
-    --a11y-primary-light: #eff6ff;
-    /* Blue-50 */
+    /* Accent Blue */
+    --a11y-primary-hover: #60a5fa;
+    --a11y-primary-active: #2563eb;
 
-    /* Neutrals */
-    --a11y-bg: #ffffff;
-    --a11y-bg-alt: #f8fafc;
-    /* Slate-50 */
-    --a11y-bg-hover: #f1f5f9;
-    /* Slate-100 */
+    /* Backgrounds - Defaulting to Dark Theme */
+    --a11y-bg: #0f172a;
+    /* Deep Navy (Slate 900) */
+    --a11y-bg-alt: #1e293b;
+    /* Lighter Navy (Slate 800) */
+    --a11y-bg-hover: #334155;
+    /* Slate 700 */
 
-    --a11y-text: #0f172a;
-    /* Slate-900 */
-    --a11y-text-muted: #64748b;
-    /* Slate-500 */
+    /* Text */
+    --a11y-text: #f8fafc;
+    /* White/Off-white */
+    --a11y-text-muted: #94a3b8;
+    /* Muted Blue-Grey */
     --a11y-text-inverse: #ffffff;
 
-    --a11y-border: #e2e8f0;
-    /* Slate-200 */
-    --a11y-border-hover: #cbd5e1;
-    /* Slate-300 */
+    /* Borders */
+    --a11y-border: #334155;
+    /* Slate 700 */
+    --a11y-border-hover: #475569;
+    /* Slate 600 */
 
-    /* Switch Colors */
-    --a11y-switch-bg: #e2e8f0;
+    /* Controls */
+    --a11y-switch-bg: #334155;
+    /* Track inactive */
     --a11y-switch-on: #3b82f6;
+    /* Track active */
 
     /* Sizing */
     --a11y-toggle-size: 56px;
-    --a11y-panel-width: 320px;
-    --a11y-panel-max-height: 85vh;
+    --a11y-panel-width: 340px;
+    /* Slightly wider for breathing room */
+    --a11y-panel-max-height: 90vh;
 
-    --a11y-radius-sm: 6px;
-    --a11y-radius-md: 12px;
-    --a11y-radius-lg: 16px;
+    --a11y-radius-sm: 4px;
+    --a11y-radius-md: 8px;
+    --a11y-radius-lg: 12px;
     --a11y-radius-full: 9999px;
 
     /* Spacing */
@@ -57,16 +59,17 @@
     --a11y-space-xl: 32px;
 
     /* Typography */
-    --a11y-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --a11y-text-xs: 11px;
-    --a11y-text-sm: 13px;
-    --a11y-text-base: 15px;
-    --a11y-text-lg: 17px;
+    --a11y-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --a11y-text-xs: 12px;
+    --a11y-text-sm: 14px;
+    --a11y-text-base: 16px;
+    --a11y-text-lg: 20px;
+    --a11y-text-xl: 24px;
 
-    /* Shadows (Soft & Modern) */
-    --a11y-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --a11y-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
-    --a11y-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    /* Shadows */
+    --a11y-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --a11y-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    --a11y-shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 
     /* Transitions */
     --a11y-ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -82,23 +85,11 @@
     --a11y-saturation: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --a11y-bg: #0f172a;
-        /* Slate-900 */
-        --a11y-bg-alt: #1e293b;
-        /* Slate-800 */
-        --a11y-bg-hover: #334155;
-        /* Slate-700 */
-
-        --a11y-text: #f8fafc;
-        /* Slate-50 */
-        --a11y-text-muted: #94a3b8;
-        /* Slate-400 */
-
-        --a11y-border: #334155;
-        /* Slate-700 */
-
-        --a11y-switch-bg: #334155;
-    }
+/* Light Theme support (if needed, but default is now Dark) */
+@media (prefers-color-scheme: light) {
+    /* 
+       Keep the widget dark by default as per design, 
+       but if we wanted a light mode override, it would go here.
+       For now, enforcing the "Navy" brand look regardless of system preference.
+    */
 }

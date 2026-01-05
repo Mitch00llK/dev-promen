@@ -1,7 +1,7 @@
 /**
- * Accessibility Widget - Controls (SaaS Revamp)
+ * Accessibility Widget - Controls (Dark Polish)
  * 
- * Styles for modern switches, sliders, and inputs.
+ * Buttons, Switches, and Labels.
  * 
  * @package Promen_Elementor_Widgets
  */
@@ -10,7 +10,8 @@
 .a11y-widget__switch-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--a11y-space-lg);
+    /* More generous spacing */
 }
 
 .a11y-widget__switch-row {
@@ -22,47 +23,53 @@
 .a11y-widget__switch-info {
     display: flex;
     align-items: center;
-    gap: var(--a11y-space-sm);
-    color: var(--a11y-text);
+    gap: var(--a11y-space-md);
+    color: var(--a11y-text-inverse);
+    /* High contrast text */
 }
 
 .a11y-widget__switch-info .a11y-icon {
-    font-size: 16px;
+    display: flex;
     color: var(--a11y-text-muted);
+    /* Muted icons */
 }
 
 .a11y-widget__switch-info .a11y-label {
-    font-size: var(--a11y-text-sm);
+    font-size: var(--a11y-text-base);
     font-weight: 500;
 }
 
-/* Modern Switch Toggle (iOS style) */
+/* Scale Toggle Switch (Large iOS style) */
 .a11y-widget__switch {
     position: relative;
-    width: 44px;
-    height: 24px;
+    width: 52px;
+    /* Wider */
+    height: 32px;
+    /* Taller */
     padding: 2px;
 
-    background-color: var(--a11y-switch-bg);
+    background-color: var(--a11y-bg-hover);
+    /* Slate 700 inactive */
     border: none;
     border-radius: var(--a11y-radius-full);
     cursor: pointer;
-    transition: background-color var(--a11y-duration) var(--a11y-ease);
+    transition: background-color 0.2s;
 }
 
 .a11y-widget__switch[aria-checked="true"],
 .a11y-widget__switch.is-active {
-    background-color: var(--a11y-switch-on);
+    background-color: var(--a11y-primary);
+    /* Blue active */
 }
 
 .a11y-widget__switch-knob {
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
     background-color: #fff;
     border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: transform var(--a11y-duration) var(--a11y-ease);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
     transform: translateX(0);
 }
 
@@ -76,22 +83,20 @@
     outline-offset: 2px;
 }
 
-/* Sliders layout */
+/* Slider Section Labels */
 .a11y-widget__slider-row {
-    margin-bottom: 16px;
-}
-
-.a11y-widget__slider-row:last-child {
-    margin-bottom: 0;
+    margin-bottom: var(--a11y-space-lg);
 }
 
 .a11y-widget__slider-label {
     display: flex;
     align-items: center;
     gap: var(--a11y-space-sm);
-    margin-bottom: 6px;
-    font-size: var(--a11y-text-xs);
-    font-weight: 600;
+    margin-bottom: var(--a11y-space-sm);
+
+    font-size: var(--a11y-text-sm);
+    font-weight: 700;
+    /* Bold uppercase labels */
     color: var(--a11y-text-muted);
     text-transform: uppercase;
 }
@@ -99,38 +104,39 @@
 .a11y-widget__slider-input {
     display: flex;
     align-items: center;
-    gap: var(--a11y-space-sm);
+    gap: var(--a11y-space-md);
 }
 
 .a11y-widget__slider-value {
-    min-width: 40px;
-    font-size: var(--a11y-text-xs);
-    font-weight: 500;
+    min-width: 44px;
+    font-size: var(--a11y-text-sm);
+    font-weight: 400;
+    /* Regular weight values */
     color: var(--a11y-text-muted);
     text-align: right;
-    font-variant-numeric: tabular-nums;
 }
 
-/* Contrast Grid */
+/* Contrast Grid - Circular Swatches */
 .a11y-widget__contrast-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-top: 16px;
+    gap: 12px;
+    margin-top: var(--a11y-space-lg);
 }
 
 .a11y-widget__contrast-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    padding: 8px;
+    gap: 8px;
+    padding: 12px 0;
 
     background: transparent;
     border: 1px solid var(--a11y-border);
     border-radius: var(--a11y-radius-md);
     cursor: pointer;
     transition: all 0.2s;
+    color: var(--a11y-text-muted);
 }
 
 .a11y-widget__contrast-btn:hover {
@@ -140,22 +146,24 @@
 
 .a11y-widget__contrast-btn[aria-pressed="true"],
 .a11y-widget__contrast-btn.is-active {
-    background: var(--a11y-primary-light);
+    background: var(--a11y-bg-alt);
     border-color: var(--a11y-primary);
     color: var(--a11y-primary);
 }
 
 .a11y-swatch {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    /* Larger swatches */
+    height: 32px;
     border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+
+    /* Ensuring visibility on dark background */
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .a11y-swatch--high {
-    background: black;
-    border: 2px solid white;
-    box-shadow: 0 0 0 1px black;
+    background: #000;
+    border: 2px solid #fff;
 }
 
 .a11y-swatch--dark {
@@ -163,22 +171,20 @@
 }
 
 .a11y-swatch--light {
-    background: white;
+    background: #fff;
 }
 
 .a11y-swatch--invert {
-    background: linear-gradient(135deg, white 50%, black 50%);
+    background: linear-gradient(135deg, #fff 50%, #000 50%);
 }
 
 .a11y-widget__contrast-btn .a11y-label {
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
 }
 
-/* Collapsible Details */
+/* Details Section */
 .a11y-widget__details {
-    margin-top: -1px;
-    /* Overlap border */
     border-top: 1px solid var(--a11y-border);
 }
 
@@ -186,28 +192,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--a11y-space-md);
+    padding: var(--a11y-space-lg);
     cursor: pointer;
-    font-size: var(--a11y-text-sm);
-    font-weight: 500;
+    font-size: var(--a11y-text-base);
+    font-weight: 700;
     color: var(--a11y-text-muted);
-    list-style: none;
-}
-
-.a11y-widget__details-summary::-webkit-details-marker {
-    display: none;
-}
-
-.a11y-widget__details-summary:hover {
-    color: var(--a11y-text);
+    text-transform: uppercase;
 }
 
 .a11y-widget__details[open] .a11y-widget__details-summary {
-    border-bottom: 1px solid var(--a11y-border);
-    background: var(--a11y-bg-alt);
-}
-
-.a11y-widget__details .a11y-widget__switch-list {
-    padding: var(--a11y-space-md);
-    background: var(--a11y-bg-alt);
+    background-color: var(--a11y-bg-alt);
 }
