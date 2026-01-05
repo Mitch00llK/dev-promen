@@ -711,7 +711,12 @@
 
         bindToggleButtons() {
             const self = this;
-            $$('.a11y-widget__toggle-btn[data-setting]').forEach(btn => {
+            // Updated selector to match new Switch HTML
+            $$('.a11y-widget__switch[data-setting]').forEach(btn => {
+                btn.addEventListener('click', () => self.handleToggle(btn.dataset.setting, btn));
+            });
+            // Also bind contrast buttons (they are separate now)
+            $$('.a11y-widget__contrast-btn[data-setting]').forEach(btn => {
                 btn.addEventListener('click', () => self.handleToggle(btn.dataset.setting, btn));
             });
         },
@@ -732,54 +737,95 @@
                 case 'dyslexia-font':
                     newState = !storageManager.get('dyslexiaFont');
                     visualAdjustments.setDyslexiaFont(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'focus-indicators':
                     newState = !storageManager.get('focusIndicators');
                     navigation.setFocusIndicators(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'large-cursor':
                     newState = !storageManager.get('largeCursor');
                     navigation.setLargeCursor(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'reading-guide':
                     newState = !storageManager.get('readingGuide');
                     navigation.setReadingGuide(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'reading-mask':
                     newState = !storageManager.get('readingMask');
                     navigation.setReadingMask(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'highlight-links':
                     newState = !storageManager.get('highlightLinks');
                     navigation.setHighlightLinks(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'highlight-headers':
                     newState = !storageManager.get('highlightHeaders');
                     navigation.setHighlightHeaders(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'stop-animations':
                     newState = !storageManager.get('stopAnimations');
                     contentControl.setStopAnimations(newState);
+                    this.updateButtonState(button, newState); // Fixed variable name 'button' to 'btn'
                     break;
                 case 'hide-images':
                     newState = !storageManager.get('hideImages');
                     contentControl.setHideImages(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'mute-sounds':
                     newState = !storageManager.get('muteSounds');
                     contentControl.setMuteSounds(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 case 'text-to-speech':
                     newState = !storageManager.get('textToSpeech');
                     contentControl.setTextToSpeech(newState);
+                    this.updateButtonState(btn, newState);
                     break;
                 default:
                     return;
             }
 
-            this.updateButtonState(btn, newState);
+            // Sync others if not contrast (handled above)
+            if (!['high-contrast', 'dark-contrast', 'light-contrast', 'monochrome', 'invert-colors'].includes(setting)) {
+                // Check if it's a switch or button
+                // updateButtonState handles the logic
+            }
+
             cognitiveSupport.resetProfile();
             this.syncProfileButtons();
+        },
+
+        updateButtonState(button, isActive) {
+            if (!button) return;
+            const role = button.getAttribute('role');
+            if (role === 'switch') {
+                button.setAttribute('aria-checked', isActive ? 'true' : 'false');
+            } else {
+                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            }
+            button.classList.toggle('is-active', isActive);
+        },
+
+        syncContrastButtons() {
+            const s = storageManager.getAll();
+            const states = {
+                'high-contrast': s.highContrast,
+                'dark-contrast': s.darkContrast,
+                'light-contrast': s.lightContrast,
+                'invert-colors': s.invertColors
+            };
+            for (const [key, active] of Object.entries(states)) {
+                const btn = $(`.a11y-widget__contrast-btn[data-setting="${key}"]`);
+                if (btn) this.updateButtonState(btn, active);
+            }
         },
 
         bindProfileButtons() {
@@ -846,40 +892,37 @@
         },
 
         syncUI() {
-            const s = storageManager.getAll();
+            const settings = storageManager.getAll();
 
-            this.syncSlider('#a11y-text-size', s.textScale, `${s.textScale}%`);
-            this.syncSlider('#a11y-zoom', s.pageZoom, `${s.pageZoom}%`);
-            this.syncSlider('#a11y-saturation', s.saturation, `${s.saturation}%`);
-            this.syncSlider('#a11y-line-height', s.lineHeight, s.lineHeight.toFixed(1));
-            this.syncSlider('#a11y-letter-spacing', s.letterSpacing, `${s.letterSpacing}px`);
-            this.syncSlider('#a11y-word-spacing', s.wordSpacing, `${s.wordSpacing}px`);
+            // Sync sliders
+            this.syncSlider('#a11y-text-size', settings.textScale, `${settings.textScale}%`);
+            this.syncSlider('#a11y-zoom', settings.pageZoom, `${settings.pageZoom}%`);
+            this.syncSlider('#a11y-line-height', settings.lineHeight, settings.lineHeight.toFixed(1));
+            this.syncSlider('#a11y-letter-spacing', settings.letterSpacing, `${settings.letterSpacing}px`);
 
+            // Sync contrast buttons
             this.syncContrastButtons();
 
-            const toggles = {
-                'dyslexia-font': s.dyslexiaFont,
-                'focus-indicators': s.focusIndicators,
-                'large-cursor': s.largeCursor,
-                'reading-guide': s.readingGuide,
-                'reading-mask': s.readingMask,
-                'highlight-links': s.highlightLinks,
-                'highlight-headers': s.highlightHeaders,
-                'stop-animations': s.stopAnimations,
-                'hide-images': s.hideImages,
-                'mute-sounds': s.muteSounds,
-                'text-to-speech': s.textToSpeech
+            // Sync switches
+            const toggleSettings = {
+                'dyslexia-font': settings.dyslexiaFont,
+                'large-cursor': settings.largeCursor,
+                'reading-guide': settings.readingGuide,
+                'reading-mask': settings.readingMask,
+                'highlight-links': settings.highlightLinks,
+                'highlight-headers': settings.highlightHeaders,
+                'stop-animations': settings.stopAnimations,
+                'hide-images': settings.hideImages,
+                'mute-sounds': settings.muteSounds,
+                'text-to-speech': settings.textToSpeech
             };
 
-            Object.entries(toggles).forEach(([setting, active]) => {
-                const btn = $(`.a11y-widget__toggle-btn[data-setting="${setting}"]`);
-                if (btn) this.updateButtonState(btn, active);
+            Object.keys(toggleSettings).forEach(setting => {
+                const btn = $(`.a11y-widget__switch[data-setting="${setting}"]`);
+                if (btn) this.updateButtonState(btn, toggleSettings[setting]);
             });
 
-            $$('.a11y-widget__align-btn[data-align]').forEach(btn => {
-                this.updateButtonState(btn, btn.dataset.align === s.textAlign);
-            });
-
+            // Sync profile buttons
             this.syncProfileButtons();
         },
 

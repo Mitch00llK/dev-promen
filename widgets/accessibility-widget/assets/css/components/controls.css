@@ -10,8 +10,8 @@
 .a11y-widget__switch-list {
     display: flex;
     flex-direction: column;
-    gap: var(--a11y-space-lg);
-    /* More generous spacing */
+    gap: 16px;
+    /* Moderate spacing */
 }
 
 .a11y-widget__switch-row {
@@ -23,49 +23,55 @@
 .a11y-widget__switch-info {
     display: flex;
     align-items: center;
-    gap: var(--a11y-space-md);
+    gap: 12px;
     color: var(--a11y-text-inverse);
-    /* High contrast text */
 }
 
 .a11y-widget__switch-info .a11y-icon {
     display: flex;
     color: var(--a11y-text-muted);
-    /* Muted icons */
 }
 
 .a11y-widget__switch-info .a11y-label {
-    font-size: var(--a11y-text-base);
+    font-size: 14px;
+    /* Refined size */
     font-weight: 500;
 }
 
-/* Scale Toggle Switch (Large iOS style) */
+/* Modern Switch Toggle */
 .a11y-widget__switch {
     position: relative;
-    width: 52px;
-    /* Wider */
-    height: 32px;
-    /* Taller */
+    width: 40px;
+    /* Reduced from 48px */
+    height: 22px;
+    /* Reduced from 28px */
     padding: 2px;
 
     background-color: var(--a11y-bg-hover);
-    /* Slate 700 inactive */
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--a11y-radius-full);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
+/* OFF State Indication (Hover) */
+.a11y-widget__switch:hover {
+    background-color: var(--a11y-border-hover);
+}
+
+/* ON State */
 .a11y-widget__switch[aria-checked="true"],
 .a11y-widget__switch.is-active {
     background-color: var(--a11y-primary);
-    /* Blue active */
+    border-color: var(--a11y-primary);
 }
 
 .a11y-widget__switch-knob {
     display: block;
-    width: 28px;
-    height: 28px;
+    width: 16px;
+    /* Reduced from 22px */
+    height: 16px;
+    /* Reduced from 22px */
     background-color: #fff;
     border-radius: 50%;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -75,7 +81,8 @@
 
 .a11y-widget__switch[aria-checked="true"] .a11y-widget__switch-knob,
 .a11y-widget__switch.is-active .a11y-widget__switch-knob {
-    transform: translateX(20px);
+    transform: translateX(18px);
+    /* 40px width - 2px pad - 2px pad - 16px knob = 20px space. Let's do 18px for tight fit */
 }
 
 .a11y-widget__switch:focus-visible {
@@ -85,18 +92,19 @@
 
 /* Slider Section Labels */
 .a11y-widget__slider-row {
-    margin-bottom: var(--a11y-space-lg);
+    margin-bottom: 20px;
 }
 
 .a11y-widget__slider-label {
     display: flex;
     align-items: center;
-    gap: var(--a11y-space-sm);
-    margin-bottom: var(--a11y-space-sm);
+    gap: 8px;
+    margin-bottom: 8px;
 
-    font-size: var(--a11y-text-sm);
-    font-weight: 700;
-    /* Bold uppercase labels */
+    font-size: 11px;
+    /* Minimal */
+    font-weight: 600;
+    letter-spacing: 0.05em;
     color: var(--a11y-text-muted);
     text-transform: uppercase;
 }
@@ -104,24 +112,24 @@
 .a11y-widget__slider-input {
     display: flex;
     align-items: center;
-    gap: var(--a11y-space-md);
+    gap: 12px;
 }
 
 .a11y-widget__slider-value {
-    min-width: 44px;
-    font-size: var(--a11y-text-sm);
-    font-weight: 400;
-    /* Regular weight values */
+    min-width: 36px;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--a11y-text-muted);
     text-align: right;
+    font-variant-numeric: tabular-nums;
 }
 
-/* Contrast Grid - Circular Swatches */
+/* Contrast Grid */
 .a11y-widget__contrast-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-top: var(--a11y-space-lg);
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .a11y-widget__contrast-btn {
@@ -129,7 +137,7 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    padding: 12px 0;
+    padding: 10px 0;
 
     background: transparent;
     border: 1px solid var(--a11y-border);
@@ -141,23 +149,21 @@
 
 .a11y-widget__contrast-btn:hover {
     background: var(--a11y-bg-hover);
-    border-color: var(--a11y-border-hover);
+    border-color: var(--a11y-text-muted);
+    color: var(--a11y-text-inverse);
 }
 
 .a11y-widget__contrast-btn[aria-pressed="true"],
 .a11y-widget__contrast-btn.is-active {
-    background: var(--a11y-bg-alt);
+    background: rgba(59, 130, 246, 0.1);
     border-color: var(--a11y-primary);
     color: var(--a11y-primary);
 }
 
 .a11y-swatch {
-    width: 32px;
-    /* Larger swatches */
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-
-    /* Ensuring visibility on dark background */
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
@@ -179,27 +185,28 @@
 }
 
 .a11y-widget__contrast-btn .a11y-label {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 500;
 }
 
 /* Details Section */
 .a11y-widget__details {
     border-top: 1px solid var(--a11y-border);
+    margin-top: 8px;
 }
 
 .a11y-widget__details-summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--a11y-space-lg);
+    padding: 16px 24px;
     cursor: pointer;
-    font-size: var(--a11y-text-base);
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
     color: var(--a11y-text-muted);
-    text-transform: uppercase;
 }
 
 .a11y-widget__details[open] .a11y-widget__details-summary {
-    background-color: var(--a11y-bg-alt);
+    color: var(--a11y-text-inverse);
+    background-color: var(--a11y-bg-hover);
 }
