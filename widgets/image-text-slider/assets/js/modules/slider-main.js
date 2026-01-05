@@ -146,24 +146,11 @@
                     }, 50);
                 },
                 beforeTransitionStart: function () {
-                    // CRITICAL: Sync content slider BEFORE adding transitioning class
-                    // This ensures the correct slide has .swiper-slide-active before CSS hides non-active slides
-                    if (sliderEl.contentSwiper) {
-                        const targetIndex = useLoop ? this.realIndex : this.activeIndex;
-                        sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
-                    }
-                    // Now add transitioning class - the correct slide is already active
+                    // Controller handles sync, just add class
                     sliderEl.classList.add('transitioning');
                 },
                 slideChange: function () {
-                    // Manually sync the content slider with the image slider (backup sync)
-                    if (sliderEl.contentSwiper) {
-                        // Get target slide - always use realIndex for proper sync
-                        const targetIndex = useLoop ? this.realIndex : this.activeIndex;
-
-                        // Content swiper uses simple slideTo (no loop mode)
-                        sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
-                    }
+                    // Controller handles sync
                 },
                 transitionStart: function () {
                     // No special logic needed here anymore without GSAP
@@ -218,26 +205,15 @@
                 observer: true,
                 observeParents: true,
                 observeSlideChildren: true,
-                loop: false, // Content swiper should NOT loop - syncs via slideTo with main swiper's realIndex
-                loopedSlides: null,
+                loop: options.loop, // Match loop setting of main slider
+                loopedSlides: options.loop ? (options.loopedSlides || 3) : null,
                 preventInteractionOnTransition: true,
                 on: {
                     init: function () {
-                        // Set initial slide based on main swiper's realIndex
-                        this.slideTo(swiper.realIndex, 0, false);
+                        // Controller handles initial sync mostly, but we set it just in case
+                        // this.slideTo(swiper.realIndex, 0, false);
                     },
-                    slideChange: function () {
-                        // Sync main swiper when content swiper is dragged/swiped
-                        if (sliderEl.swiper) {
-                            if (useLoop) {
-                                sliderEl.swiper.slideToLoop(this.activeIndex);
-                            } else {
-                                sliderEl.swiper.slideTo(this.activeIndex);
-                            }
-                        }
-                    },
-                    // Removed slideChange, transitionStart, transitionEnd handlers
-                    // Let Swiper's fade effect handle visibility naturally
+                    // Removed manual slideChange handlers as Controller handles this
                 }
             };
 
@@ -253,31 +229,19 @@
                 instance.contentSwiper = contentSwiper;
             }
 
-            // Set initial sync after initialization - content swiper uses simple slideTo
-            contentSwiper.slideTo(swiper.realIndex, 0, false);
+            // SETUP CONTROLLER SYNC
+            swiper.controller.control = contentSwiper;
+            contentSwiper.controller.control = swiper;
 
             // Add event listener for navigation clicks to ensure sync - using querySelectorAll fix naturally
             sliderEl.querySelectorAll('.swiper-button-next, .swiper-button-prev').forEach(function (btn) {
                 btn.addEventListener('click', function (e) {
                     e.preventDefault();
-                    // Swiper handles navigation now via options, but manual listening might still be needed 
-                    // if swiper 'navigation' option with array of elements doesn't cover click events automatically?
-                    // Swiper DOES handle click events for array elements passed to navigation config.
-                    // BUT the original code also had this manual listener. 
-                    // It seems to be mainly for adding 'transitioning' class immediately.
 
                     const isNext = btn.classList.contains('swiper-button-next');
 
                     // Add transitioning class
                     sliderEl.classList.add('transitioning');
-
-                    // NOTE: Since we passed buttons to Swiper navigation, we don't strictly need to call slideNext/slidePrev here
-                    // UNLESS swiper click handling is delayed or we want to force it.
-                    // However, Swiper will attach its own listeners. Double listener might be fine or redundant.
-                    // Let's keep the transitioning class part but avoid double navigation if possible.
-                    // Actually, swiper might not double-trigger if the event is prevented?
-                    // Let's call slideNext/Prev just to be safe as per original logic, 
-                    // Swiper is robust enough to ignore if busy.
 
                     if (isNext) {
                         swiper.slideNext();
@@ -291,8 +255,7 @@
             if (options.autoplay) {
                 swiper.on('autoplay', function () {
                     sliderEl.classList.add('transitioning');
-                    // Content swiper never uses loop, just slideTo
-                    contentSwiper.slideTo(swiper.realIndex, 0, false);
+                    // Controller handles sync
                 });
             }
 
