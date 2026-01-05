@@ -150,7 +150,13 @@
                     sliderEl.classList.add('transitioning');
                 },
                 slideChange: function () {
-                    // Controller handles sync
+                    // Controller handles sync, but we add explicit sync as a safeguard
+                    const currentIndex = this.realIndex;
+
+                    // Ensure content swiper is synchronized
+                    if (contentSwiper && contentSwiper.realIndex !== currentIndex) {
+                        contentSwiper.slideTo(currentIndex, 0, false);
+                    }
                 },
                 transitionStart: function () {
                     // No special logic needed here anymore without GSAP
@@ -214,7 +220,14 @@
                         // Controller handles initial sync mostly, but we set it just in case
                         // this.slideTo(swiper.realIndex, 0, false);
                     },
-                    // Removed manual slideChange handlers as Controller handles this
+                    slideChange: function () {
+                        // Ensure main swiper is synchronized when content swiper changes
+                        const currentIndex = this.realIndex;
+
+                        if (swiper && swiper.realIndex !== currentIndex) {
+                            swiper.slideTo(currentIndex, 0, false);
+                        }
+                    }
                 }
             };
 
@@ -244,10 +257,23 @@
                     // Add transitioning class
                     sliderEl.classList.add('transitioning');
 
+                    // Slide both swipers together - controller should handle this but we do it explicitly for reliability
                     if (isNext) {
                         swiper.slideNext();
+                        // Ensure content swiper follows immediately
+                        setTimeout(() => {
+                            if (contentSwiper && swiper.realIndex !== contentSwiper.realIndex) {
+                                contentSwiper.slideTo(swiper.realIndex, 0, false);
+                            }
+                        }, 10);
                     } else {
                         swiper.slidePrev();
+                        // Ensure content swiper follows immediately
+                        setTimeout(() => {
+                            if (contentSwiper && swiper.realIndex !== contentSwiper.realIndex) {
+                                contentSwiper.slideTo(swiper.realIndex, 0, false);
+                            }
+                        }, 10);
                     }
                 });
             });
