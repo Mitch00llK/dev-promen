@@ -1,0 +1,174 @@
+/**
+ * Accessibility Widget - Panel
+ * 
+ * Styles for the main control panel container.
+ * 
+ * @package Promen_Elementor_Widgets
+ */
+
+.a11y-widget__panel {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+
+    width: var(--a11y-panel-width);
+    max-height: var(--a11y-panel-max-height);
+
+    background-color: var(--a11y-bg);
+    color: var(--a11y-text);
+
+    border-radius: var(--a11y-border-radius);
+    box-shadow: var(--a11y-shadow-xl);
+
+    overflow: hidden;
+    z-index: var(--a11y-z-panel);
+
+    /* Default position: above toggle button */
+    bottom: calc(var(--a11y-toggle-size) + var(--a11y-space-xl) + var(--a11y-space-md));
+    right: var(--a11y-space-xl);
+}
+
+/* Hidden state */
+.a11y-widget__panel[hidden] {
+    display: none;
+}
+
+/* Position variations */
+.a11y-widget--bottom-left .a11y-widget__panel {
+    right: auto;
+    left: var(--a11y-space-xl);
+}
+
+.a11y-widget--top-right .a11y-widget__panel {
+    bottom: auto;
+    top: calc(var(--a11y-toggle-size) + var(--a11y-space-xl) + var(--a11y-space-md));
+}
+
+.a11y-widget--top-left .a11y-widget__panel {
+    bottom: auto;
+    right: auto;
+    top: calc(var(--a11y-toggle-size) + var(--a11y-space-xl) + var(--a11y-space-md));
+    left: var(--a11y-space-xl);
+}
+
+/* Panel Header */
+.a11y-widget__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: var(--a11y-space-lg);
+
+    background-color: var(--a11y-bg-alt);
+    border-bottom: 1px solid var(--a11y-border);
+}
+
+.a11y-widget__title {
+    margin: 0;
+    font-family: var(--a11y-font-family);
+    font-size: var(--a11y-font-size-lg);
+    font-weight: var(--a11y-font-weight-bold);
+    color: var(--a11y-text);
+}
+
+.a11y-widget__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    background-color: transparent;
+    color: var(--a11y-text-muted);
+
+    border: none;
+    border-radius: var(--a11y-border-radius-sm);
+
+    cursor: pointer;
+}
+
+.a11y-widget__close:hover {
+    background-color: var(--a11y-bg-hover);
+    color: var(--a11y-text);
+}
+
+.a11y-widget__close:focus-visible {
+    outline: var(--a11y-focus-ring-width) solid var(--a11y-focus-ring-color);
+    outline-offset: calc(-1 * var(--a11y-focus-ring-width));
+}
+
+/* Panel Content */
+.a11y-widget__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--a11y-space-md);
+
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--a11y-border) transparent;
+}
+
+.a11y-widget__content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.a11y-widget__content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.a11y-widget__content::-webkit-scrollbar-thumb {
+    background-color: var(--a11y-border);
+    border-radius: 3px;
+}
+
+/* Panel Footer */
+.a11y-widget__footer {
+    display: flex;
+    justify-content: center;
+
+    padding: var(--a11y-space-md) var(--a11y-space-lg);
+
+    background-color: var(--a11y-bg-alt);
+    border-top: 1px solid var(--a11y-border);
+}
+
+/* Section styles */
+.a11y-widget__section {
+    margin-bottom: var(--a11y-space-md);
+    padding-bottom: var(--a11y-space-md);
+    border-bottom: 1px solid var(--a11y-border);
+}
+
+.a11y-widget__section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.a11y-widget__section-title {
+    margin: 0 0 var(--a11y-space-md) 0;
+    font-family: var(--a11y-font-family);
+    font-size: var(--a11y-font-size-sm);
+    font-weight: var(--a11y-font-weight-medium);
+    color: var(--a11y-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .a11y-widget__panel {
+        width: calc(100vw - var(--a11y-space-lg) * 2);
+        max-height: 70vh;
+        right: var(--a11y-space-lg);
+        left: var(--a11y-space-lg);
+        bottom: calc(48px + var(--a11y-space-lg) + var(--a11y-space-md));
+    }
+
+    .a11y-widget--bottom-left .a11y-widget__panel,
+    .a11y-widget--bottom-right .a11y-widget__panel {
+        left: var(--a11y-space-lg);
+        right: var(--a11y-space-lg);
+    }
+}
