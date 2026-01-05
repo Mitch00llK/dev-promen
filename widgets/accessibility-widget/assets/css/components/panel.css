@@ -1,7 +1,7 @@
 /**
- * Accessibility Widget - Panel (Revamped)
+ * Accessibility Widget - Panel (Dark Polish)
  * 
- * Styles for the main control panel container.
+ * Deep Navy, flat surfaces, bold typography.
  * 
  * @package Promen_Elementor_Widgets
  */
@@ -17,15 +17,10 @@
     background-color: var(--a11y-bg);
     color: var(--a11y-text);
 
-    border: 1px solid var(--a11y-border);
+    /* Reference image has almost no border, just shadow and corner radius */
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: var(--a11y-radius-lg);
     box-shadow: var(--a11y-shadow-xl);
-
-    /* Glassmorphism support if backdrop-filter is available */
-    @supports (backdrop-filter: blur(12px)) {
-        background-color: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(12px);
-    }
 
     overflow: hidden;
     z-index: var(--a11y-z-widget);
@@ -33,32 +28,29 @@
     bottom: calc(var(--a11y-toggle-size) + var(--a11y-space-lg) + 12px);
     right: var(--a11y-space-lg);
 
-    /* Transition for slide in/out handled by helper classes */
+    /* Transitions */
     opacity: 0;
     pointer-events: none;
     transform: translateY(10px) scale(0.98);
     transition: opacity var(--a11y-duration) var(--a11y-ease),
-    transform var(--a11y-duration) var(--a11y-ease);
+        transform var(--a11y-duration) var(--a11y-ease);
 }
 
 .a11y-widget--open .a11y-widget__panel {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0) scale(1);
-    display: flex;
-    /* Ensure it's not hidden */
 }
 
 .a11y-widget__panel[hidden] {
     display: none;
-    /* Semantic hidden */
 }
 
 /* Panel Header */
 .a11y-widget__header {
     background-color: var(--a11y-bg);
-    border-bottom: 1px solid var(--a11y-border);
-    padding: var(--a11y-space-md);
+    /* Seamless header */
+    padding: var(--a11y-space-lg) var(--a11y-space-lg) var(--a11y-space-sm);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -70,20 +62,24 @@
     justify-content: space-between;
 }
 
+/* Typography Title - "Accessibility" */
 .a11y-widget__title {
     margin: 0;
-    font-size: var(--a11y-text-lg);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--a11y-text);
+    font-size: var(--a11y-text-xl);
+    /* Larger */
+    font-weight: 800;
+    /* Extra Bold */
+    letter-spacing: -0.02em;
+    color: var(--a11y-text-inverse);
+    text-transform: capitalize;
 }
 
 .a11y-widget__header-actions {
     display: flex;
-    gap: var(--a11y-space-xs);
+    gap: var(--a11y-space-sm);
 }
 
-/* Header Buttons */
+/* Header Buttons (Reset/Close) */
 .a11y-widget__reset,
 .a11y-widget__close {
     display: flex;
@@ -97,12 +93,13 @@
     color: var(--a11y-text-muted);
     border-radius: var(--a11y-radius-sm);
     cursor: pointer;
+    transition: color 0.2s;
 }
 
 .a11y-widget__reset:hover,
 .a11y-widget__close:hover {
-    background-color: var(--a11y-bg-hover);
-    color: var(--a11y-text);
+    color: var(--a11y-text-inverse);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Panel Content */
@@ -117,17 +114,23 @@
 }
 
 .a11y-widget__content::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
+}
+
+.a11y-widget__content::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .a11y-widget__content::-webkit-scrollbar-thumb {
-    background: var(--a11y-border);
-    border-radius: 4px;
+    background-color: var(--a11y-border);
+    border-radius: 20px;
+    border: 2px solid var(--a11y-bg);
+    /* Padding effect */
 }
 
 /* Sections */
 .a11y-widget__section {
-    padding: var(--a11y-space-md);
+    padding: var(--a11y-space-lg);
     border-bottom: 1px solid var(--a11y-border);
 }
 
@@ -135,13 +138,22 @@
     border-bottom: none;
 }
 
+.a11y-widget__section--profiles {
+    background-color: rgba(255, 255, 255, 0.02);
+    /* Slight tint for top section */
+}
+
+/* Section Titles - "PROFILES", "DISPLAY" */
 .a11y-widget__section-title {
-    margin: 0 0 var(--a11y-space-sm) 0;
-    font-size: var(--a11y-text-xs);
-    font-weight: 600;
+    margin: 0 0 var(--a11y-space-md) 0;
+    font-size: var(--a11y-text-lg);
+    /* Larger */
+    font-weight: 800;
+    /* Heavy weight */
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--a11y-text-muted);
+    /* Muted slate */
 }
 
 /* Profile Grid */
@@ -156,45 +168,46 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 8px 4px;
+    gap: 8px;
+    padding: 12px 4px;
+    height: 80px;
+    /* Specific height for square-ish look */
 
     background: var(--a11y-bg-alt);
+    /* Lighter slate cards */
     border: 1px solid transparent;
     border-radius: var(--a11y-radius-md);
     cursor: pointer;
-    transition: all var(--a11y-duration) var(--a11y-ease);
+    transition: all 0.2s;
+    color: var(--a11y-text-muted);
+    /* Muted default */
 }
 
 .a11y-widget__profile:hover {
     background: var(--a11y-bg-hover);
-    transform: translateY(-1px);
+    color: var(--a11y-text);
 }
 
 .a11y-widget__profile.is-active {
-    background: var(--a11y-primary-light);
-    border-color: var(--a11y-primary);
+    background: var(--a11y-bg-alt);
+    border: 1px solid var(--a11y-primary);
+    /* Blue border active */
     color: var(--a11y-primary);
+    box-shadow: 0 0 0 1px var(--a11y-primary);
+    /* Double border effect */
 }
 
 .a11y-widget__profile-icon {
-    font-size: 20px;
-    line-height: 1;
+    display: flex;
+}
+
+.a11y-widget__profile-icon svg {
+    width: 24px;
+    height: 24px;
 }
 
 .a11y-widget__profile-label {
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     text-align: center;
-}
-
-/* Dark mode overrides for specific elements */
-@media (prefers-color-scheme: dark) {
-    .a11y-widget__panel {
-        background-color: rgba(15, 23, 42, 0.95);
-    }
-
-    .a11y-widget__profile.is-active {
-        background: rgba(59, 130, 246, 0.2);
-    }
 }
