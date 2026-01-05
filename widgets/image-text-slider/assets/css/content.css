@@ -1,6 +1,9 @@
 /* Image Text Slider Content Styles */
 
-/* Content wrapper is now inside each swiper-slide, not a global overlay */
+/* 
+ * Content wrapper inside each swiper-slide.
+ * Positioned to extend BELOW the slide boundaries for overlap effect.
+ */
 .image-text-slider-container .swiper-slide .slide-content-wrapper {
     position: absolute;
     bottom: 0;
@@ -15,18 +18,15 @@
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
+    /* Transform to push content below the slide boundary */
+    transform: translateY(50%);
 }
 
-/* Legacy global wrapper selector - keep for backward compatibility */
-.image-text-slider-container>.slide-content-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    pointer-events: none;
-    overflow: visible;
+/* Ensure swiper allows content overflow */
+.image-text-slider-container .swiper,
+.image-text-slider-container .swiper-wrapper,
+.image-text-slider-container .swiper-slide {
+    overflow: visible !important;
 }
 
 /* No longer need swiper-content-slider rules - unified architecture */
