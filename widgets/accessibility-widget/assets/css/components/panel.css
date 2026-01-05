@@ -137,7 +137,7 @@
 /* Section Titles - Minimal */
 .a11y-widget__section-title {
     margin: 0 0 var(--a11y-space-sm) 0;
-    font-size: 11px;
+    font-size: 16px !important;
     /* Small, refined */
     font-weight: 600;
     text-transform: uppercase;
