@@ -1,113 +1,62 @@
 /**
- * Image Text Slider Core Logic
- * Handles initialization and management of the slider instances
+ * Image Text Slider Main Logic
  * 
- * Aggregates functionality from focused modules:
- * - slider-config.js
- * - slider-spacer.js
- * - slider-content.js
- * - slider-editor.js
+ * Handles the initialization and core functionality of the unified image-text slider.
  */
 (function (window, $) {
     "use strict";
 
-    // Dependencies - with defensive checks
-    const AccessibilityUtils = window.PromenAccessibilityUtils || {};
-    const Utils = window.PromenSliderUtils || {};
-    const debounce = Utils.debounce || function (fn) { return fn; };
-    const throttle = Utils.throttle || function (fn) { return fn; };
-    const BrowserCompatibility = Utils.BrowserCompatibility || { applyBrowserFixes: function (el, opt) { return opt; } };
-
-    // Modules - with defensive checks
-    const ContentUtils = window.PromenSliderContent || {};
-    const Config = window.PromenSliderConfig || { isMobile: false, isLowEndDevice: false };
+    // Dependencies
+    const Config = window.PromenSliderConfig;
+    const ContentUtils = window.PromenSliderContent;
+    const AccessibilityUtils = window.PromenSliderAccessibility;
 
     /**
-     * Initialize all image text sliders on the page
+     * Initialize all sliders on the page
      */
     function initImageTextSliders() {
-        const sliders = document.querySelectorAll('.image-text-slider-container');
-        sliders.forEach(function (slider) {
+        const sliders = document.querySelectorAll('.image-text-slider-container:not(.initialized)');
+        sliders.forEach(slider => {
             initImageTextSlider(slider);
+            slider.classList.add('initialized');
         });
     }
 
     /**
-     * Initialize a single slider with Swiper
+     * Initialize a single slider instance
      * @param {HTMLElement} sliderEl - The slider container element
      */
     function initImageTextSlider(sliderEl) {
-        if (!sliderEl) {
-            return;
-        }
+        if (!sliderEl) return;
 
-        // Retry if Swiper is not loaded yet
-        if (typeof Swiper === 'undefined') {
-            setTimeout(function () {
-                initImageTextSlider(sliderEl);
-            }, 500);
-            return;
-        }
-
-        // If slider already initialized, destroy it first
-        if (sliderEl.swiper) {
-            sliderEl.swiper.destroy(true, true);
-        }
-
-        if (sliderEl.contentSwiper) {
-            sliderEl.contentSwiper.destroy(true, true);
-        }
-
-        // Get slider options from data attribute with mobile optimizations
-        let options = {};
-        try {
-            options = JSON.parse(sliderEl.getAttribute('data-options')) || {};
-
-            // Apply accessibility preferences
-            options = AccessibilityUtils.handleReducedMotionPreference(options);
-
-            // Apply browser compatibility fixes
-            options = BrowserCompatibility.applyBrowserFixes(sliderEl, options);
-
-            // Mobile performance adjustments
-            if (Config.isMobile || Config.isLowEndDevice) {
-                options.speed = Math.max(options.speed || 500, 300); // Faster transitions
-                options.enableGsapAnimations = false; // Disable GSAP on mobile
-                options.effect = 'slide'; // Force slide effect (more performant)
-            }
-        } catch (e) {
-            // Error parsing slider options
-        }
-
-        // Add mobile optimization class
-        if (Config.isMobile) {
-            sliderEl.classList.add('mobile-optimized');
-        }
-
-        // Get transition speed
-        const transitionSpeed = options.speed || 500;
-
-        // Set transition speed as CSS variable for reliable synchronization
-        sliderEl.style.setProperty('--swiper-transition-duration', transitionSpeed + 'ms');
-
-        // Get slide count for proper initialization
-        const slideCount = sliderEl.querySelectorAll('.swiper .swiper-slide').length;
-        const useLoop = slideCount > 1 && (options.infinite !== undefined ? options.infinite : true);
-
-        // Add transitioning class to handle content visibility during transitions
+        // Add initializing class
         sliderEl.classList.add('initializing');
+
+        // Parse configuration from data attributes
+        const settings = sliderEl.dataset.settings ? JSON.parse(sliderEl.dataset.settings) : {};
+        const slideCount = parseInt(sliderEl.dataset.slideCount || 0);
+
+        // Configuration defaults
+        const options = {
+            autoplay: settings.autoplay === 'yes',
+            autoplaySpeed: parseInt(settings.autoplay_speed || 5000),
+            pauseOnHover: settings.pause_on_hover === 'yes',
+            effect: settings.effect || 'fade', // Default to fade for unified slider
+            paginationType: settings.pagination_type || 'bullets',
+            speed: parseInt(settings.transition_speed || 600) // Increased for smoother fade
+        };
+
+        const useLoop = settings.loop === 'yes' && slideCount > 1;
 
         // Configure Swiper options
         const swiperOptions = {
             slidesPerView: 1,
             spaceBetween: 0,
-            // Force fade effect for Unified Slider to ensure content "replaces" in place
-            // instead of swiping away, which resolves the user's synchronization/visual preference
-            effect: 'fade',
+            effect: options.effect || 'fade',
             fadeEffect: {
-                crossFade: true
+                crossFade: true // Smooth cross-fade to ensure replacement effect
             },
-            speed: 600, // Slightly slower for smoother fade replacement
+            speed: options.speed,
             loop: useLoop,
             loopedSlides: useLoop ? slideCount : null,
             autoHeight: false,
@@ -140,7 +89,7 @@
                 type: options.paginationType || 'bullets'
             },
 
-            // Events - simplified for unified slider architecture
+            // Events
             on: {
                 init: function () {
                     // Remove initializing class after short delay
@@ -162,8 +111,8 @@
         // Add autoplay if enabled
         if (options.autoplay) {
             swiperOptions.autoplay = {
-                delay: options.autoplaySpeed || 5000,
-                disableOnInteraction: options.pauseOnHover ? true : false
+                delay: options.autoplaySpeed,
+                disableOnInteraction: options.pauseOnHover
             };
         }
 
@@ -196,7 +145,7 @@
                 setTimeout(() => window.updateSpacerPosition(sliderEl, spacer), 300);
             }
 
-            // Update spacer on slide change if needed
+            // Update spacer on slide change if needed (to handle varying content heights)
             swiper.on('slideChange', function () {
                 spacer = sliderEl.querySelector('.slider-bottom-spacer');
                 if (spacer && window.updateSpacerPosition) {

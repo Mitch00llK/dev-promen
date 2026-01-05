@@ -51,12 +51,12 @@
             // console.log('Running Spacer Measurement:', { id: slider.id, rect: sliderRect, bottom: sliderBottom });
 
             // Find the active content slide
-            // We look for both the active slide in the content swiper AND potentially static content
-            let activeContent = slider.querySelector('.swiper-content-slider .swiper-slide-active .slide-content-container');
+            // Unified slider: content is inside the main swiper slide
+            let activeContent = slider.querySelector('.swiper-slide-active .slide-content-container');
 
             // Fallback: if no active slide found (e.g. initialization), try the first visible one
             if (!activeContent) {
-                activeContent = slider.querySelector('.swiper-content-slider .swiper-slide .slide-content-container');
+                activeContent = slider.querySelector('.swiper-slide .slide-content-container');
             }
 
             if (!activeContent) {
