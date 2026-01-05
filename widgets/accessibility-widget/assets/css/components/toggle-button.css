@@ -19,7 +19,7 @@
     color: var(--a11y-text-inverse);
 
     border: none;
-    border-radius: 50%;
+    border-radius: var(--a11y-radius-full);
 
     box-shadow: var(--a11y-shadow-lg);
 
@@ -29,6 +29,10 @@
     /* Default position: bottom-right */
     bottom: var(--a11y-space-xl);
     right: var(--a11y-space-xl);
+
+    transition: transform var(--a11y-duration) var(--a11y-ease),
+        background-color var(--a11y-duration) var(--a11y-ease),
+        box-shadow var(--a11y-duration) var(--a11y-ease);
 }
 
 /* Position variations */
@@ -53,12 +57,13 @@
 .a11y-widget__toggle:hover {
     background-color: var(--a11y-primary-hover);
     transform: scale(1.05);
+    box-shadow: var(--a11y-shadow-xl);
 }
 
 /* Active state */
 .a11y-widget__toggle:active {
     background-color: var(--a11y-primary-active);
-    transform: scale(0.98);
+    transform: scale(0.95);
 }
 
 /* Focus state */
@@ -67,13 +72,14 @@
 }
 
 .a11y-widget__toggle:focus-visible {
-    outline: var(--a11y-focus-ring-width) solid var(--a11y-focus-ring-color);
-    outline-offset: var(--a11y-focus-ring-offset);
+    outline: 2px solid var(--a11y-primary);
+    outline-offset: 4px;
 }
 
 /* When panel is open */
 .a11y-widget--open .a11y-widget__toggle {
     background-color: var(--a11y-primary-active);
+    transform: rotate(15deg);
 }
 
 /* Toggle icon */
@@ -84,8 +90,7 @@
 }
 
 .a11y-widget__toggle-icon svg {
-    width: 24px;
-    height: 24px;
+    display: block;
 }
 
 /* Mobile adjustments */
@@ -95,14 +100,5 @@
         height: 48px;
         bottom: var(--a11y-space-lg);
         right: var(--a11y-space-lg);
-    }
-
-    .a11y-widget--bottom-left .a11y-widget__toggle {
-        left: var(--a11y-space-lg);
-    }
-
-    .a11y-widget--top-right .a11y-widget__toggle,
-    .a11y-widget--top-left .a11y-widget__toggle {
-        top: var(--a11y-space-lg);
     }
 }

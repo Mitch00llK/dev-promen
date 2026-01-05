@@ -31,19 +31,6 @@
     }
 }
 
-/* Toggle pulse animation for attention */
-@keyframes a11y-pulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
-    }
-
-    50% {
-        box-shadow: 0 0 0 8px rgba(37, 99, 235, 0);
-    }
-}
-
 /* Spinner for loading states */
 @keyframes a11y-spin {
     from {
@@ -68,56 +55,16 @@
     }
 }
 
-/* Panel animations */
+/* Panel animations - controlled by JS adding classes/attributes */
 .a11y-widget__panel[data-animating="in"] {
-    animation: a11y-panel-slide-in var(--a11y-transition-normal) forwards;
+    animation: a11y-panel-slide-in var(--a11y-duration) var(--a11y-ease) forwards;
 }
 
 .a11y-widget__panel[data-animating="out"] {
-    animation: a11y-panel-slide-out var(--a11y-transition-fast) forwards;
+    animation: a11y-panel-slide-out var(--a11y-duration) var(--a11y-ease) forwards;
 }
 
-/* Button hover/active transitions */
-.a11y-widget__toggle,
-.a11y-widget__toggle-btn,
-.a11y-widget__profile,
-.a11y-widget__align-btn,
-.a11y-widget__reset,
-.a11y-widget__close {
-    transition:
-        background-color var(--a11y-transition-fast),
-        border-color var(--a11y-transition-fast),
-        box-shadow var(--a11y-transition-fast),
-        transform var(--a11y-transition-fast);
-}
-
-/* Scale on active */
-.a11y-widget__toggle-btn:active,
-.a11y-widget__profile:active,
-.a11y-widget__align-btn:active {
-    transform: scale(0.97);
-}
-
-/* Slider thumb transition */
-.a11y-widget__slider-wrap input[type="range"]::-webkit-slider-thumb {
-    transition:
-        background-color var(--a11y-transition-fast),
-        transform var(--a11y-transition-fast);
-}
-
-.a11y-widget__slider-wrap input[type="range"]::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-}
-
-/* Section collapse animation */
-.a11y-widget__section-content {
-    transition:
-        max-height var(--a11y-transition-normal),
-        opacity var(--a11y-transition-fast);
-    overflow: hidden;
-}
-
-.a11y-widget__section--collapsed .a11y-widget__section-content {
-    max-height: 0;
-    opacity: 0;
+/* Universal transition helper */
+.a11y-transition {
+    transition: all var(--a11y-duration) var(--a11y-ease);
 }

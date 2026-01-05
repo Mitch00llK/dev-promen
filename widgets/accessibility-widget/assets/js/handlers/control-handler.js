@@ -1,7 +1,7 @@
 /**
  * Control Handler
  * 
- * Manages control interactions (buttons, sliders, etc.)
+ * Manages control interactions (switches, sliders, buttons)
  * 
  * @package Promen_Elementor_Widgets
  */
@@ -26,9 +26,9 @@ class ControlHandler {
      */
     init() {
         this.bindSliders();
-        this.bindToggleButtons();
+        this.bindSwitches();
+        this.bindContrastButtons();
         this.bindProfileButtons();
-        this.bindAlignmentButtons();
         this.bindResetButton();
 
         // Sync UI with current settings
@@ -59,16 +59,6 @@ class ControlHandler {
             });
         }
 
-        // Saturation slider
-        const saturationSlider = $('#a11y-saturation');
-        if (saturationSlider) {
-            saturationSlider.addEventListener('input', (e) => {
-                const value = parseInt(e.target.value);
-                visualAdjustments.setSaturation(value);
-                this.updateSliderValue(e.target, `${value}%`);
-            });
-        }
-
         // Line height slider
         const lineHeightSlider = $('#a11y-line-height');
         if (lineHeightSlider) {
@@ -88,16 +78,6 @@ class ControlHandler {
                 this.updateSliderValue(e.target, `${value}px`);
             });
         }
-
-        // Word spacing slider
-        const wordSpacingSlider = $('#a11y-word-spacing');
-        if (wordSpacingSlider) {
-            wordSpacingSlider.addEventListener('input', (e) => {
-                const value = parseInt(e.target.value);
-                visualAdjustments.setWordSpacing(value);
-                this.updateSliderValue(e.target, `${value}px`);
-            });
-        }
     }
 
     /**
@@ -114,12 +94,26 @@ class ControlHandler {
     }
 
     /**
-     * Bind toggle button controls
+     * Bind switch controls (Toggle buttons)
      */
-    bindToggleButtons() {
-        const toggleButtons = $$('.a11y-widget__toggle-btn[data-setting]');
+    bindSwitches() {
+        const switches = $$('.a11y-widget__switch[data-setting]');
 
-        toggleButtons.forEach(button => {
+        switches.forEach(button => {
+            button.addEventListener('click', () => {
+                const setting = button.dataset.setting;
+                this.handleToggleSetting(setting, button);
+            });
+        });
+    }
+
+    /**
+     * Bind contrast grid buttons
+     */
+    bindContrastButtons() {
+        const buttons = $$('.a11y-widget__contrast-btn[data-setting]');
+
+        buttons.forEach(button => {
             button.addEventListener('click', () => {
                 const setting = button.dataset.setting;
                 this.handleToggleSetting(setting, button);
@@ -140,11 +134,10 @@ class ControlHandler {
             case 'high-contrast':
             case 'dark-contrast':
             case 'light-contrast':
-            case 'monochrome':
             case 'invert-colors':
                 const mode = setting === 'invert-colors' ? 'invert' : setting;
                 newState = visualAdjustments.toggleContrastMode(mode);
-                // Update all contrast buttons
+                // Update all contrast buttons since they are exclusive
                 this.syncContrastButtons();
                 break;
 
@@ -152,67 +145,75 @@ class ControlHandler {
             case 'dyslexia-font':
                 newState = !storageManager.get('dyslexiaFont');
                 visualAdjustments.setDyslexiaFont(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             // Navigation features
-            case 'focus-indicators':
+            case 'focus-indicators': // Not in UI currently but logic remains
                 newState = !storageManager.get('focusIndicators');
                 navigation.setFocusIndicators(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             case 'large-cursor':
                 newState = !storageManager.get('largeCursor');
                 navigation.setLargeCursor(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             case 'reading-guide':
                 newState = !storageManager.get('readingGuide');
                 navigation.setReadingGuide(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             case 'reading-mask':
                 newState = !storageManager.get('readingMask');
                 navigation.setReadingMask(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             case 'highlight-links':
                 newState = !storageManager.get('highlightLinks');
                 navigation.setHighlightLinks(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             case 'highlight-headers':
                 newState = !storageManager.get('highlightHeaders');
                 navigation.setHighlightHeaders(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             // Content control
             case 'stop-animations':
                 newState = !storageManager.get('stopAnimations');
                 contentControl.setStopAnimations(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             case 'hide-images':
                 newState = !storageManager.get('hideImages');
                 contentControl.setHideImages(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             case 'mute-sounds':
                 newState = !storageManager.get('muteSounds');
                 contentControl.setMuteSounds(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             case 'text-to-speech':
                 newState = !storageManager.get('textToSpeech');
                 contentControl.setTextToSpeech(newState);
+                this.updateButtonState(button, newState);
                 break;
 
             default:
                 console.warn(`A11y Widget: Unknown setting "${setting}"`);
                 return;
         }
-
-        // Update button state
-        this.updateButtonState(button, newState);
 
         // Clear profile if manually changing settings
         cognitiveSupport.resetProfile();
@@ -235,33 +236,6 @@ class ControlHandler {
     }
 
     /**
-     * Bind alignment buttons
-     */
-    bindAlignmentButtons() {
-        const alignButtons = $$('.a11y-widget__align-btn[data-align]');
-
-        alignButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const align = button.dataset.align;
-                const currentAlign = storageManager.get('textAlign');
-
-                // Toggle off if clicking same alignment
-                const newAlign = currentAlign === align ? null : align;
-                visualAdjustments.setTextAlign(newAlign);
-
-                // Update button states
-                alignButtons.forEach(btn => {
-                    this.updateButtonState(btn, btn.dataset.align === newAlign);
-                });
-
-                // Clear profile
-                cognitiveSupport.resetProfile();
-                this.syncProfileButtons();
-            });
-        });
-    }
-
-    /**
      * Bind reset button
      */
     bindResetButton() {
@@ -276,12 +250,21 @@ class ControlHandler {
     }
 
     /**
-     * Update button pressed state
+     * Update button pressed/checked state
      * @param {Element} button Button element
      * @param {boolean} isActive Active state
      */
     updateButtonState(button, isActive) {
-        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        if (!button) return;
+
+        const role = button.getAttribute('role');
+
+        if (role === 'switch') {
+            button.setAttribute('aria-checked', isActive ? 'true' : 'false');
+        } else {
+            button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        }
+
         button.classList.toggle('is-active', isActive);
     }
 
@@ -295,12 +278,11 @@ class ControlHandler {
             'high-contrast': settings.highContrast,
             'dark-contrast': settings.darkContrast,
             'light-contrast': settings.lightContrast,
-            'monochrome': settings.monochrome,
             'invert-colors': settings.invertColors
         };
 
         Object.entries(buttons).forEach(([setting, isActive]) => {
-            const button = $(`.a11y-widget__toggle-btn[data-setting="${setting}"]`);
+            const button = $(`.a11y-widget__contrast-btn[data-setting="${setting}"]`);
             if (button) {
                 this.updateButtonState(button, isActive);
             }
@@ -328,18 +310,19 @@ class ControlHandler {
         // Sync sliders
         this.syncSlider('#a11y-text-size', settings.textScale, `${settings.textScale}%`);
         this.syncSlider('#a11y-zoom', settings.pageZoom, `${settings.pageZoom}%`);
-        this.syncSlider('#a11y-saturation', settings.saturation, `${settings.saturation}%`);
         this.syncSlider('#a11y-line-height', settings.lineHeight, settings.lineHeight.toFixed(1));
         this.syncSlider('#a11y-letter-spacing', settings.letterSpacing, `${settings.letterSpacing}px`);
-        this.syncSlider('#a11y-word-spacing', settings.wordSpacing, `${settings.wordSpacing}px`);
+
+        // Removed word spacing/saturation sliders from UI, so no need to sync them if element not found.
+        // But safe to try if we want to support them technically:
+        // this.syncSlider('#a11y-saturation', settings.saturation, `${settings.saturation}%`);
 
         // Sync contrast buttons
         this.syncContrastButtons();
 
-        // Sync toggle buttons
+        // Sync switches
         const toggleSettings = {
             'dyslexia-font': settings.dyslexiaFont,
-            'focus-indicators': settings.focusIndicators,
             'large-cursor': settings.largeCursor,
             'reading-guide': settings.readingGuide,
             'reading-mask': settings.readingMask,
@@ -347,20 +330,15 @@ class ControlHandler {
             'highlight-headers': settings.highlightHeaders,
             'stop-animations': settings.stopAnimations,
             'hide-images': settings.hideImages,
-            'mute-sounds': settings.muteSounds,
+            'mute-sounds': settings.muteSounds, // hidden in UI but might exist in DOM later
             'text-to-speech': settings.textToSpeech
         };
 
         Object.entries(toggleSettings).forEach(([setting, isActive]) => {
-            const button = $(`.a11y-widget__toggle-btn[data-setting="${setting}"]`);
-            if (button) {
-                this.updateButtonState(button, isActive);
+            const switchBtn = $(`.a11y-widget__switch[data-setting="${setting}"]`);
+            if (switchBtn) {
+                this.updateButtonState(switchBtn, isActive);
             }
-        });
-
-        // Sync alignment buttons
-        $$('.a11y-widget__align-btn[data-align]').forEach(button => {
-            this.updateButtonState(button, button.dataset.align === settings.textAlign);
         });
 
         // Sync profile buttons
