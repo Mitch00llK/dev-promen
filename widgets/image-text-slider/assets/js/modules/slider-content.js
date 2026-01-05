@@ -147,13 +147,18 @@
             // If we found an active slide, hide all others
             if (activeSlide) {
                 contentSlides.forEach(slide => {
-                    if (slide !== activeSlide) {
-                        // Apply strong hiding
-                        slide.style.opacity = "0";
+                    const isActive = slide.classList.contains('swiper-slide-active');
+                    if (!isActive) {
+                        // Apply strong hiding only if not active
+                        // We rely on Swiper to handle opacity during transitions usually, 
+                        // but to fix ghost clicks we must ensure pointer-events: none and visibility: hidden
                         slide.style.visibility = "hidden";
                         slide.style.pointerEvents = "none";
-                        slide.style.position = "absolute";
                         slide.style.zIndex = "0";
+                        // We do NOT strictly force opacity to 0 here to avoid fighting with Swiper's fade effect 
+                        // if called during a transition (though this function is typically called at the end).
+                        // However, to be safe and clean:
+                        slide.style.opacity = "0";
                     } else {
                         // Ensure active slide is fully visible
                         slide.style.opacity = "1";

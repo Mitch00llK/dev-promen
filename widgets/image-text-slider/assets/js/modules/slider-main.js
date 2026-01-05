@@ -320,12 +320,13 @@
                 const styleEl = document.createElement('style');
                 styleEl.id = 'image-text-slider-transition-styles';
                 styleEl.innerHTML = `
-                    .image-text-slider-container.transitioning .swiper-content-slider .swiper-slide:not(.swiper-slide-active),
-                    .image-text-slider-container.initializing .swiper-content-slider .swiper-slide:not(.swiper-slide-active) {
-                        opacity: 0 !important;
-                        visibility: hidden !important;
-                        transition: none !important;
-                    }
+                styleEl.innerHTML = `
+                    .image - text - slider - container.initializing.swiper - content - slider.swiper - slide: not(.swiper - slide - active) {
+                    opacity: 0!important;
+                    visibility: hidden!important;
+                    transition: none!important;
+                }
+                `;
                 `;
                 document.head.appendChild(styleEl);
             }
