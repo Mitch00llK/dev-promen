@@ -2,18 +2,16 @@
 /**
  * Slide Image Template
  * 
- * Renders the image portion of a single slide
+ * Renders the image portion of a single slide.
+ * Note: The outer swiper-slide wrapper is now in render.php.
  */
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 ?>
-<div class="swiper-slide elementor-repeater-item-<?php echo esc_attr($slide['_id']); ?>" 
-     role="img" 
-     aria-label="<?php echo esc_attr(sprintf(__('Slide %d image', 'promen-elementor-widgets'), $index + 1)); ?>">
-    <?php if (!empty($slide['background_image']['url'])) : 
-        $image_url = $slide['background_image']['url'];
+<?php if (!empty($slide['background_image']['url'])) : 
+    $image_url = $slide['background_image']['url'];
         
         // Get the image size if specified
         if (!empty($slide['image_size']) && $slide['image_size'] !== 'full') {
@@ -173,4 +171,3 @@ if (!defined('ABSPATH')) {
             <?php endif; ?>
         </div>
     <?php endif; ?>
-</div> 

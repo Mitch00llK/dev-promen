@@ -2,18 +2,15 @@
 /**
  * Slide Content Template
  * 
- * Renders the content portion of a single slide
+ * Renders the content portion of a single slide.
+ * Note: The outer swiper-slide wrapper is now in render.php.
  */
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 ?>
-<div class="swiper-slide elementor-repeater-item-content-<?php echo esc_attr($slide['_id']); ?>" 
-     role="group" 
-     aria-roledescription="<?php echo esc_attr__('slide', 'promen-elementor-widgets'); ?>" 
-     aria-label="<?php echo esc_attr(sprintf(__('Slide %d of %d', 'promen-elementor-widgets'), $slide_number, $total_slides)); ?>">
-    <div class="slide-content-container" 
+<div class="slide-content-container" 
          role="article" 
          aria-label="<?php echo esc_attr(sprintf(__('Slide %d: %s', 'promen-elementor-widgets'), $slide_number, !empty($slide['title_text']) ? esc_attr($slide['title_text']) : sprintf(__('Slide %d', 'promen-elementor-widgets'), $slide_number))); ?>"
          aria-describedby="<?php echo esc_attr('slide-description-' . $slide['_id']); ?>">
@@ -166,4 +163,3 @@ if (!defined('ABSPATH')) {
         }
         ?>
     </div>
-</div> 

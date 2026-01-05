@@ -70,37 +70,36 @@ if (!isset($visible_slides) || !isset($slider_options)) {
     <div class="swiper" role="img" aria-label="<?php echo esc_attr__('Image carousel', 'promen-elementor-widgets'); ?>"<?php echo $divider_data_attrs; ?>>
         <div class="swiper-wrapper">
             <?php 
-            // Include slide image template for each slide
+            // Unified slide structure: each slide contains both image and content
             foreach ($visible_slides as $index => $slide) {
-                include(__DIR__ . '/partials/_slide_image.php');
-            } 
+                $slide_number = $index + 1;
+                $total_slides = count($visible_slides);
             ?>
+                <div class="swiper-slide elementor-repeater-item-<?php echo esc_attr($slide['_id']); ?>" 
+                     role="group" 
+                     aria-roledescription="<?php echo esc_attr__('slide', 'promen-elementor-widgets'); ?>" 
+                     aria-label="<?php echo esc_attr(sprintf(__('Slide %d of %d', 'promen-elementor-widgets'), $slide_number, $total_slides)); ?>">
+                    <?php 
+                    // Include slide image (without outer wrapper)
+                    include(__DIR__ . '/partials/_slide_image.php'); 
+                    ?>
+                    
+                    <div class="slide-content-wrapper" 
+                         role="complementary" 
+                         aria-label="<?php echo esc_attr(sprintf(__('Slide %d content', 'promen-elementor-widgets'), $slide_number)); ?>">
+                        <?php 
+                        // Include slide content (without outer wrapper)
+                        include(__DIR__ . '/partials/_slide_content.php'); 
+                        ?>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
         
         <?php if ($show_pagination) : ?>
             <!-- Pagination removed from top of slider as requested -->
         <?php endif; ?>
         
-    </div>
-    
-    <div class="slide-content-wrapper" 
-         role="complementary" 
-         aria-label="<?php echo esc_attr(sprintf(_n('Slide content area with %d slide', 'Slide content area with %d slides', count($visible_slides), 'promen-elementor-widgets'), count($visible_slides))); ?>"
-         aria-describedby="<?php echo esc_attr($accessibility_attrs['live_region_id']); ?>">
-        <!-- Screen reader context for content area -->
-        <?php echo Promen_Accessibility_Utils::get_screen_reader_text(sprintf(__('Content area: Navigate through %d slides to view different content sections.', 'promen-elementor-widgets'), count($visible_slides))); ?>
-        <div class="swiper-content-slider" data-slider-id="<?php echo esc_attr($slider_id); ?>" role="region" aria-label="<?php echo esc_attr__('Slide content', 'promen-elementor-widgets'); ?>">
-            <div class="swiper-wrapper">
-                <?php 
-                // Include slide content template for each slide
-                foreach ($visible_slides as $index => $slide) {
-                    $slide_number = $index + 1;
-                    $total_slides = count($visible_slides);
-                    include(__DIR__ . '/partials/_slide_content.php');
-                } 
-                ?>
-            </div>
-        </div>
     </div>
 
     <!-- Spacer element to ensure content below is pushed down properly -->

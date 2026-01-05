@@ -102,20 +102,21 @@
             slidesPerView: 1,
             spaceBetween: 0,
             effect: options.effect || 'fade',
+            fadeEffect: {
+                crossFade: true // Smooth cross-fade between slides
+            },
             speed: transitionSpeed,
             loop: useLoop,
-            // Explicitly set loopedSlides to the number of slides if loop is enabled
             loopedSlides: useLoop ? slideCount : null,
             autoHeight: false,
-            watchSlidesProgress: !Config.isMobile, // Disable on mobile for performance
+            watchSlidesProgress: !Config.isMobile,
             grabCursor: true,
-            observer: !Config.isMobile, // Disable heavy observers on mobile
+            observer: !Config.isMobile,
             observeParents: !Config.isMobile,
-            observeSlideChildren: !Config.isMobile, // Disable on mobile for performance
+            observeSlideChildren: !Config.isMobile,
             simulateTouch: true,
-            preventInteractionOnTransition: true, // Prevent interaction during transition to avoid glitches
+            preventInteractionOnTransition: true,
             preventClicksPropagation: false,
-            // Ensure slides maintain proper order
             slideToClickedSlide: false,
 
             // Mobile-specific optimizations
@@ -137,48 +138,18 @@
                 type: options.paginationType || 'bullets'
             },
 
-            // Events for managing visibility and transitions
+            // Events - simplified for unified slider architecture
             on: {
                 init: function () {
-                    // Add a short delay before showing content for initial load
+                    // Remove initializing class after short delay
                     setTimeout(() => {
                         sliderEl.classList.remove('initializing');
                     }, 50);
                 },
-                beforeTransitionStart: function () {
-                    // Add transitioning class to handle content visibility during transitions
-                    sliderEl.classList.add('transitioning');
-
-                    // Immediately hide content to prevent flashing
-                    const contentSlides = sliderEl.querySelectorAll('.swiper-content-slider .swiper-slide');
-                    contentSlides.forEach(slide => {
-                        if (!slide.classList.contains('swiper-slide-active')) {
-                            slide.style.opacity = "0";
-                            slide.style.visibility = "hidden";
-                        }
-                    });
-                },
-                slideChange: function () {
-                    // Manually sync the content slider with the image slider
-                    if (sliderEl.contentSwiper) {
-                        // Get target slide before animation 
-                        const targetIndex = useLoop ? this.realIndex : this.activeIndex;
-
-                        // Set exact same index to ensure synchronization with 0 speed
-                        if (useLoop) {
-                            // For loop mode, use realIndex
-                            sliderEl.contentSwiper.slideToLoop(targetIndex, 0, false);
-                        } else {
-                            // For non-loop mode, use activeIndex
-                            sliderEl.contentSwiper.slideTo(targetIndex, 0, false);
-                        }
-                    }
-                },
                 transitionStart: function () {
-                    // Ensure content slides are hidden during transition
+                    sliderEl.classList.add('transitioning');
                 },
                 transitionEnd: function () {
-                    // Remove transitioning class when finished
                     setTimeout(() => {
                         sliderEl.classList.remove('transitioning');
                     }, 50);
@@ -200,7 +171,7 @@
         }
 
         try {
-            // Initialize Main Image Swiper
+            // Initialize unified Swiper (image + content in each slide)
             const swiper = new Swiper(sliderEl.querySelector('.swiper'), swiperOptions);
 
             // Store instance for performance monitoring
@@ -214,144 +185,8 @@
                 isLowEnd: Config.isLowEndDevice
             });
 
-            // Initialize content slider with matching settings to ensure perfect synchronization
-            const contentSwiperOptions = {
-                slidesPerView: 1,
-                effect: 'fade',
-                fadeEffect: {
-                    crossFade: true
-                },
-                speed: 0, // Set to 0 for instant transitions - critical fix
-                allowTouchMove: false, // Disable touch interaction to match old implementation
-                grabCursor: true,     // Show grab cursor
-                observer: true,
-                observeParents: true,
-                observeSlideChildren: true,
-                loop: useLoop, // Match loop setting of main slider
-                loopedSlides: useLoop ? slideCount : null, // match main slider loopedSlides perfectly
-                preventInteractionOnTransition: true,
-                on: {
-                    init: function () {
-                        // Set initial slide based on main swiper
-                        if (useLoop) {
-                            this.slideToLoop(swiper.realIndex, 0, false);
-                        } else {
-                            this.slideTo(swiper.activeIndex, 0, false);
-                        }
-
-                        // Ensure visibility is set properly
-                        if (ContentUtils.updateContentSlideVisibility) {
-                            ContentUtils.updateContentSlideVisibility(this);
-                        }
-                    },
-                    slideChange: function () {
-                        if (ContentUtils.updateContentSlideVisibility) {
-                            ContentUtils.updateContentSlideVisibility(this);
-                        }
-
-                        // Explicitly set visibility based on active state
-                        const slides = this.slides;
-                        if (slides && slides.length > 0) {
-                            slides.forEach((slide, index) => {
-                                if (index === this.activeIndex) {
-                                    slide.style.opacity = '1';
-                                    slide.style.visibility = 'visible';
-                                } else {
-                                    slide.style.opacity = '0';
-                                    slide.style.visibility = 'hidden';
-                                }
-                            });
-                        }
-                    },
-                    transitionStart: function () {
-                        // Hide all non-active slides immediately
-                        const slides = this.slides;
-                        if (slides && slides.length > 0) {
-                            slides.forEach((slide, index) => {
-                                if (index !== this.activeIndex) {
-                                    slide.style.opacity = '0';
-                                    slide.style.visibility = 'hidden';
-                                }
-                            });
-                        }
-                    },
-                    transitionEnd: function () {
-                        // Ensure only active slide is visible after transition
-                        setTimeout(() => {
-                            if (ContentUtils.ensureStaticContentAlignment) {
-                                ContentUtils.ensureStaticContentAlignment();
-                            }
-                        }, 50);
-                    }
-                }
-            };
-
-            const contentSwiper = new Swiper(sliderEl.querySelector('.swiper-content-slider'), contentSwiperOptions);
-
-            // Store swiper instances in the element
+            // Store swiper instance in the element
             sliderEl.swiper = swiper;
-            sliderEl.contentSwiper = contentSwiper;
-
-            // Update instance tracking with content swiper
-            const instance = window.imageTextSliderInstances.get(sliderId);
-            if (instance) {
-                instance.contentSwiper = contentSwiper;
-            }
-
-            // Set initial sync after initialization
-            if (useLoop) {
-                contentSwiper.slideToLoop(swiper.realIndex, 0, false);
-            } else {
-                contentSwiper.slideTo(swiper.activeIndex, 0, false);
-            }
-
-            // Add event listener for navigation clicks to ensure sync - using querySelectorAll fix naturally
-            sliderEl.querySelectorAll('.swiper-button-next, .swiper-button-prev').forEach(function (btn) {
-                btn.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    const isNext = btn.classList.contains('swiper-button-next');
-
-                    // Add transitioning class
-                    sliderEl.classList.add('transitioning');
-
-                    if (isNext) {
-                        swiper.slideNext();
-                    } else {
-                        swiper.slidePrev();
-                    }
-                });
-            });
-
-            // Listen for autoplay
-            if (options.autoplay) {
-                swiper.on('autoplay', function () {
-                    // Add transitioning class
-                    sliderEl.classList.add('transitioning');
-
-                    // Keep content slider in sync with image slider during autoplay
-                    if (useLoop) {
-                        contentSwiper.slideToLoop(swiper.realIndex, 0, false);
-                    } else {
-                        contentSwiper.slideTo(swiper.activeIndex, 0, false);
-                    }
-                });
-            }
-
-            // Add CSS helper to handle transitions better
-            if (!document.getElementById('image-text-slider-transition-styles')) {
-                const styleEl = document.createElement('style');
-                styleEl.id = 'image-text-slider-transition-styles';
-                styleEl.innerHTML = `
-                    .image-text-slider-container.transitioning .swiper-content-slider .swiper-slide:not(.swiper-slide-active),
-                    .image-text-slider-container.initializing .swiper-content-slider .swiper-slide:not(.swiper-slide-active) {
-                        opacity: 0 !important;
-                        visibility: hidden !important;
-                        transition: none !important;
-                    }
-                `;
-                document.head.appendChild(styleEl);
-            }
 
             // Update spacer after initialization
             let spacer = sliderEl.querySelector('.slider-bottom-spacer');
@@ -359,16 +194,13 @@
                 setTimeout(() => window.updateSpacerPosition(sliderEl, spacer), 300);
             }
 
-            // Add event listener to handle slide changes and update spacer if needed
+            // Update spacer on slide change if needed
             swiper.on('slideChange', function () {
                 spacer = sliderEl.querySelector('.slider-bottom-spacer');
                 if (spacer && window.updateSpacerPosition) {
                     setTimeout(() => window.updateSpacerPosition(sliderEl, spacer), 300);
                 }
             });
-
-            // Content visibility is now handled by Swiper's fade effect with crossFade: true
-            // No manual visibility management needed - this was causing the content to disappear
 
             // Initialize accessibility features
             if (AccessibilityUtils && typeof AccessibilityUtils.initSliderAccessibility === 'function') {
@@ -382,7 +214,6 @@
 
         } catch (error) {
             console.error('Slider Init Error:', error);
-            // Clean up in case of error
             sliderEl.classList.remove('initializing');
             sliderEl.classList.remove('transitioning');
         }
