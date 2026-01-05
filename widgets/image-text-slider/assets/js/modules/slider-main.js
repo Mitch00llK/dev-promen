@@ -150,7 +150,13 @@
                     sliderEl.classList.add('transitioning');
                 },
                 slideChange: function () {
-                    // Controller handles sync
+                    // Controller handles sync, but we add explicit sync as a safeguard
+                    const currentIndex = this.realIndex;
+
+                    // Use sliderEl.contentSwiper to reference the stored instance
+                    if (sliderEl.contentSwiper && sliderEl.contentSwiper.realIndex !== currentIndex) {
+                        sliderEl.contentSwiper.slideTo(currentIndex, 0, false);
+                    }
                 },
                 transitionStart: function () {
                     // No special logic needed here anymore without GSAP
@@ -205,16 +211,23 @@
                 observer: true,
                 observeParents: true,
                 observeSlideChildren: true,
-                loop: options.loop, // Match loop setting of main slider
-                loop: options.loop, // Match loop setting of main slider
-                loopedSlides: options.loop ? slideCount : null, // match main slider loopedSlides perfectly
+                loop: useLoop, // Match loop setting of main slider
+                loopedSlides: useLoop ? slideCount : null, // match main slider loopedSlides perfectly
                 preventInteractionOnTransition: true,
                 on: {
                     init: function () {
                         // Controller handles initial sync mostly, but we set it just in case
                         // this.slideTo(swiper.realIndex, 0, false);
                     },
-                    // Removed manual slideChange handlers as Controller handles this
+                    slideChange: function () {
+                        // Ensure main swiper is synchronized when content swiper changes
+                        const currentIndex = this.realIndex;
+
+                        // Use sliderEl.swiper to reference the stored instance
+                        if (sliderEl.swiper && sliderEl.swiper.realIndex !== currentIndex) {
+                            sliderEl.swiper.slideTo(currentIndex, 0, false);
+                        }
+                    }
                 }
             };
 
