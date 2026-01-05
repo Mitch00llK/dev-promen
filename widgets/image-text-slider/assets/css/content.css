@@ -19,7 +19,7 @@
     align-items: flex-end;
     justify-content: flex-start;
     /* Transform to push content below the slide boundary */
-    transform: translateY(50%);
+    /* transform: translateY(50%); */
 }
 
 /* Ensure swiper allows content overflow */
