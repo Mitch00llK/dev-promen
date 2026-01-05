@@ -101,11 +101,13 @@
         const swiperOptions = {
             slidesPerView: 1,
             spaceBetween: 0,
-            effect: options.effect || 'fade',
+            // Force fade effect for Unified Slider to ensure content "replaces" in place
+            // instead of swiping away, which resolves the user's synchronization/visual preference
+            effect: 'fade',
             fadeEffect: {
-                crossFade: true // Smooth cross-fade between slides
+                crossFade: true
             },
-            speed: transitionSpeed,
+            speed: 600, // Slightly slower for smoother fade replacement
             loop: useLoop,
             loopedSlides: useLoop ? slideCount : null,
             autoHeight: false,

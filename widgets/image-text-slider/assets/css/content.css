@@ -20,6 +20,18 @@
     justify-content: flex-start;
     /* Transform to push content below the slide boundary */
     /* transform: translateY(50%); */
+    /* Disabled by user manually */
+
+    /* Animation for content "replacement" feel */
+    opacity: 0;
+    transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+}
+
+/* Show content when slide is active/transitioning */
+.image-text-slider-container .swiper-slide-active .slide-content-wrapper,
+.image-text-slider-container .swiper-slide-duplicate-active .slide-content-wrapper,
+.image-text-slider-container .swiper-slide-visible .slide-content-wrapper {
+    opacity: 1;
 }
 
 /* Ensure swiper allows content overflow */
