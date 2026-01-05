@@ -14,7 +14,6 @@
     position: fixed;
     left: 0;
     right: 0;
-
     height: 12px;
 
     background: linear-gradient(to bottom,
@@ -25,12 +24,16 @@
             transparent 65%,
             transparent 100%);
 
+    /* Yellowguide line */
+    border-top: 2px solid rgba(255, 0, 0, 0.5);
+    border-bottom: 2px solid rgba(255, 0, 0, 0.5);
+
     pointer-events: none;
     z-index: var(--a11y-z-overlay);
 
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--a11y-transition-fast);
+    transition: opacity var(--a11y-duration) var(--a11y-ease);
 }
 
 .a11y-reading-guide.is-active {
@@ -51,7 +54,7 @@
 
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--a11y-transition-fast);
+    transition: opacity var(--a11y-duration) var(--a11y-ease);
 }
 
 .a11y-reading-mask.is-active {
@@ -64,9 +67,8 @@
     position: fixed;
     left: 0;
     right: 0;
-
-    background-color: rgba(0, 0, 0, 0.7);
-
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(2px);
     pointer-events: none;
 }
 
@@ -84,11 +86,13 @@
    Large Cursor
    ================================ */
 
+/* Using raw SVG for better compatibility */
 body.a11y-large-cursor,
 body.a11y-large-cursor * {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23000' stroke='%23fff' stroke-width='1' d='M 4 4 L 4 28 L 12 20 L 20 20 Z'/%3E%3C/svg%3E") 4 4, auto !important;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='black' stroke='white' stroke-width='2'%3E%3Cpath d='M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59'/%3E%3C/svg%3E") 12 12, auto !important;
 }
 
+/* Link hover cursor */
 body.a11y-large-cursor a,
 body.a11y-large-cursor button,
 body.a11y-large-cursor [role="button"],
@@ -97,7 +101,7 @@ body.a11y-large-cursor input[type="button"],
 body.a11y-large-cursor a *,
 body.a11y-large-cursor button *,
 body.a11y-large-cursor [role="button"] * {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23000' stroke='%23fff' stroke-width='1' d='M 6 6 L 6 10 L 10 10 L 6 6 M 10 6 L 10 10 L 6 10 M 22 6 L 22 10 L 26 10 L 22 6 M 26 6 L 26 10 L 22 10 M 6 22 L 6 26 L 10 26 L 6 22 M 10 22 L 10 26 L 6 26 M 22 22 L 22 26 L 26 26 L 22 22 M 26 22 L 26 26 L 22 26 M 8 16 L 24 16 M 16 8 L 16 24'/%3E%3C/svg%3E") 16 16, pointer !important;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='black' stroke='white' stroke-width='2'%3E%3Cpath d='M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59'/%3E%3C/svg%3E") 12 12, pointer !important;
 }
 
 /* ================================
@@ -120,23 +124,24 @@ body.a11y-large-cursor [role="button"] * {
 .screen-reader-text:focus,
 .screen-reader-text:active {
     position: fixed !important;
-    top: 5px !important;
-    left: 5px !important;
+    top: var(--a11y-space-sm) !important;
+    left: var(--a11y-space-sm) !important;
     width: auto !important;
     height: auto !important;
-    padding: 15px 23px !important;
+    padding: var(--a11y-space-md) var(--a11y-space-lg) !important;
     margin: 0 !important;
     overflow: visible !important;
     clip: auto !important;
     white-space: normal !important;
-    z-index: 100000;
+    z-index: 999999;
 
-    background-color: #f1f1f1;
-    border-radius: 3px;
-    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-    color: #21759b;
-    font-size: 14px;
+    background-color: var(--a11y-bg);
+    border-radius: var(--a11y-radius-md);
+    box-shadow: var(--a11y-shadow-xl);
+    color: var(--a11y-primary);
+    font-size: var(--a11y-text-base);
     font-weight: 600;
     line-height: normal;
     text-decoration: none;
+    border: 2px solid var(--a11y-primary);
 }

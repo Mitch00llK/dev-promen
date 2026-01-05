@@ -1,5 +1,5 @@
 /**
- * Accessibility Widget - Panel
+ * Accessibility Widget - Panel (Revamped)
  * 
  * Styles for the main control panel container.
  * 
@@ -17,158 +17,184 @@
     background-color: var(--a11y-bg);
     color: var(--a11y-text);
 
-    border-radius: var(--a11y-border-radius);
+    border: 1px solid var(--a11y-border);
+    border-radius: var(--a11y-radius-lg);
     box-shadow: var(--a11y-shadow-xl);
 
-    overflow: hidden;
-    z-index: var(--a11y-z-panel);
+    /* Glassmorphism support if backdrop-filter is available */
+    @supports (backdrop-filter: blur(12px)) {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+    }
 
-    /* Default position: above toggle button */
-    bottom: calc(var(--a11y-toggle-size) + var(--a11y-space-xl) + var(--a11y-space-md));
-    right: var(--a11y-space-xl);
+    overflow: hidden;
+    z-index: var(--a11y-z-widget);
+
+    bottom: calc(var(--a11y-toggle-size) + var(--a11y-space-lg) + 12px);
+    right: var(--a11y-space-lg);
+
+    /* Transition for slide in/out handled by helper classes */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px) scale(0.98);
+    transition: opacity var(--a11y-duration) var(--a11y-ease),
+    transform var(--a11y-duration) var(--a11y-ease);
 }
 
-/* Hidden state */
+.a11y-widget--open .a11y-widget__panel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    display: flex;
+    /* Ensure it's not hidden */
+}
+
 .a11y-widget__panel[hidden] {
     display: none;
-}
-
-/* Position variations */
-.a11y-widget--bottom-left .a11y-widget__panel {
-    right: auto;
-    left: var(--a11y-space-xl);
-}
-
-.a11y-widget--top-right .a11y-widget__panel {
-    bottom: auto;
-    top: calc(var(--a11y-toggle-size) + var(--a11y-space-xl) + var(--a11y-space-md));
-}
-
-.a11y-widget--top-left .a11y-widget__panel {
-    bottom: auto;
-    right: auto;
-    top: calc(var(--a11y-toggle-size) + var(--a11y-space-xl) + var(--a11y-space-md));
-    left: var(--a11y-space-xl);
+    /* Semantic hidden */
 }
 
 /* Panel Header */
 .a11y-widget__header {
+    background-color: var(--a11y-bg);
+    border-bottom: 1px solid var(--a11y-border);
+    padding: var(--a11y-space-md);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.a11y-widget__header-main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    padding: var(--a11y-space-lg);
-
-    background-color: var(--a11y-bg-alt);
-    border-bottom: 1px solid var(--a11y-border);
 }
 
 .a11y-widget__title {
     margin: 0;
-    font-family: var(--a11y-font-family);
-    font-size: var(--a11y-font-size-lg);
-    font-weight: var(--a11y-font-weight-bold);
+    font-size: var(--a11y-text-lg);
+    font-weight: 600;
+    letter-spacing: -0.01em;
     color: var(--a11y-text);
 }
 
+.a11y-widget__header-actions {
+    display: flex;
+    gap: var(--a11y-space-xs);
+}
+
+/* Header Buttons */
+.a11y-widget__reset,
 .a11y-widget__close {
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 32px;
     height: 32px;
 
-    background-color: transparent;
-    color: var(--a11y-text-muted);
-
+    background: transparent;
     border: none;
-    border-radius: var(--a11y-border-radius-sm);
-
+    color: var(--a11y-text-muted);
+    border-radius: var(--a11y-radius-sm);
     cursor: pointer;
 }
 
+.a11y-widget__reset:hover,
 .a11y-widget__close:hover {
     background-color: var(--a11y-bg-hover);
     color: var(--a11y-text);
-}
-
-.a11y-widget__close:focus-visible {
-    outline: var(--a11y-focus-ring-width) solid var(--a11y-focus-ring-color);
-    outline-offset: calc(-1 * var(--a11y-focus-ring-width));
 }
 
 /* Panel Content */
 .a11y-widget__content {
     flex: 1;
     overflow-y: auto;
-    padding: var(--a11y-space-md);
+    padding: 0;
 
-    /* Custom scrollbar */
+    /* Scrollbar */
     scrollbar-width: thin;
     scrollbar-color: var(--a11y-border) transparent;
 }
 
 .a11y-widget__content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.a11y-widget__content::-webkit-scrollbar-track {
-    background: transparent;
+    width: 4px;
 }
 
 .a11y-widget__content::-webkit-scrollbar-thumb {
-    background-color: var(--a11y-border);
-    border-radius: 3px;
+    background: var(--a11y-border);
+    border-radius: 4px;
 }
 
-/* Panel Footer */
-.a11y-widget__footer {
-    display: flex;
-    justify-content: center;
-
-    padding: var(--a11y-space-md) var(--a11y-space-lg);
-
-    background-color: var(--a11y-bg-alt);
-    border-top: 1px solid var(--a11y-border);
-}
-
-/* Section styles */
+/* Sections */
 .a11y-widget__section {
-    margin-bottom: var(--a11y-space-md);
-    padding-bottom: var(--a11y-space-md);
+    padding: var(--a11y-space-md);
     border-bottom: 1px solid var(--a11y-border);
 }
 
 .a11y-widget__section:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
     border-bottom: none;
 }
 
 .a11y-widget__section-title {
-    margin: 0 0 var(--a11y-space-md) 0;
-    font-family: var(--a11y-font-family);
-    font-size: var(--a11y-font-size-sm);
-    font-weight: var(--a11y-font-weight-medium);
-    color: var(--a11y-text-muted);
+    margin: 0 0 var(--a11y-space-sm) 0;
+    font-size: var(--a11y-text-xs);
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
+    color: var(--a11y-text-muted);
 }
 
-/* Mobile adjustments */
-@media (max-width: 480px) {
+/* Profile Grid */
+.a11y-widget__profiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--a11y-space-sm);
+}
+
+.a11y-widget__profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 4px;
+
+    background: var(--a11y-bg-alt);
+    border: 1px solid transparent;
+    border-radius: var(--a11y-radius-md);
+    cursor: pointer;
+    transition: all var(--a11y-duration) var(--a11y-ease);
+}
+
+.a11y-widget__profile:hover {
+    background: var(--a11y-bg-hover);
+    transform: translateY(-1px);
+}
+
+.a11y-widget__profile.is-active {
+    background: var(--a11y-primary-light);
+    border-color: var(--a11y-primary);
+    color: var(--a11y-primary);
+}
+
+.a11y-widget__profile-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.a11y-widget__profile-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Dark mode overrides for specific elements */
+@media (prefers-color-scheme: dark) {
     .a11y-widget__panel {
-        width: calc(100vw - var(--a11y-space-lg) * 2);
-        max-height: 70vh;
-        right: var(--a11y-space-lg);
-        left: var(--a11y-space-lg);
-        bottom: calc(48px + var(--a11y-space-lg) + var(--a11y-space-md));
+        background-color: rgba(15, 23, 42, 0.95);
     }
 
-    .a11y-widget--bottom-left .a11y-widget__panel,
-    .a11y-widget--bottom-right .a11y-widget__panel {
-        left: var(--a11y-space-lg);
-        right: var(--a11y-space-lg);
+    .a11y-widget__profile.is-active {
+        background: rgba(59, 130, 246, 0.2);
     }
 }
