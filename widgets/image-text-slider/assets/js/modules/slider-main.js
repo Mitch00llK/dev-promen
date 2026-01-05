@@ -217,7 +217,8 @@
                     crossFade: true
                 },
                 speed: 0, // Set to 0 for instant transitions - critical fix
-                allowTouchMove: false,
+                allowTouchMove: true, // Enable touch interaction
+                grabCursor: true,     // Show grab cursor
                 observer: true,
                 observeParents: true,
                 observeSlideChildren: true,
@@ -243,7 +244,17 @@
                                 }, 50);
                             }
                         }
-                    }
+                    },
+                    slideChange: function () {
+                        // Sync main swiper when content swiper is dragged/swiped
+                        if (sliderEl.swiper) {
+                            if (useLoop) {
+                                sliderEl.swiper.slideToLoop(this.activeIndex);
+                            } else {
+                                sliderEl.swiper.slideTo(this.activeIndex);
+                            }
+                        }
+                    },
                     // Removed slideChange, transitionStart, transitionEnd handlers
                     // Let Swiper's fade effect handle visibility naturally
                 }
