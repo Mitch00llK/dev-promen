@@ -438,6 +438,9 @@
 
         const voices = window.speechSynthesis.getVoices();
 
+        // If voices aren't loaded yet, we returned null, letting browser pick default.
+        // But we try to pick a good one if available.
+
         // Prefer Dutch voices
         const dutchVoices = voices.filter(voice =>
             voice.lang.startsWith('nl') ||
@@ -450,13 +453,13 @@
             const femaleVoice = dutchVoices.find(voice =>
                 voice.name.toLowerCase().includes('female') ||
                 voice.name.toLowerCase().includes('zira') ||
-                voice.name.toLowerCase().includes('helen')
+                voice.name.toLowerCase().includes('helen') ||
+                voice.name.toLowerCase().includes('google')
             );
 
             return femaleVoice || dutchVoices[0];
         }
 
-        // Fallback to any available voice
         return voices.length > 0 ? voices[0] : null;
     };
 
@@ -490,8 +493,6 @@
         }
 
         // Calculate estimated duration per word
-        // Average speaking rate: ~150 words per minute = ~2.5 words per second
-        // With rate 0.95, that's ~2.38 words per second = ~420ms per word
         const wordsPerSecond = 2.5 * baseSettings.rate;
         const msPerWord = 1000 / wordsPerSecond;
 
@@ -514,7 +515,6 @@
         // Use boundary events for more accurate word tracking
         utterance.onboundary = (event) => {
             if (event.name === 'word') {
-                // Calculate word index based on character position
                 const charIndex = event.charIndex;
                 const wordCount = wordSpans.length;
                 const textLength = text.length;
@@ -531,23 +531,18 @@
 
         // Start sequential highlighting with timer
         const startHighlighting = () => {
-            // Clear any existing interval
             if (highlightInterval) {
                 clearInterval(highlightInterval);
             }
 
-            // Start from first word
             currentHighlightWordIndex = 0;
             highlightWord(0);
 
-            // Update highlight at regular intervals
             highlightInterval = setInterval(() => {
-                // Don't update if paused
                 if (isPaused) {
                     return;
                 }
 
-                // Use boundary index if available, otherwise increment
                 if (boundaryWordIndex > currentHighlightWordIndex) {
                     currentHighlightWordIndex = boundaryWordIndex;
                 } else {
@@ -559,24 +554,23 @@
                     highlightInterval = null;
                 } else {
                     highlightWord(currentHighlightWordIndex);
-                    // Update global currentWordIndex for resume functionality
                     currentWordIndex = currentHighlightWordIndex;
                 }
             }, msPerWord);
         };
 
         utterance.onstart = () => {
+            console.log('Promen TTS: Utterance started');
             startHighlighting();
         };
 
         utterance.onend = () => {
-            // Clear interval
+            console.log('Promen TTS: Utterance ended');
             if (highlightInterval) {
                 clearInterval(highlightInterval);
                 highlightInterval = null;
             }
 
-            // Remove all highlights from this segment
             wordSpans.forEach(span => {
                 span.classList.remove(HIGHLIGHT_CLASS);
             });
@@ -584,13 +578,13 @@
             currentWordIndex = -1;
             boundaryWordIndex = 0;
 
-            // Continue with the next paragraph after a short pause
             setTimeout(() => {
                 speakSegments(segments, baseSettings, button, index + 1);
             }, 150);
         };
 
-        utterance.onerror = () => {
+        utterance.onerror = (e) => {
+            console.error('Promen TTS: Utterance error', e);
             if (highlightInterval) {
                 clearInterval(highlightInterval);
                 highlightInterval = null;
@@ -598,6 +592,7 @@
             stopSpeaking();
         };
 
+        console.log('Promen TTS: Speaking utterance...', text.substring(0, 20) + '...');
         window.speechSynthesis.speak(utterance);
     };
 
@@ -610,63 +605,69 @@
             return;
         }
 
+        // Force reload of voices if empty
+        if (window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                // Retry once voices loaded? No, just proceed, simple fallback
+                console.log('Promen TTS: Voices loaded asynchronously');
+            };
+        }
+
         if (button.dataset.ttsState === 'playing') {
             stopSpeaking();
             return;
         }
 
+        // Ensure we stop any previous speech cleanly
         stopSpeaking();
+        // A small timeout ensures the cancel event propagates before we start new speech
+        setTimeout(() => {
+            const collapsible = button.closest('[data-promen-collapsible]');
+            const textWrapper = collapsible ? collapsible.querySelector('.promen-text-content-block__collapsible-text') : null;
+            console.log('Promen TTS: Text wrapper found?', !!textWrapper);
 
-        const collapsible = button.closest('[data-promen-collapsible]');
-        const textWrapper = collapsible ? collapsible.querySelector('.promen-text-content-block__collapsible-text') : null;
-        console.log('Promen TTS: Text wrapper found?', !!textWrapper);
+            // Extract segments to read
+            const segments = getReadableSegments(textWrapper);
+            console.log('Promen TTS: Segments found:', segments.length);
 
-        // Extract segments to read
-        const segments = getReadableSegments(textWrapper);
-        console.log('Promen TTS: Segments found:', segments.length);
+            if (!segments.length) {
+                const fallbackText = preprocessTextForTTS(button.getAttribute('data-tts-text'));
+                if (!fallbackText) {
+                    console.warn('Promen TTS: No text to speak');
+                    return;
+                }
 
-        if (!segments.length) {
-            // Fall back to button text if no segments are available
-            const fallbackText = preprocessTextForTTS(button.getAttribute('data-tts-text'));
-            if (!fallbackText) {
-                return;
+                segments.push({
+                    element: textWrapper || button.closest('.promen-text-content-block__collapsible-panel') || button,
+                    text: fallbackText,
+                });
             }
 
-            segments.push({
-                element: textWrapper || button.closest('.promen-text-content-block__collapsible-panel') || button,
-                text: fallbackText,
-            });
-        }
+            const voice = getOptimalVoice();
+            console.log('Promen TTS: Selected voice:', voice ? voice.name : 'Default');
 
-        // Get optimal voice
-        const voice = getOptimalVoice();
+            const baseSettings = {
+                lang: document.documentElement.lang || 'nl-NL',
+                rate: 0.95,
+                pitch: 1.0,
+                volume: 1,
+                voice,
+            };
 
-        // Prepare shared settings for all segments
-        const baseSettings = {
-            lang: document.documentElement.lang || 'nl-NL',
-            rate: 0.95,
-            pitch: 1.0,
-            volume: 1,
-            voice,
-        };
+            currentButton = button;
+            button.dataset.ttsState = 'playing';
 
-        currentButton = button;
+            const stopLabel = button.getAttribute('data-tts-label-stop') || 'Stop';
+            const labelElement = button.querySelector('.promen-text-content-block__tts-label');
+            if (labelElement) {
+                labelElement.textContent = stopLabel;
+            }
 
-        // Update UI state immediately so users get feedback
-        button.dataset.ttsState = 'playing';
-        const stopLabel = button.getAttribute('data-tts-label-stop') || 'Stop';
-        const labelElement = button.querySelector('.promen-text-content-block__tts-label');
+            setInlineButtonIconState(button, 'stop');
+            showFloatingControl();
 
-        if (labelElement) {
-            labelElement.textContent = stopLabel;
-        }
-
-        setInlineButtonIconState(button, 'stop');
-
-        // Show floating control
-        showFloatingControl();
-
-        speakSegments(segments, baseSettings, button);
+            speakSegments(segments, baseSettings, button);
+        }, 50);
     };
 
     const toggleCollapsible = (trigger, panel) => {
