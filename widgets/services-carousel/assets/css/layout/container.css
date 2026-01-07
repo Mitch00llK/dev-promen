@@ -1,0 +1,75 @@
+/* Services Carousel Container Layout */
+
+.promen-services-carousel-container {
+    padding: 1rem 0;
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+    /* Prevent horizontal overflow */
+}
+
+.promen-services-carousel-wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    /* padding: 0 15px; */
+    box-sizing: border-box;
+}
+
+/* When in center mode, adjust wrapper padding */
+.promen-services-carousel-wrapper.has-center-mode {
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Adjust the carousel container in center mode */
+.promen-services-carousel-wrapper.has-center-mode .promen-services-carousel {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+
+/* Full-width container with left alignment to 1200px container */
+.promen-services-carousel-fullwidth {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Container for title and content that stays within 1200px */
+.promen-services-content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* padding: 0 15px; */
+    box-sizing: border-box;
+}
+
+/* This is the container that allows right overflow */
+.promen-services-carousel-fullwidth-inner {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0;
+    padding-left: 0;
+    overflow: visible;
+}
+
+.promen-services-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Editor styles */
+
+.elementor-editor-active .promen-services-carousel-container {
+    overflow: hidden;
+}
+
+.elementor-editor-active .promen-services-carousel-fullwidth-inner {
+    overflow: hidden;
+    max-width: 100%;
+}

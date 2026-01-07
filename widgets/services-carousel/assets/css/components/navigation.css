@@ -1,0 +1,108 @@
+/* Navigation Styles */
+
+.promen-services-navigation {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.carousel-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--promen-services-white, #ffffff);
+    border: 1px solid var(--promen-services-arrow-border, #e0e0e0);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--promen-services-primary-color, #002266);
+    font-size: 16px;
+    z-index: 2;
+}
+
+.promen-services-navigation .carousel-arrow {
+    position: relative;
+    top: auto;
+    transform: none;
+}
+
+.carousel-arrow:hover {
+    background-color: var(--promen-services-primary-color, #002266);
+    color: var(--promen-services-white, #ffffff);
+    border-color: var(--promen-services-primary-color, #002266);
+}
+
+/* Arrow positioning for regular carousel */
+.promen-services-carousel-wrapper .carousel-arrow-prev {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.promen-services-carousel-wrapper .carousel-arrow-next {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Arrow positioning for full-width carousel */
+.promen-services-carousel-fullwidth .carousel-arrow-prev {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.promen-services-carousel-fullwidth .carousel-arrow-next {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Arrow positioning for center mode */
+.promen-services-carousel-wrapper.has-center-mode .carousel-arrow-prev {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.promen-services-carousel-wrapper.has-center-mode .carousel-arrow-next {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Arrow positioning for full-width center mode */
+.promen-services-carousel-fullwidth.has-center-mode .carousel-arrow-prev {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.promen-services-carousel-fullwidth.has-center-mode .carousel-arrow-next {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Custom arrow positioning */
+.elementor-element[data-arrows-position-type="custom"] .carousel-arrow {
+    position: absolute;
+    top: var(--arrows-v-position, 50%);
+    transform: translateY(-50%);
+}
+
+/* When gradient is active, adjust arrows to be higher z-index */
+.promen-services-carousel-wrapper.has-gradient .carousel-arrow,
+.promen-services-carousel-fullwidth.has-gradient .carousel-arrow {
+    z-index: 6;
+}

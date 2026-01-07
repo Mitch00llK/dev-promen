@@ -24,9 +24,37 @@ class Promen_Assets_Config {
                 'path' => 'widgets/feature-blocks/assets/css/feature-blocks.css',
                 'deps' => ['promen-elementor-widgets'],
             ],
-            'promen-services-carousel-widget' => [
-                'path' => 'widgets/services-carousel/assets/css/services-carousel.css',
+            'promen-services-carousel-base' => [
+                'path' => 'widgets/services-carousel/assets/css/base/variables.css',
                 'deps' => ['promen-elementor-widgets'],
+            ],
+            'promen-services-carousel-layout' => [
+                'path' => 'widgets/services-carousel/assets/css/layout/container.css',
+                'deps' => ['promen-services-carousel-base'],
+            ],
+            'promen-services-carousel-component-header' => [
+                'path' => 'widgets/services-carousel/assets/css/components/header.css',
+                'deps' => ['promen-services-carousel-layout'],
+            ],
+            'promen-services-carousel-component-card' => [
+                'path' => 'widgets/services-carousel/assets/css/components/card.css',
+                'deps' => ['promen-services-carousel-layout'],
+            ],
+            'promen-services-carousel-component-carousel' => [
+                'path' => 'widgets/services-carousel/assets/css/components/carousel.css',
+                'deps' => ['promen-services-carousel-layout'],
+            ],
+            'promen-services-carousel-component-navigation' => [
+                'path' => 'widgets/services-carousel/assets/css/components/navigation.css',
+                'deps' => ['promen-services-carousel-layout'],
+            ],
+            'promen-services-carousel-responsive-tablet' => [
+                'path' => 'widgets/services-carousel/assets/css/responsive/tablet.css',
+                'deps' => ['promen-services-carousel-layout'],
+            ],
+            'promen-services-carousel-responsive-mobile' => [
+                'path' => 'widgets/services-carousel/assets/css/responsive/mobile.css',
+                'deps' => ['promen-services-carousel-layout'],
             ],
             'promen-benefits-base' => [
                 'path' => 'widgets/benefits-widget/assets/css/base/variables.css',

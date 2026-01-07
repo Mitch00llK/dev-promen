@@ -1,0 +1,104 @@
+/* Mobile Responsive Styles (max-width: 767px and 480px) */
+
+@media (max-width: 767px) {
+    .promen-services-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .promen-services-navigation {
+        align-self: flex-start;
+    }
+
+    .promen-services-title {
+        font-size: 28px;
+    }
+
+    .carousel-arrow {
+        width: 36px;
+        height: 36px;
+    }
+
+    .service-card {
+        padding: 20px 12px;
+        min-height: 150px;
+    }
+
+    .service-icon {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+
+    .promen-services-carousel.swiper.swiper-center-mode .swiper-slide-active .service-card {
+        transform: translateY(-3px) scale(1.03);
+    }
+
+    .promen-services-content-container {
+        padding: 0 10px;
+    }
+
+    .elementor-editor-active .promen-services-carousel:not(.swiper-initialized) .service-card {
+        min-width: 200px;
+    }
+
+    .promen-services-carousel-wrapper .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-gradient:after {
+        width: 20vw;
+    }
+
+    /* Center Mode Mobile */
+    .promen-services-carousel.swiper.swiper-center-mode {
+        margin-left: calc(-1 * var(--center-padding-mobile, 20px));
+        margin-right: calc(-1 * var(--center-padding-mobile, 20px));
+    }
+
+    .promen-services-carousel.swiper.swiper-center-mode .swiper-wrapper {
+        padding-left: var(--center-padding-mobile, 20px);
+        padding-right: var(--center-padding-mobile, 20px);
+    }
+
+    .promen-services-carousel-wrapper.has-center-mode .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-center-mode.has-gradient:after {
+        right: var(--center-padding-mobile, 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .promen-services-title {
+        font-size: 24px;
+    }
+
+    .carousel-arrow {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 14px;
+        background-color: var(--promen-services-primary-color, #002469);
+        color: var(--promen-services-white, #ffffff);
+    }
+
+    .service-card {
+        min-height: 140px;
+    }
+
+    .promen-services-carousel-wrapper .carousel-arrow-prev {
+        left: -10px;
+    }
+
+    .promen-services-carousel-wrapper .carousel-arrow-next {
+        right: -10px;
+    }
+
+    .promen-services-carousel-fullwidth .carousel-arrow-prev {
+        left: -10px;
+    }
+
+    .promen-services-carousel-fullwidth .carousel-arrow-next {
+        right: -10px;
+    }
+
+    .promen-services-carousel-wrapper .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-gradient:after {
+        width: 15vw;
+    }
+}

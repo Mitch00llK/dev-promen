@@ -1,0 +1,18 @@
+/* Header section with title and navigation */
+
+.promen-services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.promen-services-title-wrapper {
+    flex: 1;
+}
+
+.promen-services-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--promen-services-primary-color, #002266);
+    margin: 0;
+}

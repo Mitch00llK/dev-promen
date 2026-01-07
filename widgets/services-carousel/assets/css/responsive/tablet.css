@@ -1,0 +1,60 @@
+/* Tablet Responsive Styles (max-width: 1200px and 1024px) */
+
+@media (max-width: 1200px) {
+    .promen-services-content-container {
+        max-width: 100%;
+    }
+
+    .elementor-editor-active .promen-services-carousel:not(.swiper-initialized) .service-card {
+        min-width: 280px;
+    }
+
+    .promen-services-carousel-wrapper .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-gradient:after {
+        width: 30vw;
+    }
+}
+
+@media (max-width: 1024px) {
+    .promen-services-title {
+        font-size: 36px;
+    }
+
+    .service-card {
+        padding: 25px 15px;
+        min-height: 170px;
+    }
+
+    .service-icon {
+        font-size: 32px;
+    }
+
+    .service-title {
+        font-size: 16px;
+    }
+
+    .elementor-editor-active .promen-services-carousel:not(.swiper-initialized) .service-card {
+        min-width: 240px;
+    }
+
+    .promen-services-carousel-wrapper .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-gradient:after {
+        width: 25vw;
+    }
+
+    /* Center Mode Tablet */
+    .promen-services-carousel.swiper.swiper-center-mode {
+        margin-left: calc(-1 * var(--center-padding-tablet, 40px));
+        margin-right: calc(-1 * var(--center-padding-tablet, 40px));
+    }
+
+    .promen-services-carousel.swiper.swiper-center-mode .swiper-wrapper {
+        padding-left: var(--center-padding-tablet, 40px);
+        padding-right: var(--center-padding-tablet, 40px);
+    }
+
+    .promen-services-carousel-wrapper.has-center-mode .viewport-edge-gradient,
+    .promen-services-carousel-fullwidth.has-center-mode.has-gradient:after {
+        right: var(--center-padding-tablet, 40px);
+    }
+}
