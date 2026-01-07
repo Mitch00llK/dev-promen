@@ -55,7 +55,15 @@ class Promen_Solicitation_Timeline_Widget extends \Promen_Widget_Base {
      * Register widget styles.
      */
     public function get_style_depends() {
-        return ['promen-solicitation-timeline-widget'];
+        return [
+            'promen-solicitation-timeline-base',
+            'promen-solicitation-timeline-layout',
+            'promen-solicitation-timeline-component-content',
+            'promen-solicitation-timeline-component-step',
+            'promen-solicitation-timeline-component-marker',
+            'promen-solicitation-timeline-responsive-tablet',
+            'promen-solicitation-timeline-responsive-mobile'
+        ];
     }
 
     /**

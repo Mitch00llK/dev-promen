@@ -1,0 +1,77 @@
+/* Solicitation Timeline Marker */
+
+.solicitation-timeline__step-marker-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 1.5rem;
+}
+
+.solicitation-timeline__marker {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--promen-timeline-primary, #F5A623);
+    border: 2px solid var(--promen-timeline-white, #FFFFFF);
+    z-index: 2;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* Added to contain the fill element */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Marker Fill Element - Added for GSAP animation */
+.solicitation-timeline__marker-fill {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0%;
+    height: 0%;
+    border-radius: 50%;
+    background-color: inherit;
+    opacity: 0.8;
+    z-index: 1;
+    transition: width 0.1s ease, height 0.1s ease;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.5);
+    /* Add glow effect */
+}
+
+.solicitation-timeline__line {
+    position: absolute;
+    top: 48px;
+    /* 40px marker height + 8px gap from top marker */
+    width: 2px;
+    height: calc(100% + 2rem - 16px);
+    /* Original height minus 16px (8px gap at top + 8px gap at bottom) */
+    background-color: var(--promen-timeline-line, #e6e6e6);
+    z-index: 1;
+    transform-origin: top center;
+    /* Added for GSAP animation */
+    transition: transform 0.5s ease, background-color 0.5s ease;
+    /* Smooth color transition */
+}
+
+/* Active line style - will be applied via JavaScript */
+.solicitation-timeline__line.active {
+    background-color: var(--promen-timeline-primary, #F5A623);
+    /* Match the marker color */
+}
+
+/* Active State Styles */
+.solicitation-timeline__step.active .solicitation-timeline__marker {
+    box-shadow: 0 0 15px rgba(245, 166, 35, 0.7);
+    transition: box-shadow 0.3s ease;
+    transform: scale(1.05);
+    /* Slightly enlarge active marker */
+}
+
+.solicitation-timeline__step:last-child.active .solicitation-timeline__marker {
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.9);
+    transform: scale(1.1);
+    /* Make the last marker larger when active */
+    transition: all 0.5s ease;
+}

@@ -1,0 +1,74 @@
+/* Solicitation Timeline Step */
+
+/* Timeline Steps Container */
+.solicitation-timeline__steps {
+    position: relative;
+    padding-left: 1rem;
+}
+
+/* Step Container */
+.solicitation-timeline__step {
+    position: relative;
+    display: flex;
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: opacity, transform;
+    /* Optimize for animation */
+}
+
+.solicitation-timeline__step:hover {
+    transform: translateX(5px);
+}
+
+.solicitation-timeline__step:last-child {
+    margin-bottom: 0;
+}
+
+/* Step Content */
+.solicitation-timeline__step-content {
+    flex: 1;
+    padding-top: 0.5rem;
+}
+
+.solicitation-timeline__step-number {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--promen-timeline-text-light, #666);
+    margin-bottom: 0.5rem;
+}
+
+.solicitation-timeline__step-title {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: var(--promen-timeline-secondary, #002855);
+    transition: color 0.3s ease;
+}
+
+.solicitation-timeline__step-description {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: var(--promen-timeline-text, #333);
+}
+
+/* Active State Styles */
+.solicitation-timeline__step.active .solicitation-timeline__step-title {
+    color: var(--promen-timeline-primary, #F5A623);
+    font-weight: 600;
+}
+
+/* Special styling for the last step */
+.solicitation-timeline__step:last-child.active {
+    transform: translateX(0);
+    /* Override the hover transform */
+}
+
+.solicitation-timeline__step:last-child.active .solicitation-timeline__step-title {
+    color: var(--promen-timeline-primary, #F5A623);
+    font-weight: 700;
+    transition: all 0.5s ease;
+}
+
+.solicitation-timeline__step:last-child.active .solicitation-timeline__step-description {
+    font-weight: 500;
+    /* Slightly bolder description for emphasis */
+}

@@ -1,0 +1,37 @@
+/* Mobile Responsive (max-width: 991px and 767px) */
+
+@media (max-width: 991px) {
+    .solicitation-timeline__container {
+        flex-direction: column;
+    }
+
+    .solicitation-timeline__text-column,
+    .solicitation-timeline__timeline-column {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .solicitation-timeline__steps {
+        padding-left: 0;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .solicitation-timeline__marker {
+        width: 30px;
+        height: 30px;
+    }
+
+    .solicitation-timeline__line {
+        top: 30px;
+    }
+
+    .solicitation-timeline__step-marker-container {
+        margin-right: 1rem;
+    }
+
+    .solicitation-timeline__step-content {
+        padding-top: 0.25rem;
+    }
+}

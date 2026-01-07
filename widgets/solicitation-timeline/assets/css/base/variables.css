@@ -1,0 +1,9 @@
+/* Solicitation Timeline Variables */
+:root {
+    --promen-timeline-primary: #F5A623;
+    --promen-timeline-secondary: #002855;
+    --promen-timeline-text: #333333;
+    --promen-timeline-text-light: #666666;
+    --promen-timeline-line: #e6e6e6;
+    --promen-timeline-white: #FFFFFF;
+}

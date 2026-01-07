@@ -1,0 +1,44 @@
+/* Solicitation Timeline Container */
+
+.solicitation-timeline {
+    position: relative;
+    padding: 2rem 0;
+    width: 100%;
+    min-height: 500px;
+    /* Increased minimum height for better pinning */
+    z-index: 1;
+    /* Ensure proper stacking during pinning */
+    background-color: inherit;
+    /* Ensure background matches the page */
+}
+
+/* Pin-Spacer Styles */
+.solicitation-timeline.pin-spacer {
+    padding: 0 !important;
+    /* Override inline styles added by GSAP */
+}
+
+/* GSAP Pin Wrapper */
+.pin-spacer {
+    position: relative;
+    z-index: 10;
+    /* Higher z-index to ensure it stays above other content */
+}
+
+/* Two-column layout */
+.solicitation-timeline__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+}
+
+.solicitation-timeline__text-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.solicitation-timeline__timeline-column {
+    flex: 1;
+    min-width: 300px;
+}
