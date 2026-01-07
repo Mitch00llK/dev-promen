@@ -602,7 +602,9 @@
     };
 
     const handleSpeak = (button) => {
+        console.log('Promen TTS: handleSpeak called');
         if (!('speechSynthesis' in window)) {
+            console.warn('Promen TTS: speechSynthesis not supported');
             button.disabled = true;
             button.setAttribute('aria-disabled', 'true');
             return;
@@ -617,9 +619,11 @@
 
         const collapsible = button.closest('[data-promen-collapsible]');
         const textWrapper = collapsible ? collapsible.querySelector('.promen-text-content-block__collapsible-text') : null;
+        console.log('Promen TTS: Text wrapper found?', !!textWrapper);
 
         // Extract segments to read
         const segments = getReadableSegments(textWrapper);
+        console.log('Promen TTS: Segments found:', segments.length);
 
         if (!segments.length) {
             // Fall back to button text if no segments are available
@@ -724,16 +728,22 @@
             const ttsButton = container.querySelector('.promen-text-content-block__tts');
 
             if (ttsButton) {
-                ttsButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleSpeak(ttsButton);
-                });
+                if (!ttsButton.dataset.ttsInitialized) {
+                    console.log('Promen TTS: Attaching listener to button', ttsButton);
+                    ttsButton.dataset.ttsInitialized = 'true';
+                    ttsButton.addEventListener('click', (e) => {
+                        console.log('Promen TTS: Button clicked');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleSpeak(ttsButton);
+                    });
+                }
             }
         });
     };
 
     const onReady = (scope) => {
+        console.log('Promen TTS: onReady');
         initCollapsibles(scope);
 
         // Add reduced motion support
