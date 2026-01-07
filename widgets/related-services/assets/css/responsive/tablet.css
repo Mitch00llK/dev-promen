@@ -1,0 +1,12 @@
+/* Tablet Responsive Styles (max-width: 1024px) */
+@media (max-width: 1024px) {
+    .related-services-wrapper.layout-two-column {
+        flex-direction: column;
+    }
+
+    .related-services-wrapper.layout-two-column .related-services-title-column,
+    .related-services-wrapper.layout-two-column .related-services-cards-column {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
