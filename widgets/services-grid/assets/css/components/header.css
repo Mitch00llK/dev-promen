@@ -1,0 +1,26 @@
+/* Services Grid Header */
+
+.services-grid-title {
+    text-align: left;
+    margin-bottom: 1rem;
+    color: var(--promen-services-grid-primary, #003B5C);
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.services-grid-title .title-part-1 {
+    font-weight: 300;
+    margin-right: 0.5rem;
+}
+
+.services-grid-title .title-part-2 {
+    font-weight: 700;
+    color: var(--promen-services-grid-primary, #003B5C);
+}
+
+.services-grid-description {
+    text-align: left;
+    margin: 0;
+    color: var(--promen-services-grid-text, #333333);
+}

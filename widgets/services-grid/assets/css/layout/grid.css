@@ -1,0 +1,46 @@
+/* Services Grid Layout */
+
+.services-grid-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.services-grid-layout-stacked .services-grid-container {
+    flex-direction: row;
+}
+
+.services-grid-content {
+    min-width: 15rem;
+}
+
+.services-grid-layout-stacked .services-grid-content {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.services-grid-wrapper {
+    min-width: 20rem;
+}
+
+.services-grid-layout-stacked .services-grid-wrapper {
+    width: 100%;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem !important;
+}
+
+/* Responsive Grid Adjustments */
+@media screen and (min-width: 64rem) {
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

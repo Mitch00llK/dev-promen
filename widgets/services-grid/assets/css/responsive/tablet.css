@@ -1,0 +1,70 @@
+/* Tablet Responsive (max-width: 992px) */
+
+@media screen and (max-width: 62rem) {
+
+    /* 992px */
+    .services-grid-container {
+        flex-direction: column;
+    }
+
+    .services-grid-content,
+    .services-grid-wrapper {
+        width: 100%;
+    }
+
+    /* Hide grid and show slider */
+    .services-grid {
+        display: none;
+    }
+
+    .services-slider-container {
+        display: block;
+        width: 100%;
+        position: relative;
+        padding: 0 0 0 0;
+    }
+
+    .services-slider {
+        overflow: hidden;
+    }
+
+    .services-slider .swiper-wrapper {
+        display: flex;
+    }
+
+    .services-slider .swiper-slide {
+        width: 100%;
+        height: auto;
+        flex-shrink: 0;
+    }
+
+    .services-slider .service-card {
+        height: 100%;
+        margin: 0;
+    }
+
+    /* Pagination (fallback if component style doesn't cover) */
+    .services-slider .swiper-pagination {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+    .services-slider .swiper-pagination-bullet {
+        width: 0.5rem;
+        height: 0.5rem;
+        display: inline-block;
+        border-radius: 50%;
+        background: var(--promen-services-grid-grey, #ccc);
+        margin: 0 0.25rem;
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+    }
+
+    .services-slider .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: var(--promen-services-grid-primary, #003B5C);
+    }
+}

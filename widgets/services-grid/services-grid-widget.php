@@ -53,7 +53,17 @@ class Promen_Services_Grid extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-services-grid-widget', 'promen-services-grid-accessibility', 'services-grid-slider-style', 'swiper-bundle-css'];
+        return [
+            'swiper-bundle-css',
+            'promen-services-grid-base',
+            'promen-services-grid-layout',
+            'promen-services-grid-component-header',
+            'promen-services-grid-component-card',
+            'promen-services-grid-component-slider',
+            'promen-services-grid-responsive-tablet',
+            'promen-services-grid-responsive-mobile',
+            'promen-services-grid-accessibility'
+        ];
     }
 
     /**

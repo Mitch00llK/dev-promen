@@ -1,10 +1,6 @@
-/* 
- * Promen Services Grid Slider Styles
- */
-
+/* Services Grid Slider Styles */
 
 /* Slider Container */
-
 .services-slider-container {
     width: 100%;
     margin: 0 auto;
@@ -12,9 +8,7 @@
     /* Hidden by default, shown via JS when viewport < 992px */
 }
 
-
 /* Swiper Slider */
-
 .services-slider {
     width: 100%;
     height: auto;
@@ -25,9 +19,7 @@
     /* Add space for navigation */
 }
 
-
 /* Slide */
-
 .services-slider .swiper-slide {
     height: auto;
     display: flex;
@@ -39,18 +31,14 @@
     /* Performance optimization */
 }
 
-
 /* Active Slide */
-
 .services-slider .swiper-slide-active,
 .services-slider .swiper-slide-duplicate-active {
     opacity: 1 !important;
     /* Active slide at 100% opacity with !important to override inline styles */
 }
 
-
 /* Card in Slider */
-
 .services-slider .service-card {
     width: 100%;
     min-height: 10rem;
@@ -59,12 +47,10 @@
     padding: 1rem;
 }
 
-
 /* Navigation Buttons */
-
 .services-slider .swiper-button-next,
 .services-slider .swiper-button-prev {
-    color: #003B5C;
+    color: var(--promen-services-grid-primary, #003B5C);
     background-color: rgba(255, 255, 255, 0.8);
     width: 40px;
     height: 40px;
@@ -95,13 +81,11 @@
 
 .services-slider .swiper-button-next:hover,
 .services-slider .swiper-button-prev:hover {
-    background-color: #003B5C;
+    background-color: var(--promen-services-grid-primary, #003B5C);
     color: #fff;
 }
 
-
 /* Pagination */
-
 .services-slider .swiper-pagination {
     position: absolute;
     bottom: 10px;
@@ -113,65 +97,27 @@
 .services-slider .swiper-pagination-bullet {
     width: 10px;
     height: 10px;
-    background-color: #ccc;
+    background-color: var(--promen-services-grid-grey, #ccc);
     opacity: 0.7;
     transition: all 0.3s ease;
 }
 
 .services-slider .swiper-pagination-bullet-active {
-    background-color: #003B5C;
+    background-color: var(--promen-services-grid-primary, #003B5C);
     opacity: 1;
     width: 12px;
     height: 12px;
 }
 
-
-/* Responsive Styles */
-
-@media (max-width: 767px) {
-
-    .services-slider .swiper-button-next,
-    .services-slider .swiper-button-prev {
-        width: 35px;
-        height: 35px;
-    }
-
-    .services-slider .swiper-button-next:after,
-    .services-slider .swiper-button-prev:after {
-        font-size: 16px;
-    }
-
-    .services-slider .swiper-pagination-bullet {
-        width: 8px;
-        height: 8px;
-    }
-
-    .services-slider .swiper-pagination-bullet-active {
-        width: 10px;
-        height: 10px;
-    }
-}
-
-
 /* Accessibility */
-
 .services-slider .swiper-button-next:focus,
 .services-slider .swiper-button-prev:focus,
 .services-slider .swiper-pagination-bullet:focus {
-    outline: 2px solid #003B5C;
+    outline: 2px solid var(--promen-services-grid-primary, #003B5C);
     outline-offset: 2px;
 }
 
-
-/* Fix for when slider is not visible */
-
-.elementor-editor-active .services-slider-container {
-    display: block;
-}
-
-
 /* Loading state */
-
 .services-slider.swiper-container-initialized {
     opacity: 1;
     transition: opacity 0.3s ease;
@@ -179,4 +125,9 @@
 
 .services-slider:not(.swiper-container-initialized) {
     opacity: 1;
+}
+
+/* Fix for when slider is not visible */
+.elementor-editor-active .services-slider-container {
+    display: block;
 }
