@@ -184,19 +184,14 @@
 
     const stopSpeaking = () => {
         if ('speechSynthesis' in window) {
+            // Chrome bug: cancel() doesn't work if the engine is paused.
+            window.speechSynthesis.resume();
             window.speechSynthesis.cancel();
-            if (typeof PromenAccessibility !== 'undefined' && isPaused === false) {
-                // Only announce if we were playing; if strictly cancelling, context matters.
-                // But simplest is to announce stop if we were in a non-idle state.
-                // Ideally we track if we were actually speaking.
-                // For now, simple announce.
-                // PromenAccessibility.announce('Text to speech stopped'); 
-                // Kept silent to avoid spam on page unload or semantic stop? 
-                // Let's add it for explicit user stop actions.
-            }
         }
 
         isPaused = false;
+
+        // ... rest of function
 
         // Clear highlighting interval
         if (highlightInterval) {
@@ -593,7 +588,22 @@
         };
 
         console.log('Promen TTS: Speaking utterance...', text.substring(0, 20) + '...');
+
+        // CRITICAL FIX: Some browsers pause indefinitely if cancel() was called recently.
+        // We explicitly resume() just in case handling previous state left it paused.
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        }
+
         window.speechSynthesis.speak(utterance);
+
+        // Double check: Force resume again shortly after speak to wake up stuck engines (Chrome bug)
+        setTimeout(() => {
+            if (window.speechSynthesis.paused) {
+                console.log('Promen TTS: Force resuming paused engine');
+                window.speechSynthesis.resume();
+            }
+        }, 100);
     };
 
     const handleSpeak = (button) => {
