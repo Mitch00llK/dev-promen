@@ -53,7 +53,14 @@ class Promen_Related_Services extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-related-services-widget'];
+        return [
+            'promen-related-services-base',
+            'promen-related-services-layout',
+            'promen-related-services-component-header',
+            'promen-related-services-component-card',
+            'promen-related-services-responsive-tablet',
+            'promen-related-services-responsive-mobile'
+        ];
     }
 
     /**
@@ -67,13 +74,13 @@ class Promen_Related_Services extends \Promen_Widget_Base {
      * Register widget controls.
      */
     protected function register_controls() {
-        register_related_services_controls($this);
+        Promen_Related_Services_Controls::register_controls($this);
     }
 
     /**
      * Render widget output.
      */
     protected function render() {
-        render_related_services_widget($this);
+        Promen_Related_Services_Render::render($this);
     }
 } 

@@ -1,0 +1,14 @@
+/* Related Services Header/Title Styles */
+
+.related-services-title {
+    margin-bottom: 1rem;
+}
+
+.related-services-title .title-part-1,
+.related-services-title .title-part-2 {
+    display: inline;
+}
+
+.related-services-title .title-part-2 {
+    font-weight: 700;
+}

@@ -203,8 +203,29 @@ class Promen_Assets_Config {
                 'deps' => ['swiper-bundle-css'],
                 'enqueue' => true,
             ],
-            'promen-related-services-widget' => [
-                'path' => 'widgets/related-services/assets/css/related-services.css',
+            'promen-related-services-base' => [
+                'path' => 'widgets/related-services/assets/css/base/variables.css',
+                'deps' => ['promen-elementor-widgets'],
+            ],
+            'promen-related-services-layout' => [
+                'path' => 'widgets/related-services/assets/css/layout/container.css',
+                'deps' => ['promen-related-services-base'],
+            ],
+            'promen-related-services-component-header' => [
+                'path' => 'widgets/related-services/assets/css/components/header.css',
+                'deps' => ['promen-related-services-layout'],
+            ],
+            'promen-related-services-component-card' => [
+                'path' => 'widgets/related-services/assets/css/components/card.css',
+                'deps' => ['promen-related-services-layout'],
+            ],
+            'promen-related-services-responsive-tablet' => [
+                'path' => 'widgets/related-services/assets/css/responsive/tablet.css',
+                'deps' => ['promen-related-services-layout'],
+            ],
+            'promen-related-services-responsive-mobile' => [
+                'path' => 'widgets/related-services/assets/css/responsive/mobile.css',
+                'deps' => ['promen-related-services-layout'],
             ],
             'promen-text-column-repeater-widget' => [
                 'path' => 'widgets/text-column-repeater/assets/css/text-column-repeater.css',

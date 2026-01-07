@@ -1,0 +1,61 @@
+/* Related Services Card Styles */
+
+.related-service-card {
+    background-color: var(--promen-related-services-bg-color, #8ECBDE);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.related-service-card.hover-translateY:hover {
+    transform: translateY(-10px);
+}
+
+.related-service-card.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.related-service-card.hover-translateY.hover-scale:hover {
+    transform: translateY(-10px) scale(1.05);
+}
+
+.related-service-link {
+    display: flex;
+    flex-direction: column;
+    color: var(--promen-related-services-text-color, #0A2D5E);
+    text-decoration: none;
+    height: 100%;
+    width: 100%;
+}
+
+.related-service-icon {
+    margin-right: 1rem;
+    margin-bottom: .5rem;
+    display: flex;
+    align-items: end;
+    justify-content: centerend;
+}
+
+.related-service-icon i,
+.related-service-icon svg {
+    color: var(--promen-related-services-text-color, #0A2D5E);
+}
+
+.related-service-title {
+    margin: 0;
+    flex-grow: 1;
+    color: var(--promen-related-services-text-color, #0A2D5E);
+    font-weight: 700;
+}
+
+.related-service-arrow {
+    margin-left: 15px;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+.related-service-arrow i {
+    color: var(--promen-related-services-text-color, #0A2D5E);
+    font-size: 1rem;
+}

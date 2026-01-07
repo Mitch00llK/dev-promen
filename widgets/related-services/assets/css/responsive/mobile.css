@@ -1,0 +1,6 @@
+/* Mobile Responsive Styles (max-width: 767px) */
+@media (max-width: 767px) {
+    .related-services-grid {
+        grid-template-columns: 1fr;
+    }
+}
