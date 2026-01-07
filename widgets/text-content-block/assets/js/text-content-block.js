@@ -692,9 +692,7 @@
 
     const initCollapsibles = (scope) => {
         const root = scope || document;
-        console.log('Promen Collapsible: Init called for scope', root);
         const collapsibles = root.querySelectorAll('[data-promen-collapsible]');
-        console.log('Promen Collapsible: Found collapsibles:', collapsibles.length);
 
         if (!collapsibles.length) {
             return;
@@ -705,20 +703,15 @@
             const panel = container.querySelector('.promen-text-content-block__collapsible-panel');
 
             if (trigger && panel) {
-                console.log('Promen Collapsible: Found trigger and panel', trigger, panel);
                 // Use once option to prevent duplicate listeners, or check if already initialized
                 // We use a specific attribute to mark initialization to avoid double-binding
                 if (!trigger.dataset.promenCollapsibleInitialized) {
-                    console.log('Promen Collapsible: Attaching listener');
                     trigger.dataset.promenCollapsibleInitialized = 'true';
                     trigger.addEventListener('click', (e) => {
-                        console.log('Promen Collapsible: Clicked!');
                         e.preventDefault();
                         e.stopPropagation();
                         toggleCollapsible(trigger, panel);
                     });
-                } else {
-                    console.log('Promen Collapsible: Already initialized');
                 }
 
                 if (trigger.getAttribute('aria-expanded') === 'true') {
@@ -726,8 +719,6 @@
                     panel.setAttribute('aria-hidden', 'false');
                     panel.classList.add('active');
                 }
-            } else {
-                console.warn('Promen Collapsible: Missing trigger or panel in container', container);
             }
 
             const ttsButton = container.querySelector('.promen-text-content-block__tts');
@@ -743,7 +734,6 @@
     };
 
     const onReady = (scope) => {
-        console.log('Promen Text Block: onReady');
         initCollapsibles(scope);
 
         // Add reduced motion support
@@ -764,10 +754,8 @@
     }
 
     const initElementorHooks = () => {
-        console.log('Promen Text Block: Init Elementor Hooks');
         if (window.elementorFrontend && window.elementorFrontend.hooks) {
             window.elementorFrontend.hooks.addAction('frontend/element_ready/promen_text_content_block.default', ($scope) => {
-                console.log('Promen Text Block: Elementor Hook Fired', $scope);
                 if ($scope && $scope.length) {
                     onReady($scope[0]);
                 }
