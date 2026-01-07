@@ -60,17 +60,33 @@ class Promen_Assets_Config {
                 'path' => 'widgets/benefits-widget/assets/css/responsive/mobile.css',
                 'deps' => ['promen-benefits-layout'],
             ],
-            'promen-services-grid-widget' => [
-                'path' => 'widgets/services-grid/assets/css/services-grid.css',
+            'promen-services-grid-base' => [
+                'path' => 'widgets/services-grid/assets/css/base/variables.css',
                 'deps' => ['promen-elementor-widgets'],
             ],
-            'promen-services-grid-accessibility' => [
-                'path' => 'widgets/services-grid/assets/css/services-grid-accessibility.css',
-                'deps' => ['promen-services-grid-widget'],
+            'promen-services-grid-layout' => [
+                'path' => 'widgets/services-grid/assets/css/layout/grid.css',
+                'deps' => ['promen-services-grid-base'],
             ],
-            'services-grid-slider-style' => [
-                'path' => 'widgets/services-grid/assets/css/services-grid-slider.css',
-                'deps' => ['promen-services-grid-widget'],
+            'promen-services-grid-component-header' => [
+                'path' => 'widgets/services-grid/assets/css/components/header.css',
+                'deps' => ['promen-services-grid-layout'],
+            ],
+            'promen-services-grid-component-card' => [
+                'path' => 'widgets/services-grid/assets/css/components/card.css',
+                'deps' => ['promen-services-grid-layout'],
+            ],
+            'promen-services-grid-component-slider' => [
+                'path' => 'widgets/services-grid/assets/css/components/slider.css',
+                'deps' => ['promen-services-grid-layout'],
+            ],
+            'promen-services-grid-responsive-tablet' => [
+                'path' => 'widgets/services-grid/assets/css/responsive/tablet.css',
+                'deps' => ['promen-services-grid-layout'],
+            ],
+            'promen-services-grid-responsive-mobile' => [
+                'path' => 'widgets/services-grid/assets/css/responsive/mobile.css',
+                'deps' => ['promen-services-grid-layout'],
             ],
             'promen-image-text-block-base' => [
                 'path' => 'widgets/image-text-block/assets/css/base/variables.css',

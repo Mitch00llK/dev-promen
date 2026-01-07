@@ -1,0 +1,9 @@
+/* Services Grid Variables */
+:root {
+    --promen-services-grid-primary: #003B5C;
+    --promen-services-grid-secondary: #002266;
+    --promen-services-grid-card-bg: #A7D3E3;
+    --promen-services-grid-text: #333333;
+    --promen-services-grid-white: #ffffff;
+    --promen-services-grid-grey: #cccccc;
+}
