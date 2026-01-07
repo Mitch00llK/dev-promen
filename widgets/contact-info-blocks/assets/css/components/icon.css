@@ -1,0 +1,61 @@
+/**
+ * Component: Icon
+ */
+
+.contact-info-icon {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: var(--contact-info-text, #002855);
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-info-icon.with-bg {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-info-icon svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+@media (max-width: 768px) {
+    .contact-info-icon {
+        font-size: 1.75rem;
+    }
+
+    .contact-info-icon.with-bg {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .contact-info-icon svg {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-info-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .contact-info-icon.with-bg {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .contact-info-icon svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}

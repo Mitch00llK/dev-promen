@@ -29,7 +29,7 @@
     .image-text-slider-container,
     .image-text-slider-container .swiper,
     .image-text-slider-container .image-text-slider-single-slide-container {
-        min-height: 45rem;
+        min-height: 25rem;
     }
 
     .image-text-slider-container .slide-content-container {
@@ -52,17 +52,26 @@
         height: 50vh;
     }
 
-    .image-text-slider-container,
-    .image-text-slider-container .swiper,
-    .image-text-slider-container .image-text-slider-single-slide-container {
-        min-height: 45rem;
+    .image-text-slider-container:not(.image-text-slider-single-slide),
+    .image-text-slider-container .swiper {
+        min-height: 40rem;
         margin-bottom: 3rem;
         overflow: visible !important;
     }
 
-    .image-text-slider-container .swiper,
+    .image-text-slider-container.image-text-slider-single-slide,
     .image-text-slider-container .image-text-slider-single-slide-container {
-        height: 45rem;
+        min-height: 30rem;
+        margin-bottom: 3rem;
+        overflow: visible !important;
+    }
+
+    .image-text-slider-container .swiper {
+        height: 40rem;
+    }
+
+    .image-text-slider-container .image-text-slider-single-slide-container {
+        height: 30rem;
     }
 
     .image-text-slider-container .slide-content-container {
@@ -123,14 +132,33 @@
     }
 
     /* Divider adjustments */
-    .has-tilted-divider-yes .swiper-slide::after,
+    .has-tilted-divider-yes .swiper-slide::after {
+        width: 120%;
+        left: -10%;
+        bottom: 0;
+        transform: skewY(-3deg);
+    }
+
     .has-tilted-divider-yes .image-text-slide::after {
         width: 120%;
         left: -10%;
         bottom: 0;
+        transform: skewY(-3deg);
     }
 
-    .content-position-right.has-tilted-divider-yes .swiper-slide::after,
+    .divider-flipped-yes .swiper-slide::after {
+        transform: skewY(-3deg);
+    }
+
+    .divider-flipped-yes .image-text-slide::after {
+        transform: skewY(-3deg);
+    }
+
+    .content-position-right.has-tilted-divider-yes .swiper-slide::after {
+        right: -10%;
+        left: auto;
+    }
+
     .content-position-right.has-tilted-divider-yes .image-text-slide::after {
         right: -10%;
         left: auto;
@@ -157,7 +185,7 @@
     }
 
     .image-text-slider-container .slide-content-wrapper {
-        transform: translateY(70%);
+        transform: translateY(60%) !important;
     }
 }
 
@@ -166,15 +194,15 @@
         margin-bottom: 2rem;
     }
 
-    .image-text-slider-container,
+    /* .image-text-slider-container,
     .image-text-slider-container .swiper,
     .image-text-slider-container .image-text-slider-single-slide-container {
-        min-height: 40rem;
-    }
+        max-height: 40rem !important;
+    } */
 
     .image-text-slider-container .swiper,
     .image-text-slider-container .image-text-slider-single-slide-container {
-        height: 40rem;
+        height: 25rem !important;
     }
 
     .image-text-slider-container .slide-content-container {
@@ -226,14 +254,33 @@
     }
 
     /* Divider */
-    .has-tilted-divider-yes .swiper-slide::after,
+    .has-tilted-divider-yes .swiper-slide::after {
+        width: 140%;
+        left: -20%;
+        bottom: 0;
+        transform: skewY(-3deg);
+    }
+
     .has-tilted-divider-yes .image-text-slide::after {
         width: 140%;
         left: -20%;
         bottom: 0;
+        transform: skewY(-3deg);
     }
 
-    .content-position-right.has-tilted-divider-yes .swiper-slide::after,
+    .divider-flipped-yes .swiper-slide::after {
+        transform: skewY(-3deg);
+    }
+
+    .divider-flipped-yes .image-text-slide::after {
+        transform: skewY(-3deg);
+    }
+
+    .content-position-right.has-tilted-divider-yes .swiper-slide::after {
+        right: -20%;
+        left: auto;
+    }
+
     .content-position-right.has-tilted-divider-yes .image-text-slide::after {
         right: -20%;
         left: auto;

@@ -1,0 +1,9 @@
+/**
+ * Base Variables
+ */
+
+:root {
+    --promen-checklist-bg-color: #F0D8A7;
+    --promen-checklist-text-color: #0B1A37;
+    --promen-checklist-border-color: rgba(11, 26, 55, 0.1);
+}

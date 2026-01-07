@@ -1,0 +1,58 @@
+/**
+ * Component: Checklist Item
+ */
+
+.promen-checklist-comparison__items {
+    display: flex;
+    flex-direction: column;
+}
+
+.promen-checklist-comparison__item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--promen-checklist-border-color, rgba(11, 26, 55, 0.1));
+}
+
+.promen-checklist-comparison__item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.promen-checklist-comparison__item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.875rem;
+    color: var(--promen-checklist-text-color, #0B1A37);
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.promen-checklist-comparison__item-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.promen-checklist-comparison__item-icon i {
+    font-size: 1.5rem;
+}
+
+.promen-checklist-comparison__item-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--promen-checklist-text-color, #0B1A37);
+}
+
+@media screen and (max-width: 767px) {
+    .promen-checklist-comparison__item {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+    }
+}

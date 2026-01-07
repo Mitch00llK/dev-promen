@@ -1,0 +1,36 @@
+/**
+ * Layout: Columns
+ */
+
+.promen-checklist-comparison {
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--promen-checklist-bg-color, #F0D8A7);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.promen-checklist-comparison__container {
+    display: flex;
+    gap: 2rem;
+}
+
+.promen-checklist-comparison__column {
+    flex: 1;
+}
+
+@media screen and (max-width: 1024px) {
+    .promen-checklist-comparison {
+        padding: 2rem;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .promen-checklist-comparison {
+        padding: 1.5rem;
+    }
+
+    .promen-checklist-comparison__container {
+        flex-direction: column;
+    }
+}

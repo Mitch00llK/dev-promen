@@ -222,8 +222,23 @@ class Promen_Assets_Config {
             ],
             'image-text-slider' => [
                 'path' => 'widgets/image-text-slider/assets/css/style.css',
+                'deps' => ['swiper-bundle-css', 'image-text-slider-layout', 'image-text-slider-content', 'image-text-slider-controls'],
+                'ver' => '1.0.2',
+            ],
+            'image-text-slider-layout' => [
+                'path' => 'widgets/image-text-slider/assets/css/layout.css',
                 'deps' => ['swiper-bundle-css'],
-                'ver' => '1.0.1',
+                'ver' => '1.0.2',
+            ],
+            'image-text-slider-content' => [
+                'path' => 'widgets/image-text-slider/assets/css/content.css',
+                'deps' => ['image-text-slider-layout'],
+                'ver' => '1.0.2',
+            ],
+            'image-text-slider-controls' => [
+                'path' => 'widgets/image-text-slider/assets/css/controls.css',
+                'deps' => ['image-text-slider-layout'],
+                'ver' => '1.0.2',
             ],
             'image-text-slider-accessibility' => [
                 'path' => 'widgets/image-text-slider/assets/css/modules/accessibility-minimal.css',
@@ -233,6 +248,11 @@ class Promen_Assets_Config {
             'image-text-slider-mobile' => [
                 'path' => 'widgets/image-text-slider/assets/css/modules/mobile-optimizations.css',
                 'deps' => ['image-text-slider'],
+            ],
+            'image-text-slider-responsive' => [
+                'path' => 'widgets/image-text-slider/assets/css/responsive.css',
+                'deps' => ['image-text-slider'],
+                'ver' => '1.0.2',
             ],
             'promen-checklist-comparison-widget' => [
                 'path' => 'widgets/checklist-comparison/assets/css/checklist-comparison.css',
@@ -369,9 +389,13 @@ class Promen_Assets_Config {
                 'path' => 'widgets/locations-display/assets/js/locations-display-accessibility.js',
                 'deps' => ['jquery', 'gsap', 'gsap-scrolltrigger', 'promen-accessibility'],
             ],
+            'promen-contact-info-blocks-handler' => [
+                'path' => 'widgets/contact-info-blocks/assets/js/modules/accessibility-handler.js',
+                'deps' => ['promen-accessibility'],
+            ],
             'promen-contact-info-blocks-accessibility' => [
                 'path' => 'widgets/contact-info-blocks/assets/js/contact-info-blocks-accessibility.js',
-                'deps' => ['jquery', 'promen-accessibility'],
+                'deps' => ['jquery', 'promen-contact-info-blocks-handler'],
             ],
             'contact-info-card-accessibility' => [
                 'path' => 'widgets/contact-info-card/assets/js/contact-info-card-accessibility.js',

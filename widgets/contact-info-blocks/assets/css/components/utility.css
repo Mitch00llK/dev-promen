@@ -1,0 +1,61 @@
+/**
+ * Component: Utility
+ */
+
+/* Screen reader only text - WCAG 2.2 best practice */
+.screen-reader-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Allow screen reader text to be focusable when navigated to via keyboard */
+.screen-reader-text:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    background-color: var(--contact-info-bg, #f4d19b);
+    color: var(--contact-info-text, #002855);
+    padding: 0.5rem;
+    border: 2px solid var(--contact-info-text, #002855);
+    border-radius: 3px;
+    z-index: 100000;
+}
+
+.contact-info-blocks__list {
+    display: contents;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Skip link for better keyboard navigation */
+.contact-info-blocks__skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--contact-info-text, #002855);
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 0 0 4px 0;
+    z-index: 100;
+}
+
+.contact-info-blocks__skip-link:focus {
+    top: 0;
+    outline: 3px solid var(--contact-info-bg, #f4d19b);
+    outline-offset: 2px;
+}

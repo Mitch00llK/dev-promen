@@ -1,0 +1,15 @@
+/**
+ * Component: Heading
+ */
+
+.promen-checklist-comparison__heading {
+    margin: 0 0 1.5rem 0;
+    color: var(--promen-checklist-text-color, #0B1A37);
+    font-weight: 700;
+}
+
+@media screen and (max-width: 767px) {
+    .promen-checklist-comparison__heading {
+        margin-bottom: 1rem;
+    }
+}

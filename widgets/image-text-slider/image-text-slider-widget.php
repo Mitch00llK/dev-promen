@@ -90,7 +90,15 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
      * @return array Widget style dependencies.
      */
     public function get_style_depends() {
-        return ['image-text-slider', 'image-text-slider-accessibility', 'image-text-slider-mobile'];
+        return [
+            'image-text-slider', 
+            'image-text-slider-layout', 
+            'image-text-slider-content', 
+            'image-text-slider-controls', 
+            'image-text-slider-accessibility', 
+            'image-text-slider-mobile', 
+            'image-text-slider-responsive'
+        ];
     }
 
     /**

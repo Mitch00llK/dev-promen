@@ -1,0 +1,53 @@
+/**
+ * Component: Card
+ */
+
+.contact-info-block {
+    display: flex;
+    flex: 1;
+    list-style: none;
+}
+
+.contact-info-block__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 2rem;
+    background-color: var(--contact-info-bg, #f4d19b);
+    border-radius: 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.contact-info-block__inner:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px var(--contact-info-shadow, rgba(0, 40, 85, 0.15));
+}
+
+.contact-info-block.is-focused .contact-info-block__inner {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px var(--contact-info-shadow-hover, rgba(0, 40, 85, 0.2));
+    outline: 3px solid var(--contact-info-text, #002855);
+    outline-offset: 3px;
+    position: relative;
+    z-index: 10;
+}
+
+.contact-info-block__inner:focus-within {
+    outline: 2px solid var(--contact-info-text, #002855);
+    outline-offset: 2px;
+}
+
+@media (max-width: 1024px) {
+    .contact-info-block__inner {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-info-block__inner {
+        padding: 1.25rem;
+    }
+}

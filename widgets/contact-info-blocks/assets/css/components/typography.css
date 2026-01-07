@@ -1,0 +1,62 @@
+/**
+ * Component: Typography
+ */
+
+.contact-info-title {
+    margin: 0 0 0.75rem;
+    color: var(--contact-info-text, #002855);
+    font-weight: 600;
+}
+
+.contact-info-content {
+    width: 100%;
+}
+
+.contact-info-content address {
+    font-style: normal;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.contact-info-content p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.contact-info-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration 0.2s ease, outline-offset 0.2s ease;
+    position: relative;
+    display: inline-block;
+    border-radius: 3px;
+}
+
+.contact-info-link:hover,
+.contact-info-link:focus {
+    color: var(--contact-info-text, #002855);
+    text-decoration: underline;
+}
+
+.contact-info-link:focus-visible,
+.contact-info-link.focus-visible-enhanced:focus {
+    outline: 3px solid var(--contact-info-text, #002855);
+    outline-offset: 3px;
+    border-radius: 3px;
+    background-color: var(--contact-info-focus-bg, rgba(0, 40, 85, 0.08));
+    box-shadow: 0 0 0 3px var(--contact-info-shadow, rgba(0, 40, 85, 0.15));
+}
+
+.contact-info-link:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+}
+
+.contact-info-link:active {
+    transform: translateY(1px);
+    color: var(--contact-info-text-hover, #001a33);
+}
+
+.contact-info-text {
+    display: inline-block;
+}

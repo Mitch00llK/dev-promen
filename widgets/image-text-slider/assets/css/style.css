@@ -1,13 +1,13 @@
 /* Image Text Slider Main Style */
 
-/* Layout Styles */
-@import 'layout.css';
+/* Layout Styles - Now loaded via handle */
+/* @import 'layout.css'; */
 
-/* Content Styles */
-@import 'content.css';
+/* Content Styles - Now loaded via handle */
+/* @import 'content.css'; */
 
-/* Controls Styles */
-@import 'controls.css';
+/* Controls Styles - Now loaded via handle */
+/* @import 'controls.css'; */
 
-/* Responsive Styles */
-@import 'responsive.css';
+/* Responsive Styles - Now loaded via handle */
+/* @import 'responsive.css'; */

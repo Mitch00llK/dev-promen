@@ -1,0 +1,12 @@
+/**
+ * Base Variables
+ */
+
+:root {
+    --contact-info-bg: #f4d19b;
+    --contact-info-text: #002855;
+    --contact-info-text-hover: #001a33;
+    --contact-info-shadow: rgba(0, 40, 85, 0.15);
+    --contact-info-shadow-hover: rgba(0, 40, 85, 0.2);
+    --contact-info-focus-bg: rgba(0, 40, 85, 0.08);
+}

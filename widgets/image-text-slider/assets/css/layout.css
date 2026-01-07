@@ -47,7 +47,7 @@
     position: relative;
     display: block;
     width: 100%;
-    height: 164px;
+    height: 121px;
     z-index: 1;
     margin-top: 0;
     clear: both;
@@ -255,17 +255,17 @@ body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-init
 }
 
 /* Tilted Divider - Moved to slide level for correct stacking context */
-.has-tilted-divider-yes .swiper-slide::after,
-.has-tilted-divider-yes .image-text-slide::after {
+/* Tilted Divider - Swiper Slides (Multi-slide) */
+.has-tilted-divider-yes .swiper-slide::after {
     content: "";
     position: absolute;
     z-index: 5;
     background-color: #ffffff;
     width: 100%;
     height: 10rem;
-    transform: skewY(-3deg);
+    transform: skewY(-3deg) !important;
     transform-origin: bottom center;
-    bottom: 0;
+    top: 85% !important;
     left: 0;
     opacity: 1;
     pointer-events: none !important;
@@ -274,41 +274,85 @@ body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-init
     overflow: visible;
 }
 
-.divider-flipped-yes .swiper-slide::after,
+/* Tilted Divider - Single/Image Text Slide */
+.has-tilted-divider-yes .image-text-slide::after {
+    content: "";
+    position: absolute;
+    z-index: 5;
+    background-color: #ffffff;
+    width: 100%;
+    height: 10rem;
+    transform: skewY(-3deg) !important;
+    transform-origin: bottom center;
+    top: 80% !important;
+    left: 0;
+    opacity: 1;
+    pointer-events: none !important;
+    will-change: transform;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    overflow: visible;
+}
+
+.divider-flipped-yes .swiper-slide::after {
+    transform: skewY(12deg);
+}
+
 .divider-flipped-yes .image-text-slide::after {
     transform: skewY(12deg);
 }
 
-.content-position-left.has-tilted-divider-yes .swiper-slide::after,
+.content-position-left.has-tilted-divider-yes .swiper-slide::after {
+    transform-origin: bottom left;
+    left: 0;
+}
+
 .content-position-left.has-tilted-divider-yes .image-text-slide::after {
     transform-origin: bottom left;
     left: 0;
 }
 
-.content-position-center.has-tilted-divider-yes .swiper-slide::after,
+.content-position-center.has-tilted-divider-yes .swiper-slide::after {
+    transform-origin: bottom center;
+    left: 0;
+}
+
 .content-position-center.has-tilted-divider-yes .image-text-slide::after {
     transform-origin: bottom center;
     left: 0;
 }
 
-.content-position-right.has-tilted-divider-yes .swiper-slide::after,
+.content-position-right.has-tilted-divider-yes .swiper-slide::after {
+    transform-origin: bottom right;
+    right: 0;
+    left: auto;
+}
+
 .content-position-right.has-tilted-divider-yes .image-text-slide::after {
     transform-origin: bottom right;
     right: 0;
     left: auto;
 }
 
-.divider-flipped-yes.content-position-left .swiper-slide::after,
+.divider-flipped-yes.content-position-left .swiper-slide::after {
+    transform-origin: bottom right;
+}
+
 .divider-flipped-yes.content-position-left .image-text-slide::after {
     transform-origin: bottom right;
 }
 
-.divider-flipped-yes.content-position-center .swiper-slide::after,
+.divider-flipped-yes.content-position-center .swiper-slide::after {
+    transform-origin: bottom center;
+}
+
 .divider-flipped-yes.content-position-center .image-text-slide::after {
     transform-origin: bottom center;
 }
 
-.divider-flipped-yes.content-position-right .swiper-slide::after,
+.divider-flipped-yes.content-position-right .swiper-slide::after {
+    transform-origin: bottom right;
+}
+
 .divider-flipped-yes.content-position-right .image-text-slide::after {
     transform-origin: bottom right;
 }

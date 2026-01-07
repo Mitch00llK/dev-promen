@@ -241,29 +241,7 @@ trait Image_Text_Slider_Style_Controls {
             ]
         );
 
-        $this->add_responsive_control(
-            'slider_container_margin_bottom',
-            [
-                'label' => esc_html__('Slider Bottom Margin', 'promen-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px'],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 150,
-                        'step' => 5,
-                    ],
-                ],
-                'default' => [
-                    'unit' => 'px',
-                    'size' => 80,
-                ],
-                'selectors' => [
-                    '{{WRAPPER}}' => 'margin-bottom: {{SIZE}}{{UNIT}};',
-                ],
-                'description' => esc_html__('Add bottom margin to the widget to account for the overflowing content', 'promen-elementor-widgets'),
-            ]
-        );
+
 
         $this->end_controls_section();
 

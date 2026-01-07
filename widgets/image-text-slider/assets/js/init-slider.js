@@ -165,14 +165,7 @@
             elementor.channels.editor.on('change', function (view) {
                 const changedControlName = view.model.get('name');
 
-                // Update visual spacing indicator when margin control changes
-                if (changedControlName === 'slider_container_margin_bottom') {
-                    setTimeout(function () {
-                        if (typeof window.updateEditorSpacingIndicators === 'function') {
-                            window.updateEditorSpacingIndicators();
-                        }
-                    }, 100);
-                }
+
             });
         }
 

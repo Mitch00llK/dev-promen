@@ -1,0 +1,25 @@
+/**
+ * Component: Animation
+ */
+
+.contact-info-blocks--animated .contact-info-block {
+    transform: translateY(0);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .contact-info-blocks.reduce-motion *,
+    .contact-info-blocks.reduce-motion *::before,
+    .contact-info-blocks.reduce-motion *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .contact-info-block__inner:hover,
+    .contact-info-block.is-focused .contact-info-block__inner {
+        transform: none;
+    }
+}

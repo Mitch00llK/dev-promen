@@ -11,6 +11,10 @@ if (!defined('ABSPATH')) {
 
 
 
+require_once(__DIR__ . '/includes/controls/content-controls.php');
+require_once(__DIR__ . '/includes/controls/style-controls.php');
+require_once(__DIR__ . '/includes/render/render-functions.php');
+
 /**
  * Contact Info Blocks widget.
  *
@@ -87,10 +91,15 @@ class Promen_Contact_Info_Blocks_Widget extends \Promen_Widget_Base {
     /**
      * Register widget controls.
      */
+    /**
+     * Register widget controls.
+     */
     protected function register_controls() {
-        // Include control files
-        require_once(__DIR__ . '/includes/content-controls.php');
-        require_once(__DIR__ . '/includes/style-controls.php');
+        // Register content controls
+        Promen_Contact_Info_Blocks_Content_Controls::register_controls($this);
+        
+        // Register style controls
+        Promen_Contact_Info_Blocks_Style_Controls::register_controls($this);
     }
 
     /**
@@ -98,8 +107,6 @@ class Promen_Contact_Info_Blocks_Widget extends \Promen_Widget_Base {
      */
     protected function render() {
         $settings = $this->get_settings_for_display();
-        
-        // Include the template file
-        require_once(__DIR__ . '/includes/template.php');
+        Promen_Contact_Info_Blocks_Render::render_widget($this, $settings);
     }
 } 
