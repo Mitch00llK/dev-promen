@@ -18,7 +18,8 @@
         padding-right: 20px;
     }
 
-    .has-tilted-divider-yes .swiper::after {
+    .has-tilted-divider-yes .swiper-slide::after,
+    .has-tilted-divider-yes .image-text-slide::after {
         bottom: 0;
     }
 }
@@ -26,20 +27,22 @@
 @media (max-width: 1024px) {
 
     .image-text-slider-container,
-    .image-text-slider-container .swiper {
-        min-height: 35rem;
+    .image-text-slider-container .swiper,
+    .image-text-slider-container .image-text-slider-single-slide-container {
+        min-height: 45rem;
     }
 
     .image-text-slider-container .slide-content-container {
         width: 50%;
-        margin-top: 45%;
+        margin-top: 55%;
     }
 
     .image-text-slider-container .slide-image .absolute-overlay-image {
         width: 40% !important;
     }
 
-    .has-tilted-divider-yes .swiper::after {
+    .has-tilted-divider-yes .swiper-slide::after,
+    .has-tilted-divider-yes .image-text-slide::after {
         bottom: 0;
     }
 }
@@ -50,22 +53,21 @@
     }
 
     .image-text-slider-container,
-    .image-text-slider-container .swiper {
-        min-height: 30rem;
-    }
-
-    .image-text-slider-container {
+    .image-text-slider-container .swiper,
+    .image-text-slider-container .image-text-slider-single-slide-container {
+        min-height: 45rem;
         margin-bottom: 3rem;
         overflow: visible !important;
     }
 
-    .image-text-slider-container .swiper {
-        height: 30rem;
+    .image-text-slider-container .swiper,
+    .image-text-slider-container .image-text-slider-single-slide-container {
+        height: 45rem;
     }
 
     .image-text-slider-container .slide-content-container {
         width: 70%;
-        margin-top: 40%;
+        margin-top: 60%;
     }
 
     .content-position-left .slide-content-container,
@@ -104,10 +106,7 @@
 
     /* Controls adjustments */
     .image-text-slider-container .image-text-slider-controls-persistent {
-        top: 15px;
-        right: 15px;
-        padding: 6px 10px;
-        gap: 6px;
+        display: none !important;
     }
 
     .image-text-slider-container .image-text-slider-controls-persistent .slider-play-pause,
@@ -124,13 +123,15 @@
     }
 
     /* Divider adjustments */
-    .has-tilted-divider-yes .swiper::after {
+    .has-tilted-divider-yes .swiper-slide::after,
+    .has-tilted-divider-yes .image-text-slide::after {
         width: 120%;
         left: -10%;
         bottom: 0;
     }
 
-    .content-position-right.has-tilted-divider-yes .swiper::after {
+    .content-position-right.has-tilted-divider-yes .swiper-slide::after,
+    .content-position-right.has-tilted-divider-yes .image-text-slide::after {
         right: -10%;
         left: auto;
     }
@@ -154,6 +155,10 @@
         align-items: flex-start;
         display: flex;
     }
+
+    .image-text-slider-container .slide-content-wrapper {
+        transform: translateY(70%);
+    }
 }
 
 @media (max-width: 480px) {
@@ -162,18 +167,20 @@
     }
 
     .image-text-slider-container,
-    .image-text-slider-container .swiper {
-        min-height: 25rem;
+    .image-text-slider-container .swiper,
+    .image-text-slider-container .image-text-slider-single-slide-container {
+        min-height: 40rem;
     }
 
-    .image-text-slider-container .swiper {
-        height: 25rem;
+    .image-text-slider-container .swiper,
+    .image-text-slider-container .image-text-slider-single-slide-container {
+        height: 40rem;
     }
 
     .image-text-slider-container .slide-content-container {
         width: 90%;
         padding: 0 10px;
-        margin-top: 35%;
+        margin-top: 65%;
     }
 
     .image-text-slider-container .slide-buttons {
@@ -219,13 +226,15 @@
     }
 
     /* Divider */
-    .has-tilted-divider-yes .swiper::after {
+    .has-tilted-divider-yes .swiper-slide::after,
+    .has-tilted-divider-yes .image-text-slide::after {
         width: 140%;
         left: -20%;
         bottom: 0;
     }
 
-    .content-position-right.has-tilted-divider-yes .swiper::after {
+    .content-position-right.has-tilted-divider-yes .swiper-slide::after,
+    .content-position-right.has-tilted-divider-yes .image-text-slide::after {
         right: -20%;
         left: auto;
     }

@@ -11,29 +11,35 @@
         will-change: auto;
         /* Let browser decide */
     }
+
     .image-text-slider-container.mobile-optimized .swiper {
         /* Simplified transitions for mobile */
         transition: none !important;
     }
+
     .image-text-slider-container.mobile-optimized .swiper-slide {
         /* Reduce transition complexity */
         transition: transform 300ms ease-out, opacity 300ms ease-out !important;
         will-change: transform, opacity;
     }
+
     .image-text-slider-container.mobile-optimized .swiper-content-slider .swiper-slide {
         /* Instant content transitions on mobile */
         transition: opacity 200ms ease !important;
     }
+
     /* Disable complex animations on mobile */
     .image-text-slider-container.mobile-optimized .slide-content>* {
         animation: none !important;
         transition: opacity 200ms ease !important;
     }
+
     /* Optimize image loading */
     .image-text-slider-container.mobile-optimized .slide-image img {
         image-rendering: auto;
         image-rendering: optimizeSpeed;
     }
+
     /* Reduce visual complexity for performance */
     .image-text-slider-container.mobile-optimized .slide-content {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
@@ -41,26 +47,29 @@
         backdrop-filter: none !important;
         /* Remove expensive effects */
     }
+
     /* Optimize pagination */
     .image-text-slider-container.mobile-optimized .swiper-pagination-bullet {
         transition: none !important;
     }
+
     /* Disable hover effects on mobile */
     .image-text-slider-container.mobile-optimized .slide-button:hover,
     .image-text-slider-container.mobile-optimized .swiper-button-prev:hover,
     .image-text-slider-container.mobile-optimized .swiper-button-next:hover {
         transition: none !important;
     }
+
     /* Optimize absolute overlays */
     .image-text-slider-container.mobile-optimized .absolute-overlay-image {
         will-change: auto;
         transform: none !important;
         /* Remove transforms that can be expensive */
     }
-    /* Simplify divider on mobile */
-    .image-text-slider-container.mobile-optimized.has-tilted-divider-yes .swiper::after {
-        transform: none !important;
-        /* Remove skew transform on mobile for performance */
+
+    /* Simplify divider on mobile - Keeping gradient, but allowing tilt */
+    .image-text-slider-container.mobile-optimized.has-tilted-divider-yes .swiper-slide::after,
+    .image-text-slider-container.mobile-optimized.has-tilted-divider-yes .image-text-slide::after {
         background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.8) 50%) !important;
     }
 }
@@ -73,17 +82,20 @@
         /* Further reduce complexity on very small screens */
         contain: layout !important;
     }
+
     .image-text-slider-container .slide-content {
         /* Remove expensive effects */
         backdrop-filter: none !important;
         filter: none !important;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1) !important;
     }
+
     /* Simplify typography effects */
     .image-text-slider-container .slide-title,
     .image-text-slider-container .slide-description {
         text-shadow: none !important;
     }
+
     /* Disable gradient overlays */
     .image-text-slider-container::before,
     .image-text-slider-container::after {
@@ -119,9 +131,11 @@
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+
     .image-text-slider-container .swiper {
         transition: none !important;
     }
+
     .image-text-slider-container .swiper-slide {
         transition: none !important;
     }
@@ -131,12 +145,14 @@
 /* Touch optimization */
 
 @media (pointer: coarse) {
+
     .image-text-slider-container .swiper-button-prev,
     .image-text-slider-container .swiper-button-next {
         width: 48px !important;
         /* Larger touch targets */
         height: 48px !important;
     }
+
     .image-text-slider-container .swiper-pagination-bullet {
         width: 12px !important;
         /* Larger touch targets */
@@ -169,6 +185,7 @@
 /* Network-aware optimizations */
 
 @media (max-width: 768px) {
+
     /* Reduce background image quality on slow connections */
     .image-text-slider-container.slow-connection .slide-image img {
         image-rendering: auto;
@@ -211,9 +228,11 @@
         height: auto !important;
         overflow: visible !important;
     }
+
     .image-text-slider-container .swiper-slide:not(:first-child) {
         display: none !important;
     }
+
     .image-text-slider-container .swiper-pagination,
     .image-text-slider-container .swiper-button-prev,
     .image-text-slider-container .swiper-button-next {

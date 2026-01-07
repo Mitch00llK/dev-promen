@@ -71,6 +71,7 @@ trait Image_Text_Slider_Style_Controls {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .swiper' => 'height: {{SIZE}}{{UNIT}}; min-height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .image-text-slider-single-slide-container' => 'height: {{SIZE}}{{UNIT}}; min-height: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'slider_height' => 'custom',
@@ -306,7 +307,8 @@ trait Image_Text_Slider_Style_Controls {
                     'size' => -12,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'transform: skewY({{SIZE}}{{UNIT}});',
+                    '{{WRAPPER}} .swiper-slide::after' => 'transform: skewY({{SIZE}}{{UNIT}});',
+                    '{{WRAPPER}} .image-text-slide::after' => 'transform: skewY({{SIZE}}{{UNIT}});',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',
@@ -325,7 +327,8 @@ trait Image_Text_Slider_Style_Controls {
                 'default' => 'no',
                 'prefix_class' => 'divider-flipped-',
                 'selectors' => [
-                    '{{WRAPPER}}.divider-flipped-yes .swiper::after' => 'transform: skewY(calc(-1 * {{divider_tilt_angle.SIZE}}{{divider_tilt_angle.UNIT}}));',
+                    '{{WRAPPER}}.divider-flipped-yes .swiper-slide::after' => 'transform: skewY(calc(-1 * {{divider_tilt_angle.SIZE}}{{divider_tilt_angle.UNIT}}));',
+                    '{{WRAPPER}}.divider-flipped-yes .image-text-slide::after' => 'transform: skewY(calc(-1 * {{divider_tilt_angle.SIZE}}{{divider_tilt_angle.UNIT}}));',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',
@@ -348,8 +351,10 @@ trait Image_Text_Slider_Style_Controls {
                     'show_tilted_divider' => 'yes',
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'transform: skewY({{VALUE}}deg);',
-                    '{{WRAPPER}}.divider-flipped-yes .swiper::after' => 'transform: skewY(calc(-1 * {{VALUE}}deg));',
+                    '{{WRAPPER}} .swiper-slide::after' => 'transform: skewY({{VALUE}}deg);',
+                    '{{WRAPPER}} .image-text-slide::after' => 'transform: skewY({{VALUE}}deg);',
+                    '{{WRAPPER}}.divider-flipped-yes .swiper-slide::after' => 'transform: skewY(calc(-1 * {{VALUE}}deg));',
+                    '{{WRAPPER}}.divider-flipped-yes .image-text-slide::after' => 'transform: skewY(calc(-1 * {{VALUE}}deg));',
                 ],
             ]
         );
@@ -361,7 +366,8 @@ trait Image_Text_Slider_Style_Controls {
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .swiper-slide::after' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .image-text-slide::after' => 'background-color: {{VALUE}};',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',
@@ -385,7 +391,8 @@ trait Image_Text_Slider_Style_Controls {
                     'size' => 0.8,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'opacity: {{SIZE}};',
+                    '{{WRAPPER}} .swiper-slide::after' => 'opacity: {{SIZE}};',
+                    '{{WRAPPER}} .image-text-slide::after' => 'opacity: {{SIZE}};',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',
@@ -421,7 +428,8 @@ trait Image_Text_Slider_Style_Controls {
                     'size' => 100,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .swiper-slide::after' => 'width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .image-text-slide::after' => 'width: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',
@@ -457,7 +465,8 @@ trait Image_Text_Slider_Style_Controls {
                     'size' => 20,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .swiper-slide::after' => 'height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .image-text-slide::after' => 'height: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',
@@ -489,7 +498,8 @@ trait Image_Text_Slider_Style_Controls {
                     'size' => 0,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'left: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .swiper-slide::after' => 'left: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .image-text-slide::after' => 'left: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',
@@ -520,7 +530,8 @@ trait Image_Text_Slider_Style_Controls {
                     'size' => 50,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'top: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .swiper-slide::after' => 'top: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .image-text-slide::after' => 'top: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',
@@ -538,7 +549,8 @@ trait Image_Text_Slider_Style_Controls {
                 'step' => 1,
                 'default' => 5,
                 'selectors' => [
-                    '{{WRAPPER}} .swiper::after' => 'z-index: {{VALUE}};',
+                    '{{WRAPPER}} .swiper-slide::after' => 'z-index: {{VALUE}};',
+                    '{{WRAPPER}} .image-text-slide::after' => 'z-index: {{VALUE}};',
                 ],
                 'condition' => [
                     'show_tilted_divider' => 'yes',

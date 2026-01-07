@@ -6,14 +6,15 @@
     margin-bottom: inherit;
     position: relative;
     /* Ensure styles are forced in editor */
-    min-height: 40rem !important;
+    min-height: 40rem;
     display: block !important;
 }
 
 .elementor-editor-active .image-text-slider-container .swiper,
-.elementor-editor-active .image-text-slider-container .swiper-content-slider {
+.elementor-editor-active .image-text-slider-container .swiper-content-slider,
+.elementor-editor-active .image-text-slider-container .image-text-slider-single-slide-container {
     overflow: hidden !important;
-    min-height: 40rem !important;
+    min-height: 40rem;
     display: block !important;
 }
 
@@ -88,8 +89,10 @@
     display: none !important;
 }
 
-.elementor-editor-active .has-tilted-divider-yes .swiper::after,
-.elementor-editor-preview .has-tilted-divider-yes .swiper::after {
+.elementor-editor-active .has-tilted-divider-yes .swiper-slide::after,
+.elementor-editor-preview .has-tilted-divider-yes .swiper-slide::after,
+.elementor-editor-active .has-tilted-divider-yes .image-text-slide::after,
+.elementor-editor-preview .has-tilted-divider-yes .image-text-slide::after {
     opacity: 0.7;
     pointer-events: none;
     display: block !important;
@@ -97,7 +100,9 @@
 }
 
 .elementor-editor-active .has-tilted-divider-yes .swiper::before,
-.elementor-editor-preview .has-tilted-divider-yes .swiper::before {
+.elementor-editor-preview .has-tilted-divider-yes .swiper::before,
+.elementor-editor-active .has-tilted-divider-yes .image-text-slider-single-slide-container::before,
+.elementor-editor-preview .has-tilted-divider-yes .image-text-slider-single-slide-container::before {
     content: attr(data-degrees) "°";
     position: absolute;
     bottom: 10px;
@@ -115,25 +120,30 @@
 }
 
 /* Divider Adjustments based on Content Position in Editor */
-.elementor-editor-active .content-position-left.has-tilted-divider-yes .swiper::after {
+.elementor-editor-active .content-position-left.has-tilted-divider-yes .swiper-slide::after,
+.elementor-editor-active .content-position-left.has-tilted-divider-yes .image-text-slide::after {
     transform-origin: bottom left !important;
 }
 
-.elementor-editor-active .content-position-right.has-tilted-divider-yes .swiper::after {
+.elementor-editor-active .content-position-right.has-tilted-divider-yes .swiper-slide::after,
+.elementor-editor-active .content-position-right.has-tilted-divider-yes .image-text-slide::after {
     transform-origin: bottom right !important;
 }
 
 /* Flipped Divider Adjustments */
-.elementor-editor-active .divider-flipped-yes .swiper::after {
+.elementor-editor-active .divider-flipped-yes .swiper-slide::after,
+.elementor-editor-active .divider-flipped-yes .image-text-slide::after {
     transform: skewY(12deg) !important;
     transform-origin: bottom center !important;
 }
 
-.elementor-editor-active .divider-flipped-yes.content-position-left .swiper::after {
+.elementor-editor-active .divider-flipped-yes.content-position-left .swiper-slide::after,
+.elementor-editor-active .divider-flipped-yes.content-position-left .image-text-slide::after {
     transform-origin: bottom left !important;
 }
 
-.elementor-editor-active .divider-flipped-yes.content-position-right .swiper::after {
+.elementor-editor-active .divider-flipped-yes.content-position-right .swiper-slide::after,
+.elementor-editor-active .divider-flipped-yes.content-position-right .image-text-slide::after {
     transform-origin: bottom right !important;
 }
 
@@ -236,7 +246,8 @@
     opacity: 1 !important;
 }
 
-.elementor-editor-preview .has-tilted-divider-yes .swiper::after {
+.elementor-editor-preview .has-tilted-divider-yes .swiper-slide::after,
+.elementor-editor-preview .has-tilted-divider-yes .image-text-slide::after {
     bottom: 0 !important;
     transform-origin: bottom center !important;
     opacity: 0.7 !important;
@@ -244,10 +255,12 @@
     display: block !important;
 }
 
-.elementor-editor-preview .content-position-left.has-tilted-divider-yes .swiper::after {
+.elementor-editor-preview .content-position-left.has-tilted-divider-yes .swiper-slide::after,
+.elementor-editor-preview .content-position-left.has-tilted-divider-yes .image-text-slide::after {
     transform-origin: bottom left !important;
 }
 
-.elementor-editor-preview .content-position-right.has-tilted-divider-yes .swiper::after {
+.elementor-editor-preview .content-position-right.has-tilted-divider-yes .swiper-slide::after,
+.elementor-editor-preview .content-position-right.has-tilted-divider-yes .image-text-slide::after {
     transform-origin: bottom right !important;
 }
