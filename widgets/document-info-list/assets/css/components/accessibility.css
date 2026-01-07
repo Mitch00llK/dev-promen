@@ -1,0 +1,44 @@
+/* Accessibility Styles */
+
+/* Focus Styles */
+.document-info-download-link:focus-visible {
+    outline: 2px solid var(--promen-focus-color, #0073aa);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 4px rgba(0, 115, 170, 0.2);
+    border-radius: 4px;
+}
+
+.document-info-item:focus-within {
+    /* Optional: highlight the item when a link inside it has focus */
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+    .document-info-download-link:focus-visible {
+        outline: 3px solid CanvasText;
+    }
+
+    .document-info-year-title::after,
+    .document-info-document-title::after {
+        background-color: CanvasText;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .document-info-item,
+    .document-info-icon,
+    .document-info-icon i,
+    .document-info-icon svg,
+    .document-info-document-title,
+    .document-info-document-title::after,
+    .document-info-download-link,
+    .document-info-download-link::before {
+        transition: none !important;
+    }
+
+    .document-info-download-link:hover {
+        transform: none !important;
+    }
+}

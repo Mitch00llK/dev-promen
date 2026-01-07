@@ -1,0 +1,55 @@
+/* Item Styles */
+.document-info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: var(--dil-spacing-md, 20px);
+    transition: transform var(--dil-transition-fast, 0.3s ease), box-shadow var(--dil-transition-fast, 0.3s ease);
+}
+
+.document-info-content {
+    flex: 1;
+}
+
+/* Header Styles */
+.document-info-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--dil-spacing-sm, 10px);
+}
+
+/* Icon Styles */
+.document-info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    transition: background-color var(--dil-transition-fast, 0.3s ease);
+}
+
+.document-info-icon.with-bg {
+    background-color: var(--dil-color-background-alt, #f5f5f5);
+    border-radius: 50%;
+    width: var(--dil-icon-size, 48px);
+    height: var(--dil-icon-size, 48px);
+}
+
+.document-info-icon i,
+.document-info-icon svg {
+    transition: transform var(--dil-transition-fast, 0.3s ease);
+}
+
+/* Legacy hover effects for items without download links */
+.document-info-header:not(.document-info-download-link) .document-info-icon i,
+.document-info-header:not(.document-info-download-link) .document-info-icon svg {
+    transition: transform var(--dil-transition-fast, 0.3s ease);
+}
+
+.document-info-item:hover .document-info-header:not(.document-info-download-link) .document-info-icon i,
+.document-info-item:hover .document-info-header:not(.document-info-download-link) .document-info-icon svg {
+    transform: scale(1.1);
+}
+
+/* Legacy hover underline effects for items without download links */
+.document-info-item:hover .document-info-header:not(.document-info-download-link) .document-info-document-title::after {
+    transform: scaleX(1);
+}

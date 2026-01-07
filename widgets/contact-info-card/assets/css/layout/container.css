@@ -1,0 +1,44 @@
+/**
+ * container.css
+ * Main container styles
+
+ */
+
+#employee-contact-info {
+    width: 100%;
+}
+
+.contact-info-card__heading-wrapper {
+    margin-bottom: 0 !important;
+}
+
+.contact-info-card__employee-info-block {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: unset !important;
+    width: 100% !important;
+}
+
+.contact-info-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 75rem;
+    margin: 0 auto;
+    color: var(--cic-color-white);
+    overflow: hidden;
+}
+
+.contact-info-card__main-content {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    max-width: 70%;
+}
+
+@media (max-width: 767px) {
+    .contact-info-card__main-content {
+        width: 100%;
+        max-width: 100%;
+    }
+}

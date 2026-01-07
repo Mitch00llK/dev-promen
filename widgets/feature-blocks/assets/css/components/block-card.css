@@ -1,0 +1,78 @@
+/* Feature Block Card Component */
+.promen-feature-block {
+    position: absolute;
+    width: 23rem;
+    max-width: 30rem;
+    padding: 25px;
+    background-color: var(--promen-feature-bg-block, white);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    /* For screen readers spacing */
+}
+
+.promen-feature-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+/* Icon */
+.feature-icon {
+    margin-bottom: 15px;
+    font-size: 28px;
+    color: var(--promen-feature-accent, #E8974C);
+}
+
+/* Block States */
+.promen-feature-block.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.promen-feature-block.error {
+    border: 2px solid #dc3545;
+    background-color: #f8d7da;
+}
+
+/* Responsive Block */
+@media (max-width: 1199px) {
+    .promen-feature-block {
+        width: 250px;
+    }
+}
+
+@media (max-width: 991px) {
+    .promen-feature-block {
+        width: 220px;
+        padding: 20px;
+    }
+
+    .feature-icon {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .stack-on-tablet .promen-feature-block {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .stack-on-mobile .promen-feature-block {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        width: 100%;
+        max-width: 100%;
+    }
+}

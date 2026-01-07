@@ -1,0 +1,67 @@
+/* Spring Slider Styles */
+.promen-slider-spring-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+    padding: 2rem 0;
+}
+
+.promen-slider-spring {
+    --swiper-theme-color: var(--e-global-color-primary);
+    transform-style: preserve-3d;
+}
+
+.promen-slider-spring .swiper-slide {
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.promen-slider-spring .swiper-slide-active {
+    z-index: 2;
+}
+
+.promen-slider-spring .swiper-slide-prev,
+.promen-slider-spring .swiper-slide-next {
+    pointer-events: auto;
+}
+
+.promen-slider-spring .promen-slider-image {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.promen-slider-spring .promen-slider-image img {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.promen-slider-spring .swiper-button-prev,
+.promen-slider-spring .swiper-button-next {
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.promen-slider-spring:hover .swiper-button-prev,
+.promen-slider-spring:hover .swiper-button-next {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.promen-slider-spring .swiper-button-prev:hover,
+.promen-slider-spring .swiper-button-next:hover {
+    transform: scale(1.1);
+}
+
+.promen-slider-spring .swiper-pagination-bullet {
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.promen-slider-spring .swiper-pagination-bullet-active {
+    transform: scale(1.2);
+}

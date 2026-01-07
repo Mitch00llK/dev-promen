@@ -1,0 +1,24 @@
+:root {
+    /* Colors */
+    --dil-color-text: #333333;
+    --dil-color-primary: #0073aa;
+    --dil-color-primary-hover: #00a0d2;
+    --dil-color-background-alt: #f5f5f5;
+    --dil-color-border: #eeeeee;
+    --dil-color-white: #ffffff;
+    --dil-color-tooltip-bg: rgba(0, 0, 0, 0.9);
+
+    /* Spacing */
+    --dil-spacing-xs: 8px;
+    --dil-spacing-sm: 10px;
+    --dil-spacing-md: 20px;
+    --dil-spacing-lg: 30px;
+    --dil-spacing-xl: 40px;
+
+    /* Dimensions */
+    --dil-icon-size: 48px;
+
+    /* Transitions */
+    --dil-transition-fast: 0.3s ease;
+    --dil-transition-transform: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}

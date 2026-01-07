@@ -1,0 +1,138 @@
+/* Download Link Styles */
+.document-info-download-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    cursor: pointer;
+    transition: all var(--dil-transition-fast, 0.3s ease);
+    border-radius: 6px;
+    padding: 8px;
+    margin: -8px -8px 2px -8px;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+.document-info-download-link:hover {
+    background-color: rgba(0, 115, 170, 0.05);
+    transform: translateY(-2px);
+}
+
+.document-info-download-link:hover .document-info-document-title {
+    color: var(--dil-color-primary, #0073aa);
+}
+
+.document-info-download-link:hover .document-info-icon {
+    transform: scale(1.05);
+}
+
+/* Tooltip Implementation for Download Link */
+.document-info-download-link::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    z-index: 9999;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background-color: var(--dil-color-tooltip-bg, rgba(0, 0, 0, 0.9));
+    color: var(--dil-color-white, #fff);
+    text-align: center;
+    font-size: 12px;
+    font-weight: normal;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--dil-transition-fast, 0.3s ease);
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Show tooltip on hover */
+.document-info-download-link:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Make tooltips visible in the editor for preview */
+body.elementor-editor-active .document-info-download-link::before {
+    opacity: 0.7 !important;
+    visibility: visible !important;
+}
+
+/* Legacy Link Styles */
+.document-info-link-wrapper {
+    margin-top: 10px;
+    margin-left: 63px;
+    /* Aligns with the icon + margin */
+}
+
+.document-info-link {
+    display: inline-block;
+    color: var(--dil-color-primary, #0073aa);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    overflow: visible;
+    padding-bottom: 2px;
+    cursor: pointer;
+    transition: color var(--dil-transition-fast, 0.3s ease);
+}
+
+.document-info-link:hover {
+    color: var(--dil-color-primary-hover, #00a0d2);
+}
+
+.document-info-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dil-transition-transform, 0.35s cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.document-info-link:hover::after {
+    transform: scaleX(1);
+}
+
+/* Legacy tooltip */
+.document-info-link::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    z-index: 9999;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background-color: var(--dil-color-tooltip-bg, rgba(0, 0, 0, 0.9));
+    color: var(--dil-color-white, #fff);
+    text-align: center;
+    font-size: 12px;
+    font-weight: normal;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--dil-transition-fast, 0.3s ease);
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.document-info-link:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide any span tooltip elements */
+.document-info-link .document-tooltip {
+    display: none !important;
+}

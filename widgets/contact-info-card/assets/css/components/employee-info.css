@@ -1,0 +1,94 @@
+/**
+ * employee-info.css
+ * Employee Info Block styles
+ */
+
+.contact-info-card__employee-info {
+    display: flex;
+    flex-direction: column;
+    width: 24rem;
+    background-color: var(--cic-color-white);
+    padding: var(--cic-spacing-lg);
+    color: var(--cic-color-black);
+}
+
+@media (max-width: 767px) {
+    .contact-info-card__employee-info {
+        margin-top: 2rem;
+        border-radius: var(--cic-radius-lg);
+        -webkit-border-radius: var(--cic-radius-lg);
+        -moz-border-radius: var(--cic-radius-lg);
+        -ms-border-radius: var(--cic-radius-lg);
+        -o-border-radius: var(--cic-radius-lg);
+    }
+}
+
+@media (min-width: 768px) {
+    .contact-info-card__employee-info {
+        margin-top: 0;
+        border-radius: 16px;
+        -webkit-border-radius: 16px;
+        -moz-border-radius: 16px;
+        -ms-border-radius: 16px;
+        -o-border-radius: 16px;
+    }
+}
+
+/* Employee Image */
+.contact-info-card__employee-image {
+    margin-bottom: var(--cic-spacing-md);
+}
+
+.contact-info-card__employee-image img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Headings within Employee Info */
+.contact-info-card__contact-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--cic-color-secondary);
+}
+
+.contact-info-card__employee-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--cic-spacing-md);
+    color: var(--cic-color-secondary);
+}
+
+/* Combined Layout Specifics */
+.contact-info-card.combined-layout .contact-info-card__employee-info-block {
+    background-color: var(--cic-color-white);
+    border-radius: var(--cic-radius-md);
+    overflow: hidden;
+    width: 100%;
+    margin-top: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: unset !important;
+}
+
+.contact-info-card.combined-layout .contact-info-card__employee-info {
+    padding: var(--cic-spacing-lg);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.contact-info-card.combined-layout .contact-info-card__contact-heading {
+    color: var(--cic-color-secondary);
+    font-weight: 800;
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+}
+
+.contact-info-card.combined-layout .contact-info-card__employee-name {
+    font-weight: normal;
+    margin-bottom: var(--cic-spacing-md);
+    color: var(--cic-color-text-light);
+}

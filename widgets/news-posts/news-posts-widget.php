@@ -16,7 +16,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
      * Get widget name.
      */
     public function get_name() {
-        return 'promen_content_posts_grid';
+        return 'promen_news_posts';
     }
 
     /**

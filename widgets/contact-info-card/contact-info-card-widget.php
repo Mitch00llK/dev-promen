@@ -13,6 +13,18 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
+// Include control components
+require_once(__DIR__ . '/includes/controls/content-controls.php');
+require_once(__DIR__ . '/includes/controls/style-controls.php');
+require_once(__DIR__ . '/includes/controls/visibility-controls.php');
+
+// Include render components
+require_once(__DIR__ . '/includes/render/render-widget.php');
+// Note: content-template.php is usually for JS templates, we'll keep it as is or handle it if needed. 
+// However, standard architecture suggests converting it too. But for now let's stick to what we know.
+// The file usage below suggests it's a function `render_contact_info_card_content_template`.
+require_once(__DIR__ . '/includes/render/content-template.php');
+
 class Contact_Info_Card_Widget extends \Promen_Widget_Base {
 
     /**
@@ -54,51 +66,45 @@ class Contact_Info_Card_Widget extends \Promen_Widget_Base {
      * Get style dependencies.
      */
     public function get_style_depends() {
-        return ['contact-info-card', 'contact-info-card-accessibility'];
+        return ['promen-contact-info-card', 'promen-contact-info-card-accessibility'];
     }
 
     /**
      * Get script dependencies.
      */
     public function get_script_depends() {
-        return ['contact-info-card-accessibility'];
+        return ['promen-contact-info-card-accessibility'];
     }
 
     /**
      * Register widget controls.
      */
     protected function register_controls() {
-        // Include control components
-        require_once(__DIR__ . '/includes/controls/content-controls.php');
-        require_once(__DIR__ . '/includes/controls/style-controls.php');
-        require_once(__DIR__ . '/includes/controls/visibility-controls.php');
-        
         // Register content controls
-        register_content_controls_for_contact_info_card($this);
+        Promen_Contact_Info_Card_Content_Controls::register_controls($this);
         
         // Register style controls
-        register_style_controls_for_contact_info_card($this);
+        Promen_Contact_Info_Card_Style_Controls::register_controls($this);
         
         // Register visibility controls
-        register_visibility_controls_for_contact_info_card($this);
+        Promen_Contact_Info_Card_Visibility_Controls::register_controls($this);
     }
 
     /**
      * Render widget output on the frontend.
      */
     protected function render() {
-        require_once(__DIR__ . '/includes/render/render-widget.php');
-        render_contact_info_card_widget($this);
+        Promen_Contact_Info_Card_Render::render_widget($this);
     }
 
     /**
      * Render widget output in the editor.
      */
     protected function content_template() {
-        require_once(__DIR__ . '/includes/render/content-template.php');
         ob_start();
         render_contact_info_card_content_template();
         $template = ob_get_clean();
         echo $template;
     }
-} 
+}
+ 

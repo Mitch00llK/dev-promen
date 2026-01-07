@@ -1,0 +1,103 @@
+/**
+ * combined.css
+ * Combined layout specific styles
+ */
+
+/* Combined Layout Container */
+.contact-info-card.combined-layout {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 767px) {
+    .contact-info-card.combined-layout {
+        padding: 1rem !important;
+    }
+}
+
+.contact-info-card.combined-layout .contact-info-card__content-wrapper {
+    display: flex;
+    width: 100%;
+    gap: var(--cic-spacing-xl);
+}
+
+/* Left Column (Main content + Employee info) */
+.contact-info-card.combined-layout .contact-info-card__left-column {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    color: var(--cic-color-white);
+    margin-top: auto;
+}
+
+/* Main Content in Combined Layout */
+.contact-info-card.combined-layout .contact-info-card__main-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--cic-color-white);
+}
+
+/* Right Column (Form) */
+.contact-info-card.combined-layout .contact-info-card__right-column {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    background-color: var(--cic-color-white);
+    padding: var(--cic-spacing-xl);
+    border-radius: var(--cic-radius-md);
+}
+
+/* Ratio Classes */
+.contact-info-card.combined-layout.ratio-40-60 .contact-info-card__left-column {
+    width: 40%;
+}
+
+.contact-info-card.combined-layout.ratio-40-60 .contact-info-card__right-column {
+    width: 60%;
+}
+
+.contact-info-card.combined-layout.ratio-50-50 .contact-info-card__left-column,
+.contact-info-card.combined-layout.ratio-50-50 .contact-info-card__right-column {
+    width: 50%;
+}
+
+@media (max-width: 767px) {
+
+    .contact-info-card.combined-layout.ratio-50-50 .contact-info-card__left-column,
+    .contact-info-card.combined-layout.ratio-50-50 .contact-info-card__right-column {
+        width: 100%;
+    }
+}
+
+.contact-info-card.combined-layout.ratio-60-40 .contact-info-card__left-column {
+    width: 60%;
+}
+
+.contact-info-card.combined-layout.ratio-60-40 .contact-info-card__right-column {
+    width: 40%;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+    .contact-info-card.combined-layout .contact-info-card__content-wrapper {
+        flex-direction: row;
+        gap: 8rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .contact-info-card.combined-layout .contact-info-card__content-wrapper {
+        flex-direction: column;
+    }
+
+    .contact-info-card.combined-layout .contact-info-card__left-column,
+    .contact-info-card.combined-layout .contact-info-card__right-column {
+        width: 100%;
+    }
+}

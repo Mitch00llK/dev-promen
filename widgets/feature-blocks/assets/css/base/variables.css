@@ -1,0 +1,26 @@
+:root {
+    /* Colors */
+    --promen-feature-text-main: #333333;
+    --promen-feature-text-content: #666666;
+    --promen-feature-bg-block: #ffffff;
+    --promen-feature-bg-container: #f5f5f5;
+    --promen-feature-primary: #002469;
+    --promen-feature-accent: #E8974C;
+    --promen-feature-button-bg: #54B7D3;
+    --promen-feature-button-hover: #3C9CB8;
+    --promen-feature-focus: #005fcc;
+
+    /* Fonts */
+    --promen-font-script: 'Dancing Script', cursive;
+    --promen-font-heading: 'Manrope', sans-serif;
+
+    /* Spacing */
+    --promen-spacing-xs: 5px;
+    --promen-spacing-sm: 10px;
+    --promen-spacing-md: 20px;
+    --promen-spacing-lg: 30px;
+
+    /* Transitions */
+    --promen-transition-fast: 0.2s ease;
+    --promen-transition-normal: 0.3s ease;
+}

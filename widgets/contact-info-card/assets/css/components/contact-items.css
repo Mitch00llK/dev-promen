@@ -1,0 +1,66 @@
+/**
+ * contact-items.css
+ * Contact items styles
+ */
+
+.contact-info-card__contact-items {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-info-card__contact-item {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--cic-color-secondary);
+}
+
+.contact-info-card__contact-icon {
+    margin-right: var(--cic-spacing-xs);
+    color: var(--cic-color-icon);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    flex-shrink: 0;
+}
+
+.contact-info-card__contact-item i {
+    margin-right: var(--cic-spacing-xs);
+    color: var(--cic-color-icon);
+}
+
+.contact-info-card__contact-item a {
+    color: inherit;
+    text-decoration: underline !important;
+}
+
+.contact-info-card__contact-item a:hover {
+    text-decoration: underline;
+}
+
+/* Combined Layout Overrides */
+.contact-info-card.combined-layout .contact-info-card__contact-items {
+    display: flex;
+    flex-direction: column;
+    color: var(--cic-color-secondary);
+}
+
+.contact-info-card.combined-layout .contact-info-card__contact-item {
+    display: flex;
+    align-items: center;
+    color: var(--cic-color-secondary);
+}
+
+.contact-info-card.combined-layout .contact-info-card__contact-item i {
+    color: var(--cic-color-primary);
+    width: 24px;
+    font-size: 1rem;
+    margin-right: var(--cic-spacing-xs);
+}
+
+.contact-info-card.combined-layout .contact-info-card__contact-item a {
+    color: var(--cic-color-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+}

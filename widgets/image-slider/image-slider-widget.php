@@ -10,6 +10,14 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
+require_once(__DIR__ . '/includes/controls/content-controls.php');
+require_once(__DIR__ . '/includes/controls/style-controls.php');
+require_once(__DIR__ . '/includes/render/render-widget.php');
+
+use Promen\Widgets\ImageSlider\Controls\Promen_Image_Slider_Content_Controls;
+use Promen\Widgets\ImageSlider\Controls\Promen_Image_Slider_Style_Controls;
+use Promen\Widgets\ImageSlider\Render\Promen_Image_Slider_Render;
+
 class Promen_Image_Slider_Widget extends \Promen_Widget_Base {
 
     /**
@@ -51,7 +59,7 @@ class Promen_Image_Slider_Widget extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-image-slider-widget', 'swiper-bundle-css'];
+        return ['promen-image-slider', 'swiper-bundle-css'];
     }
 
     /**
@@ -65,33 +73,14 @@ class Promen_Image_Slider_Widget extends \Promen_Widget_Base {
      * Register widget controls.
      */
     protected function register_controls() {
-        // Include control files
-        require_once(__DIR__ . '/includes/controls/content-controls.php');
-        require_once(__DIR__ . '/includes/controls/slider-controls/slider-controls.php');
-        require_once(__DIR__ . '/includes/controls/style-controls/style-controls.php');
-        require_once(__DIR__ . '/includes/controls/visibility-controls.php');
-        
-        // Make sure the split title controls are included
-        if (!function_exists('promen_add_split_title_controls')) {
-            $split_title_controls = WP_PLUGIN_DIR . '/promen-elementor-widgets/includes/controls/split-title-controls.php';
-            if (file_exists($split_title_controls)) {
-                require_once($split_title_controls);
-            }
-        }
+        Promen_Image_Slider_Content_Controls::register_controls($this);
+        Promen_Image_Slider_Style_Controls::register_controls($this);
     }
 
     /**
      * Render widget output on the frontend.
      */
     protected function render() {
-        $settings = $this->get_settings_for_display();
-        
-        // Debug output
-        if (current_user_can('administrator')) {
-            echo '<!-- Image Slider Widget Debug: Settings loaded -->';
-        }
-        
-        // Include render file
-        require_once(__DIR__ . '/includes/render/render-widget.php');
+        Promen_Image_Slider_Render::render_widget($this);
     }
-} 
+}

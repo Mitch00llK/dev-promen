@@ -9,6 +9,15 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
+// Import static classes
+require_once(__DIR__ . '/includes/controls/content-controls.php');
+require_once(__DIR__ . '/includes/controls/style-controls.php');
+require_once(__DIR__ . '/includes/render/render-widget.php');
+
+use Promen\Widgets\DocumentInfoList\Controls\Promen_Document_Info_List_Content_Controls;
+use Promen\Widgets\DocumentInfoList\Controls\Promen_Document_Info_List_Style_Controls;
+use Promen\Widgets\DocumentInfoList\Render\Promen_Document_Info_List_Render;
+
 /**
  * Document Info List Widget.
  *
@@ -69,33 +78,25 @@ class Promen_Document_Info_List_Widget extends \Promen_Widget_Base {
     }
 
     public function get_style_depends() {
-        return ['promen-document-info-list-widget'];
+        return ['promen-document-info-list'];
     }
 
     public function get_script_depends() {
-        return ['document-info-list-script', 'promen-document-info-list-accessibility'];
+        return ['promen-document-info-list-script', 'promen-document-info-list-accessibility'];
     }
 
     /**
      * Register widget controls.
      */
     protected function register_controls() {
-        // Include control files
-        require_once(__DIR__ . '/includes/content-controls.php');
-        require_once(__DIR__ . '/includes/style-controls.php');
+        Promen_Document_Info_List_Content_Controls::register_controls($this);
+        Promen_Document_Info_List_Style_Controls::register_controls($this);
     }
-
-
-
-
 
     /**
      * Render widget output on the frontend.
      */
     protected function render() {
-        $settings = $this->get_settings_for_display();
-        
-        // Include the template file
-        require_once(__DIR__ . '/includes/template.php');
+        Promen_Document_Info_List_Render::render_widget($this);
     }
 } 

@@ -1,0 +1,8 @@
+/**
+ * Document Info List Accessibility Styles
+ * 
+ * This file is now redundant as styles are imported in document-info-list.css via components/accessibility.css
+ * Keeping it for backward compatibility if enqueued separately.
+ */
+
+@import url('components/accessibility.css');

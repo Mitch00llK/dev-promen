@@ -1,0 +1,104 @@
+/* Overlay Styles */
+.promen-slider-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    opacity: 1;
+    transition: var(--promen-slider-transition, all 0.3s ease);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: var(--promen-slider-border-radius, 1rem);
+    -webkit-border-radius: var(--promen-slider-border-radius, 1rem);
+    -moz-border-radius: var(--promen-slider-border-radius, 1rem);
+    -ms-border-radius: var(--promen-slider-border-radius, 1rem);
+    -o-border-radius: var(--promen-slider-border-radius, 1rem);
+}
+
+.promen-slider-overlay.hover-overlay {
+    opacity: 0;
+}
+
+.promen-slider-image:hover .promen-slider-overlay.hover-overlay {
+    opacity: 1;
+}
+
+.promen-slider-overlay-title {
+    margin: 0 0 0.5rem !important;
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    line-height: 1.3 !important;
+    /* Fallback color - will be overridden by Elementor controls */
+    color: #ffffff;
+}
+
+.promen-slider-overlay-description {
+    margin: 0 !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    text-decoration: none !important;
+    /* Fallback color - will be overridden by Elementor controls */
+    color: #ffffff;
+}
+
+/* Ensure overlay text colors override theme styles */
+.promen-slider-overlay-title a,
+.promen-slider-overlay-title a:hover,
+.promen-slider-overlay-title a:focus,
+.promen-slider-overlay-title a:active,
+.promen-slider-overlay-title a:visited {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.promen-slider-overlay-description a,
+.promen-slider-overlay-description a:hover,
+.promen-slider-overlay-description a:focus,
+.promen-slider-overlay-description a:active,
+.promen-slider-overlay-description a:visited {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Additional overlay fixes for theme compatibility */
+.promen-slider-overlay p,
+.promen-slider-overlay h1,
+.promen-slider-overlay h2,
+.promen-slider-overlay h3,
+.promen-slider-overlay h4,
+.promen-slider-overlay h5,
+.promen-slider-overlay h6 {
+    margin: 0 !important;
+}
+
+.promen-slider-overlay p:not(:last-child) {
+    margin-bottom: 0.5rem !important;
+}
+
+/* Ensure overlay is clickable but doesn't interfere with image interactions */
+.promen-slider-overlay {
+    pointer-events: none;
+}
+
+.promen-slider-overlay * {
+    pointer-events: auto;
+}
+
+@media (max-width: 767px) {
+
+    /* Smaller overlay text on mobile */
+    .promen-slider-overlay-title {
+        font-size: 1.125rem;
+    }
+
+    .promen-slider-overlay-description {
+        font-size: 0.875rem;
+    }
+}

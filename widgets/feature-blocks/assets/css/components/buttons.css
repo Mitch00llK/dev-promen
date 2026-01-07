@@ -1,0 +1,68 @@
+/* Button Component */
+.button-wrapper {
+    margin-top: auto;
+    text-align: left;
+}
+
+.feature-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.25rem;
+    background-color: var(--promen-feature-button-bg, #54B7D3);
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease, border 0.2s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+
+    /* Touch target size */
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.feature-button:hover {
+    background-color: var(--promen-feature-button-hover, #3C9CB8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-button .button-arrow {
+    margin-left: 0.5rem;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.feature-button:hover .button-arrow {
+    transform: translateX(3px);
+}
+
+.feature-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Responsive Button */
+@media (max-width: 768px) {
+    .feature-button {
+        min-height: 48px;
+        min-width: 48px;
+        font-size: 16px;
+    }
+}
+
+/* Dark Mode Button */
+@media (prefers-color-scheme: dark) {
+    .feature-button {
+        background-color: var(--promen-feature-focus, #005fcc);
+        color: #ffffff;
+        border: 1px solid var(--promen-feature-focus, #005fcc);
+    }
+
+    .feature-button:hover {
+        background-color: #004499;
+    }
+}
