@@ -247,9 +247,33 @@ class Promen_Assets_Config {
                 'path' => 'widgets/text-column-repeater/assets/css/text-column-repeater.css',
                 'deps' => ['promen-elementor-widgets'],
             ],
-            'promen-solicitation-timeline-widget' => [
-                'path' => 'widgets/solicitation-timeline/assets/css/solicitation-timeline.css',
+            'promen-solicitation-timeline-base' => [
+                'path' => 'widgets/solicitation-timeline/assets/css/base/variables.css',
                 'deps' => ['promen-elementor-widgets'],
+            ],
+            'promen-solicitation-timeline-layout' => [
+                'path' => 'widgets/solicitation-timeline/assets/css/layout/container.css',
+                'deps' => ['promen-solicitation-timeline-base'],
+            ],
+            'promen-solicitation-timeline-component-content' => [
+                'path' => 'widgets/solicitation-timeline/assets/css/components/content.css',
+                'deps' => ['promen-solicitation-timeline-layout'],
+            ],
+            'promen-solicitation-timeline-component-step' => [
+                'path' => 'widgets/solicitation-timeline/assets/css/components/timeline-step.css',
+                'deps' => ['promen-solicitation-timeline-layout'],
+            ],
+            'promen-solicitation-timeline-component-marker' => [
+                'path' => 'widgets/solicitation-timeline/assets/css/components/timeline-marker.css',
+                'deps' => ['promen-solicitation-timeline-layout'],
+            ],
+            'promen-solicitation-timeline-responsive-tablet' => [
+                'path' => 'widgets/solicitation-timeline/assets/css/responsive/tablet.css',
+                'deps' => ['promen-solicitation-timeline-layout'],
+            ],
+            'promen-solicitation-timeline-responsive-mobile' => [
+                'path' => 'widgets/solicitation-timeline/assets/css/responsive/mobile.css',
+                'deps' => ['promen-solicitation-timeline-layout'],
             ],
             'promen-business-catering-widget' => [
                 'path' => 'widgets/business-catering/assets/css/business-catering.css',

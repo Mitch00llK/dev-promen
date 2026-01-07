@@ -20,13 +20,16 @@
 
 /* Layout Direction */
 
-.promen-image-text-block.image-left .promen-image-text-container,
-.promen-image-text-block--left .promen-image-text-block__container,
-.promen-image-text-block.promen-image-text-block--left .promen-image-text-block__container {
+/* Layout Direction */
+
+/* Default (Left) */
+.promen-image-text-block__container {
     flex-direction: row;
 }
 
+/* Right */
 .promen-image-text-block.image-right .promen-image-text-container,
+.promen-image-text-block.image-right .promen-image-text-block__container,
 .promen-image-text-block--right .promen-image-text-block__container,
 .promen-image-text-block.promen-image-text-block--right .promen-image-text-block__container {
     flex-direction: row-reverse;

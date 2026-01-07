@@ -43,12 +43,6 @@
                 }
             });
         }
-
-        // Handle resize events for responsive layout
-        $(window).on('resize', function () {
-            adjustLayoutForScreenSize($block);
-        });
-        adjustLayoutForScreenSize($block);
     }
 
     /**
@@ -62,37 +56,6 @@
             $block.addClass('promen-image-text-block--left');
         } else if (layout === 'image-right') {
             $block.addClass('promen-image-text-block--right');
-        }
-    }
-
-    /**
-     * Adjust layout based on screen size and stacking settings
-     */
-    function adjustLayoutForScreenSize($block) {
-        var windowWidth = $(window).width();
-        var isTablet = windowWidth <= 1024 && windowWidth > 767;
-        var isMobile = windowWidth <= 767;
-
-        var stackOnTablet = $block.hasClass('stack-on-tablet');
-        var stackOnMobile = $block.hasClass('stack-on-mobile');
-
-        var $contentWrapper = $block.find('.promen-image-text-content-wrapper, .promen-image-text-block__content-wrapper');
-        var $imageWrapper = $block.find('.promen-image-text-image-wrapper, .promen-image-text-block__image-wrapper');
-
-        if ((isTablet && stackOnTablet) || (isMobile && stackOnMobile)) {
-            // Stacked: content first, image second
-            $contentWrapper.css('order', '1');
-            $imageWrapper.css('order', '2');
-        } else {
-            // Desktop: order based on layout class
-            var isImageRight = $block.hasClass('image-right') || $block.hasClass('promen-image-text-block--right');
-            if (isImageRight) {
-                $contentWrapper.css('order', '1');
-                $imageWrapper.css('order', '2');
-            } else {
-                $contentWrapper.css('order', '2');
-                $imageWrapper.css('order', '1');
-            }
         }
     }
 

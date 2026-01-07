@@ -1,0 +1,20 @@
+/* Solicitation Timeline Content */
+
+/* Heading Styles */
+.solicitation-timeline__intro-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--promen-timeline-text-light, #666);
+}
+
+.solicitation-timeline__heading {
+    margin-bottom: 2rem;
+}
+
+.solicitation-timeline__heading .light {
+    font-weight: 400;
+}
+
+.solicitation-timeline__heading .bold {
+    font-weight: 700;
+}
