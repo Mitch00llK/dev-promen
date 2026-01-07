@@ -1,0 +1,63 @@
+/* Benefit Item Styles */
+
+.benefit-item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: var(--benefit-item-padding, 2rem 1.5rem);
+    border-radius: var(--benefit-border-radius, 8px);
+    transition: var(--benefit-transition, all 0.3s ease);
+    width: 100%;
+}
+
+.benefit-content {
+    flex: 1;
+}
+
+/* Icon Styles Section */
+
+.benefit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--benefit-transition, all 0.3s ease);
+}
+
+.benefit-icon i,
+.benefit-icon svg {
+    transition: var(--benefit-transition, all 0.3s ease);
+}
+
+
+/* Icon Position Variations */
+
+.benefit-icon-position-top .benefit-item {
+    flex-direction: column;
+}
+
+.benefit-icon-position-left .benefit-item {
+    flex-direction: row;
+    text-align: left;
+}
+
+.benefit-icon-position-right .benefit-item {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+
+/* Icon Spacing based on Position */
+
+.benefit-icon-position-top .benefit-icon {
+    margin-bottom: 1rem;
+}
+
+.benefit-icon-position-left .benefit-icon {
+    margin-right: 1rem;
+    margin-bottom: 0;
+}
+
+.benefit-icon-position-right .benefit-icon {
+    margin-left: 1rem;
+    margin-bottom: 0;
+}

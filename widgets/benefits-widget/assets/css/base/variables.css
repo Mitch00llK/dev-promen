@@ -1,0 +1,9 @@
+:root {
+    /* Variables for benefits widget can be added here if needed, 
+       but currently using --hafo- design tokens (assumed global).
+       Adding some widget-specific defaults if not already in tokens. */
+    --benefits-gap: 3rem;
+    --benefit-item-padding: 2rem 1.5rem;
+    --benefit-border-radius: 8px;
+    --benefit-transition: all 0.3s ease;
+}

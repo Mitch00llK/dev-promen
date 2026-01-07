@@ -1,0 +1,9 @@
+@media screen and (max-width: 1024px) {
+    .promen-certification-logos .mobile-slider {
+        padding: 0 2.5rem;
+    }
+
+    .promen-certification-logos .logos-grid {
+        display: none;
+    }
+}

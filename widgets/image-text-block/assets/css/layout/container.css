@@ -1,0 +1,48 @@
+/* Base Widget Styles */
+
+.promen-image-text-block {
+    padding: 3.75rem 0;
+    overflow: hidden;
+}
+
+
+/* Container - supports both legacy and BEM class names */
+
+.promen-image-text-container,
+.promen-image-text-block__container {
+    display: flex;
+    margin: 0 auto;
+    align-items: stretch;
+    gap: var(--itb-gap-desktop);
+    position: relative;
+}
+
+
+/* Layout Direction */
+
+.promen-image-text-block.image-left .promen-image-text-container,
+.promen-image-text-block--left .promen-image-text-block__container,
+.promen-image-text-block.promen-image-text-block--left .promen-image-text-block__container {
+    flex-direction: row;
+}
+
+.promen-image-text-block.image-right .promen-image-text-container,
+.promen-image-text-block--right .promen-image-text-block__container,
+.promen-image-text-block.promen-image-text-block--right .promen-image-text-block__container {
+    flex-direction: row-reverse;
+}
+
+/* Semantic Structure */
+
+.promen-image-text-block section,
+.promen-image-text-block article,
+.promen-image-text-block header,
+.promen-image-text-block footer,
+.promen-image-text-block nav,
+.promen-image-text-block figure {
+    display: block;
+}
+
+.promen-image-text-block figure {
+    margin: 0;
+}

@@ -1,0 +1,56 @@
+/* Responsive Design - Mobile */
+
+@media (max-width: 767px) {
+    .benefits-widget {
+        padding: 1rem;
+    }
+
+    .benefits-header {
+        margin-bottom: 2rem;
+    }
+
+    .benefits-container {
+        grid-template-columns: 1fr;
+        /* Single column on mobile */
+        gap: 1rem;
+    }
+
+    .benefits-media {
+        min-height: 200px;
+        /* Smaller minimum height on mobile */
+    }
+
+    .benefit-item {
+        padding: 1.5rem 1rem;
+    }
+
+    /* Maintain icon position on mobile */
+    .benefit-icon-position-left .benefit-item,
+    .benefit-icon-position-right .benefit-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .benefit-icon-position-left .benefit-icon,
+    .benefit-icon-position-right .benefit-icon {
+        margin: 0 0 1rem 0;
+    }
+
+    .benefit-icon {
+        font-size: 1.75rem;
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    /* Smaller video controls for mobile */
+    .benefits-video-embed-container .play-button {
+        width: 50px;
+        height: 50px;
+    }
+
+    .benefits-video-embed-container .play-button:before {
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 18px solid #fff;
+    }
+}

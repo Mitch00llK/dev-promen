@@ -48,9 +48,9 @@
     position: relative;
     display: block;
     width: 100%;
-    height: 1px;
+    height: 164px;
     z-index: 1;
-    margin-top: -1px;
+    margin-top: 0;
     clear: both;
     pointer-events: none;
     transition: height 0.3s ease-out;
@@ -86,6 +86,25 @@
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     will-change: transform, opacity;
+    overflow: visible !important;
+}
+
+/* Simplified Single Slide DOM Support */
+.image-text-slider-container .image-text-slider-single-slide-container {
+    width: 100%;
+    overflow: visible !important;
+    height: 45rem;
+    min-height: 40rem;
+    position: relative;
+    display: block;
+}
+
+.image-text-slider-container .image-text-slide {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    visibility: visible;
+    position: relative;
     overflow: visible !important;
 }
 
@@ -234,8 +253,8 @@ body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-init
     z-index: 5;
     background-color: #ffffff;
     width: 100%;
-    height: 20rem;
-    transform: skewY(3deg) !important;
+    height: 10rem;
+    transform: skewY(-3deg) !important;
     transform-origin: bottom center;
     bottom: 0;
     left: 0;
@@ -267,7 +286,7 @@ body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-init
 }
 
 .divider-flipped-yes.content-position-left .swiper-slide::after {
-    transform-origin: bottom left;
+    transform-origin: bottom right;
 }
 
 .divider-flipped-yes.content-position-center .swiper-slide::after {

@@ -1,0 +1,24 @@
+/* Content Wrapper */
+
+.promen-image-text-content-wrapper,
+.promen-image-text-block__content-wrapper {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.promen-image-text-block__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.promen-image-text-block__content-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+}

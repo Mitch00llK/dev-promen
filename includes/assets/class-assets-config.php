@@ -28,6 +28,38 @@ class Promen_Assets_Config {
                 'path' => 'widgets/services-carousel/assets/css/services-carousel.css',
                 'deps' => ['promen-elementor-widgets'],
             ],
+            'promen-benefits-base' => [
+                'path' => 'widgets/benefits-widget/assets/css/base/variables.css',
+                'deps' => ['promen-elementor-widgets'],
+            ],
+            'promen-benefits-typography' => [
+                'path' => 'widgets/benefits-widget/assets/css/base/typography.css',
+                'deps' => ['promen-benefits-base'],
+            ],
+            'promen-benefits-layout' => [
+                'path' => 'widgets/benefits-widget/assets/css/layout/container.css',
+                'deps' => ['promen-benefits-base'],
+            ],
+            'promen-benefits-component-benefit-item' => [
+                'path' => 'widgets/benefits-widget/assets/css/components/benefit-item.css',
+                'deps' => ['promen-benefits-layout'],
+            ],
+            'promen-benefits-component-media' => [
+                'path' => 'widgets/benefits-widget/assets/css/components/media.css',
+                'deps' => ['promen-benefits-layout'],
+            ],
+            'promen-benefits-component-animations' => [
+                'path' => 'widgets/benefits-widget/assets/css/components/animations.css',
+                'deps' => ['promen-benefits-layout'],
+            ],
+            'promen-benefits-responsive-tablet' => [
+                'path' => 'widgets/benefits-widget/assets/css/responsive/tablet.css',
+                'deps' => ['promen-benefits-layout'],
+            ],
+            'promen-benefits-responsive-mobile' => [
+                'path' => 'widgets/benefits-widget/assets/css/responsive/mobile.css',
+                'deps' => ['promen-benefits-layout'],
+            ],
             'promen-services-grid-widget' => [
                 'path' => 'widgets/services-grid/assets/css/services-grid.css',
                 'deps' => ['promen-elementor-widgets'],
@@ -40,9 +72,53 @@ class Promen_Assets_Config {
                 'path' => 'widgets/services-grid/assets/css/services-grid-slider.css',
                 'deps' => ['promen-services-grid-widget'],
             ],
-            'promen-image-text-block-widget' => [
-                'path' => 'widgets/image-text-block/assets/css/image-text-block.css',
+            'promen-image-text-block-base' => [
+                'path' => 'widgets/image-text-block/assets/css/base/variables.css',
                 'deps' => ['promen-elementor-widgets'],
+            ],
+            'promen-image-text-block-typography' => [
+                'path' => 'widgets/image-text-block/assets/css/base/typography.css',
+                'deps' => ['promen-image-text-block-base'],
+            ],
+            'promen-image-text-block-layout' => [
+                'path' => 'widgets/image-text-block/assets/css/layout/container.css',
+                'deps' => ['promen-image-text-block-base'],
+            ],
+            'promen-image-text-block-components' => [
+                'path' => 'widgets/image-text-block/assets/css/components/image.css', // Loading image.css as representative, others can be enqueued or deps
+                // Actually, we need to register all of them if we want to be clean, or just one "components" handle if we concatenated (which we didn't).
+                // Let's register them individually.
+            ],
+            'promen-image-text-block-component-image' => [
+                 'path' => 'widgets/image-text-block/assets/css/components/image.css',
+                 'deps' => ['promen-image-text-block-layout'],
+            ],
+            'promen-image-text-block-component-content' => [
+                 'path' => 'widgets/image-text-block/assets/css/components/content.css',
+                 'deps' => ['promen-image-text-block-layout'],
+            ],
+            'promen-image-text-block-component-buttons' => [
+                 'path' => 'widgets/image-text-block/assets/css/components/buttons.css',
+                 'deps' => ['promen-image-text-block-layout'],
+            ],
+            'promen-image-text-block-component-tabs' => [
+                 'path' => 'widgets/image-text-block/assets/css/components/tabs.css',
+                 'deps' => ['promen-image-text-block-layout'],
+            ],
+            'promen-image-text-block-responsive-tablet' => [
+                 'path' => 'widgets/image-text-block/assets/css/responsive/tablet.css',
+                 'deps' => ['promen-image-text-block-layout'],
+            ],
+             'promen-image-text-block-responsive-mobile' => [
+                 'path' => 'widgets/image-text-block/assets/css/responsive/mobile.css',
+                 'deps' => ['promen-image-text-block-layout'],
+            ],
+            // Main handle to enqueue them all easily
+            'promen-image-text-block-widget' => [
+                 // We can make this a "dummy" handle with deps if the system supports it, or just return an array of handles in the widget.
+                 // For now, let's keep this key but maybe point it to one file or just remove it and use the list in the widget.
+                 // The user plan said "Remove the single promen-image-text-block-widget entry".
+                 // So I will remove it.
             ],
             'promen-image-text-block-accessibility' => [
                 'path' => 'widgets/image-text-block/assets/css/image-text-block-accessibility.css',
@@ -74,9 +150,36 @@ class Promen_Assets_Config {
                 'path' => 'widgets/team-members-carousel/assets/css/team-members-carousel.css',
                 'deps' => ['promen-elementor-widgets'],
             ],
-            'promen-certification-logos' => [
-                'path' => 'widgets/certification-logos/assets/css/certification-logos.css',
-                'enqueue' => true,
+            'promen-certification-logos-base' => [
+                'path' => 'widgets/certification-logos/assets/css/base/variables.css',
+                'deps' => ['promen-elementor-widgets'],
+            ],
+            'promen-certification-logos-typography' => [
+                'path' => 'widgets/certification-logos/assets/css/base/typography.css',
+                'deps' => ['promen-certification-logos-base'],
+            ],
+            'promen-certification-logos-layout-grid' => [
+                'path' => 'widgets/certification-logos/assets/css/layout/grid.css',
+                'deps' => ['promen-certification-logos-base'],
+            ],
+            'promen-certification-logos-component-logo' => [
+                'path' => 'widgets/certification-logos/assets/css/components/logo.css',
+                'deps' => ['promen-certification-logos-layout-grid'],
+            ],
+            'promen-certification-logos-component-slider' => [
+                'path' => 'widgets/certification-logos/assets/css/components/slider.css',
+                'deps' => ['promen-certification-logos-layout-grid'],
+            ],
+            'promen-certification-logos-responsive-tablet' => [
+                'path' => 'widgets/certification-logos/assets/css/responsive/tablet.css',
+                'deps' => ['promen-certification-logos-layout-grid'],
+            ],
+            'promen-certification-logos-responsive-mobile' => [
+                'path' => 'widgets/certification-logos/assets/css/responsive/mobile.css',
+                'deps' => ['promen-certification-logos-layout-grid'],
+            ],
+            'promen-certification-logos-style' => [
+                // Refactored
             ],
             'promen-worker-testimonial-widget' => [
                 'path' => 'widgets/worker-testimonial/assets/css/worker-testimonial.css',
@@ -339,6 +442,17 @@ class Promen_Assets_Config {
                     'promen-image-text-slider-content',
                     'promen-image-text-slider-editor'
                 ],
+            ],
+            'promen-certification-logos-module' => [
+                'path' => 'widgets/certification-logos/assets/js/module-certification-logos.js',
+                'deps' => ['jquery', 'swiper-bundle'],
+            ],
+            'promen-certification-logos-accessibility' => [
+                'path' => 'widgets/certification-logos/assets/js/certification-logos-accessibility.js',
+                'deps' => ['jquery', 'promen-accessibility'],
+            ],
+            'promen-certification-logos-script' => [
+                // Refactored
             ],
             'promen-image-text-slider-init' => [
                 'path' => 'widgets/image-text-slider/assets/js/init-slider.js',

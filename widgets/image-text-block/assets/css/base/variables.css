@@ -1,0 +1,22 @@
+:root {
+    /* Base font size reference - this helps ensure rem calculations are consistent */
+    font-size: 16px;
+    /* CSS Custom Properties for repeated values */
+    --itb-gap-desktop: 3.75rem;
+    /* 60px */
+    --itb-gap-mobile: 2rem;
+    /* 32px */
+    --itb-border-radius: 0.5rem;
+    /* 8px */
+    --itb-transition: transform 0.3s ease, opacity 0.3s ease;
+    --itb-title-size-desktop: 2.25rem;
+    /* 36px */
+    --itb-title-size-mobile: 1.75rem;
+    /* 28px */
+    --itb-tab-gap-desktop: 0.75rem;
+    /* 12px */
+    --itb-tab-gap-mobile: 0.5rem;
+    /* 8px */
+    --itb-tab-gap-xs: 0.375rem;
+    /* 6px */
+}

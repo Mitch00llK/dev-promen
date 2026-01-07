@@ -1,0 +1,28 @@
+.benefits-widget {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Content Section */
+
+.benefits-content {
+    display: flex;
+    align-items: stretch;
+    min-height: 300px;
+    gap: var(--benefits-gap, 3rem);
+    justify-content: center;
+    padding: 1rem;
+}
+
+
+/* Benefits Container */
+
+.benefits-container {
+    flex: 0 0 50%;
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Default 2 columns */
+    gap: 1rem !important;
+}

@@ -1,0 +1,25 @@
+@media (max-width: 767px) {
+
+    /* Grid Columns - Mobile */
+    .promen-catering-grid.mobile-columns-1 {
+        grid-template-columns: 1fr;
+    }
+
+    .promen-catering-grid.mobile-columns-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Smaller title on mobile */
+    .promen-catering-title {
+        font-size: 1.75rem;
+    }
+
+    /* Smaller overlay text on mobile */
+    .promen-catering-overlay-title {
+        font-size: 1.125rem;
+    }
+
+    .promen-catering-overlay-description {
+        font-size: 0.875rem;
+    }
+}

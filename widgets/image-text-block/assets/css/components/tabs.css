@@ -1,0 +1,227 @@
+/* Tabs Mode Styles */
+
+.promen-tabs-mode,
+.promen-image-text-block--tabs {
+    position: relative;
+    max-width: 75rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--itb-border-radius);
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.promen-tabs-wrapper,
+.promen-image-text-block__tabs {
+    width: 100%;
+    padding: 0;
+}
+
+.promen-tabs-mode .promen-image-text-container,
+.promen-image-text-block--tabs .promen-image-text-block__container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 2rem;
+}
+
+.promen-tabs-mode .promen-image-text-image-wrapper,
+.promen-image-text-block--tabs .promen-image-text-block__image-wrapper {
+    flex: 1;
+    max-width: 50%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.promen-tabs-mode .promen-image-text-image,
+.promen-image-text-block--tabs .promen-image-text-block__image {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--itb-border-radius);
+    display: flex;
+    flex-direction: column;
+    transition: var(--itb-transition);
+}
+
+.promen-tabs-mode .promen-image-text-image img,
+.promen-tabs-mode .promen-image-text-block__image img,
+.promen-image-text-block--tabs .promen-image-text-block__image img {
+    width: 100%;
+    height: 30rem !important;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* Tab Navigation */
+
+.promen-tabs-nav,
+.promen-image-text-block__tabs-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    background-color: transparent;
+    order: -1;
+    position: relative;
+    z-index: 10;
+    min-height: 3rem;
+    height: 3rem;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.promen-image-text-block__tabs-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--itb-tab-gap-desktop);
+    justify-content: flex-start;
+    position: relative;
+    overflow: visible;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.promen-tab-title,
+.promen-image-text-block__tab {
+    cursor: pointer;
+    padding: 0.625rem 1.25rem;
+    border-radius: 2rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: none;
+    text-align: center;
+    min-width: 6rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+    color: #002F5F;
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.promen-tab-title.active,
+.promen-image-text-block__tab.active {
+    background-color: #002F5F;
+    color: white;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.promen-tab-title:hover:not(.active),
+.promen-image-text-block__tab:hover:not(.active) {
+    transform: translateY(-0.125rem);
+}
+
+.promen-tab-title .promen-image-text-block__tab-title,
+.promen-image-text-block__tab .promen-image-text-block__tab-title {
+    font-weight: 700 !important;
+    line-height: 1.2;
+    font-size: 1rem;
+}
+
+.promen-tab-content,
+.promen-image-text-block__tab-content {
+    display: none;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+}
+
+.promen-tab-content.active,
+.promen-image-text-block__tab-content.active {
+    display: block;
+    opacity: 1;
+    position: relative;
+    visibility: visible;
+}
+
+.promen-tab-image {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.promen-tab-image.active {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.promen-tab-hidden {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+
+/* Tab Image Animation */
+
+.tab-image-animate {
+    animation: fadeInScale 0.5s ease forwards;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* Tabs Spacing */
+
+.promen-image-text-block__title-wrapper {
+    margin-top: 0.5rem;
+}
+
+.promen-image-text-block--tabs .promen-image-text-block__title-wrapper {
+    margin-top: 1.5rem;
+}
+
+.promen-image-text-block--tabs .promen-image-text-block__tabs-nav {
+    margin-bottom: 1.5rem;
+    padding: 0;
+    min-height: 3rem;
+    /* Changed from fixed height to min-height for flexibility */
+    height: auto;
+    /* Allow height to expand when tabs wrap */
+}
+
+.promen-image-text-block--tabs .promen-image-text-block__content {
+    padding-top: 0;
+    position: relative;
+}
+
+
+/* Tab Content Container */
+
+.promen-tabs-content-wrapper,
+.promen-image-text-block__tabs-content {
+    position: relative;
+    transition: height 0.3s ease;
+}
+
+.promen-image-text-block__container {
+    position: relative;
+}
+
+.promen-image-text-block__image-wrapper {
+    position: relative;
+}

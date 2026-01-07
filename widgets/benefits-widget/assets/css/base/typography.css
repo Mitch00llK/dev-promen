@@ -1,0 +1,43 @@
+/* Header Section */
+
+.benefits-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.benefits-title {
+    margin-bottom: 1rem;
+}
+
+
+/* Split Heading Styles */
+
+.benefits-title .title-part-1,
+.benefits-title .title-part-2 {
+    display: inline-block;
+}
+
+.benefits-title .title-part-1 {
+    margin-right: 0.5rem;
+}
+
+.benefits-title .title-part-2 {
+    font-weight: 700;
+}
+
+.benefits-description {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.benefit-title {
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    line-height: 2.5rem !important;
+    font-weight: 600;
+}
+
+.benefit-description {
+    margin: 0;
+    line-height: 1.6;
+}

@@ -1,0 +1,19 @@
+/* Logo Styles */
+.promen-certification-logos .certification-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.promen-certification-logos .certification-logo:hover {
+    transform: translateY(-5px);
+}
+
+.promen-certification-logos .certification-logo img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}

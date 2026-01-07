@@ -16,7 +16,7 @@ if (!isset($visible_slides) || !isset($slider_options)) {
 }
 ?>
 
-<div class="<?php echo esc_attr($container_class); ?>" id="<?php echo esc_attr($slider_id); ?>" data-options='<?php echo json_encode($slider_options); ?>' style="--swiper-transition-duration: <?php echo $transition_speed; ?>ms;" <?php echo $accessibility_attrs['container_attrs']; ?>>
+<div class="<?php echo esc_attr($container_class . (count($visible_slides) === 1 ? ' image-text-slider-single-slide' : '')); ?>" id="<?php echo esc_attr($slider_id); ?>" data-options='<?php echo json_encode($slider_options); ?>' style="--swiper-transition-duration: <?php echo $transition_speed; ?>ms;" <?php echo $accessibility_attrs['container_attrs']; ?>>
     <!-- ARIA live region for slide announcements -->
     <div id="<?php echo esc_attr($accessibility_attrs['live_region_id']); ?>" <?php echo $accessibility_attrs['live_region_attrs']; ?>></div>
     
@@ -67,40 +67,73 @@ if (!isset($visible_slides) || !isset($slider_options)) {
     </div>
     <?php endif; ?>
     
-    <div class="swiper" role="img" aria-label="<?php echo esc_attr__('Image carousel', 'promen-elementor-widgets'); ?>"<?php echo $divider_data_attrs; ?>>
-        <div class="swiper-wrapper">
-            <?php 
-            // Unified slide structure: each slide contains both image and content
-            foreach ($visible_slides as $index => $slide) {
-                $slide_number = $index + 1;
-                $total_slides = count($visible_slides);
-            ?>
-                <div class="swiper-slide elementor-repeater-item-<?php echo esc_attr($slide['_id']); ?>" 
-                     role="group" 
-                     aria-roledescription="<?php echo esc_attr__('slide', 'promen-elementor-widgets'); ?>" 
-                     aria-label="<?php echo esc_attr(sprintf(__('Slide %d of %d', 'promen-elementor-widgets'), $slide_number, $total_slides)); ?>">
+    <?php 
+    // Check if we have only one slide to render simplified DOM
+    $is_single_slide = count($visible_slides) === 1;
+    
+    if ($is_single_slide) : 
+        // Single slide - Simplified DOM without Swiper
+        $slide = $visible_slides[0];
+        $slide_number = 1;
+        $total_slides = 1;
+        
+        // Add special class for styling to match Swiper layout
+        if (strpos($container_class, 'image-text-slider-single-slide') === false) {
+            $container_class .= ' image-text-slider-single-slide';
+        }
+    ?>
+        <div class="image-text-slider-single-slide-container" role="img" aria-label="<?php echo esc_attr__('Image banner', 'promen-elementor-widgets'); ?>" <?php echo $divider_data_attrs; ?>>
+            <div class="image-text-slide elementor-repeater-item-<?php echo esc_attr($slide['_id']); ?>">
+                <?php 
+                // Include slide image (without outer wrapper)
+                include(__DIR__ . '/partials/_slide_image.php'); 
+                ?>
+                
+                <div class="slide-content-wrapper">
                     <?php 
-                    // Include slide image (without outer wrapper)
-                    include(__DIR__ . '/partials/_slide_image.php'); 
+                    // Include slide content (without outer wrapper)
+                    include(__DIR__ . '/partials/_slide_content.php'); 
                     ?>
-                    
-                    <div class="slide-content-wrapper" 
-                         role="complementary" 
-                         aria-label="<?php echo esc_attr(sprintf(__('Slide %d content', 'promen-elementor-widgets'), $slide_number)); ?>">
-                        <?php 
-                        // Include slide content (without outer wrapper)
-                        include(__DIR__ . '/partials/_slide_content.php'); 
-                        ?>
-                    </div>
                 </div>
-            <?php } ?>
+            </div>
         </div>
-        
-        <?php if ($show_pagination) : ?>
-            <!-- Pagination removed from top of slider as requested -->
-        <?php endif; ?>
-        
-    </div>
+    <?php else : ?>
+        <!-- Multiple slides - Full Swiper implementation -->
+        <div class="swiper" role="img" aria-label="<?php echo esc_attr__('Image carousel', 'promen-elementor-widgets'); ?>"<?php echo $divider_data_attrs; ?>>
+            <div class="swiper-wrapper">
+                <?php 
+                // Unified slide structure: each slide contains both image and content
+                foreach ($visible_slides as $index => $slide) {
+                    $slide_number = $index + 1;
+                    $total_slides = count($visible_slides);
+                ?>
+                    <div class="swiper-slide elementor-repeater-item-<?php echo esc_attr($slide['_id']); ?>" 
+                         role="group" 
+                         aria-roledescription="<?php echo esc_attr__('slide', 'promen-elementor-widgets'); ?>" 
+                         aria-label="<?php echo esc_attr(sprintf(__('Slide %d of %d', 'promen-elementor-widgets'), $slide_number, $total_slides)); ?>">
+                        <?php 
+                        // Include slide image (without outer wrapper)
+                        include(__DIR__ . '/partials/_slide_image.php'); 
+                        ?>
+                        
+                        <div class="slide-content-wrapper" 
+                             role="complementary" 
+                             aria-label="<?php echo esc_attr(sprintf(__('Slide %d content', 'promen-elementor-widgets'), $slide_number)); ?>">
+                            <?php 
+                            // Include slide content (without outer wrapper)
+                            include(__DIR__ . '/partials/_slide_content.php'); 
+                            ?>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+            
+            <?php if ($show_pagination) : ?>
+                <!-- Pagination removed from top of slider as requested -->
+            <?php endif; ?>
+            
+        </div>
+    <?php endif; ?>
 
     <!-- Spacer element to ensure content below is pushed down properly -->
     <div class="slider-bottom-spacer"></div>

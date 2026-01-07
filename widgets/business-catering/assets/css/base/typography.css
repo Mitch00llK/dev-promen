@@ -1,0 +1,25 @@
+/* Title Styles */
+.promen-catering-title-wrapper {
+    margin-bottom: 2rem;
+}
+
+.promen-catering-title {
+    font-weight: 600;
+    margin: 0;
+}
+
+.promen-catering-title .highlight {
+    display: block;
+}
+
+.promen-catering-overlay-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.promen-catering-overlay-description {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}

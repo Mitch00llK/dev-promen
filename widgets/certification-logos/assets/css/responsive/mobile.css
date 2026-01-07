@@ -1,0 +1,18 @@
+@media screen and (max-width: 767px) {
+    .promen-certification-logos .mobile-slider {
+        padding: 0 2rem;
+    }
+
+    .promen-certification-logos .certification-title {
+        margin-bottom: 2rem;
+    }
+
+    .promen-certification-logos .certification-logo {
+        padding: 0.5rem;
+    }
+
+    .promen-certification-logos .swiper-button-next:after,
+    .promen-certification-logos .swiper-button-prev:after {
+        font-size: 1.25rem;
+    }
+}

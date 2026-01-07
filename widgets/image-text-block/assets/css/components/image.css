@@ -1,0 +1,69 @@
+/* Image Wrapper */
+
+.promen-image-text-image-wrapper,
+.promen-image-text-block__image-wrapper {
+    flex: 1;
+    max-width: 50%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Image */
+
+.promen-image-text-image,
+.promen-image-text-block__image {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--itb-border-radius);
+    display: flex;
+    flex-direction: column;
+    transition: var(--itb-transition);
+}
+
+.promen-image-text-image img,
+.promen-image-text-block__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+/* Image Hover Animations */
+
+.promen-image-hover-zoom-in .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-zoom-in .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: scale(1.1);
+}
+
+.promen-image-hover-zoom-out .promen-image-text-image,
+.promen-image-hover-zoom-out .promen-image-text-block__image {
+    transform: scale(1.1);
+}
+
+.promen-image-hover-zoom-out .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-zoom-out .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: scale(1);
+}
+
+.promen-image-hover-slide-up .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-slide-up .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: translateY(-0.625rem);
+}
+
+.promen-image-hover-slide-down .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-slide-down .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: translateY(0.625rem);
+}
+
+.promen-image-hover-rotate .promen-image-text-image-wrapper:hover .promen-image-text-image,
+.promen-image-hover-rotate .promen-image-text-block__image-wrapper:hover .promen-image-text-block__image {
+    transform: rotate(5deg);
+}

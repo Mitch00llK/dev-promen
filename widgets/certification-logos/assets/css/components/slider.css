@@ -1,0 +1,49 @@
+/* Mobile Slider Styles */
+.promen-certification-logos .mobile-slider {
+    padding: 0 3rem;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.promen-certification-logos .mobile-slider .swiper-wrapper {
+    align-items: center;
+    display: flex;
+}
+
+.promen-certification-logos .mobile-slider .swiper-slide {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Navigation Buttons */
+.promen-certification-logos .swiper-button-next,
+.promen-certification-logos .swiper-button-prev {
+    color: var(--e-global-color-primary);
+    width: 2rem;
+    height: 2rem;
+}
+
+.promen-certification-logos .swiper-button-next:after,
+.promen-certification-logos .swiper-button-prev:after {
+    font-size: 1.5rem;
+}
+
+/* Pagination */
+.promen-certification-logos .swiper-pagination {
+    position: relative;
+    margin-top: 1.5rem;
+}
+
+.promen-certification-logos .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: var(--e-global-color-primary);
+    opacity: 0.5;
+}
+
+.promen-certification-logos .swiper-pagination-bullet-active {
+    opacity: 1;
+}

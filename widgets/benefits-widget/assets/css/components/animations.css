@@ -1,0 +1,32 @@
+/* Elementor Hover Animations */
+
+.elementor-widget-promen_benefits .elementor-widget-container {
+    overflow: hidden;
+}
+
+.elementor-animation-grow {
+    transition-duration: 0.3s;
+    transition-property: transform;
+}
+
+.elementor-animation-grow:hover {
+    transform: scale(1.1);
+}
+
+.elementor-animation-shrink {
+    transition-duration: 0.3s;
+    transition-property: transform;
+}
+
+.elementor-animation-shrink:hover {
+    transform: scale(0.9);
+}
+
+.elementor-animation-float {
+    transition-duration: 0.3s;
+    transition-property: transform;
+}
+
+.elementor-animation-float:hover {
+    transform: translateY(-8px);
+}

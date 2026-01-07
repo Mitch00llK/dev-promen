@@ -1,0 +1,40 @@
+/* Responsive Design - Tablet */
+
+@media (max-width: 1024px) {
+    .benefits-content {
+        flex-direction: column;
+    }
+
+    .benefits-media {
+        max-width: 100%;
+        width: 100%;
+        flex: auto;
+        margin-top: 2rem;
+    }
+
+    .benefits-container {
+        width: 100%;
+        flex: auto;
+        grid-template-columns: repeat(2, 1fr);
+        /* Maintain 2 columns on tablet */
+    }
+
+    /* Reset image/video position on tablet */
+    .benefits-image-position-left .benefits-content,
+    .benefits-video-position-left .benefits-content {
+        flex-direction: column;
+    }
+
+    /* Adjust video container sizing for tablets */
+    .benefits-video-container,
+    .benefits-video-embed-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Adjust embedded video aspect ratio */
+    .benefits-video-embed-container .play-button {
+        width: 60px;
+        height: 60px;
+    }
+}

@@ -1,0 +1,42 @@
+/* Button */
+
+.promen-image-text-button,
+.promen-image-text-block__button {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 500 !important;
+    transition: all 0.3s ease;
+    text-align: center;
+    max-width: fit-content;
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.promen-image-text-block__button-icon {
+    display: inline-flex;
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.promen-image-text-button:hover .promen-image-text-block__button-icon,
+.promen-image-text-block__button:hover .promen-image-text-block__button-icon {
+    transform: translateX(0.25rem);
+}
+
+.promen-image-text-button:hover,
+.promen-image-text-block__button:hover {
+    opacity: 0.9;
+    transform: translateY(-0.125rem);
+}
+
+.promen-image-text-block__button:focus,
+.promen-image-text-block__button:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+}
+
+.promen-image-text-block__button:focus-visible {
+    outline: 3px solid #005fcc !important;
+    outline-offset: 2px !important;
+}

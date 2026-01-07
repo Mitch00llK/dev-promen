@@ -48,17 +48,20 @@ class Promen_Business_Catering_Widget extends \Promen_Widget_Base {
     }
 
     /**
-     * Get widget keywords.
-     */
-    public function get_keywords() {
-        return ['business', 'catering', 'gallery', 'slider', 'images'];
-    }
-
-    /**
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-business-catering-style', 'swiper-bundle-css'];
+        return [
+            'promen-business-catering-base',
+            'promen-business-catering-typography',
+            'promen-business-catering-layout-grid',
+            'promen-business-catering-component-image',
+            'promen-business-catering-component-overlay',
+            'promen-business-catering-component-slider',
+            'promen-business-catering-responsive-tablet',
+            'promen-business-catering-responsive-mobile',
+            'swiper-bundle-css'
+        ];
     }
 
     /**
@@ -69,21 +72,25 @@ class Promen_Business_Catering_Widget extends \Promen_Widget_Base {
     }
 
     /**
+     * Get widget help URL.
+     */
+    public function get_custom_help_url() {
+        return 'https://example.com/business-catering-widget';
+    }
+
+    /**
      * Register widget controls.
      */
     protected function register_controls() {
-        // Include control files
-        require_once(__DIR__ . '/includes/controls/content-controls.php');
-        require_once(__DIR__ . '/includes/controls/slider-controls/slider-controls.php');
-        require_once(__DIR__ . '/includes/controls/style-controls/style-controls.php');
-        require_once(__DIR__ . '/includes/controls/visibility-controls.php');
+        require_once(__DIR__ . '/includes/controls/class-business-catering-controls.php');
+        \Promen_Business_Catering_Controls::register($this);
     }
 
     /**
      * Render widget output on the frontend.
      */
     protected function render() {
-        // Include render file
-        require_once(__DIR__ . '/includes/render/render-widget.php');
+        require_once(__DIR__ . '/includes/render/class-business-catering-render.php');
+        \Promen_Business_Catering_Render::render($this);
     }
 } 

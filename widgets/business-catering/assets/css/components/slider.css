@@ -1,0 +1,63 @@
+/* Slider Styles */
+.promen-catering-slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.promen-catering-slider {
+    width: 100%;
+    overflow: visible;
+}
+
+/* Gradient Overlays */
+.promen-catering-gradient-left,
+.promen-catering-gradient-right {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.promen-catering-gradient-left {
+    left: 0;
+}
+
+.promen-catering-gradient-right {
+    right: 0;
+}
+
+/* Navigation Arrows */
+.promen-catering-slider-container .swiper-button-next,
+.promen-catering-slider-container .swiper-button-prev {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    z-index: 10;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.promen-catering-slider-container .swiper-button-next:after,
+.promen-catering-slider-container .swiper-button-prev:after {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Pagination */
+.promen-catering-slider-container .swiper-pagination {
+    position: relative;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.promen-catering-slider-container .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    opacity: 1;
+    transition: all 0.3s ease;
+}

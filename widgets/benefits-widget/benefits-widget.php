@@ -59,7 +59,17 @@ class Promen_Benefits_Widget extends \Promen_Widget_Base {
      * Get style depends.
      */
     public function get_style_depends() {
-        return ['promen-benefits-widget'];
+        return [
+            'promen-benefits-base',
+            'promen-benefits-typography',
+            'promen-benefits-layout',
+            'promen-benefits-component-benefit-item',
+            'promen-benefits-component-media',
+            'promen-benefits-component-animations',
+            'promen-benefits-responsive-tablet',
+            'promen-benefits-responsive-mobile',
+            'fontawesome'
+        ];
     }
 
     /**
@@ -80,16 +90,16 @@ class Promen_Benefits_Widget extends \Promen_Widget_Base {
      * Register widget controls.
      */
     protected function register_controls() {
-        require_once(__DIR__ . '/includes/controls/benefits-controls.php');
-        register_benefits_controls($this);
+        require_once(__DIR__ . '/includes/controls/class-benefits-controls.php');
+        \Promen_Benefits_Controls::register($this);
     }
 
     /**
      * Render widget output on the frontend.
      */
     protected function render() {
-        require_once(__DIR__ . '/includes/render/benefits-render.php');
-        render_benefits($this);
+        require_once(__DIR__ . '/includes/render/class-benefits-render.php');
+        \Promen_Benefits_Render::render($this);
     }
 }
 

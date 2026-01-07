@@ -55,7 +55,19 @@ class Promen_Image_Text_Block_Widget extends \Promen_Widget_Base {
      * Register widget styles.
      */
     public function get_style_depends() {
-        return ['promen-image-text-block-widget', 'promen-image-text-block-accessibility', 'fontawesome'];
+        return [
+            'promen-image-text-block-base',
+            'promen-image-text-block-typography',
+            'promen-image-text-block-layout',
+            'promen-image-text-block-component-image',
+            'promen-image-text-block-component-content',
+            'promen-image-text-block-component-buttons',
+            'promen-image-text-block-component-tabs',
+            'promen-image-text-block-responsive-tablet',
+            'promen-image-text-block-responsive-mobile',
+            'promen-image-text-block-accessibility',
+            'fontawesome'
+        ];
     }
 
     /**

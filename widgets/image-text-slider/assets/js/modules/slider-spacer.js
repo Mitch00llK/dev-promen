@@ -39,6 +39,9 @@
     function updateSpacerPosition(slider, spacer) {
         if (!slider || !spacer) return;
 
+        // FIXED HEIGHT: User requested fixed 121px spacer. Disabling dynamic calculation.
+        return;
+
         // Function to perform the actual measurement
         const measure = () => {
             // Force reflow

@@ -19,11 +19,30 @@
     align-items: flex-end;
     justify-content: flex-start;
     /* Transform to push content below the slide boundary */
-    transform: translateY(50%);
+    transform: translateY(30%);
 
     /* Animation for content "replacement" feel */
-    opacity: 0;
-    transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+    opacity: 1;
+    transition: transform 0.4s ease 0.1s;
+}
+
+/* Single Slide DOM Support */
+.image-text-slider-container .image-text-slide .slide-content-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 10;
+    pointer-events: none;
+    overflow: visible;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    transform: translateY(30%);
+    opacity: 1;
 }
 
 /* Show content when slide is active/transitioning */

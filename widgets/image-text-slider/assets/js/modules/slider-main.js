@@ -29,6 +29,12 @@
     function initImageTextSlider(sliderEl) {
         if (!sliderEl) return;
 
+        // Skip initialization if this is a single slide (simplified DOM)
+        if (sliderEl.classList.contains('image-text-slider-single-slide')) {
+            sliderEl.classList.add('initialized');
+            return;
+        }
+
         // Add initializing class
         sliderEl.classList.add('initializing');
 
@@ -75,6 +81,9 @@
             touchAngle: Config.isMobile ? 35 : 45,
             longSwipesRatio: Config.isMobile ? 0.3 : 0.5,
             threshold: Config.isMobile ? 5 : 0,
+
+            // Disable slider if there is only one slide
+            watchOverflow: true,
 
             // Navigation
             navigation: {

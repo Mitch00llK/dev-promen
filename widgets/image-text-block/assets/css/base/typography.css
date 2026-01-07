@@ -1,0 +1,40 @@
+/* Import Manrope font for the split title */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;800&display=swap');
+
+h3 {
+    margin: 0 !Important;
+}
+
+/* Typography */
+.promen-image-text-title,
+.promen-image-text-block__title {
+    font-size: var(--itb-title-size-desktop);
+    line-height: 1.2;
+    margin: 0 0 0.625rem;
+    font-weight: 700;
+}
+
+/* Split Title Styles */
+
+.promen-image-text-title-split,
+.promen-image-text-block__title-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.promen-image-text-title-part1,
+.promen-image-text-block__title-part1 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    display: inline-block;
+}
+
+.promen-image-text-title-part2,
+.promen-image-text-block__title-part2,
+.promen-image-text-block__title-highlight {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    display: inline-block;
+}
