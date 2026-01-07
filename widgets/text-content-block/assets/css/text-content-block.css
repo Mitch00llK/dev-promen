@@ -224,6 +224,12 @@
 
 .promen-text-content-block__collapsible-panel {
     padding: 0 1.25rem 1.25rem;
+    display: none;
+}
+
+.promen-text-content-block__collapsible-panel.active,
+.promen-text-content-block__collapsible-panel:not([hidden]) {
+    display: block;
 }
 
 .promen-text-content-block__collapsible-text {

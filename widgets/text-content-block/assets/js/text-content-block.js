@@ -678,10 +678,12 @@
 
         if (newState) {
             panel.removeAttribute('hidden');
+            panel.classList.add('active');
         } else {
             panel.setAttribute('hidden', 'hidden');
-            const playingButton = panel.querySelector('.promen-text-content-block__tts[data-tts-state="playing"]');
+            panel.classList.remove('active');
 
+            const playingButton = panel.querySelector('.promen-text-content-block__tts[data-tts-state="playing"]');
             if (playingButton) {
                 stopSpeaking();
             }
@@ -702,8 +704,9 @@
 
             if (trigger && panel) {
                 // Use once option to prevent duplicate listeners, or check if already initialized
-                if (!trigger.dataset.initialized) {
-                    trigger.dataset.initialized = 'true';
+                // We use a specific attribute to mark initialization to avoid double-binding
+                if (!trigger.dataset.promenCollapsibleInitialized) {
+                    trigger.dataset.promenCollapsibleInitialized = 'true';
                     trigger.addEventListener('click', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
