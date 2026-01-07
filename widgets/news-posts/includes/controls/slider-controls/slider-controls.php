@@ -25,7 +25,7 @@ $this->add_control(
         'label_off' => esc_html__('No', 'promen-elementor-widgets'),
         'return_value' => 'yes',
         'default' => 'yes',
-        'description' => esc_html__('Enable slider view on mobile devices (< 992px)', 'promen-elementor-widgets'),
+        'description' => esc_html__('Enable slider view on mobile devices (< 1024px)', 'promen-elementor-widgets'),
     ]
 );
 

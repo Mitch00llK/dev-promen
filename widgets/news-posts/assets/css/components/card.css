@@ -1,0 +1,145 @@
+/* Card Styles */
+.promen-content-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #F0F8FB;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.promen-content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Styles */
+.promen-content-image-wrapper {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%;
+    /* 16:9 Aspect Ratio */
+}
+
+.promen-content-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.promen-content-card:hover .promen-content-image {
+    transform: scale(1.05);
+}
+
+/* Content Styles */
+.promen-content-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.promen-content-post-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+/* Vacature Card Styles */
+.vacatures-card .promen-content-content {
+    padding: 20px;
+    background-color: #FFF9D6;
+    /* Light yellow background from the image */
+}
+
+.vacatures-card .promen-content-post-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #002D72;
+    font-weight: 700;
+}
+
+.vacatures-card .promen-content-excerpt {
+    margin-bottom: 1rem;
+    color: #002469;
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+.vacature-meta-item {
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.vacature-meta-item strong {
+    font-weight: 600;
+    color: #002D72;
+    margin-bottom: 2px;
+}
+
+.vacature-meta-item span {
+    color: #333333;
+}
+
+.vacatures-card .promen-content-read-more {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 20px;
+    background-color: #002D72;
+    color: #FFFFFF;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-top: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.vacatures-card .promen-content-read-more:hover {
+    background-color: #001D4D;
+}
+
+.vacatures-card .button-icon-after {
+    margin-left: 8px;
+}
+
+.vacatures-card .button-icon-before {
+    margin-right: 8px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+    .promen-content-content {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        height: 100%;
+        justify-content: space-between;
+    }
+
+    .promen-content-post-title {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+}
+
+/* Filtering Transitions */
+.promen-content-card-wrapper {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.promen-content-card-wrapper[style*="display: none"] {
+    opacity: 0;
+    transform: scale(0.95);
+}

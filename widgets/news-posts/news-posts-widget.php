@@ -10,13 +10,13 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-class Promen_News_Posts_Widget extends \Elementor\Widget_Base {
+class Promen_News_Posts_Widget extends \Promen_Widget_Base {
 
     /**
      * Get widget name.
      */
     public function get_name() {
-        return 'promen_content_posts_grid';
+        return 'promen_news_posts';
     }
 
     /**
@@ -51,14 +51,14 @@ class Promen_News_Posts_Widget extends \Elementor\Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-content-posts-style', 'promen-news-slider-style', 'swiper-bundle-css', 'promen-news-posts-accessibility'];
+        return ['promen-content-posts-style', 'promen-news-posts-accessibility', 'promen-news-slider-style'];
     }
 
     /**
      * Get widget script dependencies.
      */
     public function get_script_depends() {
-        $scripts = ['swiper-bundle', 'promen-news-slider-script', 'promen-news-posts-accessibility'];
+        $scripts = ['promen-news-slider-script', 'promen-news-posts-accessibility'];
         
         return $scripts;
     }

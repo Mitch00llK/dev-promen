@@ -3,66 +3,103 @@
  * 
  * This script provides additional accessibility features for the News Posts widget
  * to ensure WCAG 2.2 compliance.
+ * 
+ * Uses global PromenAccessibility core library.
  */
 
-(function($) {
+(function ($) {
     'use strict';
 
+    /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        const fallbacks = {
+            modalClosed: 'Modal closed',
+            loadedItems: 'Loaded {0} {1}',
+            item: 'item',
+            items: 'items',
+            newsCarouselLabel: 'Content carousel',
+            previousSlide: 'Previous slide',
+            nextSlide: 'Next slide',
+            sliderPagination: 'Slider pagination',
+            goToSlide: 'Go to slide {0}',
+            skipToContent: 'Skip to content'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
+
     // Initialize accessibility features when DOM is ready
-    $(document).ready(function() {
+    $(document).ready(function () {
         initializeAccessibilityFeatures();
     });
 
-    // Initialize when Elementor frontend is ready
-    $(document).on('elementor/frontend/init', function() {
-        if (typeof elementorFrontend !== 'undefined') {
-            elementorFrontend.hooks.addAction('frontend/element_ready/promen_content_posts_grid.default', function($element) {
+    /**
+     * Re-initialize for dynamically loaded content
+     */
+    const initElementorHooks = () => {
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/promen_content_posts_grid.default', function ($element) {
                 initializeAccessibilityFeatures();
             });
         }
-    });
+    };
+
+    if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+        initElementorHooks();
+    } else {
+        window.addEventListener('elementor/frontend/init', initElementorHooks);
+    }
 
     function initializeAccessibilityFeatures() {
         enhanceKeyboardNavigation();
         addSkipLinks();
         enhanceScreenReaderSupport();
-        addFocusManagement();
+        enhanceModalAccessibility();
+        enhanceScreenReaderSupport();
+        enhanceModalAccessibility();
         enhanceSliderAccessibility();
+
+        // Add reduced motion support
+        $('.promen-content-posts-widget').each(function () {
+            PromenAccessibility.setupReducedMotion(this);
+        });
     }
 
     /**
      * Enhance keyboard navigation for all interactive elements
      */
     function enhanceKeyboardNavigation() {
-        // Add keyboard support for read more links
-        $('.promen-content-read-more').each(function() {
-            const $link = $(this);
-
-            $link.on('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
+        // Add keyboard support for read more links and buttons
+        $(document).on('keydown', '.promen-content-read-more, .promen-content-header-button, .promen-content-footer-button', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                // Simulate click or navigation
+                if (this.tagName === 'A') {
                     window.location.href = this.href;
+                } else {
+                    $(this).click();
                 }
-            });
-        });
-
-        // Add keyboard support for header and footer buttons
-        $('.promen-content-header-button, .promen-content-footer-button').each(function() {
-            const $button = $(this);
-
-            $button.on('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    window.location.href = this.href;
-                }
-            });
+            }
         });
 
         // Add escape key support for modals or overlays
-        $(document).on('keydown', function(e) {
+        $(document).on('keydown', function (e) {
             if (e.key === 'Escape') {
                 // Close any open modals or overlays
-                $('.promen-content-modal, .promen-content-overlay').removeClass('active');
+                const $activeModal = $('.promen-content-modal.active, .promen-content-overlay.active');
+                if ($activeModal.length) {
+                    $activeModal.removeClass('active');
+                    $activeModal.trigger('modalClosed');
+                    PromenAccessibility.announce(getString('modalClosed'));
+                }
             }
         });
     }
@@ -71,15 +108,14 @@
      * Add skip links for keyboard navigation
      */
     function addSkipLinks() {
-        $('.promen-content-posts-widget').each(function() {
+        $('.promen-content-posts-widget').each(function () {
             const $widget = $(this);
             const widgetId = $widget.attr('id') || 'promen-content-widget-' + Math.random().toString(36).substr(2, 9);
 
-            if (!$widget.find('.promen-content-skip-link').length) {
-                const skipLink = $('<a href="#' + widgetId + '" class="promen-content-skip-link">Sla over naar inhoud</a>');
-                $widget.prepend(skipLink);
-                $widget.attr('id', widgetId);
+            if (typeof PromenAccessibility !== 'undefined') {
+                PromenAccessibility.setupSkipLink($widget[0], getString('skipToContent'));
             }
+
         });
     }
 
@@ -87,23 +123,25 @@
      * Enhance screen reader support
      */
     function enhanceScreenReaderSupport() {
-        // Add live regions for dynamic content updates
-        if (!$('#promen-live-region').length) {
-            $('body').append('<div id="promen-live-region" aria-live="polite" aria-atomic="true" class="sr-only"></div>');
-        }
-
         // Announce when content is loaded
-        $('.promen-content-posts-widget').each(function() {
+        $('.promen-content-posts-widget').each(function () {
             const $widget = $(this);
-            const postCount = $widget.find('.promen-content-card-wrapper').length;
-
-            if (postCount > 0) {
-                announceToScreenReader(`Loaded ${postCount} ${postCount === 1 ? 'item' : 'items'}`);
+            // Verify if this is a fresh load or dynamic update before announcing to avoid spam
+            if (!$widget.data('announced-load')) {
+                const postCount = $widget.find('.promen-content-card-wrapper').length;
+                if (postCount > 0) {
+                    // Debounce announcement slightly to ensure it's not buried
+                    setTimeout(() => {
+                        const itemWord = postCount === 1 ? getString('item') : getString('items');
+                        PromenAccessibility.announce(getString('loadedItems', postCount, itemWord));
+                    }, 500);
+                    $widget.data('announced-load', true);
+                }
             }
         });
 
         // Add descriptive text for images
-        $('.promen-content-image').each(function() {
+        $('.promen-content-image').each(function () {
             const $img = $(this);
             const alt = $img.attr('alt');
 
@@ -114,38 +152,28 @@
     }
 
     /**
-     * Add focus management
+     * Enhance modal accessibility
      */
-    function addFocusManagement() {
-        // Ensure focus is visible
-        $('*').on('focus', function() {
-            $(this).addClass('focus-visible');
-        }).on('blur', function() {
-            $(this).removeClass('focus-visible');
-        });
+    function enhanceModalAccessibility() {
+        // Use global focus trap when modals are opened
+        // Assuming there's a trigger for opening modals, we should hook into it.
+        // For now, we'll initialize focus trap on any existing active modals or when they become active.
 
-        // Add focus trap for modals (if any)
-        $('.promen-content-modal').each(function() {
-            const $modal = $(this);
-            const focusableElements = $modal.find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-            const firstElement = focusableElements.first();
-            const lastElement = focusableElements.last();
-
-            $modal.on('keydown', function(e) {
-                if (e.key === 'Tab') {
-                    if (e.shiftKey) {
-                        if (document.activeElement === firstElement[0]) {
-                            e.preventDefault();
-                            lastElement.focus();
-                        }
-                    } else {
-                        if (document.activeElement === lastElement[0]) {
-                            e.preventDefault();
-                            firstElement.focus();
-                        }
+        // Watch for class changes to detect modal opening if no direct event is available
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.attributeName === 'class') {
+                    const $target = $(mutation.target);
+                    if ($target.hasClass('active') && ($target.hasClass('promen-content-modal') || $target.hasClass('promen-content-overlay'))) {
+                        PromenAccessibility.initFocusTrap($target[0]);
+                        $target.find(':focusable').first().focus();
                     }
                 }
             });
+        });
+
+        $('.promen-content-modal, .promen-content-overlay').each(function () {
+            observer.observe(this, { attributes: true });
         });
     }
 
@@ -153,24 +181,29 @@
      * Enhance slider accessibility
      */
     function enhanceSliderAccessibility() {
-        $('.promen-news-slider').each(function() {
+        $('.promen-news-slider').each(function () {
             const $slider = $(this);
             const sliderId = $slider.attr('id');
 
             if (sliderId) {
                 // Add proper ARIA labels
-                $slider.attr('aria-label', 'Content carousel');
+                $slider.attr('aria-label', getString('newsCarouselLabel'));
 
                 // Enhance navigation buttons
-                $slider.find('.swiper-button-prev, .swiper-button-next').each(function() {
+                $slider.find('.swiper-button-prev, .swiper-button-next').each(function () {
                     const $button = $(this);
                     const isPrev = $button.hasClass('swiper-button-prev');
-                    const label = isPrev ? 'Previous slide' : 'Next slide';
+                    const label = isPrev ? getString('previousSlide') : getString('nextSlide');
 
                     $button.attr({
                         'aria-label': label,
-                        'type': 'button'
+                        'type': 'button',
+                        'role': 'button',
+                        'tabindex': '0'
                     });
+
+                    // Add keyboard support specifically for these
+                    PromenAccessibility.addKeyboardClick(this);
                 });
 
                 // Enhance pagination
@@ -178,99 +211,20 @@
                 if ($pagination.length) {
                     $pagination.attr({
                         'role': 'tablist',
-                        'aria-label': 'Slider pagination'
+                        'aria-label': getString('sliderPagination')
                     });
 
-                    $pagination.find('.swiper-pagination-bullet').each(function(index) {
+                    $pagination.find('.swiper-pagination-bullet').each(function (index) {
                         $(this).attr({
                             'role': 'tab',
-                            'aria-label': `Go to slide ${index + 1}`,
+                            'aria-label': getString('goToSlide', index + 1),
                             'tabindex': '0'
                         });
+                        PromenAccessibility.addKeyboardClick(this);
                     });
                 }
-
-                // Add keyboard support for slider
-                $slider.on('keydown', function(e) {
-                    if (e.key === 'ArrowLeft') {
-                        e.preventDefault();
-                        $slider.find('.swiper-button-prev').click();
-                    } else if (e.key === 'ArrowRight') {
-                        e.preventDefault();
-                        $slider.find('.swiper-button-next').click();
-                    }
-                });
             }
         });
-    }
-
-    /**
-     * Announce messages to screen readers
-     */
-    function announceToScreenReader(message) {
-        const $liveRegion = $('#promen-live-region');
-        if ($liveRegion.length) {
-            $liveRegion.text(message);
-
-            // Clear the message after a short delay
-            setTimeout(function() {
-                $liveRegion.text('');
-            }, 1000);
-        }
-    }
-
-    /**
-     * Handle reduced motion preferences
-     */
-    function handleReducedMotion() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            // Disable autoplay for sliders
-            $('.promen-news-slider').each(function() {
-                const $slider = $(this);
-                $slider.attr('data-autoplay', 'false');
-            });
-
-            // Add reduced motion class
-            $('body').addClass('reduced-motion');
-        }
-    }
-
-    // Initialize reduced motion handling
-    if (window.matchMedia) {
-        window.matchMedia('(prefers-reduced-motion: reduce)').addListener(handleReducedMotion);
-        handleReducedMotion();
-    }
-
-    /**
-     * Handle high contrast mode
-     */
-    function handleHighContrast() {
-        if (window.matchMedia('(prefers-contrast: high)').matches) {
-            $('body').addClass('high-contrast');
-        }
-    }
-
-    // Initialize high contrast handling
-    if (window.matchMedia) {
-        window.matchMedia('(prefers-contrast: high)').addListener(handleHighContrast);
-        handleHighContrast();
-    }
-
-    /**
-     * Handle color scheme preferences
-     */
-    function handleColorScheme() {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            $('body').addClass('dark-mode');
-        } else {
-            $('body').removeClass('dark-mode');
-        }
-    }
-
-    // Initialize color scheme handling
-    if (window.matchMedia) {
-        window.matchMedia('(prefers-color-scheme: dark)').addListener(handleColorScheme);
-        handleColorScheme();
     }
 
 })(jQuery);

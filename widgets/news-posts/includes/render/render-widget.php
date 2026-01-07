@@ -11,7 +11,7 @@ $settings = $this->get_settings_for_display();
 
 // Build query arguments based on content selection method
 $args = [
-    'post_type' => $settings['post_type'] ? $settings['post_type'] : 'post',
+    'post_type' => isset($settings['post_type']) ? $settings['post_type'] : 'post',
     'post_status' => 'publish',
 ];
 
@@ -33,7 +33,7 @@ switch ($content_selection) {
 
     case 'taxonomy':
         // Taxonomy-based selection
-        $args['posts_per_page'] = $settings['posts_per_page'];
+        $args['posts_per_page'] = isset($settings['posts_per_page']) ? $settings['posts_per_page'] : 6;
         $args['orderby'] = isset($settings['orderby']) ? $settings['orderby'] : 'date';
         $args['order'] = isset($settings['order']) ? $settings['order'] : 'DESC';
 
@@ -63,14 +63,14 @@ switch ($content_selection) {
     case 'automatic':
     default:
         // Automatic selection (latest posts)
-        $args['posts_per_page'] = $settings['posts_per_page'];
+        $args['posts_per_page'] = isset($settings['posts_per_page']) ? $settings['posts_per_page'] : 6;
         $args['orderby'] = isset($settings['orderby']) ? $settings['orderby'] : 'date';
         $args['order'] = isset($settings['order']) ? $settings['order'] : 'DESC';
         break;
 }
 
 // Set default section title based on post type if not provided
-$section_title = $settings['section_title'];
+$section_title = isset($settings['section_title']) ? $settings['section_title'] : '';
 if (empty($section_title)) {
     if ($settings['post_type'] === 'succesvolle-verhalen') {
         $section_title = esc_html__('Onze Succesvolle Verhalen', 'promen-elementor-widgets');
@@ -82,8 +82,8 @@ if (empty($section_title)) {
 }
 
 // Set default button text based on post type if not provided
-$header_button_text = $settings['header_button_text'];
-$footer_button_text = $settings['footer_button_text'];
+$header_button_text = isset($settings['header_button_text']) ? $settings['header_button_text'] : '';
+$footer_button_text = isset($settings['footer_button_text']) ? $settings['footer_button_text'] : '';
 
 if (empty($header_button_text)) {
     if ($settings['post_type'] === 'succesvolle-verhalen') {
@@ -106,7 +106,7 @@ if (empty($footer_button_text)) {
 }
 
 // Set default read more text based on post type if not provided
-$read_more_text = $settings['read_more_text'];
+$read_more_text = isset($settings['read_more_text']) ? $settings['read_more_text'] : '';
 if (empty($read_more_text)) {
     if ($settings['post_type'] === 'succesvolle-verhalen') {
         $read_more_text = esc_html__('Lees verhaal', 'promen-elementor-widgets');
@@ -120,9 +120,9 @@ if (empty($read_more_text)) {
 $posts_query = new \WP_Query($args);
 
 // Responsive classes
-$columns_desktop = $settings['columns_desktop'];
-$columns_tablet = $settings['columns_tablet'];
-$columns_mobile = $settings['columns_mobile'];
+$columns_desktop = isset($settings['columns_desktop']) ? $settings['columns_desktop'] : '3';
+$columns_tablet = isset($settings['columns_tablet']) ? $settings['columns_tablet'] : '2';
+$columns_mobile = isset($settings['columns_mobile']) ? $settings['columns_mobile'] : '1';
 
 $grid_classes = "promen-content-grid desktop-columns-{$columns_desktop} tablet-columns-{$columns_tablet} mobile-columns-{$columns_mobile}";
 
@@ -149,7 +149,7 @@ $widget_id = $this->get_id();
 ?>
 
 <section class="promen-content-posts-widget promen-widget-loading" role="region" aria-labelledby="section-title-<?php echo esc_attr($widget_id); ?>">
-    <?php if ($settings['show_section_title'] === 'yes') : ?>
+    <?php if (isset($settings['show_section_title']) && $settings['show_section_title'] === 'yes') : ?>
     <header class="promen-content-header">
         <div class="promen-content-section-title-wrapper">
             <h2 id="section-title-<?php echo esc_attr($widget_id); ?>" class="promen-content-title">
@@ -157,7 +157,7 @@ $widget_id = $this->get_id();
             </h2>
         </div>
         
-        <?php if ($settings['show_header_button'] === 'yes' && !empty($header_button_text) && !empty($settings['header_button_url']['url'])) : ?>
+        <?php if (isset($settings['show_header_button']) && $settings['show_header_button'] === 'yes' && !empty($header_button_text) && !empty($settings['header_button_url']['url'])) : ?>
             <a href="<?php echo esc_url($settings['header_button_url']['url']); ?>" class="promen-content-header-button" 
                <?php if ($settings['header_button_url']['is_external']) : ?>target="_blank" aria-label="<?php echo esc_attr($header_button_text . ' ' . esc_html__('(opent in een nieuw tabblad)', 'promen-elementor-widgets')); ?>"<?php else: ?>aria-label="<?php echo esc_attr($header_button_text); ?>"<?php endif; ?>
                <?php if ($settings['header_button_url']['nofollow']) : ?>rel="nofollow"<?php endif; ?>>
@@ -180,7 +180,7 @@ $widget_id = $this->get_id();
     <?php if ($posts_query->have_posts()) : ?>
         <?php 
         // Display filter buttons for vacatures if enabled (only for non-manual selection)
-        if ($settings['post_type'] === 'vacatures' && $settings['show_vacature_filter'] === 'yes' && $content_selection !== 'manual') : 
+        if (isset($settings['post_type']) && $settings['post_type'] === 'vacatures' && isset($settings['show_vacature_filter']) && $settings['show_vacature_filter'] === 'yes' && $content_selection !== 'manual') : 
             // Get the primary taxonomy for this post type
             $filter_taxonomy = $this->get_primary_taxonomy_for_post_type($settings['post_type']);
             
@@ -200,7 +200,7 @@ $widget_id = $this->get_id();
                         aria-selected="true" 
                         aria-controls="content-grid-<?php echo esc_attr($widget_id); ?>"
                         id="filter-all-<?php echo esc_attr($widget_id); ?>">
-                    <?php echo esc_html($settings['filter_all_text']); ?>
+                    <?php echo esc_html(isset($settings['filter_all_text']) ? $settings['filter_all_text'] : esc_html__('Alle vacatures', 'promen-elementor-widgets')); ?>
                 </button>
                 
                 <?php foreach ($vacature_categories as $category) : ?>
@@ -226,7 +226,7 @@ $widget_id = $this->get_id();
             <?php while ($posts_query->have_posts()) : $posts_query->the_post(); 
                 // Get post categories for filtering
                 $post_categories = '';
-                if ($settings['show_vacature_filter'] === 'yes' && isset($filter_taxonomy) && $filter_taxonomy) {
+                if (isset($settings['show_vacature_filter']) && $settings['show_vacature_filter'] === 'yes' && isset($filter_taxonomy) && $filter_taxonomy) {
                     $terms = get_the_terms(get_the_ID(), $filter_taxonomy);
                     if (!empty($terms) && !is_wp_error($terms)) {
                         $category_slugs = [];
@@ -252,30 +252,7 @@ $widget_id = $this->get_id();
             <?php wp_reset_postdata(); ?>
         </div>
         
-        <?php if ($enable_mobile_slider === 'yes') : ?>
-            <!-- Mobile Slider View -->
-            <div class="promen-content-mobile-slider">
-            <?php 
-            // Reset the query to reuse the same posts
-            $posts_query->rewind_posts();
-            
-            // Prepare template settings for slider templates
-            $template_settings = $settings;
-            $template_settings['read_more_text'] = $read_more_text;
-            
-            // Include the selected slider template
-            $template_file = __DIR__ . '/../slider-templates/' . $slider_template . '.php';
-            if (file_exists($template_file)) {
-                include($template_file);
-            } else {
-                // Fallback to default template if selected template doesn't exist
-                include(__DIR__ . '/../slider-templates/default.php');
-            }
-            ?>
-            </div>
-        <?php endif; ?>
-        
-        <?php if ($settings['show_footer_button'] === 'yes' && !empty($footer_button_text) && !empty($settings['footer_button_url']['url'])) : ?>
+        <?php if (isset($settings['show_footer_button']) && $settings['show_footer_button'] === 'yes' && !empty($footer_button_text) && !empty($settings['footer_button_url']['url'])) : ?>
             <footer class="promen-content-footer-wrapper">
                 <a href="<?php echo esc_url($settings['footer_button_url']['url']); ?>" class="promen-content-footer-button" 
                    <?php if ($settings['footer_button_url']['is_external']) : ?>target="_blank" aria-label="<?php echo esc_attr($footer_button_text . ' ' . esc_html__('(opens in new tab)', 'promen-elementor-widgets')); ?>"<?php else: ?>aria-label="<?php echo esc_attr($footer_button_text); ?>"<?php endif; ?>
@@ -295,7 +272,7 @@ $widget_id = $this->get_id();
             </footer>
         <?php endif; ?>
         
-        <?php if ($settings['post_type'] === 'vacatures' && $settings['show_vacature_filter'] === 'yes' && $content_selection !== 'manual') : ?>
+        <?php if (isset($settings['post_type']) && $settings['post_type'] === 'vacatures' && isset($settings['show_vacature_filter']) && $settings['show_vacature_filter'] === 'yes' && $content_selection !== 'manual') : ?>
         <script>
         (function() {
             function initFiltering() {
@@ -319,9 +296,6 @@ $widget_id = $this->get_id();
                 allItems.forEach(item => {
                     item.style.display = '';
                 });
-                
-                // Also handle mobile slider if it exists
-                const mobileSlider = widget.querySelector('.promen-content-mobile-slider');
                 
                 filterButtons.forEach(button => {
                     button.addEventListener('click', function() {
@@ -374,28 +348,6 @@ $widget_id = $this->get_id();
                         
                         // Update grid aria-label with count
                         grid.setAttribute('aria-label', `Job listings grid showing ${visibleCount} ${visibleCount === 1 ? 'listing' : 'listings'}`);
-                        
-                        // Filter mobile slider items if it exists
-                        if (mobileSlider) {
-                            const sliderItems = mobileSlider.querySelectorAll('.swiper-slide');
-                            sliderItems.forEach(item => {
-                                const categories = item.getAttribute('data-categories');
-                                if (filter === 'all') {
-                                    item.style.display = '';
-                                } else {
-                                    if (categories && categories.includes(filter)) {
-                                        item.style.display = '';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                }
-                            });
-                            
-                            // Update Swiper instance if it exists
-                            if (window.promonContentSliders && window.promonContentSliders[widgetId]) {
-                                window.promonContentSliders[widgetId].update();
-                            }
-                        }
                     });
                     
                     // Add keyboard support for filter buttons
