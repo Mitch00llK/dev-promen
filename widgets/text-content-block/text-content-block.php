@@ -62,7 +62,7 @@ class Promen_Text_Content_Block_Widget extends \Elementor\Widget_Base {
      * Register widget scripts.
      */
     public function get_script_depends() {
-        return ['promen-text-content-block'];
+        return ['promen-text-content-block-widget'];
     }
 
     /**
