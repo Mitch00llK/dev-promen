@@ -1,0 +1,5 @@
+:root {
+    --promen-slider-gap: 1.5rem;
+    --promen-slider-border-radius: 1rem;
+    --promen-slider-transition: all 0.3s ease;
+}

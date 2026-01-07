@@ -1,0 +1,227 @@
+/**
+ * forms.css
+ * Gravity Form and Custom Form styles
+ */
+
+/* Common Form Container Styles */
+.contact-info-card__gravity-form,
+.contact-info-card__custom-form {
+    display: flex;
+    flex-direction: column;
+    width: 24rem;
+    background-color: var(--cic-color-white);
+    padding: var(--cic-spacing-lg);
+    color: var(--cic-color-black);
+    border-radius: var(--cic-radius-lg);
+    -webkit-border-radius: var(--cic-radius-lg);
+    -moz-border-radius: var(--cic-radius-lg);
+    -ms-border-radius: var(--cic-radius-lg);
+    -o-border-radius: var(--cic-radius-lg);
+}
+
+/* Gravity Form */
+.contact-info-card__gravity-form .gform_wrapper {
+    margin: 0;
+}
+
+.contact-info-card__gravity-form .gform_title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: var(--cic-color-black);
+}
+
+.contact-info-card__gravity-form .gform_description {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.contact-info-card__gravity-form .gfield {
+    margin-bottom: 1rem;
+}
+
+.contact-info-card__gravity-form .gfield_label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.contact-info-card__gravity-form input[type="text"],
+.contact-info-card__gravity-form input[type="email"],
+.contact-info-card__gravity-form input[type="tel"],
+.contact-info-card__gravity-form textarea {
+    width: 100%;
+    padding: var(--cic-spacing-xs);
+    border: 1px solid var(--cic-color-border);
+    border-radius: var(--cic-radius-sm);
+}
+
+.contact-info-card__gravity-form .gform_footer {
+    margin-top: 1rem;
+}
+
+.contact-info-card__gravity-form .gform_button {
+    background-color: var(--cic-color-primary);
+    color: var(--cic-color-white);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: var(--cic-spacing-sm) var(--cic-spacing-lg);
+    border-radius: var(--cic-radius-full);
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.contact-info-card__gravity-form .gform_button:hover {
+    background-color: var(--cic-color-primary-hover);
+}
+
+/* Custom Form */
+.contact-info-card__custom-form form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.contact-info-card__custom-form .form-field {
+    margin-bottom: 1rem;
+}
+
+.contact-info-card__custom-form label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.contact-info-card__custom-form input[type="text"],
+.contact-info-card__custom-form input[type="email"],
+.contact-info-card__custom-form input[type="tel"] {
+    width: 100%;
+    padding: var(--cic-spacing-xs);
+    border: 1px solid var(--cic-color-border);
+    border-radius: var(--cic-radius-sm);
+}
+
+.contact-info-card__custom-form .file-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.contact-info-card__custom-form .file-upload-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid var(--cic-color-border);
+    border-radius: var(--cic-radius-sm);
+    background-color: var(--cic-color-bg-subtle);
+}
+
+.contact-info-card__custom-form .file-name {
+    font-size: 0.9rem;
+    color: var(--cic-color-text-muted);
+}
+
+.contact-info-card__custom-form .file-upload-button {
+    display: inline-block;
+    background-color: var(--cic-color-bg-light);
+    color: var(--cic-color-black);
+    font-size: 0.9rem;
+    padding: var(--cic-spacing-xs) var(--cic-spacing-md);
+    border: 1px solid var(--cic-color-border);
+    border-radius: var(--cic-radius-sm);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.contact-info-card__custom-form .file-upload-button:hover {
+    background-color: #e9e9e9;
+}
+
+.contact-info-card__custom-form .submit-button {
+    background-color: var(--cic-color-primary);
+    color: var(--cic-color-white);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: var(--cic-spacing-sm) var(--cic-spacing-lg);
+    border-radius: var(--cic-radius-full);
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 1rem;
+}
+
+.contact-info-card__custom-form .submit-button:hover {
+    background-color: var(--cic-color-primary-hover);
+}
+
+/* Placeholder */
+.contact-info-card__gravity-form-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: var(--cic-color-bg-light);
+    border: 1px dashed #ccc;
+    text-align: center;
+}
+
+.contact-info-card__gravity-form-placeholder i {
+    font-size: 2rem;
+    color: var(--cic-color-primary);
+    margin-bottom: 1rem;
+}
+
+.contact-info-card__gravity-form-placeholder p {
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.contact-info-card__gravity-form-placeholder small {
+    color: var(--cic-color-text-muted);
+}
+
+/* Combined Layout Form Overrides */
+.contact-info-card.combined-layout .contact-info-card__gravity-form {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+}
+
+.contact-info-card.combined-layout .gfield input[type="text"],
+.contact-info-card.combined-layout .gfield input[type="email"],
+.contact-info-card.combined-layout .gfield input[type="tel"],
+.contact-info-card.combined-layout .contact-info-card__right-column input[type="text"],
+.contact-info-card.combined-layout .contact-info-card__right-column input[type="email"],
+.contact-info-card.combined-layout .contact-info-card__right-column input[type="tel"] {
+    border: none;
+    border-bottom: 1px solid var(--cic-color-border);
+    border-radius: 0;
+    padding: var(--cic-spacing-sm) 0;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.contact-info-card.combined-layout .gform_button,
+.contact-info-card.combined-layout .gform_button:hover {
+    padding: var(--cic-spacing-sm) var(--cic-spacing-lg);
+    border-radius: var(--cic-radius-full);
+}
+
+.contact-info-card.combined-layout .gform_button i {
+    margin-left: var(--cic-spacing-md);
+}
+
+/* Fix Gform Foundation Theme */
+.gform-theme--foundation .gform_fields {
+    display: unset !important;
+}

@@ -20,7 +20,7 @@ class Promen_Assets_Config {
      */
     public static function get_widget_styles() {
         return [
-            'promen-feature-blocks-widget' => [
+            'promen-feature-blocks' => [
                 'path' => 'widgets/feature-blocks/assets/css/feature-blocks.css',
                 'deps' => ['promen-elementor-widgets'],
             ],
@@ -139,11 +139,11 @@ class Promen_Assets_Config {
                 'path' => 'widgets/stats-counter/assets/css/stats-counter-accessibility.css',
                 'enqueue' => true,
             ],
-            'contact-info-card' => [
+            'promen-contact-info-card' => [
                 'path' => 'widgets/contact-info-card/assets/css/contact-info-card.css',
                 'deps' => ['promen-elementor-widgets'],
             ],
-            'contact-info-card-accessibility' => [
+            'promen-contact-info-card-accessibility' => [
                 'path' => 'widgets/contact-info-card/assets/css/contact-info-card-accessibility.css',
             ],
             'promen-team-members-carousel-widget' => [
@@ -198,7 +198,7 @@ class Promen_Assets_Config {
             'promen-text-content-block' => [
                 'path' => 'widgets/text-content-block/assets/css/text-content-block.css',
             ],
-            'promen-image-slider-widget' => [
+            'promen-image-slider' => [
                 'path' => 'widgets/image-slider/assets/css/image-slider.css',
                 'deps' => ['swiper-bundle-css'],
                 'enqueue' => true,
@@ -268,7 +268,7 @@ class Promen_Assets_Config {
                 'deps' => ['promen-elementor-widgets'],
                 'enqueue' => true,
             ],
-            'promen-document-info-list-widget' => [
+            'promen-document-info-list' => [
                 'path' => 'widgets/document-info-list/assets/css/document-info-list.css',
                 'deps' => ['promen-elementor-widgets'],
                 'enqueue' => true,
@@ -280,6 +280,15 @@ class Promen_Assets_Config {
             'promen-accessibility-focus' => [
                 'path' => 'assets/css/accessibility-focus.css',
                 'enqueue' => true,
+            ],
+            // ...
+            'promen-document-info-list-script' => [
+                'path' => 'widgets/document-info-list/assets/js/document-info-list.js',
+                'deps' => ['jquery', 'gsap'],
+            ],
+            'promen-document-info-list-accessibility' => [
+                'path' => 'widgets/document-info-list/assets/js/document-info-list-accessibility.js',
+                'deps' => ['jquery', 'promen-accessibility'],
             ],
         ];
     }
@@ -397,9 +406,13 @@ class Promen_Assets_Config {
                 'path' => 'widgets/contact-info-blocks/assets/js/contact-info-blocks-accessibility.js',
                 'deps' => ['jquery', 'promen-contact-info-blocks-handler'],
             ],
-            'contact-info-card-accessibility' => [
+            'promen-contact-info-card-handler' => [
+                'path' => 'widgets/contact-info-card/assets/js/modules/accessibility-handler.js',
+                'deps' => ['promen-accessibility'],
+            ],
+            'promen-contact-info-card-accessibility' => [
                 'path' => 'widgets/contact-info-card/assets/js/contact-info-card-accessibility.js',
-                'deps' => ['jquery', 'promen-accessibility'],
+                'deps' => ['jquery', 'promen-contact-info-card-handler'],
             ],
             'document-info-list-script' => [
                 'path' => 'widgets/document-info-list/assets/js/document-info-list.js',

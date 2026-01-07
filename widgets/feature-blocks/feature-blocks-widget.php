@@ -3,14 +3,19 @@
  * Promen Feature Blocks Widget
  */
 
+use Promen\Widgets\FeatureBlocks\Controls\Promen_Feature_Blocks_Content_Controls;
+use Promen\Widgets\FeatureBlocks\Controls\Promen_Feature_Blocks_Style_Controls;
+use Promen\Widgets\FeatureBlocks\Render\Promen_Feature_Blocks_Render;
+
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
     exit;
 }
 
-// Include the controls and render files
-require_once(__DIR__ . '/includes/controls/feature-blocks-controls.php');
-require_once(__DIR__ . '/includes/render/feature-blocks-render.php');
+// Global require calls for the static classes
+require_once(__DIR__ . '/includes/controls/content-controls.php');
+require_once(__DIR__ . '/includes/controls/style-controls.php');
+require_once(__DIR__ . '/includes/render/render-widget.php');
 
 class Promen_Feature_Blocks_Widget extends \Promen_Widget_Base {
 
@@ -53,30 +58,21 @@ class Promen_Feature_Blocks_Widget extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-feature-blocks-widget'];
+        return ['promen-feature-blocks'];
     }
 
     /**
      * Register widget controls.
      */
     protected function register_controls() {
-        // Register content controls
-        register_feature_blocks_content_controls($this);
-        
-        // Register layout controls
-        register_feature_blocks_layout_controls($this);
-        
-        // Register positioning controls
-        register_feature_blocks_positioning_controls($this);
-        
-        // Register style controls
-        register_feature_blocks_style_controls($this);
+        Promen_Feature_Blocks_Content_Controls::register_controls($this);
+        Promen_Feature_Blocks_Style_Controls::register_controls($this);
     }
 
     /**
      * Render the widget output on the frontend.
      */
     protected function render() {
-        render_feature_blocks_widget($this);
+        Promen_Feature_Blocks_Render::render_widget($this);
     }
 } 

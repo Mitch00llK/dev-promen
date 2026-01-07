@@ -1,0 +1,45 @@
+/**
+ * button.css
+ * Button styles
+ */
+
+.contact-info-card__button {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--cic-color-primary);
+    color: var(--cic-color-white);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: var(--cic-spacing-sm) var(--cic-spacing-lg);
+    border-radius: var(--cic-radius-full);
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    align-self: flex-start;
+    border: none;
+}
+
+.contact-info-card__button i {
+    margin-left: var(--cic-spacing-md);
+}
+
+.contact-info-card__button:hover {
+    background-color: var(--cic-color-primary-hover);
+    color: var(--cic-color-white);
+}
+
+.contact-info-card__button:active {
+    background-color: var(--cic-color-primary-active);
+    color: var(--cic-color-white);
+}
+
+/* Combined Layout Overrides (mostly same but ensure specificity) */
+.contact-info-card.combined-layout .contact-info-card__button {
+    background-color: var(--cic-color-primary);
+    color: var(--cic-color-white);
+}
+
+.contact-info-card.combined-layout .contact-info-card__button:hover {
+    background-color: var(--cic-color-primary-hover);
+}

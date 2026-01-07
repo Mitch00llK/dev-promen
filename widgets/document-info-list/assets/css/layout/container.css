@@ -1,0 +1,29 @@
+/* Container Styles */
+.document-info-list-container {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* Year Section Styles */
+.document-info-year-section {
+    margin-bottom: var(--dil-spacing-xl, 40px);
+}
+
+.document-info-year-section:last-child {
+    margin-bottom: 0;
+}
+
+/* List Grid Styles */
+.document-info-list {
+    display: grid;
+    width: 100%;
+}
+
+.document-info-list.two-columns {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--dil-spacing-lg, 30px);
+}
+
+.document-info-list.one-column {
+    grid-template-columns: 1fr;
+}

@@ -1,0 +1,23 @@
+/* Title Styles */
+.promen-slider-title-wrapper {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.promen-slider-title {
+    font-weight: 600;
+    margin: 0;
+}
+
+.promen-slider-title .highlight {
+    display: block;
+}
+
+@media (max-width: 767px) {
+
+    /* Smaller title on mobile */
+    .promen-slider-title {
+        font-size: 1.75rem;
+    }
+}

@@ -1,0 +1,45 @@
+/* Content Typography Component */
+
+/* Widget Title */
+.widget-title {
+    margin-bottom: 1.5rem;
+}
+
+/* Feature Title */
+.feature-title {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-family: var(--promen-font-heading, 'Manrope', sans-serif);
+    font-size: 1.5rem !important;
+    font-weight: 700;
+    color: var(--promen-feature-primary, #002469);
+}
+
+/* Feature Content */
+.feature-content {
+    font-size: 1rem !important;
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+    /* Improved line height */
+    color: var(--promen-feature-primary, #002469);
+}
+
+.feature-content p {
+    margin: 0;
+    font-size: 1rem !important;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: var(--promen-feature-primary, #002469);
+}
+
+/* Responsive Text */
+@media (max-width: 991px) {
+    .feature-title {
+        font-size: 18px !important;
+    }
+
+    .feature-content,
+    .feature-content p {
+        font-size: 13px !important;
+    }
+}

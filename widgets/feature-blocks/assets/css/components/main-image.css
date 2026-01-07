@@ -1,0 +1,49 @@
+/* Main Image Component */
+.promen-feature-main-image {
+    position: relative;
+    width: 40rem;
+    max-width: 40rem;
+    height: 55rem;
+    max-height: 55rem;
+    margin: 0 auto !important;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.promen-feature-main-image img {
+    width: 100%;
+    height: 100% !important;
+    display: block;
+    object-fit: cover;
+    max-width: 100%;
+}
+
+/* Responsive Image Styles */
+@media (max-width: 991px) {
+    .promen-feature-main-image {
+        width: 70%;
+    }
+}
+
+@media (max-width: 767px) {
+    .stack-on-tablet .promen-feature-main-image {
+        width: 100%;
+        margin-bottom: 20px;
+        height: 30rem;
+        max-height: 100%;
+    }
+
+    .stack-on-tablet .promen-feature-main-image img {
+        height: 30rem;
+        max-height: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .stack-on-mobile .promen-feature-main-image {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}

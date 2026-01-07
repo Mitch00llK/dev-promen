@@ -1,0 +1,53 @@
+/**
+ * typography.css
+ * Headings, titles, and text styles
+ */
+
+h3 {
+    margin: 0 !important;
+}
+
+/* Split Title */
+.contact-info-card__heading .title-part1,
+.contact-info-card__heading .title-part2 {
+    display: inline-block;
+}
+
+.contact-info-card__heading .title-part2 {
+    color: var(--cic-color-primary);
+    font-weight: 700;
+}
+
+/* Combined Layout Text Overrides */
+.contact-info-card.combined-layout .promen-title,
+.contact-info-card.combined-layout .promen-split-title {
+    color: var(--cic-color-white);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--cic-spacing-md);
+}
+
+.contact-info-card.combined-layout .promen-title-part-2 {
+    color: var(--cic-color-white);
+    font-weight: 700;
+}
+
+.contact-info-card.combined-layout .contact-info-card__description {
+    color: var(--cic-color-white);
+    font-size: 1rem;
+    margin-bottom: var(--cic-spacing-lg);
+}
+
+@media (min-resolution: 192dpi) {
+    .contact-info-card__description {
+        font-size: 1.125rem;
+        line-height: 1.6;
+    }
+}
+
+@media (min-width: 1200px) {
+    .contact-info-card__description {
+        font-size: 1.125rem;
+        line-height: 1.6;
+    }
+}
