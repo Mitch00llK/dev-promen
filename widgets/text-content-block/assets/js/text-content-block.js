@@ -555,12 +555,10 @@
         };
 
         utterance.onstart = () => {
-            console.log('Promen TTS: Utterance started');
             startHighlighting();
         };
 
         utterance.onend = () => {
-            console.log('Promen TTS: Utterance ended');
             if (highlightInterval) {
                 clearInterval(highlightInterval);
                 highlightInterval = null;
@@ -579,15 +577,12 @@
         };
 
         utterance.onerror = (e) => {
-            console.error('Promen TTS: Utterance error', e);
             if (highlightInterval) {
                 clearInterval(highlightInterval);
                 highlightInterval = null;
             }
             stopSpeaking();
         };
-
-        console.log('Promen TTS: Speaking utterance...', text.substring(0, 20) + '...');
 
         // CRITICAL FIX: Some browsers pause indefinitely if cancel() was called recently.
         // We explicitly resume() just in case handling previous state left it paused.
@@ -600,16 +595,13 @@
         // Double check: Force resume again shortly after speak to wake up stuck engines (Chrome bug)
         setTimeout(() => {
             if (window.speechSynthesis.paused) {
-                console.log('Promen TTS: Force resuming paused engine');
                 window.speechSynthesis.resume();
             }
         }, 100);
     };
 
     const handleSpeak = (button) => {
-        console.log('Promen TTS: handleSpeak called');
         if (!('speechSynthesis' in window)) {
-            console.warn('Promen TTS: speechSynthesis not supported');
             button.disabled = true;
             button.setAttribute('aria-disabled', 'true');
             return;
@@ -619,7 +611,6 @@
         if (window.speechSynthesis.getVoices().length === 0) {
             window.speechSynthesis.onvoiceschanged = () => {
                 // Retry once voices loaded? No, just proceed, simple fallback
-                console.log('Promen TTS: Voices loaded asynchronously');
             };
         }
 
@@ -634,16 +625,13 @@
         setTimeout(() => {
             const collapsible = button.closest('[data-promen-collapsible]');
             const textWrapper = collapsible ? collapsible.querySelector('.promen-text-content-block__collapsible-text') : null;
-            console.log('Promen TTS: Text wrapper found?', !!textWrapper);
 
             // Extract segments to read
             const segments = getReadableSegments(textWrapper);
-            console.log('Promen TTS: Segments found:', segments.length);
 
             if (!segments.length) {
                 const fallbackText = preprocessTextForTTS(button.getAttribute('data-tts-text'));
                 if (!fallbackText) {
-                    console.warn('Promen TTS: No text to speak');
                     return;
                 }
 
@@ -654,7 +642,6 @@
             }
 
             const voice = getOptimalVoice();
-            console.log('Promen TTS: Selected voice:', voice ? voice.name : 'Default');
 
             const baseSettings = {
                 lang: document.documentElement.lang || 'nl-NL',
@@ -740,10 +727,8 @@
 
             if (ttsButton) {
                 if (!ttsButton.dataset.ttsInitialized) {
-                    console.log('Promen TTS: Attaching listener to button', ttsButton);
                     ttsButton.dataset.ttsInitialized = 'true';
                     ttsButton.addEventListener('click', (e) => {
-                        console.log('Promen TTS: Button clicked');
                         e.preventDefault();
                         e.stopPropagation();
                         handleSpeak(ttsButton);
@@ -754,7 +739,6 @@
     };
 
     const onReady = (scope) => {
-        console.log('Promen TTS: onReady');
         initCollapsibles(scope);
 
         // Add reduced motion support
