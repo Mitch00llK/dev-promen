@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 
 // Use template_settings if available, otherwise fallback to settings
 $template_settings = isset($template_settings) ? $template_settings : $settings;
-$post_type = isset($template_settings['post_type']) ? $template_settings['post_type'] : 'post';
+$post_type = $template_settings['post_type'];
 ?>
 
 <div class="promen-content-card <?php echo esc_attr($post_type); ?>-card">
@@ -31,7 +31,7 @@ $post_type = isset($template_settings['post_type']) ? $template_settings['post_t
             <p class="promen-content-excerpt">
                 <?php 
                 $excerpt = get_the_excerpt();
-                $excerpt_length = isset($template_settings['excerpt_length']) ? intval($template_settings['excerpt_length']) : 0;
+                $excerpt_length = intval($template_settings['excerpt_length']);
                 
                 // Only process if excerpt is not empty
                 if (!empty($excerpt) && trim($excerpt) !== '...') {
@@ -93,7 +93,7 @@ $post_type = isset($template_settings['post_type']) ? $template_settings['post_t
             <p class="promen-content-excerpt">
                 <?php 
                 $excerpt = get_the_excerpt();
-                $excerpt_length = isset($template_settings['excerpt_length']) ? intval($template_settings['excerpt_length']) : 0;
+                $excerpt_length = intval($template_settings['excerpt_length']);
                 
                 // Only process if excerpt is not empty
                 if (!empty($excerpt) && trim($excerpt) !== '...') {
@@ -128,13 +128,13 @@ $post_type = isset($template_settings['post_type']) ? $template_settings['post_t
         <a href="<?php echo esc_url(get_permalink()); ?>" 
            class="promen-content-read-more" 
            aria-label="<?php echo esc_attr__('Lees meer over', 'promen-elementor-widgets') . ' ' . esc_attr(get_the_title()); ?>">
-            <?php if (isset($template_settings['read_more_icon']['value']) && !empty($template_settings['read_more_icon']['value']) && isset($template_settings['read_more_icon_position']) && $template_settings['read_more_icon_position'] === 'before') : ?>
+            <?php if (!empty($template_settings['read_more_icon']['value']) && $template_settings['read_more_icon_position'] === 'before') : ?>
                 <span class="button-icon-before" aria-hidden="true">
                     <?php \Elementor\Icons_Manager::render_icon($template_settings['read_more_icon'], ['aria-hidden' => 'true']); ?>
                 </span>
             <?php endif; ?>
-            <span class="button-text"><?php echo esc_html(isset($template_settings['read_more_text']) ? $template_settings['read_more_text'] : __('Lees meer', 'promen-elementor-widgets')); ?></span>
-            <?php if (isset($template_settings['read_more_icon']['value']) && !empty($template_settings['read_more_icon']['value']) && isset($template_settings['read_more_icon_position']) && $template_settings['read_more_icon_position'] === 'after') : ?>
+            <span class="button-text"><?php echo esc_html($template_settings['read_more_text']); ?></span>
+            <?php if (!empty($template_settings['read_more_icon']['value']) && $template_settings['read_more_icon_position'] === 'after') : ?>
                 <span class="button-icon-after" aria-hidden="true">
                     <?php \Elementor\Icons_Manager::render_icon($template_settings['read_more_icon'], ['aria-hidden' => 'true']); ?>
                 </span>
