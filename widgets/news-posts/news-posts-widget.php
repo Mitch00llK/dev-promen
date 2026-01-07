@@ -51,7 +51,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-content-posts-style', 'promen-news-posts-accessibility', 'promen-news-slider-style'];
+        return ['promen-news-posts-widget', 'promen-news-posts-accessibility', 'promen-news-posts-slider'];
     }
 
     /**
