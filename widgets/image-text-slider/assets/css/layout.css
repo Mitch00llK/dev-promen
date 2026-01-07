@@ -227,8 +227,8 @@ body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-init
     visibility: visible;
 }
 
-/* Tilted Divider */
-.has-tilted-divider-yes .swiper::after {
+/* Tilted Divider - Moved to slide level for correct stacking context */
+.has-tilted-divider-yes .swiper-slide::after {
     content: "";
     position: absolute;
     z-index: 5;
@@ -246,35 +246,35 @@ body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-init
     overflow: visible;
 }
 
-.divider-flipped-yes .swiper::after {
+.divider-flipped-yes .swiper-slide::after {
     transform: skewY(12deg);
 }
 
-.content-position-left.has-tilted-divider-yes .swiper::after {
+.content-position-left.has-tilted-divider-yes .swiper-slide::after {
     transform-origin: bottom left;
     left: 0;
 }
 
-.content-position-center.has-tilted-divider-yes .swiper::after {
+.content-position-center.has-tilted-divider-yes .swiper-slide::after {
     transform-origin: bottom center;
     left: 0;
 }
 
-.content-position-right.has-tilted-divider-yes .swiper::after {
+.content-position-right.has-tilted-divider-yes .swiper-slide::after {
     transform-origin: bottom right;
     right: 0;
     left: auto;
 }
 
-.divider-flipped-yes.content-position-left .swiper::after {
+.divider-flipped-yes.content-position-left .swiper-slide::after {
     transform-origin: bottom left;
 }
 
-.divider-flipped-yes.content-position-center .swiper::after {
+.divider-flipped-yes.content-position-center .swiper-slide::after {
     transform-origin: bottom center;
 }
 
-.divider-flipped-yes.content-position-right .swiper::after {
+.divider-flipped-yes.content-position-right .swiper-slide::after {
     transform-origin: bottom right;
 }
 
@@ -294,7 +294,7 @@ body:not(.elementor-editor-active) .image-text-slider-container:not(.swiper-init
     transform: translateX(-50%) translateY(10%);
 }
 
-.overlay-overflow-yes.has-tilted-divider-yes .swiper::after {
+.overlay-overflow-yes.has-tilted-divider-yes .swiper-slide::after {
     pointer-events: none;
     z-index: 5;
 }
