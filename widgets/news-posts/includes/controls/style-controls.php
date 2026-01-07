@@ -14,7 +14,7 @@ class Promen_News_Posts_Style_Controls {
         self::register_post_style_controls($widget);
         self::register_button_style_controls($widget);
         self::register_filter_buttons_style_controls($widget);
-        self::register_slider_style_controls($widget);
+
     }
 
     protected static function register_title_style_controls($widget) {
@@ -846,108 +846,5 @@ class Promen_News_Posts_Style_Controls {
         $widget->end_controls_section();
     }
 
-    protected static function register_slider_style_controls($widget) {
-        $widget->start_controls_section(
-            'section_slider_style',
-            [
-                'label' => esc_html__('Mobile Slider Style', 'promen-elementor-widgets'),
-                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
-                'condition' => [
-                    'enable_mobile_slider' => 'yes',
-                ],
-            ]
-        );
 
-        $widget->add_control(
-            'navigation_color',
-            [
-                'label' => esc_html__('Navigation Color', 'promen-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#54B7D3',
-                'selectors' => [
-                    '{{WRAPPER}} .promen-news-slider .swiper-button-next, {{WRAPPER}} .promen-news-slider .swiper-button-prev' => 'color: {{VALUE}}',
-                ],
-                'condition' => [
-                    'slider_navigation' => 'yes',
-                ],
-            ]
-        );
-
-        $widget->add_control(
-            'navigation_background',
-            [
-                'label' => esc_html__('Navigation Background', 'promen-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => 'rgba(255, 255, 255, 0.8)',
-                'selectors' => [
-                    '{{WRAPPER}} .promen-news-slider .swiper-button-next, {{WRAPPER}} .promen-news-slider .swiper-button-prev' => 'background-color: {{VALUE}}',
-                ],
-                'condition' => [
-                    'slider_navigation' => 'yes',
-                ],
-            ]
-        );
-
-        $widget->add_control(
-            'navigation_hover_color',
-            [
-                'label' => esc_html__('Navigation Hover Color', 'promen-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#FFFFFF',
-                'selectors' => [
-                    '{{WRAPPER}} .promen-news-slider .swiper-button-next:hover, {{WRAPPER}} .promen-news-slider .swiper-button-prev:hover' => 'color: {{VALUE}}',
-                ],
-                'condition' => [
-                    'slider_navigation' => 'yes',
-                ],
-            ]
-        );
-
-        $widget->add_control(
-            'navigation_hover_background',
-            [
-                'label' => esc_html__('Navigation Hover Background', 'promen-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#54B7D3',
-                'selectors' => [
-                    '{{WRAPPER}} .promen-news-slider .swiper-button-next:hover, {{WRAPPER}} .promen-news-slider .swiper-button-prev:hover' => 'background-color: {{VALUE}}',
-                ],
-                'condition' => [
-                    'slider_navigation' => 'yes',
-                ],
-            ]
-        );
-
-        $widget->add_control(
-            'pagination_color',
-            [
-                'label' => esc_html__('Pagination Color', 'promen-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#CCCCCC',
-                'selectors' => [
-                    '{{WRAPPER}} .promen-news-slider .swiper-pagination-bullet' => 'background-color: {{VALUE}}',
-                ],
-                'condition' => [
-                    'slider_pagination' => 'yes',
-                ],
-            ]
-        );
-
-        $widget->add_control(
-            'pagination_active_color',
-            [
-                'label' => esc_html__('Pagination Active Color', 'promen-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#54B7D3',
-                'selectors' => [
-                    '{{WRAPPER}} .promen-news-slider .swiper-pagination-bullet-active' => 'background-color: {{VALUE}}',
-                ],
-                'condition' => [
-                    'slider_pagination' => 'yes',
-                ],
-            ]
-        );
-
-        $widget->end_controls_section();
-    }
 }

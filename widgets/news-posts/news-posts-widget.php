@@ -51,15 +51,13 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-news-posts-widget', 'promen-news-posts-accessibility', 'promen-news-posts-slider'];
+        return ['promen-news-posts-widget', 'promen-news-posts-accessibility'];
     }
 
     /**
      * Get widget script dependencies.
      */
-    /**
-     * Get widget script dependencies.
-     */
+
     public function get_script_depends() {
         // Register filter script if not already registered
         if (!wp_script_is('promen-news-posts-filter', 'registered')) {
@@ -72,24 +70,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
             );
         }
         
-        // We should fix the path to depend on the plugin/theme structure.
-        // Assuming this widget is part of a theme or plugin. 
-        // Using `plugin_dir_url(__FILE__)` is better if it's a plugin.
-        // Or if it's a theme, `get_stylesheet_directory_uri()`.
-        // Let's assume theme given the context /dev-promen/ which looks like a theme repo? Or plugin?
-        // "widgets/news-posts/" implies it's inside a structure.
-        // I will use a path relative to the file using plugin_dir_url or similar if I know the context.
-        // Actually, existing scripts are registered in Manager.
-        // For now, I'll return the array and assume I'll fix registration in a separate step or let them fail/warn if not registered.
-        // BUT I must register it.
-        
-        // I'll return the array. I can't register reliably without knowing the base URL constant.
-        // I'll assume 'promen-news-slider-script' is registered pointing to old location.
-        // I updated `assets/js/modules/news-posts-slider.js`.
-        // I should copy it to `assets/js/news-posts-slider.js` to overwrite the old one so the handle `promen-news-slider-script` works!
-        // YES.
-        
-        return ['promen-news-slider-script', 'promen-news-posts-filter', 'promen-news-posts-accessibility'];
+        return ['promen-news-posts-filter', 'promen-news-posts-accessibility'];
     }
 
     /**

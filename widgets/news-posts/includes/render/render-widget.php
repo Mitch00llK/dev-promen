@@ -41,12 +41,8 @@ class Promen_News_Posts_Render {
                 self::render_filter_buttons($widget, $settings, $widget_id);
                 
                 // Content Rendering (Grid or Slider)
-                // Content Rendering (Grid and optional Slider)
+                // Content Rendering (Grid)
                 self::render_grid($posts_query, $settings, $widget_id, $grid_classes, $read_more_text);
-                
-                if (isset($settings['enable_mobile_slider']) && $settings['enable_mobile_slider'] === 'yes') {
-                     self::render_mobile_slider($posts_query, $settings, $widget_id);
-                }
                 
                 self::render_footer_button($settings, $footer_button_text);
                 self::render_filter_script($widget, $settings, $widget_id);
@@ -233,10 +229,7 @@ class Promen_News_Posts_Render {
             $posts_query->rewind_posts();
         }
 
-        // Add 'desktop-only' class if mobile slider is enabled, so grid hides on mobile
-        if (isset($settings['enable_mobile_slider']) && $settings['enable_mobile_slider'] === 'yes') {
-            $grid_classes .= ' desktop-only';
-        }
+
 
         // Helper for template inclusion
         $template_settings = $settings;
@@ -291,44 +284,7 @@ class Promen_News_Posts_Render {
         <?php
     }
 
-    private static function render_mobile_slider($posts_query, $settings, $widget_id) {
-        if ($posts_query->current_post > -1) {
-             $posts_query->rewind_posts();
-        }
 
-        // This container should be mobile only
-        echo '<div class="mobile-slider-wrapper mobile-only">';
-        
-        $slider_template = isset($settings['slider_template']) ? $settings['slider_template'] : 'default';
-        $slider_settings = [
-            'slidesPerView' => isset($settings['slides_per_view']) ? $settings['slides_per_view'] : 1,
-            'spaceBetween' => isset($settings['space_between']) ? intval($settings['space_between']) : 30,
-            'navigation' => isset($settings['slider_navigation']) && $settings['slider_navigation'] === 'yes',
-            'pagination' => isset($settings['slider_pagination']) && $settings['slider_pagination'] === 'yes',
-            'loop' => isset($settings['slider_loop']) && $settings['slider_loop'] === 'yes',
-            'autoplay' => isset($settings['slider_autoplay']) && $settings['slider_autoplay'] === 'yes',
-            'autoplayDelay' => isset($settings['slider_autoplay_delay']) ? intval($settings['slider_autoplay_delay']) : 5000,
-            'effect' => isset($settings['slider_effect']) ? $settings['slider_effect'] : 'slide',
-            'speed' => isset($settings['slider_speed']) ? intval($settings['slider_speed']) : 300,
-            'centeredSlides' => isset($settings['centered_slides']) && $settings['centered_slides'] === 'yes',
-        ];
-        
-        // Pass essential vars to include
-        // We need $filter_taxonomy logic here too if we want filtering to work in slider? 
-        // Sliders usually don't filter in realtime easily like grids. 
-        // We'll ignore filtering specific logic for slider slides unless needed.
-        
-        $template_file = __DIR__ . '/../slider-templates/' . $slider_template . '.php';
-        if (file_exists($template_file)) {
-            // Need to pass variables to the include scope
-            // $posts_query and $settings are needed.
-            $template_settings = $settings; // Ensure this is available
-            include($template_file);
-        }
-
-        echo '</div>';
-        wp_reset_postdata();
-    }
 
     private static function render_footer_button($settings, $button_text) {
         if (isset($settings['show_footer_button']) && $settings['show_footer_button'] === 'yes' && !empty($button_text) && !empty($settings['footer_button_url']['url'])) : ?>
