@@ -124,13 +124,13 @@ class Promen_Assets_Config {
                 'path' => 'widgets/image-text-block/assets/css/image-text-block-accessibility.css',
                 'deps' => ['promen-image-text-block-widget'],
             ],
-            'promen-content-posts-style' => [
+            'promen-news-posts-widget' => [
                 'path' => 'widgets/news-posts/assets/css/news-posts.css',
                 'deps' => ['promen-elementor-widgets'],
             ],
-            'promen-news-slider-style' => [
+            'promen-news-posts-slider' => [
                 'path' => 'widgets/news-posts/assets/css/news-posts-slider.css',
-                'deps' => ['promen-content-posts-style'],
+                'deps' => ['promen-news-posts-widget'],
             ],
             'promen-stats-counter-widget' => [
                 'path' => 'widgets/stats-counter/assets/css/stats-counter.css',

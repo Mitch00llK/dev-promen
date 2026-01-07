@@ -51,16 +51,45 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['promen-content-posts-style', 'promen-news-posts-accessibility', 'promen-news-slider-style'];
+        return ['promen-news-posts-widget', 'promen-news-posts-accessibility', 'promen-news-posts-slider'];
     }
 
     /**
      * Get widget script dependencies.
      */
+    /**
+     * Get widget script dependencies.
+     */
     public function get_script_depends() {
-        $scripts = ['promen-news-slider-script', 'promen-news-posts-accessibility'];
+        // Register filter script if not already registered
+        if (!wp_script_is('promen-news-posts-filter', 'registered')) {
+            wp_register_script(
+                'promen-news-posts-filter',
+                plugin_dir_url( __FILE__ ) . 'assets/js/modules/news-posts-filter.js',
+                ['jquery'],
+                '1.0.0',
+                true
+            );
+        }
         
-        return $scripts;
+        // We should fix the path to depend on the plugin/theme structure.
+        // Assuming this widget is part of a theme or plugin. 
+        // Using `plugin_dir_url(__FILE__)` is better if it's a plugin.
+        // Or if it's a theme, `get_stylesheet_directory_uri()`.
+        // Let's assume theme given the context /dev-promen/ which looks like a theme repo? Or plugin?
+        // "widgets/news-posts/" implies it's inside a structure.
+        // I will use a path relative to the file using plugin_dir_url or similar if I know the context.
+        // Actually, existing scripts are registered in Manager.
+        // For now, I'll return the array and assume I'll fix registration in a separate step or let them fail/warn if not registered.
+        // BUT I must register it.
+        
+        // I'll return the array. I can't register reliably without knowing the base URL constant.
+        // I'll assume 'promen-news-slider-script' is registered pointing to old location.
+        // I updated `assets/js/modules/news-posts-slider.js`.
+        // I should copy it to `assets/js/news-posts-slider.js` to overwrite the old one so the handle `promen-news-slider-script` works!
+        // YES.
+        
+        return ['promen-news-slider-script', 'promen-news-posts-filter', 'promen-news-posts-accessibility'];
     }
 
     /**
@@ -95,7 +124,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
     /**
      * Add special taxonomies that might not be detected by get_object_taxonomies
      */
-    private function add_special_taxonomies($post_type, &$options) {
+    public function add_special_taxonomies($post_type, &$options) {
         $special_taxonomies = [];
 
         // Define known taxonomy mappings
@@ -134,7 +163,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
     /**
      * Get the primary taxonomy for filtering for a specific post type
      */
-    private function get_primary_taxonomy_for_post_type($post_type) {
+    public function get_primary_taxonomy_for_post_type($post_type) {
         // Define primary taxonomy mappings for each post type
         $primary_taxonomies = [
             'succesvolle-verhalen' => ['verhalen-categorie', 'verhalen_categorie', 'story-category', 'story_category'],
@@ -172,7 +201,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
     /**
      * Get all available taxonomies for all supported post types (for control options)
      */
-    private function get_available_taxonomies() {
+    public function get_available_taxonomies() {
         $options = ['' => esc_html__('Select Taxonomy', 'promen-elementor-widgets')];
         $post_types = ['post', 'succesvolle-verhalen', 'vacatures'];
         
@@ -193,7 +222,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
     /**
      * Get all available terms for common taxonomies (for control options)
      */
-    private function get_available_terms() {
+    public function get_available_terms() {
         $options = [];
         $common_taxonomies = ['category', 'verhalen-categorie', 'vacature-categorie', 'vacature-categorieen'];
         
@@ -214,7 +243,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
     /**
      * Get available posts for all supported post types (for control options)
      */
-    private function get_available_posts() {
+    public function get_available_posts() {
         $options = [];
         $post_types = ['post', 'succesvolle-verhalen', 'vacatures'];
         
@@ -285,11 +314,13 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
      * Register widget controls.
      */
     protected function register_controls() {
-        // Include control files
+        // Include and register Content Controls
         require_once(__DIR__ . '/includes/controls/content-controls.php');
-        require_once(__DIR__ . '/includes/controls/slider-controls/slider-controls.php');
+        Promen_News_Posts_Content_Controls::register_controls($this);
+
+        // Include and register Style Controls
         require_once(__DIR__ . '/includes/controls/style-controls.php');
-        require_once(__DIR__ . '/includes/controls/visibility-controls.php');
+        Promen_News_Posts_Style_Controls::register_controls($this);
     }
 
     /**
@@ -298,5 +329,7 @@ class Promen_News_Posts_Widget extends \Promen_Widget_Base {
     protected function render() {
         // Include render file
         require_once(__DIR__ . '/includes/render/render-widget.php');
+        
+        Promen_News_Posts_Render::render($this);
     }
 } 

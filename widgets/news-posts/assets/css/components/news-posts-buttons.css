@@ -1,0 +1,122 @@
+/* Button Styles */
+
+.promen-content-header-button,
+.promen-content-read-more,
+.promen-content-footer-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #54B7D3;
+    color: #fff !important;
+    padding: 12px 24px;
+    border-radius: 30px !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+    -webkit-border-radius: 30px !important;
+    -moz-border-radius: 30px !important;
+    -ms-border-radius: 30px !important;
+    -o-border-radius: 30px !important;
+}
+
+.promen-content-header-button:hover,
+.promen-content-header-button:focus,
+.promen-content-read-more:hover,
+.promen-content-read-more:focus,
+.promen-content-footer-button:hover,
+.promen-content-footer-button:focus {
+    background-color: #3a9cb8;
+    color: #fff;
+}
+
+.button-icon-before,
+.button-icon-after {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.button-icon-before {
+    margin-right: 8px;
+}
+
+.button-icon-after {
+    margin-left: 8px;
+}
+
+.button-icon-before svg,
+.button-icon-after svg {
+    width: 1em;
+    height: 1em;
+}
+
+/* Specific Button Positioning */
+.promen-content-read-more {
+    padding: 10px 20px;
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.promen-content-footer-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.promen-content-footer-button {
+    padding: 12px 30px;
+    font-size: 18px;
+}
+
+/* Vacature Buttons */
+.vacatures-card .promen-content-read-more {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 20px;
+    background-color: #002D72;
+    color: #FFFFFF;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-top: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.vacatures-card .promen-content-read-more:hover {
+    background-color: #001D4D;
+}
+
+.vacatures-card .button-icon-after {
+    margin-left: 8px;
+}
+
+.vacatures-card .button-icon-before {
+    margin-right: 8px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .promen-content-footer-button {
+        font-size: 16px;
+        padding: 10px 24px;
+    }
+
+    .promen-content-read-more {
+        margin-top: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .promen-content-read-more {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .promen-content-footer-button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}
