@@ -1,0 +1,40 @@
+/**
+ * Locations Display - Card Component
+ */
+
+.location-item {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--locations-bg-color, #fff);
+    border-radius: var(--locations-border-radius, 0.5rem);
+    overflow: hidden;
+    box-shadow: 0 3px 8px var(--locations-shadow-color, rgba(0, 0, 0, 0.08));
+    transition: transform 0.2s ease;
+    opacity: 1;
+    transform: none;
+}
+
+.location-item:hover {
+    transform: translateY(-5px);
+}
+
+.location-info {
+    padding: var(--locations-card-padding, 1rem);
+    display: flex;
+    flex-direction: column;
+}
+
+.location-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    color: var(--locations-primary-color, #002868);
+}
+
+.location-address {
+    color: var(--locations-text-color, #4A4A4A);
+}
+
+.location-address p {
+    margin: 0.25rem 0;
+}

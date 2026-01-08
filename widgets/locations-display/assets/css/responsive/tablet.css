@@ -1,0 +1,9 @@
+/**
+ * Locations Display - Tablet Responsive (≤1024px)
+ */
+
+@media (max-width: 1024px) {
+    .location-image {
+        height: 220px;
+    }
+}

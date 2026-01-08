@@ -1,0 +1,32 @@
+/**
+ * Locations Display - Heading Component
+ */
+
+.locations-heading {
+    margin-bottom: var(--locations-heading-margin, 2rem);
+}
+
+.locations-title {
+    font-weight: 700;
+    color: var(--locations-primary-color, #002868);
+}
+
+/* Split Heading Styles */
+.locations-split-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.locations-title-part-1 {
+    color: var(--locations-primary-color, #002868);
+}
+
+.locations-title-part-2 {
+    color: var(--locations-secondary-color, #00a0e3);
+}
+
+.locations-heading-description {
+    margin-top: 0.5rem;
+}
