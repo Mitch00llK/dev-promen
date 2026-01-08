@@ -16,19 +16,6 @@ class LocationsDisplayAccessibility {
         this.setupKeyboardNavigation();
         this.setupScreenReaderSupport();
         this.setupFocusManagement();
-        this.setupSkipLinks();
-    }
-
-    /**
-     * Setup skip links
-     */
-    setupSkipLinks() {
-        if (typeof PromenAccessibility !== 'undefined') {
-            const containers = document.querySelectorAll('.locations-container');
-            containers.forEach(container => {
-                PromenAccessibility.setupSkipLink(container, PromenAccessibility.getString('skipLocations'));
-            });
-        }
     }
 
     /**
@@ -131,7 +118,15 @@ class LocationsDisplayAccessibility {
      * Setup screen reader support
      */
     setupScreenReaderSupport() {
-        // Live region handled by PromenAccessibility
+        // Create live region for announcements
+        if (!document.getElementById('locations-live-region')) {
+            const liveRegion = document.createElement('div');
+            liveRegion.id = 'locations-live-region';
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.setAttribute('aria-atomic', 'true');
+            liveRegion.className = 'screen-reader-text';
+            document.body.appendChild(liveRegion);
+        }
 
         // Announce when locations are loaded
         const locationsContainer = document.querySelector('.locations-container');
@@ -169,8 +164,14 @@ class LocationsDisplayAccessibility {
      * Announce message to screen readers
      */
     announceToScreenReader(message) {
-        if (typeof PromenAccessibility !== 'undefined') {
-            PromenAccessibility.announce(message);
+        const liveRegion = document.getElementById('locations-live-region');
+        if (liveRegion) {
+            liveRegion.textContent = message;
+
+            // Clear after announcement
+            setTimeout(() => {
+                liveRegion.textContent = '';
+            }, 1000);
         }
     }
 
