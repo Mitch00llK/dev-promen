@@ -1,0 +1,31 @@
+/**
+ * Locations Display - Mobile Responsive (≤767px)
+ */
+
+@media (max-width: 767px) {
+    .locations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .location-item {
+        margin-bottom: 1.5rem;
+    }
+
+    .location-image {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .location-image {
+        height: 180px;
+    }
+
+    .location-info {
+        padding: 0.75rem;
+    }
+
+    .location-name {
+        font-size: 1.1rem;
+    }
+}

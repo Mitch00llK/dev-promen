@@ -1,0 +1,13 @@
+/**
+ * Locations Display - Container Layout
+ */
+
+.locations-container {
+    width: 100%;
+}
+
+.locations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--locations-gap, 2rem);
+}

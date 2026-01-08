@@ -1,0 +1,23 @@
+/**
+ * Locations Display - CSS Variables
+ */
+
+:root {
+    /* Colors */
+    --locations-primary-color: #002868;
+    --locations-secondary-color: #00a0e3;
+    --locations-text-color: #4A4A4A;
+    --locations-bg-color: #fff;
+    --locations-shadow-color: rgba(0, 0, 0, 0.08);
+
+    /* Spacing */
+    --locations-gap: 2rem;
+    --locations-card-padding: 1rem;
+    --locations-heading-margin: 2rem;
+
+    /* Border Radius */
+    --locations-border-radius: 0.5rem;
+
+    /* Image */
+    --locations-image-height: 250px;
+}
