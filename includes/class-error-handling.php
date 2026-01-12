@@ -88,15 +88,15 @@ class Promen_Error_Handling {
         
         // Localize script with accessibility messages
         wp_localize_script('promen-error-handling', 'promenErrors', [
-            'generic_error' => __('An error occurred. Please try again.', 'promen-elementor-widgets'),
-            'network_error' => __('Network error. Please check your connection and try again.', 'promen-elementor-widgets'),
-            'validation_error' => __('Please correct the highlighted fields.', 'promen-elementor-widgets'),
-            'success_message' => __('Operation completed successfully.', 'promen-elementor-widgets'),
-            'loading_message' => __('Processing... Please wait.', 'promen-elementor-widgets'),
+            'generic_error' => __('Er is een fout opgetreden. Probeer het opnieuw.', 'promen-elementor-widgets'),
+            'network_error' => __('Netwerkfout. Controleer uw verbinding en probeer het opnieuw.', 'promen-elementor-widgets'),
+            'validation_error' => __('Corrigeer de gemarkeerde velden.', 'promen-elementor-widgets'),
+            'success_message' => __('Operatie succesvol voltooid.', 'promen-elementor-widgets'),
+            'loading_message' => __('Verwerken... Een ogenblik geduld.', 'promen-elementor-widgets'),
             'aria_labels' => [
-                'error_region' => __('Error messages', 'promen-elementor-widgets'),
-                'success_region' => __('Success messages', 'promen-elementor-widgets'),
-                'close_error' => __('Close error message', 'promen-elementor-widgets')
+                'error_region' => __('Foutmeldingen', 'promen-elementor-widgets'),
+                'success_region' => __('Succesmeldingen', 'promen-elementor-widgets'),
+                'close_error' => __('Sluit foutmelding', 'promen-elementor-widgets')
             ]
         ]);
     }
@@ -145,13 +145,13 @@ class Promen_Error_Handling {
         }
         
         $messages = [
-            'validation' => __('Please review and correct the form fields marked with errors.', 'promen-elementor-widgets'),
-            'network' => __('Unable to connect to the server. Please check your internet connection and try again.', 'promen-elementor-widgets'),
-            'permission' => __('You do not have permission to perform this action.', 'promen-elementor-widgets'),
-            'timeout' => __('The request timed out. Please try again.', 'promen-elementor-widgets'),
-            'server' => __('A server error occurred. Please try again later.', 'promen-elementor-widgets'),
-            'file_upload' => __('File upload failed. Please check the file size and format.', 'promen-elementor-widgets'),
-            'generic' => __('An unexpected error occurred. Please try again.', 'promen-elementor-widgets')
+            'validation' => __('Controleer en corrigeer de velden gemarkeerd met fouten.', 'promen-elementor-widgets'),
+            'network' => __('Kan geen verbinding maken met de server. Controleer uw internetverbinding en probeer het opnieuw.', 'promen-elementor-widgets'),
+            'permission' => __('U heeft geen toestemming om deze actie uit te voeren.', 'promen-elementor-widgets'),
+            'timeout' => __('Het verzoek duurde te lang. Probeer het opnieuw.', 'promen-elementor-widgets'),
+            'server' => __('Er is een serverfout opgetreden. Probeer het later opnieuw.', 'promen-elementor-widgets'),
+            'file_upload' => __('Bestandsupload mislukt. Controleer de bestandsgrootte en het formaat.', 'promen-elementor-widgets'),
+            'generic' => __('Er is een onverwachte fout opgetreden. Probeer het opnieuw.', 'promen-elementor-widgets')
         ];
         
         return $messages[$error_type] ?? $messages['generic'];
@@ -222,7 +222,7 @@ class Promen_Error_Handling {
             esc_attr($error_id),
             esc_attr(implode(' ', $classes)),
             esc_html($error_message),
-            esc_attr__('Dismiss error message', 'promen-elementor-widgets')
+            esc_attr__('Foutmelding sluiten', 'promen-elementor-widgets')
         );
     }
     
@@ -252,7 +252,7 @@ class Promen_Error_Handling {
             esc_attr($success_id),
             esc_attr(implode(' ', $classes)),
             esc_html($message),
-            esc_attr__('Dismiss success message', 'promen-elementor-widgets')
+            esc_attr__('Succesmelding sluiten', 'promen-elementor-widgets')
         );
     }
     

@@ -144,18 +144,18 @@ class Promen_Accessibility_Aria {
         return [
             'container_id' => $container_id,
             'live_region_id' => $live_region_id,
-            'container_attrs' => 'role="region" aria-label="' . esc_attr__('Image carousel', 'promen-elementor-widgets') . '" aria-describedby="' . esc_attr($live_region_id) . '"',
+            'container_attrs' => 'role="region" aria-label="' . esc_attr__('Afbeeldingen carrousel', 'promen-elementor-widgets') . '" aria-describedby="' . esc_attr($live_region_id) . '"',
             'live_region_attrs' => self::get_aria_live_attrs('polite', true),
             'prev_button_attrs' => self::get_button_attrs([
-                'label' => __('Previous slide', 'promen-elementor-widgets'),
+                'label' => __('Vorige dia', 'promen-elementor-widgets'),
                 'controls' => $container_id
             ]),
             'next_button_attrs' => self::get_button_attrs([
-                'label' => __('Next slide', 'promen-elementor-widgets'),
+                'label' => __('Volgende dia', 'promen-elementor-widgets'),
                 'controls' => $container_id
             ]),
             'play_button_attrs' => self::get_button_attrs([
-                'label' => $args['autoplay'] ? __('Pause slideshow', 'promen-elementor-widgets') : __('Play slideshow', 'promen-elementor-widgets'),
+                'label' => $args['autoplay'] ? __('Diavoorstelling pauzeren', 'promen-elementor-widgets') : __('Diavoorstelling afspelen', 'promen-elementor-widgets'),
                 'pressed' => $args['autoplay'],
                 'controls' => $container_id
             ])
@@ -184,7 +184,7 @@ class Promen_Accessibility_Aria {
             'menu_id' => $menu_id,
             'toggle_id' => $toggle_id,
             'toggle_attrs' => self::get_button_attrs([
-                'label' => __('Toggle navigation menu', 'promen-elementor-widgets'),
+                'label' => __('Navigatiemenu wisselen', 'promen-elementor-widgets'),
                 'expanded' => $args['expanded'],
                 'controls' => $menu_id,
                 'haspopup' => $args['has_submenu']
@@ -216,7 +216,7 @@ class Promen_Accessibility_Aria {
             'success_id' => $success_id,
             'error_attrs' => 'id="' . esc_attr($error_id) . '" ' . self::get_aria_live_attrs('assertive', true),
             'success_attrs' => 'id="' . esc_attr($success_id) . '" ' . self::get_aria_live_attrs('polite', true),
-            'required_indicator' => '<span aria-label="' . esc_attr__('Required field', 'promen-elementor-widgets') . '">*</span>'
+            'required_indicator' => '<span aria-label="' . esc_attr__('Verplicht veld', 'promen-elementor-widgets') . '">*</span>'
         ];
     }
 
@@ -239,15 +239,15 @@ class Promen_Accessibility_Aria {
      */
     public static function get_keyboard_instructions($component_type = 'grid') {
         $instructions = [
-            'contact-blocks' => __('Use arrow keys to navigate between contact blocks. Press Enter or Space to activate a link. Press Escape to cancel navigation.', 'promen-elementor-widgets'),
-            'slider' => __('Use Left and Right arrow keys to navigate between slides. Press Space to pause or play the slideshow.', 'promen-elementor-widgets'),
-            'menu' => __('Use arrow keys to navigate through the menu. Press Enter to select a menu item. Press Escape to close the menu.', 'promen-elementor-widgets'),
-            'grid' => __('Use Tab to navigate between items. Press Enter to select an item.', 'promen-elementor-widgets')
+            'contact-blocks' => __('Gebruik de pijltjestoetsen om tussen contactblokken te navigeren. Druk op Enter of Spatie om een link te activeren. Druk op Escape om navigatie te annuleren.', 'promen-elementor-widgets'),
+            'slider' => __('Gebruik de linker- en rechterpijltjestoetsen om tussen dia\'s te navigeren. Druk op Spatie om de diavoorstelling te pauzeren of af te spelen.', 'promen-elementor-widgets'),
+            'menu' => __('Gebruik de pijltjestoetsen om door het menu te navigeren. Druk op Enter om een menu-item te selecteren. Druk op Escape om het menu te sluiten.', 'promen-elementor-widgets'),
+            'grid' => __('Gebruik Tab om tussen items te navigeren. Druk op Enter om een item te selecteren.', 'promen-elementor-widgets')
         ];
         
         $instruction = $instructions[$component_type] ?? $instructions['grid'];
         
-        return '<div class="screen-reader-text keyboard-instructions" role="region" aria-label="' . esc_attr__('Keyboard navigation instructions', 'promen-elementor-widgets') . '">' . esc_html($instruction) . '</div>';
+        return '<div class="screen-reader-text keyboard-instructions" role="region" aria-label="' . esc_attr__('Instructies voor toetsenbordnavigatie', 'promen-elementor-widgets') . '">' . esc_html($instruction) . '</div>';
     }
 
     /**
@@ -273,11 +273,11 @@ class Promen_Accessibility_Aria {
         $icon_label = $service_title;
         
         if (!empty($service_link)) {
-            $link_label = sprintf(__('Read more about %s', 'promen-elementor-widgets'), $service_title);
+            $link_label = sprintf(__('Lees meer over %s', 'promen-elementor-widgets'), $service_title);
         }
         
         if (!empty($service['service_icon']['value'])) {
-            $icon_label = sprintf(__('%s icon', 'promen-elementor-widgets'), $service_title);
+            $icon_label = sprintf(__('%s icoon', 'promen-elementor-widgets'), $service_title);
         }
         
         if (!empty($service_description)) {
@@ -312,7 +312,7 @@ class Promen_Accessibility_Aria {
         $services_count = count($services);
         $services_id = self::generate_id('services-grid-list', $widget_id);
         $services_label = sprintf(
-            _n('Services grid with %d service', 'Services grid with %d services', $services_count, 'promen-elementor-widgets'),
+            _n('Diensten rooster met %d dienst', 'Diensten rooster met %d diensten', $services_count, 'promen-elementor-widgets'),
             $services_count
         );
         
@@ -345,7 +345,7 @@ class Promen_Accessibility_Aria {
         $image_label = $image_title;
         
         if (!empty($image_title)) {
-            $image_label = sprintf(__('Image: %s', 'promen-elementor-widgets'), $image_title);
+            $image_label = sprintf(__('Afbeelding: %s', 'promen-elementor-widgets'), $image_title);
         }
         
         if (!empty($image_description)) {
@@ -379,13 +379,13 @@ class Promen_Accessibility_Aria {
         
         if ($is_slider) {
             $container_label = sprintf(
-                _n('Image slider with %d image', 'Image slider with %d images', $images_count, 'promen-elementor-widgets'),
+                _n('Afbeeldingen slider met %d afbeelding', 'Afbeeldingen slider met %d afbeeldingen', $images_count, 'promen-elementor-widgets'),
                 $images_count
             );
             $container_attrs = 'role="region" aria-label="' . esc_attr($container_label) . '" aria-live="polite"';
         } else {
             $container_label = sprintf(
-                _n('Image grid with %d image', 'Image grid with %d images', $images_count, 'promen-elementor-widgets'),
+                _n('Afbeeldingen rooster met %d afbeelding', 'Afbeeldingen rooster met %d afbeeldingen', $images_count, 'promen-elementor-widgets'),
                 $images_count
             );
             $container_attrs = 'role="list" aria-label="' . esc_attr($container_label) . '"';
