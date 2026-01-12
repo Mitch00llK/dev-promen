@@ -65,7 +65,7 @@ function render_stats_counter_widget($widget) {
                      aria-describedby="<?php echo esc_attr($announcement_id); ?>">
                     <div class="promen-counter-circle" 
                          role="img" 
-                         aria-label="<?php echo esc_attr(sprintf(__('Counter showing %d', 'promen-elementor-widgets'), $item['counter_number'])); ?>">
+                         aria-label="<?php echo esc_attr(sprintf(__('Teller toont %d', 'promen-elementor-widgets'), $item['counter_number'])); ?>">
                         <div class="promen-counter-number" 
                              data-count="<?php echo esc_attr($item['counter_number']); ?>"
                              aria-live="polite"
