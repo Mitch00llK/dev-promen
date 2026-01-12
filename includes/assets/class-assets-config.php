@@ -230,15 +230,7 @@ class Promen_Assets_Config {
                 'deps' => ['promen-elementor-widgets'],
                 'enqueue' => true,
             ],
-            'promen-benefits-widget-widget' => [
-                'path' => 'widgets/benefits-widget/assets/css/benefits-widget.css',
-                'enqueue' => true,
-            ],
-            'hero-slider' => [
-                'path' => 'widgets/hero-slider/assets/css/hero-slider.css',
-                'deps' => ['swiper-bundle-css'],
-                'enqueue' => true,
-            ],
+
             'promen-text-content-block' => [
                 'path' => 'widgets/text-content-block/assets/css/text-content-block.css',
             ],
@@ -442,14 +434,7 @@ class Promen_Assets_Config {
                 'deps' => ['jquery', 'promen-accessibility'],
                 'ver' => PROMEN_ELEMENTOR_WIDGETS_VERSION . '.' . time(), // Special case
             ],
-            'hero-slider' => [
-                'path' => 'widgets/hero-slider/assets/js/hero-slider.js',
-                'deps' => ['jquery', 'swiper-bundle'],
-            ],
-            'promen-hero-slider-accessibility' => [
-                'path' => 'widgets/hero-slider/assets/js/hero-slider-accessibility.js',
-                'deps' => ['jquery', 'hero-slider', 'promen-accessibility'],
-            ],
+
             'promen-text-content-block-widget' => [
                 'path' => 'widgets/text-content-block/assets/js/text-content-block.js',
                 'deps' => ['jquery'],

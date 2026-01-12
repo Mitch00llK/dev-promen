@@ -68,10 +68,7 @@ class Promen_Widget_Manager {
             'class' => 'Promen_Benefits_Widget',
             'name' => 'promen_benefits'
         ],
-        'hero-slider/hero-slider-wrapper.php' => [
-            'class' => 'Promen_Hero_Slider',
-            'name' => 'promen_hero_slider'
-        ],
+
         'text-content-block/text-content-block-wrapper.php' => [
             'class' => 'Promen_Text_Content_Block_Widget',
             'name' => 'promen_text_content_block'
@@ -137,7 +134,7 @@ class Promen_Widget_Manager {
     private $swiper_widgets = [
         'promen_services_carousel',
         'promen_team_members_carousel',
-        'promen_hero_slider',
+
         'promen_image_slider',
         'promen_image_text_slider',
         'promen_certification_logos'

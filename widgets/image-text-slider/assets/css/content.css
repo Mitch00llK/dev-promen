@@ -207,6 +207,7 @@
     border: 1px solid #2980b9;
     color: #2980b9;
     background-color: transparent;
+    font-weight: 700 !important;
 }
 
 .image-text-slider-container .slide-button.button-2:hover {
