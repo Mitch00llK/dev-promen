@@ -31,9 +31,7 @@ function render_stats_counter_widget($widget) {
              role="region" 
              aria-label="<?php echo esc_attr($settings['stats_aria_label'] ?: __('Statistieken en cijfers die onze prestaties en resultaten tonen', 'promen-elementor-widgets')); ?>">
         <!-- Skip link for keyboard navigation -->
-        <a href="#<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>" class="promen-stats-counter-skip-link">
-            <?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?>
-        </a>
+
         
         <?php if ($settings['show_section_title'] === 'yes') : ?>
             <header class="promen-stats-counter-section-title-wrapper">
