@@ -124,8 +124,12 @@ class ServicesCarouselAccessibility {
     }
 
     addKeyboardNavigation() {
-        const prevButton = this.carousel.parentNode.querySelector('.carousel-arrow-prev');
-        const nextButton = this.carousel.parentNode.querySelector('.carousel-arrow-next');
+        // Find arrows in the main container (grandparent context)
+        const container = this.carousel.closest('.promen-services-content-container');
+        if (!container) return;
+
+        const prevButton = container.querySelector('.carousel-arrow-prev');
+        const nextButton = container.querySelector('.carousel-arrow-next');
 
         if (prevButton) {
             PromenAccessibility.addKeyboardClick(prevButton, () => this.navigateSlide('prev'));
@@ -216,8 +220,11 @@ class ServicesCarouselAccessibility {
     updateNavigationStates() {
         if (!this.swiper) return;
 
-        const prevButton = this.carousel.parentNode.querySelector('.carousel-arrow-prev');
-        const nextButton = this.carousel.parentNode.querySelector('.carousel-arrow-next');
+        const container = this.carousel.closest('.promen-services-content-container');
+        if (!container) return;
+
+        const prevButton = container.querySelector('.carousel-arrow-prev');
+        const nextButton = container.querySelector('.carousel-arrow-next');
 
         if (prevButton) {
             const isDisabled = this.swiper.isBeginning && !this.swiper.params.loop;

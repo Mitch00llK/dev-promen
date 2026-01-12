@@ -60,6 +60,8 @@ window.initCarousel = function (carouselId) {
             } : false,
             centeredSlides: centerMode,
             watchOverflow: true,
+            watchSlidesProgress: true,
+            watchSlidesVisibility: true,
             observer: true,
             observeParents: true,
             breakpoints: {
