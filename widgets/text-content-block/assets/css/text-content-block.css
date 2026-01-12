@@ -175,7 +175,7 @@
     justify-content: space-between;
     gap: 1rem;
     padding: 1rem 1.25rem;
-    background: transparent;
+    background-color: hotpink;
     border: none;
     font-size: 1rem;
     font-weight: 600;
@@ -470,7 +470,7 @@
     position: relative;
     padding-top: 0;
     overflow: hidden;
-    padding-bottom: calc( 100% * var(--aspect-ratio));
+    padding-bottom: calc(100% * var(--aspect-ratio));
     height: 0;
 }
 
@@ -862,75 +862,95 @@
     .promen-text-content-block__container.has-sidebar .promen-text-content-block__main-content {
         flex: 1 0 60%;
     }
+
     .promen-text-content-block__sidebar-wrapper {
         flex: 1 0 30%;
     }
 }
 
 @media (max-width: 767px) {
+
     .promen-text-content-block__container,
     .promen-text-content-block__container.sidebar-left {
         flex-direction: column;
         gap: 1.5rem;
     }
+
     .promen-text-content-block__container.has-sidebar .promen-text-content-block__main-content,
     .promen-text-content-block__sidebar-wrapper {
         width: 100% !important;
         flex: none !important;
     }
+
     .promen-text-content-block__heading {
         margin-bottom: 1rem;
     }
+
     .promen-text-content-block__content {
         margin-bottom: 1.5rem;
     }
+
     .promen-text-content-block__list {
         margin: 1.5rem 0;
         padding-left: 1rem;
     }
+
     .promen-text-content-block__blockquote {
         margin: 1.5rem 0;
         padding: 1rem;
     }
+
     .promen-text-content-block__additional-text {
         margin-top: 1.5rem;
     }
+
     .promen-text-content-block__sidebar {
         padding: 1.5rem;
     }
+
     /* Disable sticky on mobile */
     .promen-text-content-block__sidebar.sticky {
         position: relative;
         top: 0;
     }
+
     .promen-text-content-block__flexible-content {
         margin: 1.5rem 0;
     }
+
     .promen-text-content-block__flexible-item {
         margin-bottom: 1.5rem;
     }
+
     .promen-text-content-block__flexible-image figcaption {
         margin-top: 0.5rem;
     }
+
     .promen-text-content-block__social-share-buttons {
         justify-content: center;
     }
+
     /* Responsive heading styles */
     h1.promen-text-content-block__flexible-heading {
         font-size: 2rem;
     }
+
     h2.promen-text-content-block__flexible-heading {
         font-size: 1.75rem;
     }
+
     h3.promen-text-content-block__flexible-heading {
         font-size: 1.5rem;
     }
+
     h4.promen-text-content-block__flexible-heading {
         font-size: 1.25rem;
     }
+
     h5.promen-text-content-block__flexible-heading {
         font-size: 1.1rem;
     }
+
     h6.promen-text-content-block__flexible-heading {
         font-size: 1rem;
     }

@@ -39,7 +39,7 @@
     function updateSpacerPosition(slider, spacer) {
         if (!slider || !spacer) return;
 
-        // FIXED HEIGHT: User requested fixed 121px spacer. Disabling dynamic calculation.
+        // FIXED HEIGHT: User requested fixed 11rem (176px) spacer (was 121px). Disabling dynamic calculation.
         return;
 
         // Function to perform the actual measurement

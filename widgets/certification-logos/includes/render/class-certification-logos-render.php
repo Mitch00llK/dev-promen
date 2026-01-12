@@ -70,7 +70,7 @@ class Promen_Certification_Logos_Render {
 
                         <?php if (!empty($logo['logo_image']['url'])): ?>
                             <img src="<?php echo esc_url($logo['logo_image']['url']); ?>"
-                                 alt="<?php echo esc_attr($logo['logo_name'] ?: sprintf(__('Certification logo %d', 'promen-elementor-widgets'), $index + 1)); ?>"
+                                 alt="<?php echo esc_attr($logo['logo_name'] ?: sprintf(__('Certificeringslogo %d', 'promen-elementor-widgets'), $index + 1)); ?>"
                                  loading="lazy">
                         <?php endif; ?>
 
@@ -87,7 +87,7 @@ class Promen_Certification_Logos_Render {
                  role="region" 
                  aria-label="<?php echo esc_attr__('Interactieve carrousel met certificeringslogo\'s die u kunt doorbladeren', 'promen-elementor-widgets'); ?>"
                  aria-live="polite">
-                <div class="swiper-wrapper" role="list" aria-label="<?php echo esc_attr__('Certification logos', 'promen-elementor-widgets'); ?>">
+                <div class="swiper-wrapper" role="list" aria-label="<?php echo esc_attr__('Certificeringslogo\'s', 'promen-elementor-widgets'); ?>">
                     <?php foreach ($logos as $index => $logo): ?>
                         <div class="certification-logo swiper-slide" 
                              role="listitem"
@@ -102,7 +102,7 @@ class Promen_Certification_Logos_Render {
 
                             <?php if (!empty($logo['logo_image']['url'])): ?>
                                 <img src="<?php echo esc_url($logo['logo_image']['url']); ?>"
-                                     alt="<?php echo esc_attr($logo['logo_name'] ?: sprintf(__('Certification logo %d', 'promen-elementor-widgets'), $index + 1)); ?>"
+                                     alt="<?php echo esc_attr($logo['logo_name'] ?: sprintf(__('Certificeringslogo %d', 'promen-elementor-widgets'), $index + 1)); ?>"
                                      loading="lazy">
                             <?php endif; ?>
 
@@ -116,12 +116,12 @@ class Promen_Certification_Logos_Render {
                 <button class="swiper-button-next" 
                         type="button"
                         aria-label="<?php echo esc_attr__('Ga naar het volgende certificeringslogo in de carrousel', 'promen-elementor-widgets'); ?>">
-                    <span class="screen-reader-text"><?php echo esc_html__('Next certification logo', 'promen-elementor-widgets'); ?></span>
+                    <span class="screen-reader-text"><?php echo esc_html__('Volgend certificeringslogo', 'promen-elementor-widgets'); ?></span>
                 </button>
                 <button class="swiper-button-prev" 
                         type="button"
                         aria-label="<?php echo esc_attr__('Ga naar het vorige certificeringslogo in de carrousel', 'promen-elementor-widgets'); ?>">
-                    <span class="screen-reader-text"><?php echo esc_html__('Previous certification logo', 'promen-elementor-widgets'); ?></span>
+                    <span class="screen-reader-text"><?php echo esc_html__('Vorig certificeringslogo', 'promen-elementor-widgets'); ?></span>
                 </button>
                 <!-- Add Pagination -->
                 <div class="swiper-pagination" 

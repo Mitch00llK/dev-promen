@@ -147,7 +147,7 @@ class Promen_Business_Catering_Render {
                                                 aria-label="<?php echo esc_attr(!empty($item['title']) ? $item['title'] : sprintf(__('Catering afbeelding %d met informatie over onze cateringdiensten', 'promen-elementor-widgets'), $index + 1)); ?>">
                                             <?php if (!empty($item['image']['url'])) : ?>
                                                 <img src="<?php echo esc_url($item['image']['url']); ?>" 
-                                                     alt="<?php echo esc_attr(!empty($item['title']) ? $item['title'] : sprintf(__('Catering image %d', 'promen-elementor-widgets'), $index + 1)); ?>" 
+                                                     alt="<?php echo esc_attr(!empty($item['title']) ? $item['title'] : sprintf(__('Catering afbeelding %d', 'promen-elementor-widgets'), $index + 1)); ?>" 
                                                      class="promen-catering-img"
                                                      loading="lazy">
                                             <?php endif; ?>
@@ -183,13 +183,13 @@ class Promen_Business_Catering_Render {
                                     type="button"
                                     aria-label="<?php echo esc_attr__('Ga naar de vorige catering afbeelding in de carrousel', 'promen-elementor-widgets'); ?>"
                                     aria-controls="<?php echo esc_attr($slider_id); ?>">
-                                <span class="screen-reader-text"><?php echo esc_html__('Previous slide', 'promen-elementor-widgets'); ?></span>
+                                <span class="screen-reader-text"><?php echo esc_html__('Vorige dia', 'promen-elementor-widgets'); ?></span>
                             </button>
                             <button class="swiper-button-next" 
                                     type="button"
                                     aria-label="<?php echo esc_attr__('Ga naar de volgende catering afbeelding in de carrousel', 'promen-elementor-widgets'); ?>"
                                     aria-controls="<?php echo esc_attr($slider_id); ?>">
-                                <span class="screen-reader-text"><?php echo esc_html__('Next slide', 'promen-elementor-widgets'); ?></span>
+                                <span class="screen-reader-text"><?php echo esc_html__('Volgende dia', 'promen-elementor-widgets'); ?></span>
                             </button>
                         <?php endif; ?>
                     </div>
@@ -209,7 +209,7 @@ class Promen_Business_Catering_Render {
                                     aria-label="<?php echo esc_attr(!empty($item['title']) ? $item['title'] : sprintf(__('Catering afbeelding %d met informatie over onze cateringdiensten', 'promen-elementor-widgets'), $index + 1)); ?>">
                                 <?php if (!empty($item['image']['url'])) : ?>
                                     <img src="<?php echo esc_url($item['image']['url']); ?>" 
-                                         alt="<?php echo esc_attr(!empty($item['title']) ? $item['title'] : sprintf(__('Catering image %d', 'promen-elementor-widgets'), $index + 1)); ?>" 
+                                         alt="<?php echo esc_attr(!empty($item['title']) ? $item['title'] : sprintf(__('Catering afbeelding %d', 'promen-elementor-widgets'), $index + 1)); ?>" 
                                          class="promen-catering-img"
                                          loading="lazy">
                                 <?php endif; ?>

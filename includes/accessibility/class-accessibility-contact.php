@@ -44,16 +44,16 @@ class Promen_Accessibility_Contact {
         }
         
         $block_labels = [
-            'address' => __('Address information', 'promen-elementor-widgets'),
-            'phone' => __('Phone number', 'promen-elementor-widgets'),
-            'email' => __('Email address', 'promen-elementor-widgets')
+            'address' => __('Adresinformatie', 'promen-elementor-widgets'),
+            'phone' => __('Telefoonnummer', 'promen-elementor-widgets'),
+            'email' => __('E-mailadres', 'promen-elementor-widgets')
         ];
         
-        $block_label = $block_labels[$block_type] ?? __('Contact information', 'promen-elementor-widgets');
+        $block_label = $block_labels[$block_type] ?? __('Contactinformatie', 'promen-elementor-widgets');
         
         $link_labels = [
-            'phone' => __('Call %s', 'promen-elementor-widgets'),
-            'email' => __('Send email to %s', 'promen-elementor-widgets')
+            'phone' => __('Bel %s', 'promen-elementor-widgets'),
+            'email' => __('Stuur e-mail naar %s', 'promen-elementor-widgets')
         ];
         
         return [
@@ -85,7 +85,7 @@ class Promen_Accessibility_Contact {
         
         $clean_number = preg_replace('/[^0-9+]/', '', $phone_number);
         
-        $aria_label = sprintf(__('Call %s', 'promen-elementor-widgets'), $phone_number);
+        $aria_label = sprintf(__('Bel %s', 'promen-elementor-widgets'), $phone_number);
         if (isset($extra_attrs['aria-label'])) {
             $aria_label = $extra_attrs['aria-label'];
             unset($extra_attrs['aria-label']);
@@ -101,7 +101,7 @@ class Promen_Accessibility_Contact {
             $attrs .= ' ' . esc_attr($key) . '="' . esc_attr($value) . '"';
         }
         
-        return '<a ' . $attrs . '><span aria-hidden="true">' . esc_html($phone_number) . '</span><span class="screen-reader-text">' . esc_html(sprintf(__('Phone: %s (click to call)', 'promen-elementor-widgets'), $phone_number)) . '</span></a>';
+        return '<a ' . $attrs . '><span aria-hidden="true">' . esc_html($phone_number) . '</span><span class="screen-reader-text">' . esc_html(sprintf(__('Telefoon: %s (klik om te bellen)', 'promen-elementor-widgets'), $phone_number)) . '</span></a>';
     }
 
     /**
@@ -117,7 +117,7 @@ class Promen_Accessibility_Contact {
             return '<span class="contact-info-text" itemprop="email">' . esc_html($email_address) . '</span>';
         }
         
-        $aria_label = sprintf(__('Send email to %s', 'promen-elementor-widgets'), $email_address);
+        $aria_label = sprintf(__('Stuur e-mail naar %s', 'promen-elementor-widgets'), $email_address);
         if (isset($extra_attrs['aria-label'])) {
             $aria_label = $extra_attrs['aria-label'];
             unset($extra_attrs['aria-label']);
@@ -133,7 +133,7 @@ class Promen_Accessibility_Contact {
             $attrs .= ' ' . esc_attr($key) . '="' . esc_attr($value) . '"';
         }
         
-        return '<a ' . $attrs . '><span aria-hidden="true">' . esc_html($email_address) . '</span><span class="screen-reader-text">' . esc_html(sprintf(__('Email: %s (click to send)', 'promen-elementor-widgets'), $email_address)) . '</span></a>';
+        return '<a ' . $attrs . '><span aria-hidden="true">' . esc_html($email_address) . '</span><span class="screen-reader-text">' . esc_html(sprintf(__('E-mail: %s (klik om te verzenden)', 'promen-elementor-widgets'), $email_address)) . '</span></a>';
     }
 
     /**
