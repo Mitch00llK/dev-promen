@@ -64,7 +64,7 @@ class Promen_Accessibility_i18n {
             'switchedToTab' => __('Overgeschakeld naar tabblad %s', 'promen-elementor-widgets'),
             
             // Navigation & Skip Links
-            'skipToContent' => __('Ga naar inhoud', 'promen-elementor-widgets'),
+            'skipToContent' => __('Sla over naar inhoud', 'promen-elementor-widgets'),
             'skipToMainContent' => __('Ga naar hoofdinhoud', 'promen-elementor-widgets'),
             'skipToNavigation' => __('Ga naar navigatie', 'promen-elementor-widgets'),
             'skipImageTextBlock' => __('Sla afbeelding tekst blok over', 'promen-elementor-widgets'),

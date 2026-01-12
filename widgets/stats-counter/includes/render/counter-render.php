@@ -31,9 +31,7 @@ function render_stats_counter_widget($widget) {
              role="region" 
              aria-label="<?php echo esc_attr($settings['stats_aria_label'] ?: __('Statistieken en cijfers die onze prestaties en resultaten tonen', 'promen-elementor-widgets')); ?>">
         <!-- Skip link for keyboard navigation -->
-        <a href="#<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>" class="promen-stats-counter-skip-link">
-            <?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?>
-        </a>
+
         
         <?php if ($settings['show_section_title'] === 'yes') : ?>
             <header class="promen-stats-counter-section-title-wrapper">
@@ -47,7 +45,11 @@ function render_stats_counter_widget($widget) {
              role="listbox" 
              aria-orientation="horizontal"
              aria-label="<?php echo esc_attr__('Statistics navigation - use arrow keys to navigate', 'promen-elementor-widgets'); ?>">
-            <?php foreach ($settings['counter_items'] as $index => $item) : 
+            <?php 
+            $visible_count = count(array_filter($settings['counter_items'], function($item) { return $item['show_counter'] === 'yes'; }));
+            $visible_index = 0;
+            
+            foreach ($settings['counter_items'] as $index => $item) : 
                 if ($item['show_counter'] !== 'yes') continue;
                 
                 $item_id = 'stats-item-' . $widget->get_id_int() . '-' . $index;
@@ -55,15 +57,15 @@ function render_stats_counter_widget($widget) {
             ?>
                 <div class="promen-stats-counter-item" 
                      role="option"
-                     tabindex="<?php echo $index === 0 ? '0' : '-1'; ?>"
-                     aria-posinset="<?php echo $index + 1; ?>"
-                     aria-setsize="<?php echo count(array_filter($settings['counter_items'], function($item) { return $item['show_counter'] === 'yes'; })); ?>"
-                     aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>"
+                     tabindex="<?php echo $visible_index === 0 ? '0' : '-1'; ?>"
+                     aria-posinset="<?php echo $visible_index + 1; ?>"
+                     aria-setsize="<?php echo $visible_count; ?>"
+                     aria-selected="<?php echo $visible_index === 0 ? 'true' : 'false'; ?>"
                      aria-labelledby="<?php echo esc_attr($item_id . '-title'); ?>"
                      aria-describedby="<?php echo esc_attr($announcement_id); ?>">
                     <div class="promen-counter-circle" 
                          role="img" 
-                         aria-label="<?php echo esc_attr(sprintf(__('Counter showing %d', 'promen-elementor-widgets'), $item['counter_number'])); ?>">
+                         aria-label="<?php echo esc_attr(sprintf(__('Teller toont %d', 'promen-elementor-widgets'), $item['counter_number'])); ?>">
                         <div class="promen-counter-number" 
                              data-count="<?php echo esc_attr($item['counter_number']); ?>"
                              aria-live="polite"
@@ -76,7 +78,9 @@ function render_stats_counter_widget($widget) {
                         <?php echo esc_html($item['counter_title']); ?>
                     </h3>
                 </div>
-            <?php endforeach; ?>
+            <?php 
+                $visible_index++;
+            endforeach; ?>
         </div>
         
         <!-- Screen reader announcements -->

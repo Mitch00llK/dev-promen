@@ -27,7 +27,7 @@
             nextSlide: 'Next slide',
             sliderPagination: 'Slider pagination',
             goToSlide: 'Go to slide {0}',
-            skipToContent: 'Skip to content'
+            skipToContent: 'Sla over naar inhoud'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {

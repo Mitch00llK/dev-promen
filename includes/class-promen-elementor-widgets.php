@@ -117,7 +117,7 @@ final class Promen_Elementor_Widgets {
         $this->widget_manager = new Promen_Widget_Manager();
         
         // Initialize Accessibility Widget (standalone, doesn't require Elementor)
-        require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'widgets/accessibility-widget/accessibility-widget.php');
+
         
         // Initialize Widget Admin (admin only)
         if (is_admin()) {

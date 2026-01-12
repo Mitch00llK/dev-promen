@@ -16,7 +16,7 @@
         const fallbacks = {
             gridKeyboardInstructions: 'Use arrow keys to navigate between certification logos. Press Enter or Space to visit the certification page.',
             sliderKeyboardInstructions: 'Use arrow keys to navigate between certification logos. Press Enter or Space to visit the certification page.',
-            skipLinkText: 'Skip to content',
+            skipLinkText: 'Sla over naar inhoud',
             sliderInstructions: 'This is a carousel of certification logos. Use arrow keys to navigate between logos.',
             openingPage: 'Opening {0} page'
         };
