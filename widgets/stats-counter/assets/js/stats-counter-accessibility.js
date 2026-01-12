@@ -46,7 +46,15 @@ class StatsCounterAccessibility {
     }
 
     mapElements() {
-        this.counterItems = this.container.querySelectorAll('.promen-stats-counter-item');
+        // Query only visible items to match PHP visible_index logic
+        // Use :not([hidden]) and check computed style if necessary, 
+        // but PHP renders only visible ones, so .promen-stats-counter-item is sufficient.
+        // The issue was PHP rendering 'tabindex="-1"' for the first visible item if it wasn't the 0th index in the Repeater.
+        // Now that PHP is fixed, this JS just confirms finding the rendered items.
+        // We'll add a safety check to ensure we aren't picking up hidden clones or something similar.
+        this.counterItems = Array.from(this.container.querySelectorAll('.promen-stats-counter-item')).filter(item => {
+            return item.offsetParent !== null; // Simple visibility check
+        });
         this.counterNumbers = this.container.querySelectorAll('.promen-counter-number');
     }
 
