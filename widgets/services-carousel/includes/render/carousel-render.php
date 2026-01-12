@@ -81,12 +81,12 @@ function render_services_carousel_widget($widget) {
                 
                 <?php if ($settings['show_arrows'] === 'yes') : ?>
                     <div class="promen-services-navigation">
-                        <div class="carousel-arrow carousel-arrow-prev" data-carousel="<?php echo esc_attr($carousel_id); ?>">
+                        <button type="button" class="carousel-arrow carousel-arrow-prev" data-carousel="<?php echo esc_attr($carousel_id); ?>" aria-label="<?php esc_attr_e('Vorige dienst', 'promen-elementor-widgets'); ?>">
                             <?php \Elementor\Icons_Manager::render_icon($settings['prev_arrow_icon'], ['aria-hidden' => 'true']); ?>
-                        </div>
-                        <div class="carousel-arrow carousel-arrow-next" data-carousel="<?php echo esc_attr($carousel_id); ?>">
+                        </button>
+                        <button type="button" class="carousel-arrow carousel-arrow-next" data-carousel="<?php echo esc_attr($carousel_id); ?>" aria-label="<?php esc_attr_e('Volgende dienst', 'promen-elementor-widgets'); ?>">
                             <?php \Elementor\Icons_Manager::render_icon($settings['next_arrow_icon'], ['aria-hidden' => 'true']); ?>
-                        </div>
+                        </button>
                     </div>
                 <?php endif; ?>
             </div>
