@@ -13,13 +13,13 @@ function getString(key, ...args) {
         return PromenAccessibility.getString(key, ...args);
     }
     const fallbacks = {
-        servicesCarouselLabel: 'Services Carousel',
-        slideOf: 'Slide {0} of {1}',
-        previousService: 'Previous service',
-        nextService: 'Next service',
-        slideshowPlaying: 'Carousel autoplay started',
-        slideshowPaused: 'Carousel autoplay stopped',
-        autoplayStopped: 'Autoplay stopped'
+        servicesCarouselLabel: 'Diensten carrousel',
+        slideOf: 'Dia {0} van {1}',
+        previousService: 'Vorige dienst',
+        nextService: 'Volgende dienst',
+        slideshowPlaying: 'Carrousel automatisch afspelen gestart',
+        slideshowPaused: 'Carrousel automatisch afspelen gestopt',
+        autoplayStopped: 'Automatisch afspelen gestopt'
     };
     let str = fallbacks[key] || key;
     args.forEach((arg, index) => {

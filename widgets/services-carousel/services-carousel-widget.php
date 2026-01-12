@@ -60,7 +60,17 @@ class Promen_Services_Carousel_Widget extends \Promen_Widget_Base {
      * Get widget style dependencies.
      */
     public function get_style_depends() {
-        return ['swiper-bundle-css', 'promen-services-carousel-widget'];
+        return [
+            'swiper-bundle-css',
+            'promen-services-carousel-base',
+            'promen-services-carousel-layout',
+            'promen-services-carousel-component-header',
+            'promen-services-carousel-component-card',
+            'promen-services-carousel-component-carousel',
+            'promen-services-carousel-component-navigation',
+            'promen-services-carousel-responsive-tablet',
+            'promen-services-carousel-responsive-mobile'
+        ];
     }
 
     /**

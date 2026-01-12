@@ -196,6 +196,7 @@
 .image-text-slider-container .slide-button.button-1 {
     background-color: #2980b9;
     color: #fff;
+    font-weight: 700 !important;
 }
 
 .image-text-slider-container .slide-button.button-1:hover {
