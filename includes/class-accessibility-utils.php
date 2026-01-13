@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 
 // Include accessibility modules
 require_once PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/accessibility/class-accessibility-aria.php';
-require_once PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/accessibility/class-accessibility-color.php';
+
 require_once PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/accessibility/class-accessibility-contact.php';
 require_once PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/accessibility/class-accessibility-skip-links.php';
 
@@ -179,19 +179,7 @@ class Promen_Accessibility_Utils {
         return Promen_Accessibility_Skip_Links::get_widget_container_id($widget_id);
     }
 
-    /**
-     * @see Promen_Accessibility_Color::get_contrast_ratio()
-     */
-    public static function get_contrast_ratio($foreground, $background) {
-        return Promen_Accessibility_Color::get_contrast_ratio($foreground, $background);
-    }
 
-    /**
-     * @see Promen_Accessibility_Color::check_wcag_contrast()
-     */
-    public static function check_wcag_contrast($foreground, $background, $level = 'AA', $size = 'normal') {
-        return Promen_Accessibility_Color::check_wcag_contrast($foreground, $background, $level, $size);
-    }
 
     /**
      * @see Promen_Accessibility_Contact::get_contact_block_attrs()
