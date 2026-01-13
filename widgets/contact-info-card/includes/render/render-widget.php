@@ -23,8 +23,9 @@ class Promen_Contact_Info_Card_Render {
      * Renders the combined layout.
      * 
      * @param array $settings Widget settings
+     * @param string $widget_id Widget ID for unique IDs
      */
-    private static function render_combined_layout($settings) {
+    private static function render_combined_layout($settings, $widget_id) {
         ?>
         <div class="contact-info-card__content-wrapper">
             <div class="contact-info-card__left-column">
@@ -35,7 +36,7 @@ class Promen_Contact_Info_Card_Render {
                 // Render employee info inside a white box within the main content area
                 if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] === 'combined_layout') {
                     ?>
-                    <div id="employee-contact-info" class="contact-info-card__employee-info-wrapper">
+                    <div id="employee-contact-info-<?php echo esc_attr($widget_id); ?>" class="contact-info-card__employee-info-wrapper">
                         <?php render_employee_info($settings); ?>
                     </div>
                     <?php
@@ -43,7 +44,7 @@ class Promen_Contact_Info_Card_Render {
                 ?>
             </div>
             
-            <div id="contact-form" class="contact-info-card__right-column">
+            <div id="contact-form-<?php echo esc_attr($widget_id); ?>" class="contact-info-card__right-column">
                 <?php
                 // Render gravity form for combined layout
                 if (isset($settings['show_gravity_form']) && 'yes' === $settings['show_gravity_form'] && 
@@ -67,6 +68,9 @@ class Promen_Contact_Info_Card_Render {
         if (null === $settings) {
             $settings = $widget->get_settings_for_display();
         }
+        
+        // Get widget ID for unique IDs
+        $widget_id = $widget->get_id();
         
         $right_side_content_type = isset($settings['right_side_content_type']) ? $settings['right_side_content_type'] : 'none';
         
@@ -97,24 +101,24 @@ class Promen_Contact_Info_Card_Render {
         
         <!-- Skip Links for Accessibility -->
         <nav class="skip-links" aria-label="<?php echo esc_attr__('Navigatie om direct naar de hoofdinhoud te gaan', 'promen-elementor-widgets'); ?>">
-            <?php echo \Promen_Accessibility_Utils::get_skip_link('contact-info-main'); ?>
+            <?php echo \Promen_Accessibility_Utils::get_skip_link('contact-info-main-' . $widget_id); ?>
             
             <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] !== 'none' && in_array($settings['right_side_content_type'], ['employee_info', 'combined_layout'])) : ?>
-                <?php echo \Promen_Accessibility_Utils::get_skip_link('employee-contact-info'); ?>
+                <?php echo \Promen_Accessibility_Utils::get_skip_link('employee-contact-info-' . $widget_id); ?>
             <?php endif; ?>
             
             <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] !== 'none' && in_array($settings['right_side_content_type'], ['gravity_form', 'custom_form', 'combined_layout'])) : ?>
-                <?php echo \Promen_Accessibility_Utils::get_skip_link('contact-form'); ?>
+                <?php echo \Promen_Accessibility_Utils::get_skip_link('contact-form-' . $widget_id); ?>
             <?php endif; ?>
         </nav>
         
         <div class="<?php echo esc_attr(implode(' ', $container_classes)); ?>">
             <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] === 'combined_layout') : ?>
-                <div id="contact-info-main">
-                    <?php self::render_combined_layout($settings); ?>
+                <div id="contact-info-main-<?php echo esc_attr($widget_id); ?>">
+                    <?php self::render_combined_layout($settings, $widget_id); ?>
                 </div>
             <?php else : ?>
-                <div id="contact-info-main">
+                <div id="contact-info-main-<?php echo esc_attr($widget_id); ?>">
                     <?php render_main_content($settings); ?>
                 </div>
             <?php endif; ?>
@@ -122,19 +126,19 @@ class Promen_Contact_Info_Card_Render {
             <?php 
             // Handle employee info section (only if not 'none')
             if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] === 'employee_info') : ?>
-                <div id="employee-contact-info">
+                <div id="employee-contact-info-<?php echo esc_attr($widget_id); ?>">
                     <?php render_employee_info($settings); ?>
                 </div>
             <?php endif; ?>
             
             <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] === 'gravity_form' && isset($settings['show_gravity_form']) && 'yes' === $settings['show_gravity_form']) : ?>
-                <div id="contact-form">
+                <div id="contact-form-<?php echo esc_attr($widget_id); ?>">
                     <?php render_gravity_form($settings); ?>
                 </div>
             <?php endif; ?>
             
             <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] === 'custom_form' && isset($settings['show_custom_form']) && 'yes' === $settings['show_custom_form']) : ?>
-                <div id="contact-form">
+                <div id="contact-form-<?php echo esc_attr($widget_id); ?>">
                     <?php render_custom_form($settings); ?>
                 </div>
             <?php endif; ?>
