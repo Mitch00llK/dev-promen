@@ -1,36 +1,58 @@
 /* Download Link Styles */
-.document-info-download-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    position: relative;
-    cursor: pointer;
-    transition: all var(--dil-transition-fast, 0.3s ease);
-    border-radius: 6px;
-    padding: 8px;
-    margin: -8px -8px 2px -8px;
-    background: none;
-    border: none;
-    width: 100%;
-    text-align: left;
+.document-info-list .document-info-download-link,
+.document-info-list .document-info-download-link:visited {
+    display: flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    position: relative !important;
+    cursor: pointer !important;
+    transition: all var(--dil-transition-fast, 0.3s ease) !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+    margin: -8px -8px 2px -8px !important;
+    background: transparent !important;
+    border: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    text-align: left !important;
+    outline: none !important;
+    box-shadow: none !important;
+    line-height: normal !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
 }
 
-.document-info-download-link:hover {
-    background-color: rgba(0, 115, 170, 0.05);
-    transform: translateY(-2px);
+.document-info-list .document-info-download-link:hover,
+.document-info-list .document-info-download-link:focus,
+.document-info-list .document-info-download-link:active,
+.document-info-list .document-info-download-link:focus-within {
+    background-color: rgba(0, 115, 170, 0.05) !important;
+    transform: translateY(-2px) !important;
+    color: inherit !important;
+    /* Ensure color doesn't shift to theme default */
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border: 0 !important;
 }
 
-.document-info-download-link:hover .document-info-document-title {
-    color: var(--dil-color-primary, #0073aa);
+.document-info-list .document-info-download-link:hover .document-info-document-title,
+.document-info-list .document-info-download-link:focus .document-info-document-title,
+.document-info-list .document-info-download-link:active .document-info-document-title,
+.document-info-list .document-info-download-link:focus-within .document-info-document-title {
+    color: var(--dil-color-primary, #0073aa) !important;
 }
 
-.document-info-download-link:hover .document-info-icon {
-    transform: scale(1.05);
+.document-info-list .document-info-download-link:hover .document-info-icon,
+.document-info-list .document-info-download-link:focus .document-info-icon,
+.document-info-list .document-info-download-link:active .document-info-icon,
+.document-info-list .document-info-download-link:focus-within .document-info-icon {
+    transform: scale(1.05) !important;
 }
 
-/* Tooltip Implementation for Download Link */
-.document-info-download-link::before {
+/* Tooltip Implementation */
+.document-info-list .document-info-download-link::before {
     content: attr(data-tooltip);
     position: absolute;
     z-index: 9999;
@@ -53,25 +75,28 @@
 }
 
 /* Show tooltip on hover */
-.document-info-download-link:hover::before {
+.document-info-list .document-info-download-link:hover::before,
+.document-info-list .document-info-download-link:focus::before,
+.document-info-list .document-info-download-link:active::before,
+.document-info-list .document-info-download-link:focus-within::before {
     opacity: 1;
     visibility: visible;
 }
 
 /* Make tooltips visible in the editor for preview */
-body.elementor-editor-active .document-info-download-link::before {
+body.elementor-editor-active .document-info-list .document-info-download-link::before {
     opacity: 0.7 !important;
     visibility: visible !important;
 }
 
 /* Legacy Link Styles */
-.document-info-link-wrapper {
+.document-info-list .document-info-link-wrapper {
     margin-top: 10px;
     margin-left: 63px;
     /* Aligns with the icon + margin */
 }
 
-.document-info-link {
+.document-info-list .document-info-link {
     display: inline-block;
     color: var(--dil-color-primary, #0073aa);
     text-decoration: none;
@@ -83,11 +108,11 @@ body.elementor-editor-active .document-info-download-link::before {
     transition: color var(--dil-transition-fast, 0.3s ease);
 }
 
-.document-info-link:hover {
+.document-info-list .document-info-link:hover {
     color: var(--dil-color-primary-hover, #00a0d2);
 }
 
-.document-info-link::after {
+.document-info-list .document-info-link::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -100,12 +125,12 @@ body.elementor-editor-active .document-info-download-link::before {
     transition: transform var(--dil-transition-transform, 0.35s cubic-bezier(0.23, 1, 0.32, 1));
 }
 
-.document-info-link:hover::after {
+.document-info-list .document-info-link:hover::after {
     transform: scaleX(1);
 }
 
 /* Legacy tooltip */
-.document-info-link::before {
+.document-info-list .document-info-link::before {
     content: attr(data-tooltip);
     position: absolute;
     z-index: 9999;
@@ -127,12 +152,12 @@ body.elementor-editor-active .document-info-download-link::before {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.document-info-link:hover::before {
+.document-info-list .document-info-link:hover::before {
     opacity: 1;
     visibility: visible;
 }
 
 /* Hide any span tooltip elements */
-.document-info-link .document-tooltip {
+.document-info-list .document-info-link .document-tooltip {
     display: none !important;
 }

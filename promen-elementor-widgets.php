@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 // Define plugin path constants
 define('PROMEN_ELEMENTOR_WIDGETS_PATH', plugin_dir_path(__FILE__));
 define('PROMEN_ELEMENTOR_WIDGETS_URL', plugins_url('/', __FILE__));
-define('PROMEN_ELEMENTOR_WIDGETS_VERSION', '1.0.0');
+define('PROMEN_ELEMENTOR_WIDGETS_VERSION', '2.0.0');
 
 // Include core files
 require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-error-handling.php');
