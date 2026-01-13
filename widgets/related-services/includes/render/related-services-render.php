@@ -74,7 +74,7 @@ class Promen_Related_Services_Render {
                 </header>
 
                 <!-- Cards Column -->
-                <main class="related-services-cards-column">
+                <div class="related-services-cards-column">
                     <div class="related-services-grid" 
                          role="list" 
                          aria-label="<?php esc_attr_e('Lijst met gerelateerde services die u kunt bekijken en waarop u kunt klikken voor meer informatie', 'promen-elementor-widgets'); ?>"
@@ -138,7 +138,7 @@ class Promen_Related_Services_Render {
                         }
                         ?>
                     </div>
-                </main>
+                </div>
             </div>
         </section>
         <?php

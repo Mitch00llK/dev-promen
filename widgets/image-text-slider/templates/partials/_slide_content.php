@@ -21,7 +21,6 @@ if (!defined('ABSPATH')) {
         }
         ?>
         <div class="slide-content" 
-             role="main" 
              aria-labelledby="<?php echo esc_attr('slide-title-' . $slide['_id']); ?>"
              aria-describedby="<?php echo esc_attr('slide-description-' . $slide['_id']); ?>">
             <!-- Screen reader context for slide content -->

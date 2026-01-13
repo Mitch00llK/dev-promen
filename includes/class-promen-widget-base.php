@@ -3,6 +3,11 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
+// Guard: Only load this class if Elementor is available
+if (!did_action('elementor/loaded')) {
+    return;
+}
+
 /**
  * Promen Widget Base Class
  * 

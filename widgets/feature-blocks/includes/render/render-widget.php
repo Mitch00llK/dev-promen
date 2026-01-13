@@ -11,6 +11,7 @@ class Promen_Feature_Blocks_Render {
 
 	public static function render_widget( $widget ) {
 		$settings = $widget->get_settings_for_display();
+		$widget_id = $widget->get_id();
 
 		// Main container classes
 		$container_classes = [ 'feature-blocks-container' ];
@@ -34,8 +35,8 @@ class Promen_Feature_Blocks_Render {
 		<section class="<?php echo esc_attr( implode( ' ', $container_classes ) ); ?>" 
 				 style="background-color: <?php echo esc_attr( $settings['background_color'] ); ?>;"
 				 role="region" 
-				 aria-labelledby="<?php echo 'yes' === $settings['show_widget_title'] ? 'feature-blocks-title' : ''; ?>"
-				 aria-describedby="feature-blocks-description">
+				 <?php if ( 'yes' === $settings['show_widget_title'] ) : ?>aria-labelledby="feature-blocks-title-<?php echo esc_attr( $widget_id ); ?>"<?php endif; ?>
+				 aria-describedby="feature-blocks-description-<?php echo esc_attr( $widget_id ); ?>">
 			
 			<?php
 			if ( 'yes' === $settings['show_widget_title'] && ! empty( $settings['widget_title'] ) ) :
@@ -44,18 +45,17 @@ class Promen_Feature_Blocks_Render {
 				<header class="widget-title-wrapper">
 					<<?php echo esc_attr( $widget_title_tag ); ?> 
 					   class="widget-title" 
-					   id="feature-blocks-title">
+					   id="feature-blocks-title-<?php echo esc_attr( $widget_id ); ?>">
 						<?php echo esc_html( $settings['widget_title'] ); ?>
 					</<?php echo esc_attr( $widget_title_tag ); ?>>
 				</header>
 			<?php endif; ?>
 			
-			<div id="feature-blocks-description" class="sr-only">
+			<div id="feature-blocks-description-<?php echo esc_attr( $widget_id ); ?>" class="sr-only">
 				<?php echo esc_html__( 'Interactive feature blocks with images and content. Use Tab to navigate between elements.', 'promen-elementor-widgets' ); ?>
 			</div>
 			
-			<main class="promen-feature-blocks-wrapper <?php echo esc_attr( $responsive_classes ); ?>" 
-				  role="main" 
+			<div class="promen-feature-blocks-wrapper <?php echo esc_attr( $responsive_classes ); ?>" 
 				  aria-label="<?php echo esc_attr__( 'Inhoud met feature blokken en informatie over onze diensten', 'promen-elementor-widgets' ); ?>">
 				
 				<figure class="promen-feature-main-image" role="img" aria-label="<?php echo esc_attr__( 'Main feature image', 'promen-elementor-widgets' ); ?>">
@@ -88,8 +88,8 @@ class Promen_Feature_Blocks_Render {
 									}
 								 ?>"
 								 role="article" 
-								 aria-labelledby="feature-title-<?php echo $i; ?>"
-								 aria-describedby="feature-content-<?php echo $i; ?>"
+								 aria-labelledby="feature-title-<?php echo esc_attr( $widget_id ); ?>-<?php echo $i; ?>"
+								 aria-describedby="feature-content-<?php echo esc_attr( $widget_id ); ?>-<?php echo $i; ?>"
 								 tabindex="0">
 							
 							<div class="feature-icon" role="img" aria-hidden="true">
@@ -107,7 +107,7 @@ class Promen_Feature_Blocks_Render {
 									'block_' . $i . '_title' => isset( $settings['block_' . $i . '_title'] ) ? $settings['block_' . $i . '_title'] : '',
 								];
 								// Add ID to the title for ARIA labeling
-								$block_settings['title_id'] = 'feature-title-' . $i;
+								$block_settings['title_id'] = 'feature-title-' . $widget_id . '-' . $i;
                                 
                                 if ( function_exists( 'promen_render_split_title' ) ) {
 								    echo promen_render_split_title( $widget, $block_settings, 'block_' . $i . '_title', 'feature' );
@@ -117,7 +117,7 @@ class Promen_Feature_Blocks_Render {
 								?>
 							</header>
 							
-							<div class="feature-content" id="feature-content-<?php echo $i; ?>">
+							<div class="feature-content" id="feature-content-<?php echo esc_attr( $widget_id ); ?>-<?php echo $i; ?>">
 								<p><?php echo esc_html( $settings['block_' . $i . '_content'] ); ?></p>
 							</div>
 							
@@ -148,7 +148,7 @@ class Promen_Feature_Blocks_Render {
 						</article>
 					<?php endif; ?>
 				<?php endfor; ?>
-			</main>
+			</div>
 		</section>
 		<?php
 	}

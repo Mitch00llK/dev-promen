@@ -169,7 +169,7 @@ $carousel_region_id = Promen_Accessibility_Utils::generate_id('team-members-caro
                 
                 <!-- Add pagination if needed -->
                 <?php if ($settings['show_pagination'] === 'yes') : ?>
-                <div class="swiper-pagination" role="tablist" aria-label="<?php esc_attr_e('Paginering om door verschillende teamleden pagina\'s te navigeren', 'promen-elementor-widgets'); ?>"></div>
+                <div class="swiper-pagination" role="group" aria-label="<?php esc_attr_e('Paginering om door verschillende teamleden pagina\'s te navigeren', 'promen-elementor-widgets'); ?>"></div>
                 <?php endif; ?>
             </div>
         </div>

@@ -99,7 +99,7 @@ class Promen_Text_Column_Repeater_Render {
         $columns = !empty($settings['columns']) ? $settings['columns'] : 2;
         
         // Start grid container
-        echo '<main class="text-column-repeater__grid" 
+        echo '<div class="text-column-repeater__grid" 
                      role="list" 
                      aria-label="' . esc_attr__('Lijst met tekstkolommen die u kunt bekijken voor meer informatie', 'promen-elementor-widgets') . '"
                      id="' . esc_attr($content_id) . '">';
@@ -144,6 +144,6 @@ class Promen_Text_Column_Repeater_Render {
         }
         
         // End grid container
-        echo '</main>';
+        echo '</div>';
     }
 } 

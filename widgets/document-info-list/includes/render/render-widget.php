@@ -79,7 +79,7 @@ class Promen_Document_Info_List_Render {
 										 id="<?php echo esc_attr($item_id); ?>"
 										 role="listitem"
 										 tabindex="0"
-										 aria-labelledby="<?php echo !empty($document['document_title']) ? esc_attr($icon_id) : ''; ?>">
+										 <?php if (!empty($document['document_title'])) : ?>aria-labelledby="<?php echo esc_attr($icon_id); ?>"<?php endif; ?>>
 									<div class="document-info-content">
 										<?php if (!empty($document['document_file']['url'])) : 
 											$file_url = $document['document_file']['url'];

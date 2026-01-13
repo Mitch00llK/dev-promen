@@ -27,7 +27,6 @@ class Promen_Checklist_Comparison_Render {
         
         // Start comparison container
         echo '<div class="promen-checklist-comparison__container" 
-                     role="main" 
                      aria-label="' . esc_attr__('Inhoud van de vergelijking tussen de twee kolommen met checklist items', 'promen-elementor-widgets') . '">';
         
         // Left column
@@ -54,7 +53,7 @@ class Promen_Checklist_Comparison_Render {
         echo '<aside class="promen-checklist-comparison__column promen-checklist-comparison__column--left" 
                      id="' . esc_attr($column_id) . '"
                      role="complementary" 
-                     aria-labelledby="' . (!empty($settings['show_left_heading']) && $settings['show_left_heading'] === 'yes' ? esc_attr($heading_id) : '') . '">';
+                     ' . (!empty($settings['show_left_heading']) && $settings['show_left_heading'] === 'yes' ? 'aria-labelledby="' . esc_attr($heading_id) . '"' : '') . '>';
         
         // Render heading if enabled
         if (!empty($settings['show_left_heading']) && $settings['show_left_heading'] === 'yes') {
@@ -121,7 +120,7 @@ class Promen_Checklist_Comparison_Render {
         echo '<aside class="promen-checklist-comparison__column promen-checklist-comparison__column--right" 
                      id="' . esc_attr($column_id) . '"
                      role="complementary" 
-                     aria-labelledby="' . (!empty($settings['show_right_heading']) && $settings['show_right_heading'] === 'yes' ? esc_attr($heading_id) : '') . '">';
+                     ' . (!empty($settings['show_right_heading']) && $settings['show_right_heading'] === 'yes' ? 'aria-labelledby="' . esc_attr($heading_id) . '"' : '') . '>';
         
         // Render heading if enabled
         if (!empty($settings['show_right_heading']) && $settings['show_right_heading'] === 'yes') {

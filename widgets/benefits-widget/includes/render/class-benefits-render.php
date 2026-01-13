@@ -28,8 +28,8 @@ class Promen_Benefits_Render {
         <section class="benefits-widget promen-widget" 
                  id="<?php echo esc_attr($container_id); ?>"
                  role="region" 
-                 aria-labelledby="<?php echo $settings['show_header'] === 'yes' ? esc_attr($title_id) : ''; ?>"
-                 aria-describedby="<?php echo !empty($settings['description']) ? esc_attr($description_id) : ''; ?>">
+                 <?php if ($settings['show_header'] === 'yes') : ?>aria-labelledby="<?php echo esc_attr($title_id); ?>"<?php endif; ?>
+                 <?php if (!empty($settings['description'])) : ?>aria-describedby="<?php echo esc_attr($description_id); ?>"<?php endif; ?>>
             
             <!-- Header Section -->
             <?php if ('yes' === $settings['show_header']) : ?>
@@ -50,7 +50,7 @@ class Promen_Benefits_Render {
             <?php endif; ?>
 
             <!-- Content Section -->
-            <main class="benefits-content" role="main" aria-label="<?php echo esc_attr__('Benefits list', 'promen-elementor-widgets'); ?>">
+            <div class="benefits-content" aria-label="<?php echo esc_attr__('Benefits list', 'promen-elementor-widgets'); ?>">
                 <!-- Benefits Container -->
                 <div class="benefits-container" role="list" aria-label="<?php echo esc_attr__('List of benefits', 'promen-elementor-widgets'); ?>">
                     <?php
@@ -62,7 +62,7 @@ class Promen_Benefits_Render {
                             <article class="benefit-item" 
                                      role="listitem" 
                                      id="<?php echo esc_attr($item_id); ?>"
-                                     aria-labelledby="<?php echo !empty($item['benefit_title']) ? esc_attr($icon_id) : ''; ?>"
+                                     <?php if (!empty($item['benefit_title'])) : ?>aria-labelledby="<?php echo esc_attr($icon_id); ?>"<?php endif; ?>
                                      tabindex="0">
                                 
                                 <?php if (!empty($item['benefit_icon']['value'])) : ?>
@@ -249,7 +249,7 @@ class Promen_Benefits_Render {
                         <?php endif; ?>
                     <?php endif; ?>
                 </aside>
-            </main>
+            </div>
         </section>
         <?php
     }

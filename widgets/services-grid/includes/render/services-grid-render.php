@@ -44,7 +44,7 @@ function render_services_grid_widget($widget) {
             <?php endif; ?>
         </header>
 
-        <main class="services-grid-wrapper">
+        <div class="services-grid-wrapper">
             <?php
             // Prepare services array for both grid and slider
             $services_array = [];
@@ -217,11 +217,11 @@ function render_services_grid_widget($widget) {
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <div class="swiper-pagination" role="tablist" aria-label="<?php esc_attr_e('Paginering om door verschillende service pagina\'s te navigeren', 'promen-elementor-widgets'); ?>"></div>
+                        <div class="swiper-pagination" role="group" aria-label="<?php esc_attr_e('Paginering om door verschillende service pagina\'s te navigeren', 'promen-elementor-widgets'); ?>"></div>
                     </div>
                 </div>
             <?php endif; ?>
-        </main>
+        </div>
     </section>
     
 

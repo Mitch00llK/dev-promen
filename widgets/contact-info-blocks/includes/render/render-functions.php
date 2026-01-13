@@ -63,7 +63,7 @@ class Promen_Contact_Info_Blocks_Render {
                     id="<?php echo esc_attr($address_id); ?>"
                     role="listitem">
                     <article class="contact-info-block__inner" 
-                             aria-labelledby="<?php echo !empty($settings['address_title']) ? esc_attr($address_heading_id) : ''; ?>"
+                             <?php if (!empty($settings['address_title'])) : ?>aria-labelledby="<?php echo esc_attr($address_heading_id); ?>"<?php endif; ?>
                              itemscope
                              itemtype="https://schema.org/PostalAddress">
                         <?php if (!empty($settings['address_icon']['value'])) : ?>
@@ -99,7 +99,7 @@ class Promen_Contact_Info_Blocks_Render {
                     id="<?php echo esc_attr($phone_id); ?>"
                     role="listitem">
                     <article class="contact-info-block__inner" 
-                             aria-labelledby="<?php echo !empty($settings['phone_title']) ? esc_attr($phone_heading_id) : ''; ?>"
+                             <?php if (!empty($settings['phone_title'])) : ?>aria-labelledby="<?php echo esc_attr($phone_heading_id); ?>"<?php endif; ?>
                              itemscope
                              itemtype="https://schema.org/ContactPoint">
                         <?php if (!empty($settings['phone_icon']['value'])) : ?>
@@ -148,7 +148,7 @@ class Promen_Contact_Info_Blocks_Render {
                     id="<?php echo esc_attr($email_id); ?>"
                     role="listitem">
                     <article class="contact-info-block__inner" 
-                             aria-labelledby="<?php echo !empty($settings['email_title']) ? esc_attr($email_heading_id) : ''; ?>"
+                             <?php if (!empty($settings['email_title'])) : ?>aria-labelledby="<?php echo esc_attr($email_heading_id); ?>"<?php endif; ?>
                              itemscope
                              itemtype="https://schema.org/ContactPoint">
                         <?php if (!empty($settings['email_icon']['value'])) : ?>

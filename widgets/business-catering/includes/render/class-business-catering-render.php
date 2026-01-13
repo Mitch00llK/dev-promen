@@ -74,7 +74,7 @@ class Promen_Business_Catering_Render {
         <section class="promen-business-catering-widget promen-widget" 
                  id="<?php echo esc_attr($container_id); ?>"
                  role="region" 
-                 aria-labelledby="<?php echo $settings['show_title'] === 'yes' && !empty($settings['section_title']) ? esc_attr($title_id) : ''; ?>"
+                 <?php if ($settings['show_title'] === 'yes' && !empty($settings['section_title'])) : ?>aria-labelledby="<?php echo esc_attr($title_id); ?>"<?php endif; ?>
                  aria-label="<?php echo esc_attr__('Galerij met bedrijfscatering afbeeldingen en informatie over onze cateringdiensten', 'promen-elementor-widgets'); ?>">
             
             <?php if ($settings['show_title'] === 'yes' && !empty($settings['section_title'])) : ?>
@@ -173,7 +173,7 @@ class Promen_Business_Catering_Render {
                         <?php if ($slider_settings['pagination']) : ?>
                             <!-- Pagination -->
                             <div class="swiper-pagination" 
-                                 role="tablist" 
+                                 role="group" 
                                  aria-label="<?php echo esc_attr__('Paginering om door verschillende catering afbeeldingen te navigeren', 'promen-elementor-widgets'); ?>"></div>
                         <?php endif; ?>
                         

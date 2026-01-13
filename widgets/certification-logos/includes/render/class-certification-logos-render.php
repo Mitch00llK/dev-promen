@@ -33,8 +33,8 @@ class Promen_Certification_Logos_Render {
         <section class="<?php echo esc_attr(implode(' ', $wrapper_classes)); ?>" 
                  id="<?php echo esc_attr($container_id); ?>"
                  role="region" 
-                 aria-labelledby="<?php echo $settings['show_title'] === 'yes' ? esc_attr($title_id) : ''; ?>"
-                 aria-describedby="<?php echo $settings['show_description'] === 'yes' && !empty($settings['description_text']) ? esc_attr($description_id) : ''; ?>"
+                 <?php if ($settings['show_title'] === 'yes') : ?>aria-labelledby="<?php echo esc_attr($title_id); ?>"<?php endif; ?>
+                 <?php if ($settings['show_description'] === 'yes' && !empty($settings['description_text'])) : ?>aria-describedby="<?php echo esc_attr($description_id); ?>"<?php endif; ?>
                  aria-label="<?php echo esc_attr__('Overzicht van alle certificeringen en kwaliteitskeurmerken die wij hebben behaald', 'promen-elementor-widgets'); ?>">
             
             <?php if ($settings['show_title'] === 'yes'): ?>
@@ -125,7 +125,7 @@ class Promen_Certification_Logos_Render {
                 </button>
                 <!-- Add Pagination -->
                 <div class="swiper-pagination" 
-                     role="tablist" 
+                     role="group" 
                      aria-label="<?php echo esc_attr__('Paginering om door verschillende certificeringslogo\'s te navigeren', 'promen-elementor-widgets'); ?>"></div>
             </div>
             <?php endif; ?>
