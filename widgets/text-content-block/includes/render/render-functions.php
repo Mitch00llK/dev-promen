@@ -747,6 +747,14 @@ class Promen_Text_Content_Block_Render {
         }
 
         if (empty($file_path) && !empty($document_field['url'])) {
+            // Create a cache key for this document URL
+            $cache_key = 'promen_doc_text_' . md5($document_field['url']);
+            $cached_data = get_transient($cache_key);
+
+            if ($cached_data !== false) {
+                return $cached_data;
+            }
+
             $path = parse_url($document_field['url'], PHP_URL_PATH);
             $extension = $path ? strtolower(pathinfo($path, PATHINFO_EXTENSION)) : '';
             
@@ -786,6 +794,11 @@ class Promen_Text_Content_Block_Render {
                     
                     $result['html'] = $html;
                     $result['plain'] = $docx_text;
+
+                    // Cache the result for 24 hours if we possess a URL acting as a key
+                    if (isset($cache_key) && !empty($document_field['url'])) {
+                        set_transient($cache_key, $result, DAY_IN_SECONDS);
+                    }
                 }
             }
             
@@ -832,6 +845,10 @@ class Promen_Text_Content_Block_Render {
 
             $result['html'] = $html;
             $result['plain'] = implode(' ', $paragraphs);
+        }
+
+        if (isset($cache_key) && !empty($document_field['url'])) {
+            set_transient($cache_key, $result, DAY_IN_SECONDS);
         }
 
         return $result;

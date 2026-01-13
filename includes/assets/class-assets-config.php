@@ -166,7 +166,7 @@ class Promen_Assets_Config {
             ],
             'promen-image-text-block-accessibility' => [
                 'path' => 'widgets/image-text-block/assets/css/image-text-block-accessibility.css',
-                'deps' => ['promen-image-text-block-widget'],
+                'deps' => ['promen-image-text-block-base'],
             ],
             'promen-news-posts-widget' => [
                 'path' => 'widgets/news-posts/assets/css/news-posts.css',

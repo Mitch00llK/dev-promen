@@ -57,6 +57,15 @@ class Promen_Assets_Manager {
             [],
             PROMEN_ELEMENTOR_WIDGETS_VERSION
         );
+
+        // Register Swiper CSS
+        $swiper_css_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'assets/js/swiper/swiper-bundle.min.css';
+        if (file_exists($swiper_css_path)) {
+            wp_register_style('swiper-bundle-css', PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/swiper/swiper-bundle.min.css', [], PROMEN_ELEMENTOR_WIDGETS_VERSION);
+        } else if (did_action('elementor/loaded')) {
+             wp_register_style('swiper-bundle-css', ELEMENTOR_ASSETS_URL . 'lib/swiper/swiper.min.css', [], ELEMENTOR_VERSION);
+        }
+
         // Register widget styles from config
         $this->style_registrar->register_widget_styles(
             Promen_Assets_Config::get_widget_styles()
@@ -70,6 +79,14 @@ class Promen_Assets_Manager {
         // Global Libraries
         $this->register_lenis_scripts();
         $this->register_gsap_scripts();
+
+        // Register Swiper JS
+        $swiper_js_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'assets/js/swiper/swiper-bundle.min.js';
+        if (file_exists($swiper_js_path)) {
+            wp_register_script('swiper-bundle', PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/swiper/swiper-bundle.min.js', [], PROMEN_ELEMENTOR_WIDGETS_VERSION, true);
+        } else if (did_action('elementor/loaded')) {
+            wp_register_script('swiper-bundle', ELEMENTOR_ASSETS_URL . 'lib/swiper/swiper.min.js', [], ELEMENTOR_VERSION, true);
+        }
 
         // Core Accessibility Library
         wp_register_script(
@@ -121,22 +138,6 @@ class Promen_Assets_Manager {
      * Enqueue Swiper library
      */
     public function enqueue_swiper() {
-        $swiper_css_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'assets/js/swiper/swiper-bundle.min.css';
-        $swiper_js_path = PROMEN_ELEMENTOR_WIDGETS_PATH . 'assets/js/swiper/swiper-bundle.min.js';
-        
-        if (!file_exists($swiper_css_path) || !file_exists($swiper_js_path)) {
-            // Fallback to Elementor's Swiper
-            if (did_action('elementor/loaded')) {
-                wp_register_style('swiper-bundle-css', ELEMENTOR_ASSETS_URL . 'lib/swiper/swiper.min.css', [], ELEMENTOR_VERSION);
-                wp_register_script('swiper-bundle', ELEMENTOR_ASSETS_URL . 'lib/swiper/swiper.min.js', [], ELEMENTOR_VERSION, true);
-                return;
-            }
-            return;
-        }
-        
-        wp_register_style('swiper-bundle-css', PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/swiper/swiper-bundle.min.css', [], PROMEN_ELEMENTOR_WIDGETS_VERSION);
-        wp_register_script('swiper-bundle', PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/swiper/swiper-bundle.min.js', [], PROMEN_ELEMENTOR_WIDGETS_VERSION, true);
-        
         wp_enqueue_style('swiper-bundle-css');
         wp_enqueue_script('swiper-bundle');
     }

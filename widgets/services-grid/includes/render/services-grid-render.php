@@ -129,6 +129,45 @@ function render_services_grid_widget($widget) {
             ];
             ?>
             
+            <?php
+            // Prepare slider data attributes
+            $slider_data_attrs = [];
+            $slider_data_attrs[] = 'id="services-slider-' . $widget_id . '"';
+            $slider_data_attrs[] = 'class="services-slider swiper"';
+            
+            // Basic settings
+            $slider_data_attrs[] = 'data-slides-per-view="' . esc_attr($slider_settings['slidesPerView']) . '"';
+            $slider_data_attrs[] = 'data-space-between="' . esc_attr($slider_settings['spaceBetween']) . '"';
+            $slider_data_attrs[] = 'data-loop="' . ($slider_settings['loop'] ? 'true' : 'false') . '"';
+            $slider_data_attrs[] = 'data-autoplay="' . ($slider_settings['autoplay'] ? 'true' : 'false') . '"';
+            if ($slider_settings['autoplay']) {
+                $slider_data_attrs[] = 'data-autoplay-delay="' . esc_attr($slider_settings['autoplayDelay']) . '"';
+            }
+            $slider_data_attrs[] = 'data-navigation="' . ($slider_settings['navigation'] ? 'true' : 'false') . '"';
+            $slider_data_attrs[] = 'data-pagination="' . ($slider_settings['pagination'] ? 'true' : 'false') . '"';
+            $slider_data_attrs[] = 'data-effect="' . esc_attr($slider_settings['effect']) . '"';
+            $slider_data_attrs[] = 'data-centered-slides="' . ($slider_settings['centeredSlides'] ? 'true' : 'false') . '"';
+            
+            // Breakpoints
+            $breakpoints = [];
+            
+            // Mobile (default base, but we can set 480 specifically if needed)
+            $mobile_spv = !empty($settings['slides_per_view_mobile']) ? $settings['slides_per_view_mobile'] : 1;
+            $breakpoints[480] = [
+                'slidesPerView' => (int)$mobile_spv,
+                'spaceBetween' => 20
+            ];
+            
+            // Tablet
+            $tablet_spv = !empty($settings['slides_per_view_tablet']) ? $settings['slides_per_view_tablet'] : 2;
+            $breakpoints[768] = [
+                'slidesPerView' => (int)$tablet_spv,
+                'spaceBetween' => isset($settings['space_between_tablet']) ? (int)$settings['space_between_tablet'] : 30
+            ];
+            
+            $slider_data_attrs[] = 'data-breakpoints="' . esc_attr(json_encode($breakpoints)) . '"';
+            ?>
+
             <?php if ($enable_mobile_slider === 'yes') : ?>
                 <!-- Mobile Slider View -->
                 <?php 
@@ -147,7 +186,7 @@ function render_services_grid_widget($widget) {
                      role="region" 
                      aria-label="<?php esc_attr_e('Interactieve schuifregelaar met services die u kunt doorbladeren', 'promen-elementor-widgets'); ?>"
                      aria-live="polite">
-                    <div class="services-slider swiper">
+                    <div <?php echo implode(' ', $slider_data_attrs); ?>>
                         <div class="swiper-wrapper" role="list" aria-label="<?php esc_attr_e('Lijst met alle services die u kunt bekijken en waarop u kunt klikken voor meer informatie', 'promen-elementor-widgets'); ?>">
                             <?php
                             foreach ($services_array as $index => $service) :
@@ -185,55 +224,6 @@ function render_services_grid_widget($widget) {
         </main>
     </section>
     
-    <script>
-    jQuery(document).ready(function($) {
-        if (window.innerWidth <= 992) {
-            const servicesSlider = new Swiper('.services-slider', {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                pagination: {
-                    el: '.services-slider .swiper-pagination',
-                    clickable: true,
-                },
-                breakpoints: {
-                    480: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                    },
-                    768: {
-                        slidesPerView: 2,
-                        spaceBetween: 30,
-                    }
-                }
-            });
-        }
-        
-        // Reinitialize slider on window resize
-        $(window).on('resize', function() {
-            if (window.innerWidth <= 992) {
-                if (typeof servicesSlider === 'undefined') {
-                    const servicesSlider = new Swiper('.services-slider', {
-                        slidesPerView: 1,
-                        spaceBetween: 20,
-                        pagination: {
-                            el: '.services-slider .swiper-pagination',
-                            clickable: true,
-                        },
-                        breakpoints: {
-                            480: {
-                                slidesPerView: 2,
-                                spaceBetween: 20,
-                            },
-                            768: {
-                                slidesPerView: 2,
-                                spaceBetween: 30,
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    });
-    </script>
+
     <?php
 } 

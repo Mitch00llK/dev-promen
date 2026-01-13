@@ -59,8 +59,8 @@
 
 /* Hide spacer for single slide as requested by user */
 .image-text-slider-container.image-text-slider-single-slide .slider-bottom-spacer {
-    display: none !important;
-    height: 0 !important;
+    /* display: none !important; */
+    height: 5rem !important;
     margin: 0 !important;
 }
 
