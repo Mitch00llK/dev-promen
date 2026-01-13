@@ -214,62 +214,6 @@ class Promen_Document_Info_List_Content_Controls {
 		$widget->end_controls_section();
 
 		// Animation Section
-		$widget->start_controls_section(
-			'section_animation',
-			[
-				'label' => esc_html__( 'Animation', 'promen-elementor-widgets' ),
-				'tab'   => Controls_Manager::TAB_CONTENT,
-			]
-		);
 
-		$widget->add_control(
-			'enable_animation',
-			[
-				'label'   => esc_html__( 'Enable Animation', 'promen-elementor-widgets' ),
-				'type'    => Controls_Manager::SWITCHER,
-				'default' => 'yes',
-			]
-		);
-
-		$widget->add_control(
-			'animation_type',
-			[
-				'label'     => esc_html__( 'Animation Type', 'promen-elementor-widgets' ),
-				'type'      => Controls_Manager::SELECT,
-				'default'   => 'slide-up',
-				'options'   => [
-					'slide-up' => esc_html__( 'Slide Up', 'promen-elementor-widgets' ),
-					'slide-in' => esc_html__( 'Slide In', 'promen-elementor-widgets' ),
-					'fade-in'  => esc_html__( 'Fade In', 'promen-elementor-widgets' ),
-					'scale-in' => esc_html__( 'Scale In', 'promen-elementor-widgets' ),
-				],
-				'condition' => [
-					'enable_animation' => 'yes',
-				],
-			]
-		);
-
-		$widget->add_control(
-			'animation_delay',
-			[
-				'label'     => esc_html__( 'Stagger Delay (ms)', 'promen-elementor-widgets' ),
-				'type'      => Controls_Manager::SLIDER,
-				'default'   => [
-					'size' => 100,
-				],
-				'range'     => [
-					'px' => [
-						'min'  => 0,
-						'max'  => 1000,
-						'step' => 10,
-					],
-				],
-				'condition' => [
-					'enable_animation' => 'yes',
-				],
-			]
-		);
-
-		$widget->end_controls_section();
 	}
 }

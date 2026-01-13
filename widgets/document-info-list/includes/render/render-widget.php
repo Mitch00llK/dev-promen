@@ -28,23 +28,7 @@ class Promen_Document_Info_List_Render {
 		$container_class = "document-info-list-container promen-widget";
 		$container_attributes = '';
 
-		// GSAP animation preparation
-		$enable_animation = isset($settings['enable_animation']) ? $settings['enable_animation'] : 'no';
-		$animation_type = '';
-		$animation_delay = 0;
 
-		if ( 'yes' === $enable_animation ) {
-			$container_class .= ' document-info-list--animated';
-			$animation_type = isset($settings['animation_type']) ? $settings['animation_type'] : 'fade-in';
-			
-			// Handle complex delay setting
-			$animation_delay_setting = isset($settings['animation_delay']) ? $settings['animation_delay'] : [];
-			$animation_delay = isset($animation_delay_setting['size']) ? $animation_delay_setting['size'] : 0;
-			
-			$container_attributes .= ' data-animation="' . esc_attr( $animation_type ) . '"';
-			$container_attributes .= ' data-animation-delay="' . esc_attr( $animation_delay ) . '"';
-			$container_attributes .= ' data-animation-id="' . esc_attr( $widget_id ) . '"';
-		}
 
 		// Year title border class
 		$year_title_border = isset($settings['year_title_border_bottom']) ? $settings['year_title_border_bottom'] : 'no';
@@ -172,19 +156,7 @@ class Promen_Document_Info_List_Render {
 			endif; ?>
 		</section>
 
-		<?php if ('yes' === $enable_animation) : ?>
-		<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			if (typeof DocumentInfoListAnimations !== 'undefined') {
-				new DocumentInfoListAnimations(
-					'<?php echo esc_js($widget_id); ?>',
-					'<?php echo esc_js($animation_type); ?>',
-					<?php echo esc_js($animation_delay); ?>
-				);
-			}
-		}, { passive: true });
-		</script>
-		<?php endif; ?>
+
 
 		<script>
 		// Add AJAX download nonce for fallback

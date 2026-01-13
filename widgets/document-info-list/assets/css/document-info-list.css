@@ -7,7 +7,7 @@
 @import url('components/typography.css');
 @import url('components/item.css');
 @import url('components/link.css');
-@import url('components/animation.css');
+
 @import url('components/accessibility.css');
 
 /* Responsive Styles - These rely on structure and are kept here or in specific files if not dynamic */
