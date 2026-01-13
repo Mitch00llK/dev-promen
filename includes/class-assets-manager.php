@@ -77,7 +77,7 @@ class Promen_Assets_Manager {
      */
     public function register_scripts() {
         // Global Libraries
-        $this->register_lenis_scripts();
+
         $this->register_gsap_scripts();
 
         // Register Swiper JS
@@ -150,20 +150,5 @@ class Promen_Assets_Manager {
         wp_register_script('gsap-scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js', ['gsap'], '3.12.2', true);
     }
 
-    /**
-     * Register Lenis smooth scroll
-     */
-    public function register_lenis_scripts() {
-        $settings = get_option('lenis_scroll_options', ['enable_lenis' => true, 'scroll_duration' => 1.2, 'scroll_easing' => 'ease-out-expo']);
-        if (!$settings['enable_lenis']) return;
 
-        wp_register_script('lenis-js', 'https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js', [], '1.1.18', true);
-        wp_register_script('promen-lenis-smooth-scroll', PROMEN_ELEMENTOR_WIDGETS_URL . 'assets/js/lenis-smooth-scroll.js', ['lenis-js', 'gsap', 'gsap-scrolltrigger'], PROMEN_ELEMENTOR_WIDGETS_VERSION, true);
-        
-        if (!is_admin()) {
-            wp_enqueue_script('lenis-js');
-            wp_enqueue_script('promen-lenis-smooth-scroll');
-            wp_localize_script('promen-lenis-smooth-scroll', 'lenisSettings', $settings);
-        }
-    }
 }

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Promen Elementor Widgets
  * Description: Custom Elementor widgets for Promen website
- * Version: 1.1.1
+ * Version: 2.0
  * Author: Mitchell Kamp
  * Text Domain: promen-elementor-widgets
  */
@@ -23,7 +23,7 @@ require_once(PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/class-promen-elementor-wi
 
 // Include required files
 
-require_once PROMEN_ELEMENTOR_WIDGETS_PATH . 'includes/settings/class-lenis-settings.php';
+
 
 // Initialize the plugin
 Promen_Elementor_Widgets::instance();
