@@ -22,11 +22,20 @@ class Promen_Script_Registrar {
         foreach ($scripts as $handle => $config) {
             $path = isset($config['path']) ? $config['path'] : '';
             $deps = isset($config['deps']) ? $config['deps'] : [];
-            $ver  = isset($config['ver']) ? $config['ver'] : PROMEN_ELEMENTOR_WIDGETS_VERSION;
             $in_footer = isset($config['in_footer']) ? $config['in_footer'] : true;
 
             if (empty($path)) {
                 continue;
+            }
+
+            // Determine version: use filemtime for automatic cache busting, fallback to plugin version
+            $file_path = PROMEN_ELEMENTOR_WIDGETS_PATH . $path;
+            if (isset($config['ver'])) {
+                $ver = $config['ver'];
+            } elseif (file_exists($file_path)) {
+                $ver = filemtime($file_path);
+            } else {
+                $ver = PROMEN_ELEMENTOR_WIDGETS_VERSION;
             }
 
             wp_register_script(
