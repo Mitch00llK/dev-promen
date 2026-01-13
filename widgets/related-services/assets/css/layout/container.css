@@ -26,6 +26,8 @@
 .related-services-wrapper.layout-two-column .related-services-cards-column {
     flex: 2;
     min-width: 300px;
+    display: flex;
+    gap: 30px;
 }
 
 /* Stacked Layout */
@@ -39,10 +41,22 @@
     max-width: 100%;
 }
 
+.related-services-wrapper.layout-stacked .related-services-cards-column {
+    flex-direction: column;
+}
+
+/* Grid Container Styles */
+.related-services-grid-container {
+    flex: 1;
+    min-width: 0;
+    width: 100% !important;
+}
+
 /* Grid Styles */
 .related-services-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr !important;
     gap: 30px;
     width: 100%;
+    min-height: 200px!important;
 }

@@ -9,4 +9,12 @@
         width: 100% !important;
         max-width: 100% !important;
     }
+
+    .related-services-wrapper.layout-two-column .related-services-cards-column {
+        flex-direction: column;
+    }
+
+    .related-services-grid-container {
+        width: 100% !important;
+    }
 }
