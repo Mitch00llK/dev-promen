@@ -88,9 +88,6 @@ class Promen_Related_Services_Render {
                                 $nofollow = !empty($service['service_link']['nofollow']) ? ' rel="nofollow"' : '';
                                 $url = !empty($service['service_link']['url']) ? $service['service_link']['url'] : '#';
                                 
-                                // Get the title tag or default to h3
-                                $title_tag = !empty($service['service_title_tag']) ? $service['service_title_tag'] : 'h3';
-                                
                                 // Get the service ID for styling
                                 $service_id = isset($service['_id']) ? $service['_id'] : $index;
                                 
@@ -122,9 +119,9 @@ class Promen_Related_Services_Render {
                                             </div>
                                         <?php endif; ?>
                                         
-                                        <<?php echo esc_attr($title_tag); ?> class="related-service-title" id="<?php echo esc_attr($service_title_id); ?>">
+                                        <span class="related-service-title" id="<?php echo esc_attr($service_title_id); ?>">
                                             <?php echo esc_html($service['service_title']); ?>
-                                        </<?php echo esc_attr($title_tag); ?>>
+                                        </span>
                                         
                                         <?php if (!empty($settings['show_arrow']) && $settings['show_arrow'] === 'yes') : ?>
                                             <div class="related-service-arrow" aria-hidden="true">

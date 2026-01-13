@@ -228,8 +228,7 @@ class Promen_Text_Content_Block_Render {
         
         // Render sidebar title
         if (!empty($settings['sidebar_title'])) {
-            $title_tag = !empty($settings['sidebar_title_tag']) ? $settings['sidebar_title_tag'] : 'h4';
-            echo '<' . esc_attr($title_tag) . ' class="promen-text-content-block__sidebar-title">' . esc_html($settings['sidebar_title']) . '</' . esc_attr($title_tag) . '>';
+            echo '<span class="promen-text-content-block__sidebar-title">' . esc_html($settings['sidebar_title']) . '</span>';
         }
         
         // Render contact person name

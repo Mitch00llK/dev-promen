@@ -27,10 +27,7 @@ function render_employee_info($settings) {
                 </figure>
             <?php endif; ?>
             <?php if (isset($settings['show_contact_heading']) && 'yes' === $settings['show_contact_heading'] && !empty($settings['contact_heading'])) : ?>
-                <?php
-                $contact_heading_tag = !empty($settings['contact_heading_tag']) ? $settings['contact_heading_tag'] : 'h3';
-                ?>
-                <<?php echo esc_attr($contact_heading_tag); ?> class="contact-info-card__contact-heading"><?php echo esc_html($settings['contact_heading']); ?></<?php echo esc_attr($contact_heading_tag); ?>>
+                <span class="contact-info-card__contact-heading"><?php echo esc_html($settings['contact_heading']); ?></span>
             <?php endif; ?>
             
             <?php if (isset($settings['show_employee_name']) && 'yes' === $settings['show_employee_name'] && !empty($settings['employee_name'])) : ?>

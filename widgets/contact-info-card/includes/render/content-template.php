@@ -248,8 +248,7 @@ function render_contact_info_card_content_template() {
                         <# } #>
                         
                         <# if (settings.show_contact_heading === 'yes' && settings.contact_heading) { #>
-                            <# var contactHeadingTag = settings.contact_heading_tag || 'h3'; #>
-                            <{{{ contactHeadingTag }}} class="contact-info-card__contact-heading">{{{ settings.contact_heading }}}</{{{ contactHeadingTag }}}>
+                            <span class="contact-info-card__contact-heading">{{{ settings.contact_heading }}}</span>
                         <# } #>
                         
                         <# if (settings.show_employee_name === 'yes' && settings.employee_name) { #>
@@ -306,8 +305,7 @@ function render_contact_info_card_content_template() {
                     <# } #>
                     
                     <# if (settings.show_contact_heading === 'yes' && settings.contact_heading) { #>
-                        <# var contactHeadingTag = settings.contact_heading_tag || 'h3'; #>
-                        <{{{ contactHeadingTag }}} class="contact-info-card__contact-heading">{{{ settings.contact_heading }}}</{{{ contactHeadingTag }}}>
+                        <span class="contact-info-card__contact-heading">{{{ settings.contact_heading }}}</span>
                     <# } #>
                     
                     <# if (settings.show_employee_name === 'yes' && settings.employee_name) { #>

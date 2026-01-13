@@ -48,7 +48,7 @@
 
 /* Headings within Employee Info */
 .contact-info-card__contact-heading {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 700;
     margin: 0;
     color: var(--cic-color-secondary);

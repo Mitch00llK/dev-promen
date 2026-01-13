@@ -44,7 +44,7 @@
 .related-service-title {
     margin: 0;
     flex-grow: 1;
-    color: var(--promen-related-services-text-color, #0A2D5E);
+    font-size: 1.5rem;
     font-weight: 700;
 }
 

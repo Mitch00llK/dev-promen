@@ -46,6 +46,10 @@
     color: var(--cic-color-secondary);
 }
 
+.contact-info-card__contact-item:hover a {
+    color: #F28F2C !important;
+}
+
 .contact-info-card.combined-layout .contact-info-card__contact-item {
     display: flex;
     align-items: center;
