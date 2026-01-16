@@ -62,55 +62,74 @@ function render_stats_counter_widget($widget) {
         <?php endif; ?>
         
         <?php if ($has_items) : ?>
+        <?php 
+        // Pre-render items to count actual rendered items
+        $visible_index = 0;
+        $rendered_count = 0;
+        $items_to_render = [];
+        
+        foreach ($visible_items as $visible_data) :
+            $index = $visible_data['index'];
+            $item = $visible_data['item'];
+            
+            // Validate item has required data before rendering
+            if (!isset($item['counter_number']) && !isset($item['counter_title'])) {
+                continue; // Skip invalid items
+            }
+            
+            $visible_index++;
+            $rendered_count++;
+            
+            $item_id = 'stats-item-' . $widget->get_id_int() . '-' . $index;
+            $announcement_id = $item_id . '-announcement';
+            
+            $items_to_render[] = [
+                'index' => $visible_index,
+                'item' => $item,
+                'item_id' => $item_id,
+                'announcement_id' => $announcement_id,
+                'count' => $rendered_count
+            ];
+        endforeach;
+        
+        // Only render container if we have items with role="option" to avoid ARIA validation errors
+        if ($rendered_count > 0) :
+        ?>
         <div <?php echo $widget->get_render_attribute_string('container'); ?> 
              id="<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>"
              class="no-js-fallback"
-             data-stats-count="<?php echo esc_attr($visible_count); ?>">
+             data-stats-count="<?php echo esc_attr($rendered_count); ?>">
             <?php 
-            $visible_index = 0;
-            $rendered_count = 0;
-            foreach ($visible_items as $visible_data) :
-                $index = $visible_data['index'];
-                $item = $visible_data['item'];
-                
-                // Validate item has required data before rendering
-                if (!isset($item['counter_number']) && !isset($item['counter_title'])) {
-                    continue; // Skip invalid items
-                }
-                
-                $visible_index++;
-                $rendered_count++;
-                
-                $item_id = 'stats-item-' . $widget->get_id_int() . '-' . $index;
-                $announcement_id = $item_id . '-announcement';
+            foreach ($items_to_render as $item_data) :
             ?>
                 <div class="promen-stats-counter-item" 
                      role="option"
-                     tabindex="<?php echo $visible_index === 1 ? '0' : '-1'; ?>"
-                     aria-posinset="<?php echo $visible_index; ?>"
-                     aria-setsize="<?php echo $visible_count; ?>"
-                     aria-selected="<?php echo $visible_index === 1 ? 'true' : 'false'; ?>"
-                     aria-labelledby="<?php echo esc_attr($item_id . '-title'); ?>"
-                     aria-describedby="<?php echo esc_attr($announcement_id); ?>">
+                     tabindex="<?php echo $item_data['index'] === 1 ? '0' : '-1'; ?>"
+                     aria-posinset="<?php echo $item_data['index']; ?>"
+                     aria-setsize="<?php echo $rendered_count; ?>"
+                     aria-selected="<?php echo $item_data['index'] === 1 ? 'true' : 'false'; ?>"
+                     aria-labelledby="<?php echo esc_attr($item_data['item_id'] . '-title'); ?>"
+                     aria-describedby="<?php echo esc_attr($item_data['announcement_id']); ?>">
                     <div class="promen-counter-circle" 
                          role="img" 
-                         aria-label="<?php echo esc_attr(sprintf(__('Counter showing %d', 'promen-elementor-widgets'), $item['counter_number'] ?? 0)); ?>">
+                         aria-label="<?php echo esc_attr(sprintf(__('Counter showing %d', 'promen-elementor-widgets'), $item_data['item']['counter_number'] ?? 0)); ?>">
                         <div class="promen-counter-number" 
-                             data-count="<?php echo esc_attr($item['counter_number'] ?? 0); ?>"
+                             data-count="<?php echo esc_attr($item_data['item']['counter_number'] ?? 0); ?>"
                              aria-live="polite"
                              aria-atomic="true"
-                             id="<?php echo esc_attr($announcement_id); ?>">
-                            <?php echo esc_html($item['counter_number'] ?? 0); ?>
+                             id="<?php echo esc_attr($item_data['announcement_id']); ?>">
+                            <?php echo esc_html($item_data['item']['counter_number'] ?? 0); ?>
                         </div>
                     </div>
-                    <h3 class="promen-counter-title" id="<?php echo esc_attr($item_id . '-title'); ?>">
-                        <?php echo esc_html($item['counter_title'] ?? ''); ?>
+                    <h3 class="promen-counter-title" id="<?php echo esc_attr($item_data['item_id'] . '-title'); ?>">
+                        <?php echo esc_html($item_data['item']['counter_title'] ?? ''); ?>
                     </h3>
                 </div>
             <?php 
             endforeach;
             ?>
         </div>
+        <?php endif; // $rendered_count > 0 ?>
         <?php else : ?>
         <!-- No counter items to display - container not rendered to avoid empty listbox -->
         <?php endif; ?>

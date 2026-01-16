@@ -95,6 +95,8 @@ class StatsCounterAccessibility {
         // Double-check: count actual option elements, not just items
         const optionElements = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
         
+        // CRITICAL: Only set listbox role if we have at least one confirmed option child
+        // This prevents ARIA validation errors for missing required children
         if (this.counterItems.length === 0 || optionElements.length === 0) {
             // Remove role if no items to avoid invalid ARIA
             this.container.removeAttribute('role');
@@ -103,7 +105,17 @@ class StatsCounterAccessibility {
             return;
         }
 
+        // Verify we have the same count - if not, something is wrong
+        if (this.counterItems.length !== optionElements.length) {
+            console.warn('Stats Counter: Mismatch between counter items and option elements');
+            this.container.removeAttribute('role');
+            this.container.removeAttribute('aria-orientation');
+            this.container.removeAttribute('aria-label');
+            return;
+        }
+
         // Add ARIA attributes for listbox pattern only when we have confirmed option children
+        // This ensures ARIA validation passes (listbox requires option children)
         this.container.setAttribute('role', 'listbox');
         this.container.setAttribute('aria-orientation', 'horizontal');
         this.container.setAttribute('aria-label', 'Statistics navigation - use arrow keys to navigate');
@@ -298,16 +310,34 @@ class StatsCounterAccessibility {
 function initializeStatsCounterAccessibility() {
     const containers = document.querySelectorAll('.promen-stats-counter-container');
     containers.forEach(function (container) {
-        // Check for items - must have at least one item with role="option"
+        // First, ensure any existing listbox role is removed if invalid
+        // This prevents ARIA errors during initialization
         const items = container.querySelectorAll('.promen-stats-counter-item');
         const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
         
         // If container has no items at all, or no items with role="option", remove any listbox role
         if (items.length === 0 || optionItems.length === 0) {
+            // Remove listbox role to prevent ARIA validation errors
             container.removeAttribute('role');
             container.removeAttribute('aria-orientation');
             container.removeAttribute('aria-label');
             return; // Don't initialize
+        }
+        
+        // Ensure all items have role="option" before proceeding
+        items.forEach(function(item) {
+            if (!item.hasAttribute('role') || item.getAttribute('role') !== 'option') {
+                item.setAttribute('role', 'option');
+            }
+        });
+        
+        // Re-check after ensuring roles are set
+        const confirmedOptionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        if (confirmedOptionItems.length === 0) {
+            container.removeAttribute('role');
+            container.removeAttribute('aria-orientation');
+            container.removeAttribute('aria-label');
+            return;
         }
         
         // Only initialize if we have confirmed option children
