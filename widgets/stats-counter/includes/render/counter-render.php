@@ -42,11 +42,18 @@ function render_stats_counter_widget($widget) {
         <?php endif; ?>
         
         <?php
-        // Count visible counter items
-        $visible_items = array_filter($settings['counter_items'] ?? [], function($item) {
-            return isset($item['show_counter']) && $item['show_counter'] === 'yes';
-        });
+        // Count visible counter items - ensure we have valid items before rendering
+        $counter_items = isset($settings['counter_items']) && is_array($settings['counter_items']) ? $settings['counter_items'] : [];
+        $visible_items = [];
+        
+        // Pre-filter to get actual visible items
+        foreach ($counter_items as $index => $item) {
+            if (isset($item['show_counter']) && $item['show_counter'] === 'yes') {
+                $visible_items[] = ['index' => $index, 'item' => $item];
+            }
+        }
         $has_items = !empty($visible_items);
+        $visible_count = count($visible_items);
         ?>
         
         <div <?php echo $widget->get_render_attribute_string('container'); ?> 
@@ -54,19 +61,21 @@ function render_stats_counter_widget($widget) {
              class="no-js-fallback"
              <?php if ($has_items) : ?>role="listbox" aria-orientation="horizontal" aria-label="<?php echo esc_attr__('Statistics navigation - use arrow keys to navigate', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
             <?php 
-            $visible_index = 0;
-            foreach ($settings['counter_items'] as $index => $item) : 
-                if ($item['show_counter'] !== 'yes') continue;
-                
-                $item_id = 'stats-item-' . $widget->get_id_int() . '-' . $index;
-                $announcement_id = $item_id . '-announcement';
-                $visible_index++;
+            if ($has_items) :
+                $visible_index = 0;
+                foreach ($visible_items as $visible_data) :
+                    $index = $visible_data['index'];
+                    $item = $visible_data['item'];
+                    $visible_index++;
+                    
+                    $item_id = 'stats-item-' . $widget->get_id_int() . '-' . $index;
+                    $announcement_id = $item_id . '-announcement';
             ?>
                 <div class="promen-stats-counter-item" 
                      role="option"
                      tabindex="<?php echo $visible_index === 1 ? '0' : '-1'; ?>"
                      aria-posinset="<?php echo $visible_index; ?>"
-                     aria-setsize="<?php echo count($visible_items); ?>"
+                     aria-setsize="<?php echo $visible_count; ?>"
                      aria-selected="<?php echo $visible_index === 1 ? 'true' : 'false'; ?>"
                      aria-labelledby="<?php echo esc_attr($item_id . '-title'); ?>"
                      aria-describedby="<?php echo esc_attr($announcement_id); ?>">
@@ -85,7 +94,10 @@ function render_stats_counter_widget($widget) {
                         <?php echo esc_html($item['counter_title']); ?>
                     </h3>
                 </div>
-            <?php endforeach; ?>
+            <?php 
+                endforeach;
+            endif;
+            ?>
         </div>
         
         <!-- Screen reader announcements -->

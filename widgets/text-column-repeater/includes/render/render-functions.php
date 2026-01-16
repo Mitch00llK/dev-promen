@@ -98,10 +98,14 @@ class Promen_Text_Column_Repeater_Render {
         // Get columns setting
         $columns = !empty($settings['columns']) ? $settings['columns'] : 2;
         
+        // Count valid items to ensure we have items before applying role="list"
+        $valid_items = array_filter($settings['tool_items'], function($item) {
+            return !empty($item);
+        });
+        
         // Start grid container
         echo '<div class="text-column-repeater__grid" 
-                     role="list" 
-                     aria-label="' . esc_attr__('Lijst met tekstkolommen die u kunt bekijken voor meer informatie', 'promen-elementor-widgets') . '"
+                     ' . (!empty($valid_items) ? 'role="list" aria-label="' . esc_attr__('Lijst met tekstkolommen die u kunt bekijken voor meer informatie', 'promen-elementor-widgets') . '"' : '') . '
                      id="' . esc_attr($content_id) . '">';
         
         // Loop through tool items
