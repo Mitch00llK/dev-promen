@@ -87,10 +87,15 @@
 
                     // CRITICAL: Remove any invalid listbox role before initialization
                     // This prevents ARIA validation errors
+                    // ARIA spec: role="option" must be a direct child of role="listbox"
                     $container.each(function() {
                         const container = this;
                         const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
-                        if (optionItems.length === 0) {
+                        const directChildOptions = Array.from(optionItems).filter(el => 
+                            el.parentElement === container
+                        );
+                        
+                        if (directChildOptions.length === 0) {
                             container.removeAttribute('role');
                             container.removeAttribute('aria-orientation');
                             container.removeAttribute('aria-label');
@@ -105,10 +110,15 @@
                             initializeStatsCounterAccessibility();
                         } else if (typeof StatsCounterAccessibility !== 'undefined') {
                             // Fallback: initialize directly but with validation
+                            // ARIA spec: role="option" must be a direct child of role="listbox"
                             $container.each(function() {
                                 const container = this;
                                 const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
-                                if (optionItems.length > 0 && !container.hasAttribute('data-accessibility-initialized')) {
+                                const directChildOptions = Array.from(optionItems).filter(el => 
+                                    el.parentElement === container
+                                );
+                                
+                                if (directChildOptions.length > 0 && !container.hasAttribute('data-accessibility-initialized')) {
                                     container.setAttribute('data-accessibility-initialized', 'true');
                                     new StatsCounterAccessibility(container);
                                 }

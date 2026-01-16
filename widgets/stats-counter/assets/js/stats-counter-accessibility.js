@@ -62,10 +62,14 @@ class StatsCounterAccessibility {
      * This prevents ARIA validation errors
      */
     sanitizeContainerRole() {
-        // Always check if we have valid option children before keeping listbox role
+        // Always check if we have valid DIRECT CHILD option elements before keeping listbox role
+        // ARIA spec: role="option" must be a direct child of role="listbox"
         const optionElements = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        const directChildOptions = Array.from(optionElements).filter(el => 
+            el.parentElement === this.container
+        );
         
-        if (optionElements.length === 0) {
+        if (directChildOptions.length === 0) {
             this.container.removeAttribute('role');
             this.container.removeAttribute('aria-orientation');
             this.container.removeAttribute('aria-label');
@@ -128,25 +132,47 @@ class StatsCounterAccessibility {
             return;
         }
         
-        // Check if we have valid option children
-        const optionElements = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
         const hasListboxRole = this.container.getAttribute('role') === 'listbox';
         
-        // If container has listbox role but no option children, remove it
-        if (hasListboxRole && optionElements.length === 0) {
-            console.warn('Stats Counter: Removing invalid listbox role - no option children found');
-            this.sanitizeContainerRole();
+        if (!hasListboxRole) {
+            return; // No listbox role, nothing to validate
         }
         
-        // If container has listbox role, ensure all items have role="option"
-        if (hasListboxRole && optionElements.length > 0) {
-            const allItems = this.container.querySelectorAll('.promen-stats-counter-item');
-            allItems.forEach((item) => {
-                if (!item.hasAttribute('role') || item.getAttribute('role') !== 'option') {
-                    item.setAttribute('role', 'option');
+        // Check if we have valid option children that are DIRECT children
+        const optionElements = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        const directChildOptions = Array.from(optionElements).filter(el => 
+            el.parentElement === this.container
+        );
+        
+        // If container has listbox role but no direct child option elements, remove it
+        if (directChildOptions.length === 0) {
+            console.warn('Stats Counter: Removing invalid listbox role - no direct child option elements found');
+            this.sanitizeContainerRole();
+            return;
+        }
+        
+        // If some options are not direct children, remove role from those that aren't
+        if (directChildOptions.length !== optionElements.length) {
+            optionElements.forEach((item) => {
+                if (item.parentElement !== this.container) {
+                    item.removeAttribute('role');
+                    item.removeAttribute('aria-posinset');
+                    item.removeAttribute('aria-setsize');
+                    item.removeAttribute('aria-selected');
                 }
             });
         }
+        
+        // Ensure all direct child items have role="option"
+        const allDirectChildItems = Array.from(this.container.children).filter(el => 
+            el.classList.contains('promen-stats-counter-item')
+        );
+        
+        allDirectChildItems.forEach((item) => {
+            if (!item.hasAttribute('role') || item.getAttribute('role') !== 'option') {
+                item.setAttribute('role', 'option');
+            }
+        });
     }
 
     /**
@@ -240,9 +266,42 @@ class StatsCounterAccessibility {
             return;
         }
 
+        // CRITICAL: Verify that option elements are DIRECT children of the container
+        // ARIA spec requires: role="option" must be a direct child of role="listbox"
+        const directChildOptions = Array.from(validOptions).filter(el => {
+            return el.parentElement === this.container;
+        });
+        
+        if (directChildOptions.length === 0) {
+            console.warn('Stats Counter: No option elements are direct children of container - ARIA violation');
+            this.sanitizeContainerRole();
+            return;
+        }
+        
+        // If some options are not direct children, remove role from those that aren't
+        // and only keep the ones that are properly nested
+        if (directChildOptions.length !== validOptions.length) {
+            console.warn('Stats Counter: Some option elements are not direct children - fixing structure');
+            validOptions.forEach(option => {
+                if (option.parentElement !== this.container) {
+                    option.removeAttribute('role');
+                    option.removeAttribute('aria-posinset');
+                    option.removeAttribute('aria-setsize');
+                    option.removeAttribute('aria-selected');
+                }
+            });
+            
+            // Re-check after fixing
+            const remainingDirectOptions = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+            if (remainingDirectOptions.length === 0) {
+                this.sanitizeContainerRole();
+                return;
+            }
+        }
+
         // Add ARIA attributes for listbox pattern only when we have confirmed option children
         // This ensures ARIA validation passes (listbox requires option children)
-        // WCAG 2.1: listbox role requires at least one option child
+        // WCAG 2.1: listbox role requires at least one option child that is a direct child
         this.container.setAttribute('role', 'listbox');
         this.container.setAttribute('aria-orientation', 'horizontal');
         this.container.setAttribute('aria-label', 'Statistics navigation - use arrow keys to navigate');
@@ -481,7 +540,21 @@ function initializeStatsCounterAccessibility() {
                 return;
             }
             
-            // Only initialize if we have confirmed option children
+            // CRITICAL: Verify that option elements are DIRECT children of the container
+            // ARIA spec requires: role="option" must be a direct child of role="listbox"
+            const directChildOptions = Array.from(confirmedOptionItems).filter(el => 
+                el.parentElement === container
+            );
+            
+            if (directChildOptions.length === 0) {
+                console.warn('Stats Counter: No option elements are direct children of container');
+                container.removeAttribute('role');
+                container.removeAttribute('aria-orientation');
+                container.removeAttribute('aria-label');
+                return;
+            }
+            
+            // Only initialize if we have confirmed direct child option elements
             // Check if already initialized to prevent duplicates
             if (!container.hasAttribute('data-accessibility-initialized')) {
                 container.setAttribute('data-accessibility-initialized', 'true');
@@ -494,10 +567,16 @@ function initializeStatsCounterAccessibility() {
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', function() {
     // First pass: Remove any invalid listbox roles immediately
+    // Check for containers with listbox role that don't have direct child option elements
     const containers = document.querySelectorAll('.promen-stats-counter-container[role="listbox"]');
     containers.forEach(function(container) {
         const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
-        if (optionItems.length === 0) {
+        // ARIA spec: option must be direct child of listbox
+        const directChildOptions = Array.from(optionItems).filter(el => 
+            el.parentElement === container
+        );
+        
+        if (directChildOptions.length === 0) {
             container.removeAttribute('role');
             container.removeAttribute('aria-orientation');
             container.removeAttribute('aria-label');

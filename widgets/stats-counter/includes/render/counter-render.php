@@ -113,15 +113,16 @@ function render_stats_counter_widget($widget) {
                      aria-setsize="<?php echo $rendered_count; ?>"
                      aria-selected="<?php echo $item_data['index'] === 1 ? 'true' : 'false'; ?>"
                      aria-labelledby="<?php echo esc_attr($item_data['item_id'] . '-title'); ?>"
-                     aria-describedby="<?php echo esc_attr($item_data['announcement_id']); ?>">
+                     aria-describedby="<?php echo esc_attr($item_data['announcement_id']); ?>"
+                     aria-label="<?php echo esc_attr(sprintf(__('Statistic: %s showing %d', 'promen-elementor-widgets'), $item_data['item']['counter_title'] ?? '', $item_data['item']['counter_number'] ?? 0)); ?>">
                     <div class="promen-counter-circle" 
-                         role="img" 
-                         aria-label="<?php echo esc_attr(sprintf(__('Counter showing %d', 'promen-elementor-widgets'), $item_data['item']['counter_number'] ?? 0)); ?>">
+                         aria-hidden="true">
                         <div class="promen-counter-number" 
                              data-count="<?php echo esc_attr($item_data['item']['counter_number'] ?? 0); ?>"
                              aria-live="polite"
                              aria-atomic="true"
-                             id="<?php echo esc_attr($item_data['announcement_id']); ?>">
+                             id="<?php echo esc_attr($item_data['announcement_id']); ?>"
+                             aria-hidden="true">
                             <?php echo esc_html($item_data['item']['counter_number'] ?? 0); ?>
                         </div>
                     </div>
