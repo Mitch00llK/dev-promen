@@ -16,6 +16,10 @@ function render_stats_counter_widget($widget) {
     
     $widget->add_render_attribute('container', 'class', 'promen-stats-counter-container');
     
+    // CRITICAL: Never set role="listbox" in PHP - only JavaScript should set it after validation
+    // This prevents ARIA validation errors if items are missing
+    // The JavaScript will add the listbox role only when option children are confirmed
+    
     // Add animation data attributes if enabled
     if ($settings['enable_animation'] === 'yes') {
         $widget->add_render_attribute('container', 'data-animation', 'true');

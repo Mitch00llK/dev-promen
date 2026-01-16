@@ -29,6 +29,11 @@ class StatsCounterAccessibility {
         this.container = containerElement;
         this.widgetId = (this.container.closest('.elementor-widget-promen_stats_counter') && this.container.closest('.elementor-widget-promen_stats_counter').id) || 'stats-counter';
         this.isInitialized = false;
+        this.mutationObserver = null;
+        this.validationInterval = null;
+
+        // CRITICAL: Remove any existing listbox role immediately to prevent ARIA errors
+        this.sanitizeContainerRole();
 
         this.init();
     }
@@ -39,8 +44,7 @@ class StatsCounterAccessibility {
         // Map elements and check if we have items
         if (!this.mapElements()) {
             // No items found, remove role if it exists to avoid invalid ARIA
-            this.container.removeAttribute('role');
-            this.container.removeAttribute('aria-orientation');
+            this.sanitizeContainerRole();
             return;
         }
 
@@ -48,8 +52,119 @@ class StatsCounterAccessibility {
         this.setupFocusManagement();
         this.setupAnimationAccessibility();
         this.setupSkipLink();
+        this.setupDOMWatcher();
 
         this.isInitialized = true;
+    }
+
+    /**
+     * Remove listbox role and related attributes if container is invalid
+     * This prevents ARIA validation errors
+     */
+    sanitizeContainerRole() {
+        // Always check if we have valid option children before keeping listbox role
+        const optionElements = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        
+        if (optionElements.length === 0) {
+            this.container.removeAttribute('role');
+            this.container.removeAttribute('aria-orientation');
+            this.container.removeAttribute('aria-label');
+        }
+    }
+
+    /**
+     * Watch for DOM changes and validate ARIA roles remain correct
+     */
+    setupDOMWatcher() {
+        // Use MutationObserver to watch for item removal/addition
+        if (typeof MutationObserver !== 'undefined') {
+            this.mutationObserver = new MutationObserver((mutations) => {
+                let shouldRevalidate = false;
+                
+                mutations.forEach((mutation) => {
+                    // Check if items were added or removed
+                    if (mutation.type === 'childList') {
+                        if (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0) {
+                            shouldRevalidate = true;
+                        }
+                    }
+                    // Check if role attributes were changed
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'role') {
+                        shouldRevalidate = true;
+                    }
+                });
+                
+                if (shouldRevalidate) {
+                    // Debounce validation to avoid excessive checks
+                    clearTimeout(this.validationTimeout);
+                    this.validationTimeout = setTimeout(() => {
+                        this.validateAndFixARIA();
+                    }, 100);
+                }
+            });
+            
+            // Observe the container for changes
+            this.mutationObserver.observe(this.container, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['role']
+            });
+        }
+        
+        // Also set up periodic validation as a safety net
+        this.validationInterval = setInterval(() => {
+            this.validateAndFixARIA();
+        }, 2000); // Check every 2 seconds
+    }
+
+    /**
+     * Validate ARIA roles and fix if invalid
+     */
+    validateAndFixARIA() {
+        // Check if container still exists
+        if (!this.container || !document.body.contains(this.container)) {
+            this.cleanup();
+            return;
+        }
+        
+        // Check if we have valid option children
+        const optionElements = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        const hasListboxRole = this.container.getAttribute('role') === 'listbox';
+        
+        // If container has listbox role but no option children, remove it
+        if (hasListboxRole && optionElements.length === 0) {
+            console.warn('Stats Counter: Removing invalid listbox role - no option children found');
+            this.sanitizeContainerRole();
+        }
+        
+        // If container has listbox role, ensure all items have role="option"
+        if (hasListboxRole && optionElements.length > 0) {
+            const allItems = this.container.querySelectorAll('.promen-stats-counter-item');
+            allItems.forEach((item) => {
+                if (!item.hasAttribute('role') || item.getAttribute('role') !== 'option') {
+                    item.setAttribute('role', 'option');
+                }
+            });
+        }
+    }
+
+    /**
+     * Cleanup observers and intervals
+     */
+    cleanup() {
+        if (this.mutationObserver) {
+            this.mutationObserver.disconnect();
+            this.mutationObserver = null;
+        }
+        if (this.validationInterval) {
+            clearInterval(this.validationInterval);
+            this.validationInterval = null;
+        }
+        if (this.validationTimeout) {
+            clearTimeout(this.validationTimeout);
+            this.validationTimeout = null;
+        }
     }
 
     mapElements() {
@@ -91,6 +206,9 @@ class StatsCounterAccessibility {
     }
 
     setupFocusManagement() {
+        // CRITICAL: Always sanitize first to remove any invalid roles
+        this.sanitizeContainerRole();
+        
         // Only add ARIA attributes for listbox pattern if there are items
         // Double-check: count actual option elements, not just items
         const optionElements = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
@@ -99,23 +217,32 @@ class StatsCounterAccessibility {
         // This prevents ARIA validation errors for missing required children
         if (this.counterItems.length === 0 || optionElements.length === 0) {
             // Remove role if no items to avoid invalid ARIA
-            this.container.removeAttribute('role');
-            this.container.removeAttribute('aria-orientation');
-            this.container.removeAttribute('aria-label');
+            this.sanitizeContainerRole();
             return;
         }
 
         // Verify we have the same count - if not, something is wrong
         if (this.counterItems.length !== optionElements.length) {
             console.warn('Stats Counter: Mismatch between counter items and option elements');
-            this.container.removeAttribute('role');
-            this.container.removeAttribute('aria-orientation');
-            this.container.removeAttribute('aria-label');
+            this.sanitizeContainerRole();
+            return;
+        }
+
+        // Final validation: Ensure all items actually exist in the DOM
+        const validOptions = Array.from(optionElements).filter(el => 
+            document.body.contains(el) && 
+            el.closest('.promen-stats-counter-container') === this.container
+        );
+        
+        if (validOptions.length === 0) {
+            console.warn('Stats Counter: No valid option elements found in container');
+            this.sanitizeContainerRole();
             return;
         }
 
         // Add ARIA attributes for listbox pattern only when we have confirmed option children
         // This ensures ARIA validation passes (listbox requires option children)
+        // WCAG 2.1: listbox role requires at least one option child
         this.container.setAttribute('role', 'listbox');
         this.container.setAttribute('aria-orientation', 'horizontal');
         this.container.setAttribute('aria-label', 'Statistics navigation - use arrow keys to navigate');
@@ -310,46 +437,116 @@ class StatsCounterAccessibility {
 function initializeStatsCounterAccessibility() {
     const containers = document.querySelectorAll('.promen-stats-counter-container');
     containers.forEach(function (container) {
-        // First, ensure any existing listbox role is removed if invalid
-        // This prevents ARIA errors during initialization
-        const items = container.querySelectorAll('.promen-stats-counter-item');
-        const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
-        
-        // If container has no items at all, or no items with role="option", remove any listbox role
-        if (items.length === 0 || optionItems.length === 0) {
-            // Remove listbox role to prevent ARIA validation errors
+        // CRITICAL: First, remove any existing listbox role to prevent ARIA errors
+        // We'll only add it back if validation passes
+        const currentRole = container.getAttribute('role');
+        if (currentRole === 'listbox') {
             container.removeAttribute('role');
             container.removeAttribute('aria-orientation');
             container.removeAttribute('aria-label');
-            return; // Don't initialize
         }
         
-        // Ensure all items have role="option" before proceeding
-        items.forEach(function(item) {
-            if (!item.hasAttribute('role') || item.getAttribute('role') !== 'option') {
-                item.setAttribute('role', 'option');
+        // Wait a tick to ensure DOM is fully rendered
+        setTimeout(function() {
+            // Check if container still exists
+            if (!document.body.contains(container)) {
+                return;
             }
-        });
-        
-        // Re-check after ensuring roles are set
-        const confirmedOptionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
-        if (confirmedOptionItems.length === 0) {
-            container.removeAttribute('role');
-            container.removeAttribute('aria-orientation');
-            container.removeAttribute('aria-label');
-            return;
-        }
-        
-        // Only initialize if we have confirmed option children
-        new StatsCounterAccessibility(container);
+            
+            const items = container.querySelectorAll('.promen-stats-counter-item');
+            const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+            
+            // If container has no items at all, or no items with role="option", don't initialize
+            if (items.length === 0 || optionItems.length === 0) {
+                // Ensure listbox role is removed
+                container.removeAttribute('role');
+                container.removeAttribute('aria-orientation');
+                container.removeAttribute('aria-label');
+                return; // Don't initialize
+            }
+            
+            // Ensure all items have role="option" before proceeding
+            items.forEach(function(item) {
+                if (!item.hasAttribute('role') || item.getAttribute('role') !== 'option') {
+                    item.setAttribute('role', 'option');
+                }
+            });
+            
+            // Re-check after ensuring roles are set
+            const confirmedOptionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+            if (confirmedOptionItems.length === 0) {
+                container.removeAttribute('role');
+                container.removeAttribute('aria-orientation');
+                container.removeAttribute('aria-label');
+                return;
+            }
+            
+            // Only initialize if we have confirmed option children
+            // Check if already initialized to prevent duplicates
+            if (!container.hasAttribute('data-accessibility-initialized')) {
+                container.setAttribute('data-accessibility-initialized', 'true');
+                new StatsCounterAccessibility(container);
+            }
+        }, 0);
     });
 }
 
 // Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', initializeStatsCounterAccessibility);
+document.addEventListener('DOMContentLoaded', function() {
+    // First pass: Remove any invalid listbox roles immediately
+    const containers = document.querySelectorAll('.promen-stats-counter-container[role="listbox"]');
+    containers.forEach(function(container) {
+        const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        if (optionItems.length === 0) {
+            container.removeAttribute('role');
+            container.removeAttribute('aria-orientation');
+            container.removeAttribute('aria-label');
+        }
+    });
+    
+    // Then initialize properly
+    initializeStatsCounterAccessibility();
+});
 
 // Also initialize after a short delay to catch dynamically loaded content
 setTimeout(initializeStatsCounterAccessibility, 100);
+
+// Watch for dynamically added widgets (Elementor, AJAX, etc.)
+if (typeof MutationObserver !== 'undefined') {
+    const globalObserver = new MutationObserver(function(mutations) {
+        let shouldReinit = false;
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length > 0) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) { // Element node
+                        if (node.classList && node.classList.contains('promen-stats-counter-container')) {
+                            shouldReinit = true;
+                        } else if (node.querySelectorAll) {
+                            const containers = node.querySelectorAll('.promen-stats-counter-container');
+                            if (containers.length > 0) {
+                                shouldReinit = true;
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        
+        if (shouldReinit) {
+            // Debounce to avoid excessive calls
+            clearTimeout(window.statsCounterReinitTimeout);
+            window.statsCounterReinitTimeout = setTimeout(initializeStatsCounterAccessibility, 150);
+        }
+    });
+    
+    // Observe document body for new widgets
+    if (document.body) {
+        globalObserver.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+}
 
 // Export for usage
 if (typeof module !== 'undefined' && module.exports) {

@@ -85,15 +85,39 @@
                 elementorFrontend.hooks.addAction('frontend/element_ready/promen_stats_counter.default', function ($scope) {
                     const $container = $scope.find('.promen-stats-counter-container');
 
+                    // CRITICAL: Remove any invalid listbox role before initialization
+                    // This prevents ARIA validation errors
+                    $container.each(function() {
+                        const container = this;
+                        const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+                        if (optionItems.length === 0) {
+                            container.removeAttribute('role');
+                            container.removeAttribute('aria-orientation');
+                            container.removeAttribute('aria-label');
+                        }
+                    });
+
                     // Initialize accessibility features with proper timing
+                    // Use the global initialization function to ensure proper validation
                     setTimeout(function () {
-                        if (typeof StatsCounterAccessibility !== 'undefined') {
-                            new StatsCounterAccessibility($container[0]);
+                        // Trigger global initialization which has proper validation
+                        if (typeof initializeStatsCounterAccessibility === 'function') {
+                            initializeStatsCounterAccessibility();
+                        } else if (typeof StatsCounterAccessibility !== 'undefined') {
+                            // Fallback: initialize directly but with validation
+                            $container.each(function() {
+                                const container = this;
+                                const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+                                if (optionItems.length > 0 && !container.hasAttribute('data-accessibility-initialized')) {
+                                    container.setAttribute('data-accessibility-initialized', 'true');
+                                    new StatsCounterAccessibility(container);
+                                }
+                            });
                         } else {
                             // Fallback: try again after a short delay
                             setTimeout(function () {
-                                if (typeof StatsCounterAccessibility !== 'undefined') {
-                                    new StatsCounterAccessibility($container[0]);
+                                if (typeof initializeStatsCounterAccessibility === 'function') {
+                                    initializeStatsCounterAccessibility();
                                 }
                             }, 100);
                         }
