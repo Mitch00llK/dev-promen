@@ -133,12 +133,14 @@ class Promen_Accessibility_Aria {
             'widget_id' => '',
             'slides_count' => 0,
             'autoplay' => false,
-            'loop' => false
+            'loop' => false,
+            'container_id' => '' // Allow custom container ID to match actual DOM element
         ];
 
         $args = wp_parse_args($args, $defaults);
         
-        $container_id = self::generate_id('slider-container', $args['widget_id']);
+        // Use provided container_id or generate one
+        $container_id = !empty($args['container_id']) ? $args['container_id'] : self::generate_id('slider-container', $args['widget_id']);
         $live_region_id = self::generate_id('slider-live-region', $args['widget_id']);
 
         return [

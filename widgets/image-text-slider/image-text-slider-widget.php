@@ -226,12 +226,13 @@ class Promen_Image_Text_Slider_Widget extends \Promen_Widget_Base {
         $slider_options = Promen_Image_Text_Slider_View_Helper::get_slider_options($settings);
         $divider_data_attrs = Promen_Image_Text_Slider_View_Helper::get_divider_data_attrs($settings);
         
-        // Accessibility attributes
+        // Accessibility attributes - use the actual slider_id for consistency
         $accessibility_attrs = \Promen_Accessibility_Utils::get_slider_attrs([
             'widget_id' => $this->get_id(),
             'slides_count' => count($visible_slides),
             'autoplay' => $slider_options['autoplay'],
-            'loop' => $slider_options['infinite']
+            'loop' => $slider_options['infinite'],
+            'container_id' => $slider_id // Use the actual slider ID
         ]);
         
         // Transition settings

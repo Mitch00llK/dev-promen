@@ -127,13 +127,13 @@ if (!defined('ABSPATH')) {
                 <!-- Navigation buttons -->
                 <?php if ($show_arrows) : ?>
                 <button type="button" class="slider-arrow slider-arrow-prev swiper-button-prev" 
-                        data-slider-id="<?php echo esc_attr($slider_id); ?>"
+                        data-slider-id="<?php echo esc_attr($accessibility_attrs['container_id']); ?>"
                         <?php echo $accessibility_attrs['prev_button_attrs']; ?>>
                     <span aria-hidden="true">‹</span>
                     <?php echo Promen_Accessibility_Utils::get_screen_reader_text(__('Previous slide', 'promen-elementor-widgets')); ?>
                 </button>
                 <button type="button" class="slider-arrow slider-arrow-next swiper-button-next" 
-                        data-slider-id="<?php echo esc_attr($slider_id); ?>"
+                        data-slider-id="<?php echo esc_attr($accessibility_attrs['container_id']); ?>"
                         <?php echo $accessibility_attrs['next_button_attrs']; ?>>
                     <span aria-hidden="true">›</span>
                     <?php echo Promen_Accessibility_Utils::get_screen_reader_text(__('Next slide', 'promen-elementor-widgets')); ?>

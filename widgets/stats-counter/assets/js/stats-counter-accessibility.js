@@ -36,7 +36,14 @@ class StatsCounterAccessibility {
     init() {
         if (this.isInitialized) return;
 
-        this.mapElements();
+        // Map elements and check if we have items
+        if (!this.mapElements()) {
+            // No items found, remove role if it exists to avoid invalid ARIA
+            this.container.removeAttribute('role');
+            this.container.removeAttribute('aria-orientation');
+            return;
+        }
+
         this.setupScreenReaderSupport();
         this.setupFocusManagement();
         this.setupAnimationAccessibility();
@@ -46,8 +53,14 @@ class StatsCounterAccessibility {
     }
 
     mapElements() {
-        this.counterItems = this.container.querySelectorAll('.promen-stats-counter-item');
+        this.counterItems = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
         this.counterNumbers = this.container.querySelectorAll('.promen-counter-number');
+        
+        // If no items found, don't proceed with initialization
+        if (this.counterItems.length === 0) {
+            return false;
+        }
+        return true;
     }
 
     setupScreenReaderSupport() {
@@ -67,6 +80,14 @@ class StatsCounterAccessibility {
     }
 
     setupFocusManagement() {
+        // Only add ARIA attributes for listbox pattern if there are items
+        if (this.counterItems.length === 0) {
+            // Remove role if no items to avoid invalid ARIA
+            this.container.removeAttribute('role');
+            this.container.removeAttribute('aria-orientation');
+            return;
+        }
+
         // Add ARIA attributes for listbox pattern
         this.container.setAttribute('role', 'listbox');
         this.container.setAttribute('aria-orientation', 'horizontal');
@@ -262,9 +283,36 @@ class StatsCounterAccessibility {
 document.addEventListener('DOMContentLoaded', function () {
     const containers = document.querySelectorAll('.promen-stats-counter-container');
     containers.forEach(function (container) {
-        new StatsCounterAccessibility(container);
+        // Check if container has items with role="option"
+        const items = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        const hasItems = items.length > 0;
+        
+        if (hasItems) {
+            new StatsCounterAccessibility(container);
+        } else {
+            // Remove role="listbox" if container has no items to avoid invalid ARIA
+            if (container.getAttribute('role') === 'listbox') {
+                container.removeAttribute('role');
+                container.removeAttribute('aria-orientation');
+                container.removeAttribute('aria-label');
+            }
+        }
     });
 });
+
+// Also check after a short delay in case items are loaded dynamically
+setTimeout(function () {
+    const containers = document.querySelectorAll('.promen-stats-counter-container[role="listbox"]');
+    containers.forEach(function (container) {
+        const items = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        if (items.length === 0) {
+            // Remove role if no items found
+            container.removeAttribute('role');
+            container.removeAttribute('aria-orientation');
+            container.removeAttribute('aria-label');
+        }
+    });
+}, 100);
 
 // Export for usage
 if (typeof module !== 'undefined' && module.exports) {

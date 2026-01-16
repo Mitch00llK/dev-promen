@@ -16,7 +16,7 @@ if (!isset($visible_slides) || !isset($slider_options)) {
 }
 ?>
 
-<div class="<?php echo esc_attr($container_class . (count($visible_slides) === 1 ? ' image-text-slider-single-slide' : '')); ?>" id="<?php echo esc_attr($slider_id); ?>" data-options='<?php echo json_encode($slider_options); ?>' style="--swiper-transition-duration: <?php echo $transition_speed; ?>ms;" <?php echo $accessibility_attrs['container_attrs']; ?>>
+<div class="<?php echo esc_attr($container_class . (count($visible_slides) === 1 ? ' image-text-slider-single-slide' : '')); ?>" id="<?php echo esc_attr($accessibility_attrs['container_id']); ?>" data-options='<?php echo json_encode($slider_options); ?>' style="--swiper-transition-duration: <?php echo $transition_speed; ?>ms;" <?php echo $accessibility_attrs['container_attrs']; ?>>
     <!-- ARIA live region for slide announcements -->
     <div id="<?php echo esc_attr($accessibility_attrs['live_region_id']); ?>" <?php echo $accessibility_attrs['live_region_attrs']; ?>></div>
     
@@ -34,7 +34,8 @@ if (!isset($visible_slides) || !isset($slider_options)) {
             <span class="pause-icon" aria-hidden="true" style="display: none;">▶</span>
             <span class="control-text">Pauzeer slideshow</span>
         </button>
-        <button type="button" class="slider-stop" aria-label="<?php echo esc_attr__('Stop slideshow', 'promen-elementor-widgets'); ?>"
+        <button type="button" class="slider-stop" 
+                aria-label="<?php echo esc_attr__('Stop slideshow', 'promen-elementor-widgets'); ?>"
                 aria-controls="<?php echo esc_attr($accessibility_attrs['container_id']); ?>"
                 aria-pressed="false"
                 title="<?php echo esc_attr__('Stop slideshow', 'promen-elementor-widgets'); ?>"
@@ -46,9 +47,7 @@ if (!isset($visible_slides) || !isset($slider_options)) {
         </button>
         <?php else : ?>
         <button type="button" class="slider-play-pause" 
-                aria-label="<?php echo esc_attr__('Start slideshow', 'promen-elementor-widgets'); ?>"
-                aria-pressed="false"
-                aria-controls="<?php echo esc_attr($accessibility_attrs['container_id']); ?>"
+                <?php echo $accessibility_attrs['play_button_attrs']; ?>
                 title="<?php echo esc_attr__('Start slideshow', 'promen-elementor-widgets'); ?>"
                 data-tooltip-play="<?php echo esc_attr__('Start slideshow', 'promen-elementor-widgets'); ?>"
                 data-tooltip-pause="<?php echo esc_attr__('Pauzeer slideshow', 'promen-elementor-widgets'); ?>">
