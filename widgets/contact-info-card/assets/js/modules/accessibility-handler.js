@@ -38,7 +38,7 @@ class PromenContactInfoCardHandler {
     initWidget(card) {
         if (!card) return;
 
-        this.initSkipLinks(card);
+        // Skip links are now handled globally by Promen_Accessibility_Skip_Links class
         this.initKeyboardNavigation(card);
         this.initFocusManagement(card);
         this.initFormAccessibility(card);
@@ -48,14 +48,6 @@ class PromenContactInfoCardHandler {
     initReducedMotion(card) {
         if (typeof PromenAccessibility !== 'undefined') {
             PromenAccessibility.setupReducedMotion(card);
-        }
-    }
-
-    initSkipLinks(card) {
-        if (typeof PromenAccessibility !== 'undefined') {
-            // Use Dutch text from i18n
-            const skipText = PromenAccessibility.getString ? PromenAccessibility.getString('skipToContent') : 'Sla over naar inhoud';
-            PromenAccessibility.setupSkipLink(card, skipText);
         }
     }
 

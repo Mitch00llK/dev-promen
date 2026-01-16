@@ -52,11 +52,6 @@ function render_stats_counter_widget($widget) {
     <section class="promen-stats-counter-wrapper" 
              role="region" 
              aria-label="<?php echo esc_attr($settings['stats_aria_label'] ?: __('Statistieken en cijfers die onze prestaties en resultaten tonen', 'promen-elementor-widgets')); ?>">
-        <?php if ($has_items) : ?>
-        <!-- Skip link for keyboard navigation -->
-        <?php echo \Promen_Accessibility_Utils::get_skip_link('stats-container-' . $widget->get_id_int(), __('Sla over naar inhoud', 'promen-elementor-widgets')); ?>
-        <?php endif; ?>
-        
         <?php if ($settings['show_section_title'] === 'yes') : ?>
             <header class="promen-stats-counter-section-title-wrapper">
                 <?php echo promen_render_split_title($widget, $settings, 'section_title', 'promen-stats-counter'); ?>

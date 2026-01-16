@@ -39,17 +39,6 @@ function render_contact_info_card_content_template() {
     }
     #>
     
-    <!-- Skip Links for Accessibility -->
-    <nav class="skip-links" aria-label="<?php echo esc_attr__('Navigatie om direct naar de hoofdinhoud te gaan', 'promen-elementor-widgets'); ?>">
-        <a href="#contact-info-main" class="skip-link"><?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?></a>
-        <# if (settings.right_side_content_type !== 'none' && (settings.right_side_content_type === 'employee_info' || settings.right_side_content_type === 'combined_layout')) { #>
-            <a href="#employee-contact-info" class="skip-link"><?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?></a>
-        <# } #>
-        <# if (settings.right_side_content_type !== 'none' && (settings.right_side_content_type === 'gravity_form' || settings.right_side_content_type === 'custom_form' || settings.right_side_content_type === 'combined_layout')) { #>
-            <a href="#contact-form" class="skip-link"><?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?></a>
-        <# } #>
-    </nav>
-    
     <div class="{{{ containerClasses.join(' ') }}}" style="display: grid; grid-template-columns: <# if (settings.right_side_content_type === 'none') { #>1fr<# } else { #>minmax(0, 1fr) auto<# } #>; grid-gap: 20px; width: 100%;">
         <# if (settings.right_side_content_type !== 'combined_layout') { #>
             <!-- Main Content Section -->

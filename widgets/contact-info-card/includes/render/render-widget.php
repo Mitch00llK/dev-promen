@@ -99,19 +99,6 @@ class Promen_Contact_Info_Card_Render {
         }
         ?>
         
-        <!-- Skip Links for Accessibility -->
-        <nav class="skip-links" aria-label="<?php echo esc_attr__('Navigatie om direct naar de hoofdinhoud te gaan', 'promen-elementor-widgets'); ?>">
-            <?php echo \Promen_Accessibility_Utils::get_skip_link('contact-info-main-' . $widget_id); ?>
-            
-            <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] !== 'none' && in_array($settings['right_side_content_type'], ['employee_info', 'combined_layout'])) : ?>
-                <?php echo \Promen_Accessibility_Utils::get_skip_link('employee-contact-info-' . $widget_id); ?>
-            <?php endif; ?>
-            
-            <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] !== 'none' && in_array($settings['right_side_content_type'], ['gravity_form', 'custom_form', 'combined_layout'])) : ?>
-                <?php echo \Promen_Accessibility_Utils::get_skip_link('contact-form-' . $widget_id); ?>
-            <?php endif; ?>
-        </nav>
-        
         <div class="<?php echo esc_attr(implode(' ', $container_classes)); ?>">
             <?php if (isset($settings['right_side_content_type']) && $settings['right_side_content_type'] === 'combined_layout') : ?>
                 <div id="contact-info-main-<?php echo esc_attr($widget_id); ?>">
