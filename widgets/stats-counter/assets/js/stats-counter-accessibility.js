@@ -53,8 +53,19 @@ class StatsCounterAccessibility {
     }
 
     mapElements() {
-        this.counterItems = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        // First, find all items (they should have role="option" from PHP)
+        this.counterItems = this.container.querySelectorAll('.promen-stats-counter-item');
         this.counterNumbers = this.container.querySelectorAll('.promen-counter-number');
+        
+        // Ensure all items have role="option" (in case PHP didn't set it)
+        this.counterItems.forEach(item => {
+            if (!item.hasAttribute('role')) {
+                item.setAttribute('role', 'option');
+            }
+        });
+        
+        // Re-query to get items with role="option"
+        this.counterItems = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
         
         // If no items found, don't proceed with initialization
         if (this.counterItems.length === 0) {
@@ -81,14 +92,18 @@ class StatsCounterAccessibility {
 
     setupFocusManagement() {
         // Only add ARIA attributes for listbox pattern if there are items
-        if (this.counterItems.length === 0) {
+        // Double-check: count actual option elements, not just items
+        const optionElements = this.container.querySelectorAll('.promen-stats-counter-item[role="option"]');
+        
+        if (this.counterItems.length === 0 || optionElements.length === 0) {
             // Remove role if no items to avoid invalid ARIA
             this.container.removeAttribute('role');
             this.container.removeAttribute('aria-orientation');
+            this.container.removeAttribute('aria-label');
             return;
         }
 
-        // Add ARIA attributes for listbox pattern
+        // Add ARIA attributes for listbox pattern only when we have confirmed option children
         this.container.setAttribute('role', 'listbox');
         this.container.setAttribute('aria-orientation', 'horizontal');
         this.container.setAttribute('aria-label', 'Statistics navigation - use arrow keys to navigate');
@@ -280,39 +295,31 @@ class StatsCounterAccessibility {
 }
 
 // Initialize accessibility for all stats counter widgets
-document.addEventListener('DOMContentLoaded', function () {
+function initializeStatsCounterAccessibility() {
     const containers = document.querySelectorAll('.promen-stats-counter-container');
     containers.forEach(function (container) {
-        // Check if container has items with role="option"
-        const items = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
-        const hasItems = items.length > 0;
+        // Check for items - must have at least one item with role="option"
+        const items = container.querySelectorAll('.promen-stats-counter-item');
+        const optionItems = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
         
-        if (hasItems) {
-            new StatsCounterAccessibility(container);
-        } else {
-            // Remove role="listbox" if container has no items to avoid invalid ARIA
-            if (container.getAttribute('role') === 'listbox') {
-                container.removeAttribute('role');
-                container.removeAttribute('aria-orientation');
-                container.removeAttribute('aria-label');
-            }
-        }
-    });
-});
-
-// Also check after a short delay in case items are loaded dynamically
-setTimeout(function () {
-    const containers = document.querySelectorAll('.promen-stats-counter-container[role="listbox"]');
-    containers.forEach(function (container) {
-        const items = container.querySelectorAll('.promen-stats-counter-item[role="option"]');
-        if (items.length === 0) {
-            // Remove role if no items found
+        // If container has no items at all, or no items with role="option", remove any listbox role
+        if (items.length === 0 || optionItems.length === 0) {
             container.removeAttribute('role');
             container.removeAttribute('aria-orientation');
             container.removeAttribute('aria-label');
+            return; // Don't initialize
         }
+        
+        // Only initialize if we have confirmed option children
+        new StatsCounterAccessibility(container);
     });
-}, 100);
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', initializeStatsCounterAccessibility);
+
+// Also initialize after a short delay to catch dynamically loaded content
+setTimeout(initializeStatsCounterAccessibility, 100);
 
 // Export for usage
 if (typeof module !== 'undefined' && module.exports) {

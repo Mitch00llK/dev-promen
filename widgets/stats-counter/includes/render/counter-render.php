@@ -27,13 +27,33 @@ function render_stats_counter_widget($widget) {
     $widget->add_render_attribute('container', 'data-respect-motion', $settings['respect_reduced_motion'] === 'yes' ? 'true' : 'false');
     $widget->add_render_attribute('container', 'data-pause-on-focus', $settings['pause_animation_on_focus'] === 'yes' ? 'true' : 'false');
     ?>
+    <?php
+    // Pre-process counter items - ensure we have valid items before rendering
+    $counter_items = isset($settings['counter_items']) && is_array($settings['counter_items']) ? $settings['counter_items'] : [];
+    $visible_items = [];
+    
+    // Pre-filter to get actual visible items with proper validation
+    foreach ($counter_items as $index => $item) {
+        // Check if item should be shown and has required data
+        if (isset($item['show_counter']) && 
+            $item['show_counter'] === 'yes' && 
+            is_array($item) &&
+            (isset($item['counter_number']) || isset($item['counter_title']))) {
+            $visible_items[] = ['index' => $index, 'item' => $item];
+        }
+    }
+    $visible_count = count($visible_items);
+    $has_items = $visible_count > 0;
+    ?>
     <section class="promen-stats-counter-wrapper" 
              role="region" 
              aria-label="<?php echo esc_attr($settings['stats_aria_label'] ?: __('Statistieken en cijfers die onze prestaties en resultaten tonen', 'promen-elementor-widgets')); ?>">
+        <?php if ($has_items) : ?>
         <!-- Skip link for keyboard navigation -->
         <a href="#<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>" class="promen-stats-counter-skip-link">
             <?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?>
         </a>
+        <?php endif; ?>
         
         <?php if ($settings['show_section_title'] === 'yes') : ?>
             <header class="promen-stats-counter-section-title-wrapper">
@@ -41,52 +61,34 @@ function render_stats_counter_widget($widget) {
             </header>
         <?php endif; ?>
         
-        <?php
-        // Count visible counter items - ensure we have valid items before rendering
-        $counter_items = isset($settings['counter_items']) && is_array($settings['counter_items']) ? $settings['counter_items'] : [];
-        $visible_items = [];
-        
-        // Pre-filter to get actual visible items with proper validation
-        foreach ($counter_items as $index => $item) {
-            // Check if item should be shown and has required data
-            if (isset($item['show_counter']) && 
-                $item['show_counter'] === 'yes' && 
-                is_array($item) &&
-                (isset($item['counter_number']) || isset($item['counter_title']))) {
-                $visible_items[] = ['index' => $index, 'item' => $item];
-            }
-        }
-        
-        // First pass: count valid items that will actually be rendered
-        $valid_items = [];
-        foreach ($visible_items as $visible_data) {
-            $item = $visible_data['item'];
-            // Validate item has required data
-            if (isset($item['counter_number']) || isset($item['counter_title'])) {
-                $valid_items[] = $visible_data;
-            }
-        }
-        $rendered_count = count($valid_items);
-        
-        // Only render if we have items
-        if ($rendered_count > 0) {
-            // Render items into buffer
-            ob_start();
+        <?php if ($has_items) : ?>
+        <div <?php echo $widget->get_render_attribute_string('container'); ?> 
+             id="<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>"
+             class="no-js-fallback"
+             data-stats-count="<?php echo esc_attr($visible_count); ?>">
+            <?php 
             $visible_index = 0;
-            
-            foreach ($valid_items as $visible_data) :
+            $rendered_count = 0;
+            foreach ($visible_items as $visible_data) :
                 $index = $visible_data['index'];
                 $item = $visible_data['item'];
+                
+                // Validate item has required data before rendering
+                if (!isset($item['counter_number']) && !isset($item['counter_title'])) {
+                    continue; // Skip invalid items
+                }
+                
                 $visible_index++;
+                $rendered_count++;
                 
                 $item_id = 'stats-item-' . $widget->get_id_int() . '-' . $index;
                 $announcement_id = $item_id . '-announcement';
-                ?>
+            ?>
                 <div class="promen-stats-counter-item" 
                      role="option"
                      tabindex="<?php echo $visible_index === 1 ? '0' : '-1'; ?>"
                      aria-posinset="<?php echo $visible_index; ?>"
-                     aria-setsize="<?php echo $rendered_count; ?>"
+                     aria-setsize="<?php echo $visible_count; ?>"
                      aria-selected="<?php echo $visible_index === 1 ? 'true' : 'false'; ?>"
                      aria-labelledby="<?php echo esc_attr($item_id . '-title'); ?>"
                      aria-describedby="<?php echo esc_attr($announcement_id); ?>">
@@ -105,23 +107,9 @@ function render_stats_counter_widget($widget) {
                         <?php echo esc_html($item['counter_title'] ?? ''); ?>
                     </h3>
                 </div>
-                <?php
+            <?php 
             endforeach;
-            
-            $items_output = ob_get_clean();
-        } else {
-            $items_output = '';
-        }
-        ?>
-        
-        <?php if ($rendered_count > 0) : ?>
-        <div <?php echo $widget->get_render_attribute_string('container'); ?> 
-             id="<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>"
-             class="no-js-fallback"
-             role="listbox" 
-             aria-orientation="horizontal"
-             aria-label="<?php echo esc_attr__('Statistics navigation - use arrow keys to navigate', 'promen-elementor-widgets'); ?>">
-            <?php echo $items_output; ?>
+            ?>
         </div>
         <?php else : ?>
         <!-- No counter items to display - container not rendered to avoid empty listbox -->
