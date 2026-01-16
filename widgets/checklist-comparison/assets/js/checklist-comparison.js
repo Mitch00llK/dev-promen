@@ -43,7 +43,7 @@
             if ($widgetEl) {
                 PromenAccessibility.setupReducedMotion($widgetEl);
                 // Use Dutch text from i18n
-                var skipText = PromenAccessibility.getString ? PromenAccessibility.getString('skipToContent') : 'Ga naar inhoud';
+                var skipText = PromenAccessibility.getString ? PromenAccessibility.getString('skipToContent') : 'Sla over naar inhoud';
                 PromenAccessibility.setupSkipLink($widgetEl, skipText);
             }
         }

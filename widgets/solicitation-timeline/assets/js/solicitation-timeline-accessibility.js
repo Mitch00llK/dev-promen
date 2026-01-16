@@ -42,7 +42,7 @@
             solicitationTimelineLabel: 'Sollicitatieproces tijdlijn',
             timelineWithSteps: 'Tijdlijn met {0} stappen',
             stepOf: 'Stap {0} van {1}',
-            skipTimeline: 'Sla tijdlijn over',
+            skipTimeline: 'Sla over naar inhoud',
             timelineAnimationsDisabled: 'Tijdlijn animaties uitgeschakeld vanwege voorkeur voor verminderde beweging'
         };
         let str = fallbacks[key] || key;

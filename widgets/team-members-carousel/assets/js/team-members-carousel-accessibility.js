@@ -44,7 +44,7 @@
             previousTeamMember: 'Vorig teamlid',
             nextTeamMember: 'Volgend teamlid',
             slideLabel: 'dia',
-            skipTeamCarousel: 'Sla team carrousel over',
+            skipTeamCarousel: 'Sla over naar inhoud',
             reducedMotionEnabled: 'Animaties uitgeschakeld vanwege voorkeur voor verminderde beweging'
         };
         let str = fallbacks[key] || key;

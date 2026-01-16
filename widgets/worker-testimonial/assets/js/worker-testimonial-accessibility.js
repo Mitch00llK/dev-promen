@@ -21,7 +21,7 @@
             exitedTestimonial: 'Testimonial verlaten',
             testimonial: 'Testimonial',
             testimonialBy: 'door {0}',
-            skipWorkerTestimonial: 'Sla medewerker testimonial over'
+            skipWorkerTestimonial: 'Sla over naar inhoud'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {

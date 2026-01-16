@@ -386,7 +386,7 @@
          */
         static getSkipLinkText() {
             const strings = window.promenA11yStrings || {};
-            return strings.skipToContent || 'Ga naar inhoud';
+            return strings.skipToContent || 'Sla over naar inhoud';
         }
 
         /**

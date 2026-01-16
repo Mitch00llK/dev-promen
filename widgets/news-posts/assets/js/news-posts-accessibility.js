@@ -27,7 +27,7 @@
             nextSlide: 'Volgende dia',
             sliderPagination: 'Slider paginering',
             goToSlide: 'Ga naar dia {0}',
-            skipToContent: 'Ga naar inhoud'
+            skipToContent: 'Sla over naar inhoud'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {

@@ -73,7 +73,7 @@ class Promen_Accessibility_Skip_Links {
      */
     public static function get_skip_link($target, $text = '') {
         if (empty($text)) {
-            $text = __('Ga naar inhoud', 'promen-elementor-widgets');
+            $text = __('Sla over naar inhoud', 'promen-elementor-widgets');
         }
 
         return '<a href="#' . esc_attr($target) . '" class="skip-link screen-reader-text">' . esc_html($text) . '</a>';
@@ -91,9 +91,9 @@ class Promen_Accessibility_Skip_Links {
         $elementor_wrapper_id = 'elementor-widget-' . esc_attr($widget_id);
         $custom_target_id = Promen_Accessibility_Aria::generate_id('widget-content', $widget_id);
         
-        // Use Dutch text - "Ga naar inhoud" (Go to content)
+        // Use Dutch text - "Sla over naar inhoud" (Skip to content)
         if (empty($widget_title)) {
-            $widget_title = __('Ga naar inhoud', 'promen-elementor-widgets');
+            $widget_title = __('Sla over naar inhoud', 'promen-elementor-widgets');
         }
         
         return '<a href="#' . esc_attr($elementor_wrapper_id) . '" class="skip-link widget-skip-link" data-widget-id="' . esc_attr($widget_id) . '" data-custom-target="' . esc_attr($custom_target_id) . '">' . esc_html($widget_title) . '</a>';

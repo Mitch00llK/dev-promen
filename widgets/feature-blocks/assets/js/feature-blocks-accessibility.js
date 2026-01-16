@@ -14,7 +14,7 @@
             return PromenAccessibility.getString(key, ...args);
         }
         const fallbacks = {
-            skipToContent: 'Ga naar inhoud'
+            skipToContent: 'Sla over naar inhoud'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {

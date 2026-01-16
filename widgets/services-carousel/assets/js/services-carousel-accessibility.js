@@ -17,7 +17,7 @@ function getString(key, ...args) {
         slideOf: 'Dia {0} van {1}',
         previousService: 'Vorige dienst',
         nextService: 'Volgende dienst',
-        skipCarousel: 'Sla carrousel over',
+        skipCarousel: 'Sla over naar inhoud',
         slideshowPlaying: 'Carrousel automatisch afspelen gestart',
         slideshowPaused: 'Carrousel automatisch afspelen gestopt',
         autoplayStopped: 'Automatisch afspelen gestopt'
