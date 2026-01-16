@@ -51,7 +51,8 @@ class StatsCounterAccessibility {
         this.setupScreenReaderSupport();
         this.setupFocusManagement();
         this.setupAnimationAccessibility();
-        this.setupSkipLink();
+        // Skip link is handled in PHP (counter-render.php) to ensure Dutch translation
+        // No need to set up skip link in JavaScript
         this.setupDOMWatcher();
 
         this.isInitialized = true;
@@ -341,11 +342,8 @@ class StatsCounterAccessibility {
         }
     }
 
-    setupSkipLink() {
-        if (typeof PromenAccessibility !== 'undefined') {
-            PromenAccessibility.setupSkipLink(this.container, getString('skipStats'));
-        }
-    }
+    // Skip link is handled in PHP (counter-render.php) to ensure Dutch translation
+    // Removed JavaScript skip link setup to avoid duplicates
 
     handleKeyboardNavigation(e, item, index) {
         const key = e.key;

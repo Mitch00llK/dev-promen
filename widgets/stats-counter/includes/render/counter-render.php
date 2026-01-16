@@ -55,7 +55,7 @@ function render_stats_counter_widget($widget) {
         <?php if ($has_items) : ?>
         <!-- Skip link for keyboard navigation -->
         <a href="#<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>" class="promen-stats-counter-skip-link">
-            <?php echo esc_html__('Sla over naar inhoud', 'promen-elementor-widgets'); ?>
+            <?php echo esc_html__('Sla statistieken over', 'promen-elementor-widgets'); ?>
         </a>
         <?php endif; ?>
         
