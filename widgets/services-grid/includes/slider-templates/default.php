@@ -47,7 +47,7 @@ foreach ($slider_attributes as $key => $value) {
     <!-- Slider main container -->
     <div id="<?php echo esc_attr($slider_id); ?>" class="swiper services-slider"<?php echo $slider_attr_string; ?>>
         <!-- Additional required wrapper -->
-        <div class="swiper-wrapper" role="list" aria-label="<?php esc_attr_e('Lijst met alle services die u kunt bekijken en waarop u kunt klikken voor meer informatie', 'promen-elementor-widgets'); ?>">
+        <div class="swiper-wrapper" <?php if (!empty($services_array)) : ?>role="list" aria-label="<?php esc_attr_e('Lijst met alle services die u kunt bekijken en waarop u kunt klikken voor meer informatie', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
             <?php
             foreach ($services_array as $index => $service) :
                 $target = !empty($service['service_link']['is_external']) ? ' target="_blank"' : '';
@@ -58,7 +58,7 @@ foreach ($slider_attributes as $key => $value) {
                 $service_attrs = Promen_Accessibility_Utils::get_service_attrs($service, $index, $slider_id);
                 ?>
                 <!-- Slides -->
-                <div class="swiper-slide" role="listitem" id="<?php echo esc_attr($service_attrs['service_item_id']); ?>">
+                <div class="swiper-slide" id="<?php echo esc_attr($service_attrs['service_item_id']); ?>">
                     <article class="service-card" 
                              tabindex="0"
                              <?php echo $service_attrs['service_item_attrs']; ?>>

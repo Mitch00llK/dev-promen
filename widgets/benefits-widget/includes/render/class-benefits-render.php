@@ -52,7 +52,7 @@ class Promen_Benefits_Render {
             <!-- Content Section -->
             <div class="benefits-content" aria-label="<?php echo esc_attr__('Benefits list', 'promen-elementor-widgets'); ?>">
                 <!-- Benefits Container -->
-                <div class="benefits-container" role="list" aria-label="<?php echo esc_attr__('List of benefits', 'promen-elementor-widgets'); ?>">
+                <div class="benefits-container" <?php if (!empty($settings['benefits_list'])) : ?>role="list" aria-label="<?php echo esc_attr__('List of benefits', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
                     <?php
                     if (!empty($settings['benefits_list'])) :
                         foreach ($settings['benefits_list'] as $index => $item) :

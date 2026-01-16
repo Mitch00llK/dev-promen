@@ -78,8 +78,7 @@ class Promen_Locations_Display_Render {
             }
             ?>
             <div class="locations-grid columns-<?php echo esc_attr($columns); ?>" 
-                 role="list" 
-                 aria-label="<?php esc_attr_e('Rooster met alle locaties die u kunt bekijken voor contactinformatie en adresgegevens', 'promen-elementor-widgets'); ?>"
+                 <?php if (!empty($settings['locations'])) : ?>role="list" aria-label="<?php esc_attr_e('Rooster met alle locaties die u kunt bekijken voor contactinformatie en adresgegevens', 'promen-elementor-widgets'); ?>"<?php endif; ?>
                  id="<?php echo esc_attr($locations_id); ?>">
                 <?php
                 if (!empty($settings['locations'])) {

@@ -134,7 +134,7 @@ class Promen_Business_Catering_Render {
                          <?php echo $slider_attr_string; ?>>
                         
                         <!-- Additional required wrapper -->
-                        <div class="swiper-wrapper" role="list" aria-label="<?php echo esc_attr__('Lijst met alle catering afbeeldingen die u kunt bekijken', 'promen-elementor-widgets'); ?>">
+                        <div class="swiper-wrapper" <?php if (!empty($catering_images)) : ?>role="list" aria-label="<?php echo esc_attr__('Lijst met alle catering afbeeldingen die u kunt bekijken', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
                             <?php foreach ($catering_images as $index => $item) : ?>
                                 <!-- Slides -->
                                 <div class="swiper-slide" 
@@ -197,8 +197,7 @@ class Promen_Business_Catering_Render {
             <?php else : ?>
                 <!-- Regular grid layout for 3 or fewer images -->
                 <div class="<?php echo esc_attr($grid_classes); ?>" 
-                     role="list" 
-                     aria-label="<?php echo esc_attr__('Rooster met alle catering afbeeldingen die u kunt bekijken voor informatie over onze diensten', 'promen-elementor-widgets'); ?>">
+                     <?php if (!empty($catering_images)) : ?>role="list" aria-label="<?php echo esc_attr__('Rooster met alle catering afbeeldingen die u kunt bekijken voor informatie over onze diensten', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
                     <?php foreach ($catering_images as $index => $item) : ?>
                         <div class="promen-catering-image-wrapper" 
                              role="listitem"

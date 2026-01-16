@@ -13,6 +13,38 @@
     word-wrap: normal !important;
 }
 
+/* Ensure skip links with screen-reader-text class are focusable */
+/* Override screen-reader-text clip for skip links to ensure they're always focusable */
+.skip-link.screen-reader-text {
+    /* Override clip property that prevents focusability */
+    clip: auto !important;
+    clip-path: none !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: absolute !important;
+    left: -9999px !important;
+    padding: 8px 16px !important;
+    background: #000 !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    z-index: 999999 !important;
+    /* Ensure it's in the tab order */
+    display: inline-block !important;
+}
+
+.skip-link.screen-reader-text:focus {
+    left: 6px !important;
+    top: 7px !important;
+    outline: 3px solid #fff !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, .6) !important;
+}
+
 .screen-reader-text:focus {
     clip: auto !important;
     width: auto !important;
@@ -42,11 +74,20 @@
     text-decoration: none;
     border-radius: 3px;
     font-weight: 600;
+    /* Ensure skip links are always focusable - don't use clip */
+    width: auto;
+    height: auto;
+    overflow: visible;
+    /* Ensure it's in the tab order */
+    display: inline-block;
 }
 
 .skip-link:focus {
     left: 6px;
     top: 7px;
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, .6);
 }
 
 /* Widget Skip Links - positioned relative to widget container */

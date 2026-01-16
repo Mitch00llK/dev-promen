@@ -22,10 +22,6 @@
 .promen-image-text-button:hover .promen-image-text-block__button-icon,
 .promen-image-text-block__button:hover .promen-image-text-block__button-icon {
     transform: translateX(0.25rem);
-    -webkit-transform: translateX(0.25rem);
-    -moz-transform: translateX(0.25rem);
-    -ms-transform: translateX(0.25rem);
-    -o-transform: translateX(0.25rem);
 }
 
 .promen-image-text-button:hover,

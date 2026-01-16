@@ -187,7 +187,7 @@ function render_services_grid_widget($widget) {
                      aria-label="<?php esc_attr_e('Interactieve schuifregelaar met services die u kunt doorbladeren', 'promen-elementor-widgets'); ?>"
                      aria-live="polite">
                     <div <?php echo implode(' ', $slider_data_attrs); ?>>
-                        <div class="swiper-wrapper" role="list" aria-label="<?php esc_attr_e('Lijst met alle services die u kunt bekijken en waarop u kunt klikken voor meer informatie', 'promen-elementor-widgets'); ?>">
+                        <div class="swiper-wrapper" <?php if (!empty($services_array)) : ?>role="list" aria-label="<?php esc_attr_e('Lijst met alle services die u kunt bekijken en waarop u kunt klikken voor meer informatie', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
                             <?php
                             foreach ($services_array as $index => $service) :
                                 $target = !empty($service['service_link']['is_external']) ? ' target="_blank"' : '';
@@ -197,7 +197,7 @@ function render_services_grid_widget($widget) {
                                 // Generate service accessibility attributes for slider
                                 $service_attrs = Promen_Accessibility_Utils::get_service_attrs($service, $index, $widget_id . '-slider');
                                 ?>
-                                <div class="swiper-slide" role="listitem" id="<?php echo esc_attr($service_attrs['service_item_id']); ?>">
+                                <div class="swiper-slide" id="<?php echo esc_attr($service_attrs['service_item_id']); ?>">
                                     <article class="service-card" 
                                              tabindex="0"
                                              <?php echo $service_attrs['service_item_attrs']; ?>>

@@ -111,7 +111,7 @@ $carousel_region_id = Promen_Accessibility_Utils::generate_id('team-members-caro
              data-centered="<?php echo esc_attr($settings['centered_slides'] === 'yes' ? 'true' : 'false'); ?>"
              data-slide-to-clicked="<?php echo esc_attr($settings['slide_to_clicked'] === 'yes' ? 'true' : 'false'); ?>">
             <div class="swiper">
-                <div class="swiper-wrapper" role="list" aria-label="<?php esc_attr_e('Lijst met alle teamleden en hun contactinformatie die u kunt bekijken', 'promen-elementor-widgets'); ?>">
+                <div class="swiper-wrapper" <?php if ($team_query->have_posts()) : ?>role="list" aria-label="<?php esc_attr_e('Lijst met alle teamleden en hun contactinformatie die u kunt bekijken', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
                     <?php 
                     if ($team_query->have_posts()) :
                         $member_index = 0;

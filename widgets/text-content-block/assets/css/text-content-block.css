@@ -175,7 +175,7 @@
     justify-content: space-between;
     gap: 1rem;
     padding: 1rem 1.25rem;
-    background-color: #F28F2C;
+    background-color: #F28F2C !important;
     border: none;
     font-size: 1rem;
     font-weight: 600;

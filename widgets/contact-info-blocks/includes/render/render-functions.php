@@ -53,7 +53,7 @@ class Promen_Contact_Info_Blocks_Render {
             <p id="<?php echo esc_attr($container_id); ?>-desc" class="screen-reader-text">
                 <?php echo esc_html(sprintf(__('Bevat %d contactinformatie blokken. Gebruik pijltjestoetsen om te navigeren.', 'promen-elementor-widgets'), $visible_blocks_count)); ?>
             </p>
-            <ul class="contact-info-blocks__list" role="list" aria-label="<?php echo esc_attr__('Contactopties', 'promen-elementor-widgets'); ?>">
+            <ul class="contact-info-blocks__list" <?php if ($visible_blocks_count > 0) : ?>role="list" aria-label="<?php echo esc_attr__('Contactopties', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
             <?php if ('yes' === ($settings['show_address_block'] ?? 'yes')) : 
                 $address_id = Promen_Accessibility_Utils::generate_id('address-block', $widget_id);
                 $address_heading_id = Promen_Accessibility_Utils::generate_id('address-heading', $widget_id);

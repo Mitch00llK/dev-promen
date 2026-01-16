@@ -316,9 +316,12 @@ class Promen_Accessibility_Aria {
             $services_count
         );
         
+        // Only apply role="list" if there are services
+        $role_attr = $services_count > 0 ? 'role="list" aria-label="' . esc_attr($services_label) . '"' : '';
+        
         return [
             'services_id' => $services_id,
-            'services_attrs' => 'role="list" aria-label="' . esc_attr($services_label) . '" id="' . esc_attr($services_id) . '"',
+            'services_attrs' => $role_attr . ' id="' . esc_attr($services_id) . '"',
             'services_count' => $services_count
         ];
     }

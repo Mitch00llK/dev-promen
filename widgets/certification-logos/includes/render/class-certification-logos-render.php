@@ -54,8 +54,7 @@ class Promen_Certification_Logos_Render {
             <?php endif; ?>
 
             <div class="logos-grid" 
-                 role="list" 
-                 aria-label="<?php echo esc_attr__('Overzicht van alle certificeringen en kwaliteitskeurmerken die wij hebben behaald', 'promen-elementor-widgets'); ?>">
+                 <?php if (!empty($logos)) : ?>role="list" aria-label="<?php echo esc_attr__('Overzicht van alle certificeringen en kwaliteitskeurmerken die wij hebben behaald', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
                 <?php foreach ($logos as $index => $logo): ?>
                     <div class="certification-logo" 
                          role="listitem"
@@ -87,7 +86,7 @@ class Promen_Certification_Logos_Render {
                  role="region" 
                  aria-label="<?php echo esc_attr__('Interactieve carrousel met certificeringslogo\'s die u kunt doorbladeren', 'promen-elementor-widgets'); ?>"
                  aria-live="polite">
-                <div class="swiper-wrapper" role="list" aria-label="<?php echo esc_attr__('Certificeringslogo\'s', 'promen-elementor-widgets'); ?>">
+                <div class="swiper-wrapper" <?php if (!empty($logos)) : ?>role="list" aria-label="<?php echo esc_attr__('Certificeringslogo\'s', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
                     <?php foreach ($logos as $index => $logo): ?>
                         <div class="certification-logo swiper-slide" 
                              role="listitem"

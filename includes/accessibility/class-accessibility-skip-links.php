@@ -76,7 +76,7 @@ class Promen_Accessibility_Skip_Links {
             $text = __('Skip to content', 'promen-elementor-widgets');
         }
 
-        return '<a href="#' . esc_attr($target) . '" class="screen-reader-text">' . esc_html($text) . '</a>';
+        return '<a href="#' . esc_attr($target) . '" class="skip-link screen-reader-text">' . esc_html($text) . '</a>';
     }
 
     /**

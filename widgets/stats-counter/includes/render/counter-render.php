@@ -41,24 +41,33 @@ function render_stats_counter_widget($widget) {
             </header>
         <?php endif; ?>
         
+        <?php
+        // Count visible counter items
+        $visible_items = array_filter($settings['counter_items'] ?? [], function($item) {
+            return isset($item['show_counter']) && $item['show_counter'] === 'yes';
+        });
+        $has_items = !empty($visible_items);
+        ?>
+        
         <div <?php echo $widget->get_render_attribute_string('container'); ?> 
              id="<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>"
              class="no-js-fallback"
-             role="listbox" 
-             aria-orientation="horizontal"
-             aria-label="<?php echo esc_attr__('Statistics navigation - use arrow keys to navigate', 'promen-elementor-widgets'); ?>">
-            <?php foreach ($settings['counter_items'] as $index => $item) : 
+             <?php if ($has_items) : ?>role="listbox" aria-orientation="horizontal" aria-label="<?php echo esc_attr__('Statistics navigation - use arrow keys to navigate', 'promen-elementor-widgets'); ?>"<?php endif; ?>>
+            <?php 
+            $visible_index = 0;
+            foreach ($settings['counter_items'] as $index => $item) : 
                 if ($item['show_counter'] !== 'yes') continue;
                 
                 $item_id = 'stats-item-' . $widget->get_id_int() . '-' . $index;
                 $announcement_id = $item_id . '-announcement';
+                $visible_index++;
             ?>
                 <div class="promen-stats-counter-item" 
                      role="option"
-                     tabindex="<?php echo $index === 0 ? '0' : '-1'; ?>"
-                     aria-posinset="<?php echo $index + 1; ?>"
-                     aria-setsize="<?php echo count(array_filter($settings['counter_items'], function($item) { return $item['show_counter'] === 'yes'; })); ?>"
-                     aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>"
+                     tabindex="<?php echo $visible_index === 1 ? '0' : '-1'; ?>"
+                     aria-posinset="<?php echo $visible_index; ?>"
+                     aria-setsize="<?php echo count($visible_items); ?>"
+                     aria-selected="<?php echo $visible_index === 1 ? 'true' : 'false'; ?>"
                      aria-labelledby="<?php echo esc_attr($item_id . '-title'); ?>"
                      aria-describedby="<?php echo esc_attr($announcement_id); ?>">
                     <div class="promen-counter-circle" 

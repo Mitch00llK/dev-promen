@@ -9,7 +9,7 @@
     background-color: var(--cic-color-primary);
     color: var(--cic-color-white);
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700 !important;
     text-decoration: none;
     padding: var(--cic-spacing-sm) var(--cic-spacing-lg);
     border-radius: var(--cic-radius-full);
