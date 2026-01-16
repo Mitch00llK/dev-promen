@@ -15,15 +15,19 @@
 
 /* Ensure skip links with screen-reader-text class are focusable */
 /* Override screen-reader-text clip for skip links to ensure they're always focusable */
+/* Use a technique that doesn't interfere with keyboard focus */
+/* CRITICAL: Skip links must always be focusable for WCAG compliance */
+a.skip-link.screen-reader-text,
 .skip-link.screen-reader-text {
-    /* Override clip property that prevents focusability */
-    clip: auto !important;
-    clip-path: none !important;
+    /* Completely override all screen-reader-text properties that prevent focusability */
+    clip: unset !important;
+    clip-path: unset !important;
     width: auto !important;
     height: auto !important;
     overflow: visible !important;
     position: absolute !important;
     left: -9999px !important;
+    top: auto !important;
     padding: 8px 16px !important;
     background: #000 !important;
     color: #fff !important;
@@ -33,10 +37,18 @@
     font-size: 14px !important;
     line-height: 1.4 !important;
     z-index: 999999 !important;
-    /* Ensure it's in the tab order */
+    /* Ensure it's in the tab order - critical for focusability */
     display: inline-block !important;
+    /* Ensure it's not hidden from assistive tech */
+    visibility: visible !important;
+    opacity: 1 !important;
+    /* Ensure it can receive focus */
+    pointer-events: auto !important;
+    /* Remove any transform that might interfere */
+    transform: none !important;
 }
 
+a.skip-link.screen-reader-text:focus,
 .skip-link.screen-reader-text:focus {
     left: 6px !important;
     top: 7px !important;
@@ -64,9 +76,12 @@
 }
 
 /* Skip Links */
+/* CRITICAL: Skip links must always be focusable for WCAG compliance */
+a.skip-link,
 .skip-link {
     position: absolute;
     left: -9999px;
+    top: auto;
     z-index: 999999;
     padding: 8px 16px;
     background: #000;
@@ -80,8 +95,16 @@
     overflow: visible;
     /* Ensure it's in the tab order */
     display: inline-block;
+    /* Ensure it can receive focus */
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    /* Remove any clip properties that might prevent focusability */
+    clip: unset;
+    clip-path: unset;
 }
 
+a.skip-link:focus,
 .skip-link:focus {
     left: 6px;
     top: 7px;
