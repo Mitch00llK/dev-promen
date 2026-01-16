@@ -194,7 +194,7 @@
          */
         static getSkipLinkText() {
             const strings = window.promenA11yStrings || {};
-            return strings.skipToContent || 'Skip to content';
+            return strings.skipToContent || 'Ga naar inhoud';
         }
     }
 

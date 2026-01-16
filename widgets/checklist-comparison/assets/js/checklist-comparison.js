@@ -42,7 +42,9 @@
             var $widgetEl = $widget[0];
             if ($widgetEl) {
                 PromenAccessibility.setupReducedMotion($widgetEl);
-                PromenAccessibility.setupSkipLink($widgetEl, getString('skipToContent'));
+                // Use Dutch text from i18n
+                var skipText = PromenAccessibility.getString ? PromenAccessibility.getString('skipToContent') : 'Ga naar inhoud';
+                PromenAccessibility.setupSkipLink($widgetEl, skipText);
             }
         }
     };

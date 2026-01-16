@@ -53,8 +53,9 @@ class PromenContactInfoCardHandler {
 
     initSkipLinks(card) {
         if (typeof PromenAccessibility !== 'undefined') {
-            const title = card.querySelector('.contact-info-card__title')?.textContent || 'Contact Card';
-            PromenAccessibility.setupSkipLink(card, `Skip to ${title}`);
+            // Use Dutch text from i18n
+            const skipText = PromenAccessibility.getString ? PromenAccessibility.getString('skipToContent') : 'Ga naar inhoud';
+            PromenAccessibility.setupSkipLink(card, skipText);
         }
     }
 

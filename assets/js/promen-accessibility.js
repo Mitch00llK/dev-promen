@@ -338,7 +338,7 @@
          * @param {HTMLElement} contextElement The element to skip to
          * @param {string} label Label for the link
          */
-        setupSkipLink(contextElement, label = 'Skip to content') {
+        setupSkipLink(contextElement, label = 'Ga naar inhoud') {
             if (!contextElement) return;
 
             const existingLink = contextElement.querySelector('.promen-skip-link');

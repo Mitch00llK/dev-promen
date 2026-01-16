@@ -18,16 +18,16 @@
             return PromenAccessibility.getString(key, ...args);
         }
         const fallbacks = {
-            modalClosed: 'Modal closed',
-            loadedItems: 'Loaded {0} {1}',
+            modalClosed: 'Modal gesloten',
+            loadedItems: '{0} {1} geladen',
             item: 'item',
             items: 'items',
-            newsCarouselLabel: 'Content carousel',
-            previousSlide: 'Previous slide',
-            nextSlide: 'Next slide',
-            sliderPagination: 'Slider pagination',
-            goToSlide: 'Go to slide {0}',
-            skipToContent: 'Skip to content'
+            newsCarouselLabel: 'Inhoud carrousel',
+            previousSlide: 'Vorige dia',
+            nextSlide: 'Volgende dia',
+            sliderPagination: 'Slider paginering',
+            goToSlide: 'Ga naar dia {0}',
+            skipToContent: 'Ga naar inhoud'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {
