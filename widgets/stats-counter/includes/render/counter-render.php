@@ -54,9 +54,7 @@ function render_stats_counter_widget($widget) {
              aria-label="<?php echo esc_attr($settings['stats_aria_label'] ?: __('Statistieken en cijfers die onze prestaties en resultaten tonen', 'promen-elementor-widgets')); ?>">
         <?php if ($has_items) : ?>
         <!-- Skip link for keyboard navigation -->
-        <a href="#<?php echo esc_attr('stats-container-' . $widget->get_id_int()); ?>" class="promen-stats-counter-skip-link">
-            <?php echo esc_html__('Sla statistieken over', 'promen-elementor-widgets'); ?>
-        </a>
+        <?php echo \Promen_Accessibility_Utils::get_skip_link('stats-container-' . $widget->get_id_int(), __('Sla statistieken over', 'promen-elementor-widgets')); ?>
         <?php endif; ?>
         
         <?php if ($settings['show_section_title'] === 'yes') : ?>

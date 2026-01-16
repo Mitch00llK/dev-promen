@@ -18,12 +18,10 @@
             return PromenAccessibility.getString(key, ...args);
         }
         const fallbacks = {
-            exitedTestimonial: 'Exited testimonial',
+            exitedTestimonial: 'Testimonial verlaten',
             testimonial: 'Testimonial',
-            exitedTestimonial: 'Exited testimonial',
-            testimonial: 'Testimonial',
-            testimonialBy: 'by {0}',
-            skipTestimonial: 'Skip worker testimonial'
+            testimonialBy: 'door {0}',
+            skipWorkerTestimonial: 'Sla medewerker testimonial over'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {

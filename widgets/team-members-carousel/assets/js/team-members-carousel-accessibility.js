@@ -39,12 +39,13 @@
         }
         // Fallback
         const fallbacks = {
-            teamMembersCarouselLabel: 'Team Members Carousel',
-            slideOf: 'Slide {0} of {1}',
-            previousTeamMember: 'Previous team member',
-            nextTeamMember: 'Next team member',
-            slideLabel: 'slide',
-            reducedMotionEnabled: 'Animations disabled for reduced motion preference'
+            teamMembersCarouselLabel: 'Teamleden carrousel',
+            slideOf: 'Dia {0} van {1}',
+            previousTeamMember: 'Vorig teamlid',
+            nextTeamMember: 'Volgend teamlid',
+            slideLabel: 'dia',
+            skipTeamCarousel: 'Sla team carrousel over',
+            reducedMotionEnabled: 'Animaties uitgeschakeld vanwege voorkeur voor verminderde beweging'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {

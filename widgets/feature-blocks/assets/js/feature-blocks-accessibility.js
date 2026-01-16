@@ -6,6 +6,23 @@
 (function ($) {
     'use strict';
 
+    /**
+     * Get localized string helper
+     */
+    function getString(key, ...args) {
+        if (typeof PromenAccessibility !== 'undefined' && PromenAccessibility.getString) {
+            return PromenAccessibility.getString(key, ...args);
+        }
+        const fallbacks = {
+            skipToContent: 'Ga naar inhoud'
+        };
+        let str = fallbacks[key] || key;
+        args.forEach((arg, index) => {
+            str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
+        });
+        return str;
+    }
+
     // Lightweight accessibility enhancements
     class FeatureBlocksAccessibility {
         constructor() {

@@ -39,10 +39,11 @@
         }
         // Fallback
         const fallbacks = {
-            solicitationTimelineLabel: 'Solicitation process timeline',
-            timelineWithSteps: 'Timeline with {0} steps',
-            stepOf: 'Step {0} of {1}',
-            timelineAnimationsDisabled: 'Timeline animations disabled for reduced motion preference'
+            solicitationTimelineLabel: 'Sollicitatieproces tijdlijn',
+            timelineWithSteps: 'Tijdlijn met {0} stappen',
+            stepOf: 'Stap {0} van {1}',
+            skipTimeline: 'Sla tijdlijn over',
+            timelineAnimationsDisabled: 'Tijdlijn animaties uitgeschakeld vanwege voorkeur voor verminderde beweging'
         };
         let str = fallbacks[key] || key;
         args.forEach((arg, index) => {

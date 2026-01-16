@@ -146,45 +146,7 @@
 }
 
 
-/* Skip link for keyboard navigation */
-
-.promen-stats-counter-skip-link {
-    /* Use the sr-only class for proper hiding */
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-    /* Skip link specific styles */
-    background: #000;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    z-index: 1000;
-    font-size: 14px;
-    left: 6px;
-    top: 6px;
-}
-
-.promen-stats-counter-skip-link:focus {
-    /* Restore normal dimensions when focused */
-    position: absolute !important;
-    top: 6px !important;
-    left: 6px !important;
-    width: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-    clip: auto !important;
-    padding: 8px !important;
-    margin: 0 !important;
-    /* High contrast focus indicator */
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-}
+/* Skip link for keyboard navigation - now uses standard .skip-link class from accessibility.css */
 
 
 /* Ensure proper heading hierarchy */
@@ -243,7 +205,7 @@
         outline-color: #4a9eff;
         box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.2);
     }
-    .promen-stats-counter-skip-link {
+    .skip-link {
         background: #fff;
         color: #000;
     }
